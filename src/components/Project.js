@@ -3,7 +3,23 @@ import CodeSamples from './CodeSamples';
 import Carousel from './Carousel';
 
 export default function Project() {
-    const code = `<div className="project-first-section__project__image"/>`;
+    const code = `using System.IO.Compression;
+
+    #pragma warning disable 414, 3021
+    
+    namespace MyApplication
+    {
+        [Obsolete("...")]
+        class Program : IInterface
+        {
+            public static List<int> JustDoIt(int count)
+            {
+                Span<int> numbers = stackalloc int[length];
+                Console.WriteLine($"Hello {Name}!");
+                return new List<int>(new int[] { 1, 2, 3 })
+            }
+        }
+    }`;
     return (
         <>
             <section className="project-first-section">

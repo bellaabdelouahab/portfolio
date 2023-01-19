@@ -1,0 +1,119 @@
+.container1 {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (min-width: 576px) {
+  .container1 {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .container1 {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .container1 {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container1 {
+    max-width: 1140px;
+  }
+}
+.heading-section {
+  text-align: center;
+  display: block;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #d0d5db;
+}
+/* table design dark theme */
+.table-dark {
+  width: 100%;
+  color: rgb(194, 189, 189);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.table-dark th,
+.table-dark td,
+.table-dark thead th {
+  padding: 2.5rem;
+  border-color: #454d55;
+  text-align: center;
+  border-bottom: 5px solid #262926;
+  background-color: #343a40;
+}
+.table-dark.table-bordered {
+  border: 0;
+}
+.table-dark.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+/* hovring */
+.table-dark.table-hover tbody tr:hover {
+  color: #fff;
+}
+
+.table-hover tbody tr:hover {
+  color: #212529;
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.btn-donload {
+  background-color: #343a40;
+  color: #fff;
+  border: 1px solid #343a40;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  max-width: 200px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  outline: none;
+}
+.btn-donload:hover {
+  /* background-color: #fff; */
+  color: #dfdfdf;
+  border: 1px solid #343a40;
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+.btn-donload:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: rgba(3, 102, 214, 0.3);
+  z-index: -1;
+  transition: all 0.4s ease-in-out;
+}
+.btn-donload:hover:before {
+  height: 180%;
+}
+.btn-donload:hover:after {
+  width: 10px;
+  height: 10px;
+}
+.btn-donload:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
