@@ -1,0 +1,98 @@
+
+.project-first-section {
+    min-height : 50vh;
+    width: 100%;
+    background: #252525;
+    position: relative;
+}
+.project-first-section__project__image{
+    display: inline-block;
+    height: 90%;
+    width: 50%;
+    background: url(../images/logo.jpg);
+    margin: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    border-radius: 10px;
+}
+.project-first-section__project__info{
+    display: inline-block;
+    width: 45%;
+    margin: 20px;
+    color: #fff;
+    position: absolute;
+    right: 0;
+    height: 90%;
+    padding: 20px;
+    padding-top: 50px;
+}
+.project-first-section__project__info__title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.project-first-section__project__info__description{
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 2;
+}
+.project-second-section{
+    height: 60vh;
+    width: 100%;
+    background: #252525;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4vh;
+}
+.project-second-section__title{
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #bbbbbb;
+    margin-top: 3vh;
+}
+.project-second-section__code-samples{
+    width: 95%;
+    margin: auto;
+    height: 100%;
+    background: #333333;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4vh;
+    border-radius: 10px;
+}
+.project-second-section__code-samples__sample{
+    width: 100%;
+    height: 100%;
+}
+.project-second-section__code-samples__sample__title{
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #bbbbbb;
+    margin-top: 3vh;
+    margin-left: 5vw;
+    background: #4c4c4cbe;
+    padding: 10px;
+    width: 85%;
+    border: 1px solid #82808089;
+}
+.project-second-section__code-samples__sample__code{
+    background: #23272e;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-family: 'Courier New', Courier, monospace;
+    width: 85%;
+    margin-left: 5vw;
+}

@@ -1,0 +1,73 @@
+.resume-section{
+    height: 190vh;
+    width: 100%;
+    background: rgb(52, 51, 51);
+    /* background: transparent; */
+}
+.resume-section__title{
+    color: rgb(201, 198, 198);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-top: 2vh;
+    margin-left: 5vw;
+    margin-bottom: 2vh;
+    font-family: var(--font-family);
+
+}
+.resume-section__hr{
+    width: 90%;
+    margin: 0 auto;
+    border: 1px solid rgb(201, 198, 198);
+}
+.resume-section__resume{
+    background: url(../images/resume.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 170vh;
+    width: 70%;
+    margin: 0vh auto;
+    margin-top: 5vh;
+    position: relative;
+    border-radius: 10px;
+  }
+.resume-section__tools{
+    width: 100%;
+    height: 5vh;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: rgb(22, 102, 2);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.resume-section__resume  .resume-section__tools__title{
+    color: rgb(201, 198, 198);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-top: 2vh;
+    margin-left: 5vw;
+    margin-bottom: 2vh;
+    font-family: var(--font-family);
+}
+.resume-section__tools__download{
+    color: rgb(87, 84, 84);
+    height: max-content;
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin: auto 2vw;
+    font-family: var(--font-family);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.resume-section__tools__download::before{
+    content: '⬇️';
+    margin-left: 1vw;
+}
