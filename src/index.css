@@ -90,17 +90,17 @@ div[role="main"] {
 
 /* navigation */
 @media screen and (max-width: 1644px) {
-  .navbar__header__logolink img {
-    display: none;
-  }
+
 
   .navbar__header__logolink {
     display: block;
     margin: 10px 26px;
-    /* background: url(https://res.cloudinary.com/net-ninja/image/upload/v1616052315/Net%20Ninja%20Pro/no-circle-white-logo_gwmg67.png); */
+    background: url('../public/logo.jpg');
     width: 116px;
     height: 74px;
     background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 50%;
   }
 }
 
@@ -108,11 +108,12 @@ div[role="main"] {
   .navbar__header__logolink {
     display: block;
     margin: 10px 10px;
-    /* background: url(https://res.cloudinary.com/net-ninja/image/upload/v1616052315/Net%20Ninja%20Pro/no-circle-white-logo_gwmg67.png); */
-    width: 100px;
-    height: 60px;
+    background: url('../public/logo.jpg');
+    width: 50px;
+    height: 50px;
     background-repeat: no-repeat;
     background-size: 100%;
+    border-radius: 50%;
   }
 
   .navbar__header {
@@ -254,16 +255,14 @@ div[role="main"] {
 
   .navbar__header__logolink {
     display: block;
-    margin: 40px auto;
+    margin: 20px auto;
     width: 60px;
-    background: url("./assets/images/logo.jpg");
-    width: 116px;
-    height: 74px;
+    background: url("../public/logo.jpg");
+    width: 100px;
+    height: 100px;
     background-repeat: no-repeat;
-  }
-
-  .navbar__header__logolink img {
-    display: none;
+    background-size: 100%;
+    border-radius: 50%;
   }
 
   .navbar__menu {
@@ -616,11 +615,11 @@ div[role="main"] {
   /* text-transform: uppercase; */
   letter-spacing: 4px;
   margin-top: 3vh;
+  margin-bottom: 10vh;
   margin-left: 3vw;
   font-family: var(--font-family);
 }
 .home-first-sections__button {
-  margin-top: 10vh;
   margin-left: 5vw;
   padding: 10px 50px;
   padding-right: 20px;
@@ -639,9 +638,9 @@ div[role="main"] {
 .home-first-sections__img {
   position: absolute;
   bottom: 17vh;
-  right: 10vw;
-  width: 50%;
-  height: 20vh;
+  right: 7vw;
+  width: 688.5px;
+  height: 154.5px;
   background: url("./assets/images/code.png");
   background-size: cover;
   background-position: center;

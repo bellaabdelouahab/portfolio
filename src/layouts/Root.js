@@ -25,8 +25,7 @@ export default function Root() {
             <header id="header" className="header header-sticky">
                 <nav className="navbar at-top" id="navbar" role="navigation">
                     <div className="navbar__header">
-                            <NavLink className="navbar__header__logolinks" to="https://netninja.dev">
-                                <img src="../assets/images/code.png" alt="Net Ninja" />
+                            <NavLink className="navbar__header__logolink" to="/">
                             </NavLink>
                         <div className="navbar__menu">
                             <button htmlFor="f-toggle" tabIndex="0" id="hamburger" className="hamburger" aria-label="Toggle navigation" onClick={e=>{toggleMenu('hamburger-menu')}}>
@@ -53,11 +52,11 @@ export default function Root() {
                                         Skills
                                     </NavLink>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <NavLink to="/certificates">
                                         Certificates
                                     </NavLink>
-                                </li>
+                                </li> */}
                                 <li>
                                     <NavLink to="/articles">
                                         Articles

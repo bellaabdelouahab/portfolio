@@ -1,6 +1,6 @@
 import '../assets/css/project.css'
-import CodeSamples from './CodeSamples';
-import Carousel from './Carousel';
+import CodeSamples from '../components/CodeSamples';
+import Carousel from '../components/Carousel';
 
 export default function Project() {
     const code = `using System.IO.Compression;

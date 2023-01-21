@@ -21,12 +21,12 @@
     border: 1px solid rgb(201, 198, 198);
 }
 .resume-section__resume{
-    background: url(../images/resume.jpg);
+    background: url(../images/resume.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 170vh;
-    width: 70%;
+    height: 135vh;
+    width: 52.5%;
     margin: 0vh auto;
     margin-top: 5vh;
     position: relative;
@@ -47,7 +47,7 @@
 }
 .resume-section__resume  .resume-section__tools__title{
     color: rgb(201, 198, 198);
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: 700;
     letter-spacing: 4px;
     margin-top: 2vh;
@@ -58,7 +58,7 @@
 .resume-section__tools__download{
     color: rgb(87, 84, 84);
     height: max-content;
-    font-size: 1.5em;
+    font-size: 1em;
     font-weight: 700;
     letter-spacing: 4px;
     margin: auto 2vw;
