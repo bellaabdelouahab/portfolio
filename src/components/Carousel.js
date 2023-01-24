@@ -3,7 +3,7 @@ import '../assets/css/carsual.css'
 export default function Carousel() {
     return (
         <div className="carousel">
-        <form>
+        <form className='carousel-form'>
             <input type="radio" name="fancy" autofocus value="clubs" id="clubs" />
             <input type="radio" name="fancy" value="hearts" id="hearts" />
             <input type="radio" name="fancy" value="spades" id="spades" />

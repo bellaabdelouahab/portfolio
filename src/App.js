@@ -7,6 +7,7 @@ import Project from './layouts/Project';
 import Skills from './layouts/Skills';
 import Reports from './layouts/Reports';
 import Articles from './layouts/Articles';
+import FillDB from './layouts/FillDB';
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path='/' element={<Root/>}>
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
             <Route path="skills" element={<Skills/>}/>
             <Route path="Reports" element={<Reports/>}/>
             <Route path="articles" element={<Articles/>}/>
+            <Route path="fillDB" element={<FillDB/>}/>
         </Route>
     )
 );

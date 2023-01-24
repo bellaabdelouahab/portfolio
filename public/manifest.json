@@ -1,0 +1,11 @@
+ {
+    "manifest_version": 2,
+    "name": "My Extension",
+    "version": "1.0",
+    "description": "My Extension",
+    "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+    }
+}

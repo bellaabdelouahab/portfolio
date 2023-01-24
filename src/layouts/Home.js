@@ -1,7 +1,13 @@
 // import { Link } from "react-router-dom";
-
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/projects").then((res) => {
+      console.log(res.data.data[0]);
+    });
+  }, []);
     return (
       <>
         <section className="home-first-sections">
@@ -17,6 +23,7 @@ export default function Home() {
           >
             Find Me On Github <span>{">"}</span>{" "}
           </a>
+          
           <p className="home-first-sections__img" alt="code" />
         </section>
         <section className="home-second-sections">

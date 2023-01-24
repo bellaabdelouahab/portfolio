@@ -22,7 +22,7 @@
 	line-height: 100%;
 }
 
-form {
+.carousel-form {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -30,7 +30,7 @@ form {
 	right: 0;
 	white-space: nowrap;
 }
-input {
+input[name="fancy"] {
 	position: absolute;
 }
 
