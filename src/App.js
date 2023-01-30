@@ -8,6 +8,7 @@ import Skills from './layouts/Skills';
 import Reports, { getReports } from "./layouts/Reports";
 import Articles from './layouts/Articles';
 import FillDB from './layouts/FillDB';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -24,9 +25,9 @@ const router = createBrowserRouter(
 );
 
 function App() { 
-return (
-    <RouterProvider router={router}/>
-)}
-
+  return (
+      <RouterProvider router={router}/>
+  )
+}
 
 export default App;

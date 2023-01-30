@@ -98,7 +98,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(51, 50, 50, 0.593);
+    background: #222222;
     border-radius: 10px;
     padding: 2rem;
     margin-top: 4vh;
@@ -121,6 +121,7 @@
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #f9f9f9;
 }
 .filldb-form .input-container {
     font-weight: 700;
@@ -132,7 +133,15 @@
 }
 .input-container input[type="text"] {
     width: 25rem;
+    color: #fff;
 }
+
+.input-container input[type="text"]:focus{
+    color: #fff;
+    outline: none;
+    border: 1px solid #2196f3;
+}
+
 .input-container input::-webkit-input-placeholder {
   color: rgb(255, 255, 255);
 }
@@ -141,10 +150,18 @@
     font-weight: 700;
     margin: 0.5rem 0;
     background: transparent;
+    color: rgb(255, 255, 255);
 }
+
 .description::-webkit-input-placeholder {
   color: rgb(255, 255, 255);
 }
+
+.description:focus{
+    outline: none;
+    border: 1px solid #2196f3;
+}
+
 .filldb-form input[type="file"] {
     all: unset;
     font-weight: 700;
@@ -178,7 +195,8 @@
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
-  margin-right: 3rem
+  margin-right: 3rem;
+  border-radius: 15px;
 }
 .filldb-form input[type="file"]::-webkit-file-upload-button {
   display: none;
@@ -213,14 +231,14 @@ textarea {
     justify-content: center;
     align-items: center;
     background: #444;
-    border-radius: 10px;
+    border-radius: 20px;
     margin-top: 4vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 .filldb-nav__btn {
     width: 100%;
-    height: 4rem;
+    height: 4.3rem;
     border: none;
     /* border-radius: 10px; */
     padding: 0.5rem;
@@ -229,8 +247,10 @@ textarea {
     cursor: pointer;
     padding: 0 5rem;
     position: relative;
+    /* transition: 0.2s ease; */
+    
 }
-.filldb-nav__btn::after {
+.filldb-nav__btn:after {
     content: "";
     /* center the text */
     display: flex;
@@ -242,19 +262,22 @@ textarea {
     width:0;
     height: 100%;
     background: #48f321;
-    transition: 0.5s ease-in-out;
+    border-radius: 20px;
+    /* background: transparent; */
+    /* transition: all 400ms ease; */
 }
 
-.filldb-nav__btn.active::after {
+.filldb-nav__btn.active:after {
+    
+   
     content: attr(data-content);
     width: 100%;
     left: 0;
+    /* background: transparent; */
+    transition: all 900ms ease;
+    
 }
 
-/* .filldb-nav__btn.active {
-    background: #2196f3;
-    border-radius: 10px;
-} */
 .code-sample-container {
     position: absolute;
     margin: 0 auto;
