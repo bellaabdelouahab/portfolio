@@ -8,7 +8,12 @@ function ProjectForm() {
   const [codeSamples, setCodeSamples] = useState([]);
   const [carousels, setCarousels] = useState([""]);
   const [codeSampleWindow, setCodeSampleWindow] = useState(false);
+  const [carouselleWindow, setCarouselleWindow] = useState(false);
+  const [carouselSamples, setCarouselSamples] = useState([]);
+
   var codeSamplePreviewIndex = false;
+  var carousellePreviewIndex = false;
+
   return (
     
     <form
@@ -41,9 +46,9 @@ function ProjectForm() {
       }}
       className="project-form filldb-form"
     >
-      <h1 className="project-form__title">Project</h1>
+      <h1 className="project-form__title">Project</h1><br />
       <div className="input-container">
-        <input type="text" name="title" placeholder="Project Title" />
+        <input type="text" name="title" placeholder="Project Title" /> 
         <input type="text" name="githubLink" placeholder="Github Link" />
       </div>
       <textarea
@@ -52,13 +57,17 @@ function ProjectForm() {
         name="description"
         placeholder="description"
       />
-      <input type="file" name="image" placeholder="image" />
+
+      <input type="file" name="image" placeholder="image" /><br />
+
+      {/* // for code samples */}
+
       <div className="input-container">
         <h2 className="code-samples-title">Code Samples</h2>
         <input
           type="button"
           className="add-code-sample"
-          value="Add +"
+          value="Add Code"
           onClick={(e) => {
             setCodeSampleWindow(true);
           }}
@@ -99,32 +108,60 @@ function ProjectForm() {
             </li>
           );
         })}
+      </div><br /><br />
+
+      {/* // for carousels */}
+      <div className="input-container">
+        <h2 className="code-samples-title">Carousels</h2>
+        <input
+          type="button"
+          className="add-code-sample"
+          value="Add Carousel"
+          onClick={(e) => {
+            setCarouselleWindow(true);
+          }}
+        />
       </div>
-      {carousels.map((carousel, index) => {
-        return (
-          <textarea
-            key={index}
-            type="text"
-            name="carousel"
-            placeholder="carousel"
-            onChange={(e) => {
-              let temp = [...carousels];
-              temp[index] = e.target.value;
-              setCarousels(temp);
-            }}
-          />
-        );
-      })}
-      <input
-        type="button"
-        value="Add Carousel"
-        onClick={(e) => {
-          let temp = [...carousels];
-          temp.push("");
-          setCarousels(temp);
-        }}
-      />
+      <div
+        className="code-samples h-list"
+        style={
+          carouselSamples.length === 0 ? { display: "none" } : { display: "flex" }
+        }
+      >
+        {/* <ul className='h-list'> */}
+        {carouselSamples.map((carouselSample, index) => {
+          return (
+            <li key={index} className="tab tabSelected">
+              <button
+                className="btn title"
+                title="View Code"
+                onClick={(e) => {
+                  setCarouselleWindow(true);
+                  carousellePreviewIndex = index;
+                }}
+              >
+                {carouselSample.title}
+              </button>
+              <button
+                className="btn closeTab"
+                onClick={(e) => {
+                  e.preventDefault();
+                  let temp = [...carouselSamples];
+                  temp.splice(index, 1);
+                  setCarouselSamples(temp);
+                  explode();
+                }}
+              >
+                ✕
+              </button>
+            </li>
+          );
+        })}
+      </div><br /><br />
+
       <input type="submit" value="Submit" />
+
+
       {codeSampleWindow && (
         <div className="code-sample-container">
           <div className="code-sample">
@@ -163,6 +200,46 @@ function ProjectForm() {
           </div>
         </div>
       )}
+
+      {/* // for caroussel add window */}
+      {carouselleWindow && (
+        <div className="code-sample-container">
+          <div className="code-sample">
+            <p
+              onClick={(e) => {
+                setCarouselleWindow(false);
+              }}
+            >
+              X
+            </p>
+            <input
+              type="text"
+              className="carouselSampleTitle"
+              name="carouselSampleTitle"
+              placeholder="carousel Sample Title"
+            />
+
+            <input type="file" className="image_carussel" accept="image/jpeg,image/jpg,image/png" name="image" />
+
+
+            <button
+              onClick={(e) => {
+                let temp = [...carouselSamples];
+                temp.push({
+                  title: document.querySelector(".carouselSampleTitle").value,
+                  code: document.querySelector(".image_carussel").files,
+                });
+                setCarouselSamples(temp);
+                setCarouselleWindow(false);
+                console.log(temp);
+              }}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
+
     </form>
   );
 }

@@ -62,9 +62,11 @@ export default function FillDB() {
 
                 }}
                 data-content="project"
+                value={content}
               >
                 Project
               </button>
+
               <button
                 className="filldb-nav__btn"
                 onClick={(e) =>{
@@ -72,11 +74,14 @@ export default function FillDB() {
                     e.target.classList.add("active");
                     e.target.parentElement.children[0].classList.remove("active");
                     e.target.parentElement.children[2].classList.remove("active");
+
                 }}
                 data-content="skill"
+                value={content}
               >
                 Skill
               </button>
+
               <button
                 className="filldb-nav__btn"
                 onClick={(e) => {
@@ -86,6 +91,7 @@ export default function FillDB() {
                     e.target.parentElement.children[1].classList.remove("active");
                 }}
                 data-content="report"
+                value={content}
               >
                 Report
               </button>
