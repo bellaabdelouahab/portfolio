@@ -1,13 +1,12 @@
 // import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { useLoaderData } from "react-router-dom";
 
 export default function Home() {
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/projects").then((res) => {
-      console.log(res.data.data[0]);
-    });
-  }, []);
+  const projectHighlight = useLoaderData()
+  console.log("projectHighlight", projectHighlight);
+
     return (
       <>
         <section className="home-first-sections">
@@ -23,7 +22,7 @@ export default function Home() {
           >
             Find Me On Github <span>{">"}</span>{" "}
           </a>
-          
+
           <p className="home-first-sections__img" alt="code" />
         </section>
         <section className="home-second-sections">
@@ -33,29 +32,22 @@ export default function Home() {
           </h2>
           <hr className="home-second-sections__hr" />
           <div className="home-second-sections__projects">
-            <div className="home-second-sections__projects__project">
-              <img
-                className="home-second-sections__projects__project__img"
-                src=""
-                alt="somthing for now"
-              />
-              <h3 className="home-second-sections__projects__project__title">
-                Project Title
-              </h3>
-              <p className="home-second-sections__projects__project__description">
-                Project Description is dkldfbvdslk ghdfgkjhagfd bdkaghern;vl
-                kdskgna dfb nfg fjbkgj
-              </p>
-              {/* button to view project and button to sponsor */}
-              <div className="home-second-sections__projects__project__buttons">
-                <button className="home-second-sections__projects__project__buttons__view">
-                  View Project
-                </button>
-                <button className="home-second-sections__projects__project__buttons__sponsor">
-                  1$/Sponsor
-                </button>
-              </div>
-            </div>
+            {projectHighlight &&
+              projectHighlight.map((project, index) => (
+                <ProjectCard
+                  key={project._id}
+                  title={project.title}
+                  description={project.description}
+                  img={project.image}
+                  link={project.githubLink}
+                  sponsorLink={
+                    project.highlighted === "star"
+                      ? "https://github.com/bellaabdelouahab/"
+                      : null
+                  }
+                />
+              ))}
+            {/* {ProjectCard()} */}
           </div>
         </section>
         <section className="home-third-sections">
@@ -63,13 +55,93 @@ export default function Home() {
           <hr className="home-third-sections__hr" />
           <div className="home-third-sections__img" />
         </section>
-        <section className="home-last-sections"></section>
+        <section>
+  {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="100%" height="900vh"></iframe> */}
+
+  {/* <button onClick={e=>sendToEmbed()}>SEND TO JSON EMBED</button> */}
+</section>
+        {/* <section className="home-last-sections"></section> */}
       </>
     );
+
+  function ProjectCard({title, description, img, link, sponsorLink=null}) {
+    return (
+      <div
+        className="home-second-sections__projects__project"
+        style={{
+          border: sponsorLink ? "2px solid #ffda59" : "none",
+          borderRadius:"15px",
+        }}
+      >
+        <div
+          className="home-second-sections__projects__project__img"
+          style={{ backgroundImage: `url(http://localhost:5000/${img})` }}
+        />
+        <h3 className="home-second-sections__projects__project__title">
+          {title}
+        </h3>
+        <p className="home-second-sections__projects__project__description">
+          {description}
+        </p>
+        {/* button to view project and button to sponsor */}
+        <div className="home-second-sections__projects__project__buttons">
+          <a
+            className="home-second-sections__projects__project__buttons__view"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={link}
+          >
+            View Project
+          </a>
+          {sponsorLink && (
+            <a
+              className="home-second-sections__projects__project__buttons__sponsor"
+              rel="noopener noreferrer"
+              target="_blank"
+              href={sponsorLink}
+            >
+              1$/Sponsor
+            </a>
+          )}
+        </div>
+      </div>
+    );
+  }
+  function sendToEmbed() {
+    const jsonCrackEmbed = document.getElementById("jsoncrackEmbed");
+    var json = JSON.stringify({
+      congrats: "You did it!",
+      you: {
+        can: "send",
+        any: {
+          json: "object",
+        }
+      },
+      send: "any",
+      json: "object",
+    });
+    const options = {
+      theme: "dark", // "light" or "dark"
+      direction: "DOWN", // "UP", "DOWN", "LEFT", "RIGHT"
+    };
+    jsonCrackEmbed.contentWindow.postMessage(
+      {
+        json,
+        options,
+      },
+      "*"
+    );
+  }
 }
 
-export const getProjects = async () => {
-    return fetch('https://api.github.com/users/alexanderjacksongit/repos')
-    .then(res => res.data)
-    .catch(err => console.log(err))
-}
+export const getHighlightedProjects = async () => {
+    console.log("getProjects");
+    return await axios
+      .get(
+        "http://localhost:5000/api/projects?limit=2&fields=title,description,githubLink,highlight"
+      )
+      .then((res) => {
+        console.log(res.data.data);
+        return res.data.data;
+      });
+  };

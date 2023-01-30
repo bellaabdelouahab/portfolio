@@ -32,6 +32,15 @@ code {
 :root {
   --font_family: "Poppins", sans-serif !important;
 }
+.navbar__menu__list > li > a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  width: 5px;
+  background: rgb(247, 0, 0);
+}
 @media screen and (min-width: 1470px) {
   .root {
     flex-direction: row;
@@ -642,7 +651,8 @@ div[role="main"] {
   right: 7vw;
   width: 688.5px;
   height: 154.5px;
-  background: url("./assets/images/code.png");
+  background: url("http://localhost:5000/code.png");
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -671,13 +681,13 @@ div[role="main"] {
   background-color: #6a6666;
 }
 .home-second-sections__projects {
-  height: 90%;
+  height: 85%;
   width: 90%;
   margin: 0 auto;
   /* background: red; */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
+  grid-gap: 30px;
   padding: 20px;
 }
 .home-second-sections__projects__project {
@@ -691,14 +701,13 @@ div[role="main"] {
 }
 /* hover animation rotate */
 .home-second-sections__projects__project:hover {
-  border:3px solid rgba(0, 255, 255, 0.671);
+  /* border:3px solid rgba(0, 255, 255, 0.671); */
   transform: rotateZ(-1.5deg) scale(1.1);
   box-shadow: 5px 7px 9px rgb(0 0 0 / 20%);
 }
 .home-second-sections__projects__project__img {
-  height: 50%;
+  height: 45%;
   width: 100%;
-  background: url("./assets/images/project1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -715,17 +724,17 @@ div[role="main"] {
   font-family: var(--font-family);
 }
 .home-second-sections__projects__project__description {
-  color: rgb(255, 255, 255);
+  color: rgb(194, 189, 189);
   width: 90%;
   line-height: 1.5em;
 
   font-size: 1em;
-  font-weight: 700;
-  letter-spacing: 4px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  letter-spacing: 2px;
   margin-top: 2vh;
   margin-left: 1.5vw;
   margin-bottom: 2vh;
-  color: #6a6666;
+  /* color: #6a6666; */
 }
 /* put in buttom */
 .home-second-sections__projects__project__buttons {

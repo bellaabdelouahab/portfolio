@@ -61,6 +61,7 @@ export default function FillDB() {
                     e.target.parentElement.children[2].classList.remove("active");
 
                 }}
+                data-content="project"
               >
                 Project
               </button>
@@ -72,6 +73,7 @@ export default function FillDB() {
                     e.target.parentElement.children[0].classList.remove("active");
                     e.target.parentElement.children[2].classList.remove("active");
                 }}
+                data-content="skill"
               >
                 Skill
               </button>
@@ -83,6 +85,7 @@ export default function FillDB() {
                     e.target.parentElement.children[0].classList.remove("active");
                     e.target.parentElement.children[1].classList.remove("active");
                 }}
+                data-content="report"
               >
                 Report
               </button>

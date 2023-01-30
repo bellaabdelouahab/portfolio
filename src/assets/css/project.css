@@ -7,9 +7,9 @@
 }
 .project-first-section__project__image{
     display: inline-block;
-    height: 90%;
-    width: 50%;
-    background: url(../images/logo.jpg);
+    height: 320px;
+    width: 520px;
+    background: url(http://localhost:5000/project1.png);
     margin: 20px;
     background-size: cover;
     background-position: center;

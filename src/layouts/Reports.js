@@ -1,5 +1,8 @@
 import '../assets/css/reports.css'
+import axios from 'axios';
+import { useLoaderData } from 'react-router-dom'
 export default function Reports() {
+    const reports = useLoaderData();
     return (
         
 	<section >
@@ -15,15 +18,27 @@ export default function Reports() {
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td><button className='btn-donload'>Download</button></td>
-                    </tr>
+                    {reports && reports.map((report,index)=>(
+                    <tr key={index}>
+                        <th scope="row">{index+1}</th>
+                        <td>{report.title}</td>
+                        <td>{report.description} hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</td>
+                        <td><a className='btn-donload' href={report.reportFile} download
+                        >Download</a></td>
+                    </tr>))}
                     </tbody>
                 </table>
             </div>
         </section>
     )
+}
+
+export async function getReports() {
+    console.log("getReports");
+    return await axios.get('http://localhost:5000/api/reports')
+    .then(res=>{
+        return res.data.data;
+    }
+    )
+    .catch(err=>console.log(err))
 }

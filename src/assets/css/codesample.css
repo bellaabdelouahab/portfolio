@@ -1,0 +1,84 @@
+
+.h-list {
+	display: inline-block;
+	/* width: 1400px; */
+	/* margin: 48px auto; */
+	/* border-bottom: 1px solid #373738; */
+	background: #302f2f;
+	list-style-type: none;
+	/* padding:12px 12px 0; */
+}
+
+.btn {
+    all: unset;
+	text-decoration: none;
+	color: #999999;
+}
+
+.tab {
+	float: left;
+	height: min-content;
+	margin: 0 8px -1px 0;
+	/* border: 1px solid #999999; */
+    background: #999999;
+	border-radius: 8px;
+	overflow: hidden;
+    padding: 2px 0px;
+}
+
+.tab, .tab .btn {
+	transition: all .25s;
+}
+
+.tab .btn {
+	display: inline-block;
+}
+
+.tab .btn:first-child {
+	padding: 12px 2px 12px 16px;
+ white-space: nowrap;
+}
+
+.tab.tabClosed, .tab.tabClosed .btn:first-child {
+	margin-right: 0;
+	border-width: 0;
+}
+
+.tab.tabClosed {
+	width: 0 !important;/* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+}
+
+.tab.tabClosed .btn {
+	opacity: 0;
+}
+
+.tab:hover {
+	background: rgb(40, 40, 40);
+    cursor: pointer;
+}
+
+.tabSelected {
+	/* height: 45px; */
+	border-bottom: none;
+	background: rgb(88, 88, 88);
+}
+
+.closeTab {
+	width: 16px;
+	height: 16px;
+	/* margin: 0 14px 0 12px; */
+	padding: 3px;
+	border-radius: 16px;
+	line-height: 16px;
+	text-align: center;
+    margin:0px 7px 0px 5px;
+}
+
+.closeTab:hover {
+	background: #969696;
+    color: black;
+}
+.title{
+    font-weight: 700;
+    font-size: 1rem;
+}
