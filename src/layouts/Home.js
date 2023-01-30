@@ -70,7 +70,7 @@ export default function Home() {
         className="home-second-sections__projects__project"
         style={{
           border: sponsorLink ? "2px solid #ffda59" : "none",
-          borderRadius:"15px",
+          borderRadius:"5px",
         }}
       >
         <div
