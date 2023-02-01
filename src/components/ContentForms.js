@@ -45,21 +45,26 @@ function ProjectForm() {
       }}
       className="project-form filldb-form"
     >
-      <h1 className="project-form__title">Project</h1>
-      <br />
+      <h1 className="project-form__title">Project</h1><br />
+      
       <div className="input-container">
         <div className="input-flow">
           <input type="text" name="title" className="form__input" placeholder=" "/>
           <label className="form__label" for="title">Title</label>
         </div>
-        <input type="text" name="githubLink" placeholder="Github Link" />
-      </div>
+        <div className="input-flow">
+          <input type="text" name="githubLink" className="form__input" placeholder=" "/>
+          <label className="form__label" for="gitlink">Github Link</label>
+        </div>
+        {/* <input type="text" name="githubLink" placeholder="Github Link" /> */}
+      </div><br />
+
       <textarea
         className="description"
         type="text"
         name="description"
         placeholder="description"
-      />
+      /><br />
 
       <input type="file" name="image" placeholder="image" />
       <br />
@@ -169,7 +174,7 @@ function ProjectForm() {
       <br />
       <br />
 
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Submit"  />
 
       {codeSampleWindow && (
         <div className="code-sample-container">
