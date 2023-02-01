@@ -819,6 +819,207 @@ div[role="main"] {
 }
 
 .home-last-sections {
-  margin-top: 50vh;
+  margin-top: 5vh;
+  height: 150vh;
+  width: 100%;
+  background: #1e1e1e;
 }
-
+.home-last-sections > .about > .title{
+  font-size:large;
+  letter-spacing: 4px;
+  display:  flex;
+  align-items: center;
+  justify-content: center;
+  width: 35vw;
+  height: min-content;
+  margin-left: 7vw;
+  color: white;
+  padding-top: 4vh;
+  margin-bottom: 4vh;
+}
+.home-last-sections > .about > .title > span{
+  color: #2ac17f;
+  margin-right: 5px;
+}
+.home-last-sections > .about > .title > hr{
+  width: 20vw;
+  background: #233554;
+  opacity: 0.5;
+}
+.about-content{
+  position: relative;
+  width: 70%;
+  margin: auto;
+  height: 60vh;
+  /* background: red; */
+}
+.about-content-main {
+  width: 30%; 
+  height: 70%;
+  position: absolute;
+  top: 60px;
+  right: 3vw;
+  border-radius: 5px;
+  background: rgb(165, 12, 12);
+  z-index: 1;
+}
+#about-content-img_flow{
+  position: relative;
+  min-height: 100%;
+  min-width: 100%;
+  background: url(https://avatars.githubusercontent.com/u/56402449?v=4);
+  border-radius: 5px;
+}
+#about-content-img_flow::before{
+  content: " ";
+  background: #373737;
+  border-radius: 5px;
+  height:100%;
+  width: 100%;
+  position: absolute;
+  /* top: 10px;
+  left: 10px; */
+  /* z-index: -1; */
+  opacity: 0.5;
+  transition: all 0.5s ease;
+}
+#about-content-img_flow::after{
+  content: " ";
+  background: transparent;
+  border: 3px solid #80cbc4;
+  border-radius: 5px;
+  height:100%;
+  width: 100%;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+#about-content-img_flow:hover::before{
+  opacity: 0;
+}
+#about-content-img_flow:hover::after{
+  /* border-color: #000; */
+  top: 10px;
+  left: 10px;
+}
+.about-content > p {
+  position:absolute;
+  width: 60%;
+  font-size: 17px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
+  color: rgb(178, 177, 177);
+  line-height: 2rem;
+  top: 15vh;
+  text-align:justify
+}
+.about-skills-list {
+  position: absolute;
+  bottom: 8vh;
+  left: 3vw;
+  width: 70%;
+  /* height: 70%; */
+  /* background: red; */
+}
+.about-skills-list > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(140px, 200px));
+  gap: 0px 20px;
+  padding: 0px;
+  margin: 20px 0px 0px;
+  overflow: hidden;
+  list-style: none;
+}
+.about-skills-list > ul > li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #aeaeae;
+}
+.about-skills-list > ul > li::before {
+    content: "▹";
+    position: absolute;
+    left: 0px;
+    color: green;
+    font-size: 1.5rem;
+    line-height: 12px;
+}
+/* .get-in-touch{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10vh;
+  background: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+.get-in-touch > .title{
+  font-size:large;
+  letter-spacing: 4px;
+  display:  flex;
+  align-items: center;
+  justify-content: center;
+  width: 35vw;
+  height: min-content;
+  margin-left: 7vw;
+  color: white;
+  padding-top: 4vh;
+  margin-bottom: 4vh;
+}
+.get-in-touch > .title > span{
+  color: #2ac17f;
+  margin-right: 5px;
+}
+.get-in-touch > .title > hr{
+  width: 20vw;
+  background: #233554;
+  opacity: 0.5;
+}
+.get-in-touch-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  margin: auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #aeaeae;
+  line-height: 2rem;
+  text-align:center;
+  letter-spacing: 2px;
+}
+.get-in-touch-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 5vh;
+}
+.get-in-touch-btn > a > button{
+  text-decoration: none;
+  color: rgb(46, 45, 45);
+  background: #2ac17f;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition: all 0.5s ease;
+  border: 1px solid #2ac17f;
+  outline: none;
+  cursor: pointer;
+}
+/* .get-in-touch-btn > a > button{
+  background: transparent;
+} */
+.get-in-touch-btn > a > button:hover{
+  background: #1e1e1e;
+  color: #2ac17f;
+  
+}
