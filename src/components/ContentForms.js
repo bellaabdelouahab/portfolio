@@ -280,9 +280,18 @@ function SkillForm() {
       }}
       className="skill-form filldb-form"
     >
-      <input type="text" name="title" placeholder="title" />
-      <input type="text" name="description" placeholder="description" />
-      <input type="file" name="roadmapImage" placeholder="roadmapImage" />
+
+      <div className="input-flow">
+        <input type="text" name="title" className="form__input label_" placeholder=" "/>
+        <label className="form__label" for="title_skill">Title</label>
+      </div><br />
+
+      <div className="input-flow">
+        <input type="text" name="description" className="form__input label_" placeholder=" "/>
+        <label className="form__label" for="Description_skill">Description</label>
+      </div><br />
+        
+      <input type="file" name="roadmapImage" placeholder="roadmapImage" /><br />
       <input type="submit" value="Submit" />
     </form>
   );
@@ -315,8 +324,17 @@ function ReportForm() {
         reader.readAsDataURL(reportFile);
       }}
     >
-      <input type="text" name="title" placeholder="title" />
-      <input type="text" name="description" placeholder="description" />
+      
+      <div className="input-flow">
+        <input type="text" name="title" className="form__input label_" placeholder=" "/>
+        <label className="form__label" for="title_report">Title of Report</label>
+      </div><br />
+
+      <div className="input-flow">
+        <input type="text" name="description" className="form__input label_" placeholder=" "/>
+        <label className="form__label" for="Description_report">Description</label>
+      </div><br />
+        
       <input type="file" name="reportFile" placeholder="image" />
       <input type="submit" value="Submit" />
     </form>
