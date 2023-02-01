@@ -15,7 +15,6 @@ function ProjectForm() {
   var carousellePreviewIndex = false;
 
   return (
-    
     <form
       onSubmit={(e) => {
         e.preventDefault();
@@ -67,7 +66,8 @@ function ProjectForm() {
         placeholder="description"
       /><br />
 
-      <input type="file" name="image" placeholder="image" /><br />
+      <input type="file" name="image" placeholder="image" />
+      <br />
 
       {/* // for code samples */}
 
@@ -117,7 +117,9 @@ function ProjectForm() {
             </li>
           );
         })}
-      </div><br /><br />
+      </div>
+      <br />
+      <br />
 
       {/* // for carousels */}
       <div className="input-container">
@@ -134,7 +136,9 @@ function ProjectForm() {
       <div
         className="code-samples h-list"
         style={
-          carouselSamples.length === 0 ? { display: "none" } : { display: "flex" }
+          carouselSamples.length === 0
+            ? { display: "none" }
+            : { display: "flex" }
         }
       >
         {/* <ul className='h-list'> */}
@@ -166,10 +170,11 @@ function ProjectForm() {
             </li>
           );
         })}
-      </div><br /><br />
+      </div>
+      <br />
+      <br />
 
       <input type="submit" value="Submit"  />
-
 
       {codeSampleWindow && (
         <div className="code-sample-container">
@@ -228,8 +233,12 @@ function ProjectForm() {
               placeholder="carousel Sample Title"
             />
 
-            <input type="file" className="image_carussel" accept="image/jpeg,image/jpg,image/png" name="image" />
-
+            <input
+              type="file"
+              className="image_carussel"
+              accept="image/jpeg,image/jpg,image/png"
+              name="image"
+            />
 
             <button
               onClick={(e) => {
@@ -248,7 +257,6 @@ function ProjectForm() {
           </div>
         </div>
       )}
-
     </form>
   );
 }

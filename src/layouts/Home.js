@@ -1,6 +1,7 @@
 // import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import About from "../components/About";
 import { useLoaderData } from "react-router-dom";
 
 export default function Home() {
@@ -56,11 +57,12 @@ export default function Home() {
           <div className="home-third-sections__img" />
         </section>
         <section>
+        <About />
   {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="100%" height="900vh"></iframe> */}
 
   {/* <button onClick={e=>sendToEmbed()}>SEND TO JSON EMBED</button> */}
 </section>
-        {/* <section className="home-last-sections"></section> */}
+        
       </>
     );
 
