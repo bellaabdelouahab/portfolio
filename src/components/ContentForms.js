@@ -6,10 +6,9 @@ import explode from "../assets/js/codesamples.js";
 
 function ProjectForm() {
   const [codeSamples, setCodeSamples] = useState([]);
-  const [carousels, setCarousels] = useState([""]);
+  const [carouselSamples, setCarouselSamples] = useState([]);
   const [codeSampleWindow, setCodeSampleWindow] = useState(false);
   const [carouselleWindow, setCarouselleWindow] = useState(false);
-  const [carouselSamples, setCarouselSamples] = useState([]);
 
   var codeSamplePreviewIndex = false;
   var carousellePreviewIndex = false;
@@ -23,25 +22,37 @@ function ProjectForm() {
         data["description"] = e.target.description.value;
         data["githubLink"] = e.target.githubLink.value;
         data["codeSamples"] = codeSamples;
-        data["carousels"] = carousels;
+        data["carouselImages"] = [];
         const imageinput = e.target.image;
         const image = imageinput.files[0];
         const reader = new FileReader();
+        console.log(carouselSamples);
+        const filereaders = []
         reader.addEventListener("load", () => {
-          data["image"] = reader.result;
-          console.log(data);
-          axios
-            .post("http://localhost:5000/api/projects", data, {
-              withCredentials: true,
-            })
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          data["image"] = reader.result
         });
         reader.readAsDataURL(image);
+        for (let i = 0; i < carouselSamples.length; i++) {
+          const element = carouselSamples[i];
+          filereaders.push(new FileReader())
+          filereaders[i].addEventListener("load",()=>{
+            data["carouselImages"].push({
+              img: filereaders[i].result,
+              title: carouselSamples[i].title,
+            });
+            if(i===carouselSamples.length-1){
+              console.log(data);
+              axios.post("http://localhost:5000/api/projects", data).then((res) => {
+                console.log(res);
+              }
+              );
+            }
+          })
+          filereaders[i].readAsDataURL(element.img[0])
+        }
+        window.addEventListener("load",()=>{
+          console.log(data["carousels"]);
+        })
       }}
       className="project-form filldb-form"
     >
@@ -50,13 +61,12 @@ function ProjectForm() {
       <div className="input-container">
         <div className="input-flow">
           <input type="text" name="title" className="form__input" placeholder=" "/>
-          <label className="form__label" for="title">Title</label>
+          <label className="form__label" htmlFor="title">Title</label>
         </div>
         <div className="input-flow">
           <input type="text" name="githubLink" className="form__input" placeholder=" "/>
-          <label className="form__label" for="gitlink">Github Link</label>
+          <label className="form__label" htmlFor="gitlink">Github Link</label>
         </div>
-        {/* <input type="text" name="githubLink" placeholder="Github Link" /> */}
       </div><br />
 
       <textarea
@@ -245,7 +255,7 @@ function ProjectForm() {
                 let temp = [...carouselSamples];
                 temp.push({
                   title: document.querySelector(".carouselSampleTitle").value,
-                  code: document.querySelector(".image_carussel").files,
+                  img: document.querySelector(".image_carussel").files,
                 });
                 setCarouselSamples(temp);
                 setCarouselleWindow(false);
@@ -291,12 +301,12 @@ function SkillForm() {
 
       <div className="input-flow">
         <input type="text" name="title" className="form__input label_" placeholder=" "/>
-        <label className="form__label" for="title_skill">Title</label>
+        <label className="form__label" htmlFor="title_skill">Title</label>
       </div><br />
 
       <div className="input-flow">
         <input type="text" name="description" className="form__input label_" placeholder=" "/>
-        <label className="form__label" for="Description_skill">Description</label>
+        <label className="form__label" htmlFor="Description_skill">Description</label>
       </div><br />
         
       <input type="file" name="roadmapImage" placeholder="roadmapImage" /><br />
@@ -335,12 +345,12 @@ function ReportForm() {
       
       <div className="input-flow">
         <input type="text" name="title" className="form__input label_" placeholder=" "/>
-        <label className="form__label" for="title_report">Title of Report</label>
+        <label className="form__label" htmlFor="title_report">Title of Report</label>
       </div><br />
 
       <div className="input-flow">
         <input type="text" name="description" className="form__input label_" placeholder=" "/>
-        <label className="form__label" for="Description_report">Description</label>
+        <label className="form__label" htmlFor="Description_report">Description</label>
       </div><br />
         
       <input type="file" name="reportFile" placeholder="image" />

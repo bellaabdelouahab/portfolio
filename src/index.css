@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -44,6 +47,19 @@ code {
 /*generic styles*/
 :root {
   --font_family: "Poppins", sans-serif !important;
+}
+
+.hidden-area {
+  scroll-snap-align: start;
+  opacity: 0.4;
+  filter: blur(5px);
+  transform: translateX(30%);
+  transition: all 0.5s;
+}
+.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
 }
 .navbar__menu__list > li > a.active::after {
   content: "";
@@ -95,6 +111,7 @@ div[role="main"] {
 .main {
   background: #262926;
   position: relative;
+  scroll-snap-align: y mandatory;
 }
 
 @media screen and (max-width: 767px) {
@@ -622,15 +639,22 @@ div[role="main"] {
 }
 .home-first-sections__title {
   color: rgb(255, 255, 255);
-  font-size: 3em;
   font-weight: 700;
   /* text-transform: uppercase; */
   letter-spacing: 4px;
   /* text-shadow: 0 0 5px rgba(206, 203, 203, 0.775); */
   margin-top: 7vh;
   margin-left: 3vw;
-  font-family: var(--font-family);
+  font-size: clamp(1rem, 3vw + 1rem, 3.5rem);
+  position: relative;
+  font-family: "Source Code Pro", monospace;
+  position: relative;
+  width: max-content;
 }
+
+
+
+
 .home-first-sections__subtitle {
   color: rgb(214, 214, 214);
   font-size: 2em;
@@ -670,6 +694,11 @@ div[role="main"] {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+.home-first-sections__img:hover{
+  
+  transform: translateY(5px);
 }
 .home-second-sections {
   height: 75vh;
@@ -807,15 +836,44 @@ div[role="main"] {
   background-color: #6a6666;
 }
 .home-third-sections__img {
-  height: 80%;
+  height: 85%;
   width: 90%;
+  margin: 0 auto;
+  margin-top: 4vh;
+  border-radius: 5px;
+  position: relative;
+}
+.visible > .home-third-sections__img{
   background: url(https://seashell-app-zwwxz.ondigitalocean.app/graph?username=bellaabdelouahab&theme=material&hide_border=true&area=true);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  margin: 0 auto;
-  margin-top: 2vh;
   border-radius: 5px;
+}
+.home-third-sections__img::after,.home-third-sections__img::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(45deg, #e6fb04,#ff6600,#00ff66,#ff00ff,#ff0099,#6e0dd0,#ff3300,#099fff);
+  background-size: 400% 400%;
+  border-radius: 5px; 
+  animation: gradient 5s linear infinite;
+  z-index: -1;
+  filter: blur(10px);
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .home-last-sections {
@@ -918,17 +976,17 @@ div[role="main"] {
 .about-skills-list {
   position: absolute;
   bottom: 8vh;
-  left: 3vw;
+  left: 2vw;
   width: 90%;
   /* height: 70%; */
   /* background: red; */
 }
 .about-skills-list > ul {
   display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 200px));
-  gap: 5px 15px;
+  grid-template-columns: repeat(2, minmax(100px, 250px));
+  gap: 5px 0px;
   padding: 0px;
-  margin: 20px 0px 0px;
+  margin: 10px 0px 0px;
   overflow: hidden;
   list-style: none;
 }
@@ -936,7 +994,7 @@ div[role="main"] {
   position: relative;
   padding-left: 20px;
   margin-bottom: 10px;
-  font-size: 1em;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #aeaeae;
 }

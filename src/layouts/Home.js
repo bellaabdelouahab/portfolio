@@ -7,10 +7,24 @@ import { useLoaderData } from "react-router-dom";
 export default function Home() {
   const projectHighlight = useLoaderData()
   console.log("projectHighlight", projectHighlight);
-
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+        // else {
+        //   entry.target.classList.remove("visible");
+        // }
+      });
+    });
+    document.querySelectorAll(".hidden-area").forEach((el) => {
+      observer.observe(el);
+    });
+  }, []);
     return (
       <>
-        <section className="home-first-sections">
+        <section className="home-first-sections hidden-area">
           <h1 className="home-first-sections__title">
             Hi, I'm Bella Abdelouahab
           </h1>
@@ -26,7 +40,7 @@ export default function Home() {
 
           <p className="home-first-sections__img" alt="code" />
         </section>
-        <section className="home-second-sections">
+        <section className="home-second-sections hidden-area">
           {/* projects highlights */}
           <h2 className="home-second-sections__title">
             ❤️ Projects Highlights
@@ -51,18 +65,17 @@ export default function Home() {
             {/* {ProjectCard()} */}
           </div>
         </section>
-        <section className="home-third-sections">
+        <section className="home-third-sections hidden-area">
           <h2 className="home-third-sections__title">Github Progress</h2>
           <hr className="home-third-sections__hr" />
           <div className="home-third-sections__img" />
         </section>
         <section>
-        <About />
-  {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="100%" height="900vh"></iframe> */}
+          <About />
+          {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="100%" height="900vh"></iframe> */}
 
-  {/* <button onClick={e=>sendToEmbed()}>SEND TO JSON EMBED</button> */}
-</section>
-        
+          {/* <button onClick={e=>sendToEmbed()}>SEND TO JSON EMBED</button> */}
+        </section>
       </>
     );
 

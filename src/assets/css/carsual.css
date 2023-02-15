@@ -7,7 +7,8 @@
     margin: 0 auto;
     overflow: hidden;
     border-radius: 10px;
-    margin-top: 4vh;    
+    margin-top: 4vh;  
+	margin-bottom: 7vh;  
 }
 .carousel-label {
 	background: #444;
@@ -79,15 +80,15 @@ input:nth-of-type(4):checked ~ .carousel-label {
 }
 
 .carousel-label {
-	background: #444;
+	/* background: #444; */
 	background-size: cover;
 	font-size: 3rem;
 }
 
-.carousel-label[for="diamonds"],
+/* .carousel-label[for="diamonds"],
 .carousel-label[for="hearts"] {
 	background: #cc0000;
-}
+} */
 
 .carousel-label:before,
 .carousel-label:after {

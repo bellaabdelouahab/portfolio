@@ -5,7 +5,7 @@
 export default function About() { 
     return (
       <section className="home-last-sections">
-        <div className="about">
+        <div className="about hidden-area">
           <div className="title">
             <span>01. </span>
             About Me
@@ -38,7 +38,7 @@ export default function About() {
             </div>
           </div>
         </div>
-        <div className="get-in-touch">
+        <div className="get-in-touch hidden-area">
           <div className="title">
             <span>02. </span>
             Get in Touch

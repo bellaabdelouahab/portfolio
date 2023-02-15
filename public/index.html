@@ -10,6 +10,7 @@
     <link rel="stylesheet"
     href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://esm.sh/@wooorm/starry-night@1/style/both.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- <link href="prism.css" rel="stylesheet" /> -->
@@ -49,78 +50,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <script>
-      if (!Element.prototype.closest) {
-        Element.prototype.closest = function(s) {
-          let el = this;
-          do {
-            if (el.matches(s)) return el;
-            el = el.parentElement || el.parentNode;
-          } while (el !== null && el.nodeType === 1);
-          return null;
-        };
-      }
-      const offMenu = event => {
-      if (event.target.closest('.navbar__menu')) return
-      document
-        .querySelectorAll('.menu')
-        .forEach(item => {
-          item.classList.add('hidden')
-          item.setAttribute('aria-hidden', 'true')
-        })
-      }
-      const toggleMenu = id => {
-  const el = document.getElementById(id)
-  if (el.classList.contains('hidden')) {
-    document
-      .querySelectorAll('.inner-menu')
-      .forEach(item => {
-        item.classList.add('hidden')
-        item.setAttribute('aria-hidden', 'true')
-      })
-    el.classList.remove('hidden')
-    el.setAttribute('aria-hidden', 'false')
-  } else {
-    el.classList.add('hidden')
-    el.setAttribute('aria-hidden', 'true')
-  }
-  !el.classList.contains('hidden') && el.focus()
-}
-
-      // toggle open class for v2 preview bar dropdown menu
-      const v2Dropdown = document.getElementsByClassName('v2-dropdown')[0]
-      const v2DropdownTrigger = document.querySelector('.v2-dropdown .menu-trigger')
-      // if the preview bar dropdown exists, add event listener to toggle preview menu
-      if (!!v2Dropdown) {
-        v2DropdownTrigger.addEventListener('click', () => {
-          v2Dropdown.classList.toggle('open')
-        })
-      }
-
-      const domBody = document.body
-      const usingMouse = 'using-mouse'
-      domBody.addEventListener('mousedown', () => {
-        domBody.classList.add(usingMouse)
-      })
-      domBody.addEventListener('keydown', () => {
-        domBody.classList.remove(usingMouse)
-      })
-
-      const headerEl = document.querySelector('#navbar')
-      const topHook = document.querySelector('#top')
-      if (
-        "IntersectionObserver" in window
-      ) {
-        const observer = new IntersectionObserver(entries => {
-          if (entries[0].boundingClientRect.y < 0) {
-            headerEl.classList.remove('at-top')
-          } else {
-            headerEl.classList.add('at-top')
-          }
-        },{threshold: 1});
-        observer.observe(topHook)
-      }
-    </script>
+    <script defer src="./script.js"></script>
     <!-- <script src="prism.js"></script> -->
   </body>
   

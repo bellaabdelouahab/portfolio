@@ -1,7 +1,7 @@
 
 
 .projects-section{
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     background: #212121;
 }
@@ -30,7 +30,7 @@
     font-family: var(--font-family);
 }
 .projects-section__projects{
-    height: 70vh;
+    min-height: 70vh;
     width: 90%;
     margin: 0 auto;
     display:flex;
