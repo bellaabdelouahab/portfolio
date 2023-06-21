@@ -52,14 +52,15 @@ code {
 .hidden-area {
   scroll-snap-align: start;
   opacity: 0.4;
-  filter: blur(5px);
-  transform: translateX(30%);
-  transition: all 0.5s;
+  /* filter: blur(5px); */
+  transform: translateY(30%);
+  transition: all 1s;
+  animation-delay: 0.5s;
 }
 .visible {
   opacity: 1;
   filter: blur(0);
-  transform: translateX(0);
+  transform: translateY(0);
 }
 
 @media screen and (min-width: 1470px) {
@@ -132,6 +133,7 @@ div[role="main"] {
   background: #262926;
   position: relative;
   scroll-snap-align: y mandatory;
+  overflow-y: hidden;
 }
 
 @media screen and (max-width: 767px) {
@@ -343,7 +345,7 @@ div[role="main"] {
     right: 4vw;
     width: 688.5px;
     height: 154.5px;
-    background: url("http://localhost:5000/code.png");
+    background: url("http://localhost:5000/code1.png");
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
     background-size: cover;
     background-position: center;
@@ -794,7 +796,7 @@ div[role="main"] {
     right: 7vw;
     width: 688.5px;
     height: 154.5px;
-    background: url("http://localhost:5000/code.png");
+    background: url("http://localhost:5000/code1.png");
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
     background-size: cover;
     background-position: center;
@@ -942,7 +944,7 @@ div[role="main"] {
     background-color: #6a6666;
   }
   .home-third-sections__img {
-    height: 85%;
+    height: 75%;
     width: 90%;
     margin: 0 auto;
     margin-top: 4vh;
@@ -950,11 +952,11 @@ div[role="main"] {
     position: relative;
   }
   .visible > .home-third-sections__img{
-    background: url(https://seashell-app-zwwxz.ondigitalocean.app/graph?username=bellaabdelouahab&theme=material&hide_border=true&area=true);
-    background-size: cover;
+    background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=eb3a0e&point=f18701&area=true&hide_border=true) 100% 100% no-repeat;
+    background-size: 100% 120%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 5px;
+    border-radius: 15px;
   }
   .home-third-sections__img::after,.home-third-sections__img::before {
     content: "";
@@ -964,11 +966,12 @@ div[role="main"] {
     width: calc(100% + 4px);
     height: calc(100% + 4px);
     background: linear-gradient(45deg, #e6fb04,#ff6600,#00ff66,#ff00ff,#ff0099,#6e0dd0,#ff3300,#099fff);
-    background-size: 400% 400%;
+    background-size: 300% 400%;
     border-radius: 5px;
     animation: gradient 5s linear infinite;
     z-index: -1;
     filter: blur(10px);
+    opacity: .2;
   }
   @keyframes gradient {
     0% {
@@ -988,7 +991,7 @@ div[role="main"] {
     width: 100%;
     background: #1e1e1e;
   }
-  .home-last-sections > .about > .title{
+  .home-last-sections > .about > .title, .home-last-sections > .experience > .title{
     font-size:large;
     letter-spacing: 4px;
     display:  flex;
@@ -1001,12 +1004,12 @@ div[role="main"] {
     padding-top: 4vh;
     margin-bottom: 4vh;
   }
-  .home-last-sections > .about > .title > span{
+  .home-last-sections > .about > .title > span, .home-last-sections > .experience > .title > span{
     color: #2ac17f;
     margin-right: 5px;
     padding-right: 10px;
   }
-  .home-last-sections > .about > .title > hr{
+  .home-last-sections > .about > .title > hr, .home-last-sections > .experience > .title > hr{
     width: 20vw;
     background: #233554;
     opacity: 0.5;
@@ -1026,14 +1029,15 @@ div[role="main"] {
     top: 60px;
     right: 3vw;
     border-radius: 5px;
-    background: rgb(165, 12, 12);
+    background: #1e1e1e; 
     z-index: 1;
   }
   #about-content-img_flow{
     position: relative;
     min-height: 100%;
     min-width: 100%;
-    background: url(https://avatars.githubusercontent.com/u/56402449?v=4);
+    background: url(http://localhost:5000/x2-rm.png);
+    background-size: cover;
     border-radius: 5px;
   }
   #about-content-img_flow::before{
@@ -1063,7 +1067,7 @@ div[role="main"] {
     transition: all 0.5s ease;
   }
   #about-content-img_flow:hover::before{
-    opacity: 0;
+    opacity: 0.2;
   }
   #about-content-img_flow:hover::after{
     /* border-color: #000; */

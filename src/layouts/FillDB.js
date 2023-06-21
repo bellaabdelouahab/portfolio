@@ -104,3 +104,9 @@ export default function FillDB() {
       </>
     );
 }
+
+
+
+
+// let thisYearGoals = ["Learn Kubernetes", "Learn Jhipster","Learn System Design"];
+// thisYearGoals.start()

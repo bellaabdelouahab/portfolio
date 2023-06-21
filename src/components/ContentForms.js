@@ -41,12 +41,15 @@ function ProjectForm() {
               img: filereaders[i].result,
               title: carouselSamples[i].title,
             });
-            if(i===carouselSamples.length-1){
+            if(i===carouselSamples.length-1 ){
               console.log(data);
               axios.post("http://localhost:5000/api/projects", data).then((res) => {
                 console.log(res);
               }
-              );
+              ).catch((err) => {
+                console.log(err);
+              }
+              )
             }
           })
           filereaders[i].readAsDataURL(element.img[0])
