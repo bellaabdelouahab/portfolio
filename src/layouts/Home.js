@@ -57,6 +57,8 @@ export default function Home() {
       <section>
         <About />
       </section>
+
+      <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe>
     </>
   );
 }
@@ -112,7 +114,7 @@ export const getHighlightedProjects = async () => {
   console.log("getProjects");
   return await axios
     .get(
-      "http://localhost:5000/api/projects?limit=2&fields=title,description,githubLink,highlight"
+      "http://localhost:5000/api/projects?limit=3&fields=title,description,githubLink,highlight"
     )
     .then((res) => {
       console.log(res.data.data);

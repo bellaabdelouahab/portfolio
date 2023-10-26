@@ -1,8 +1,8 @@
-$animation-timing: 15s;
-$carousel-items: 3;
+$animation-timing: 25s;
+$carousel-items: 4;
 $animation-delay-fraction: $animation-timing / $carousel-items;
 $animation-steps-fraction: round($number:  100/ $carousel-items);
-$slide-change-timing: 10; // percentage of total animation cycle
+$slide-change-timing: 5; // percentage of total animation cycle
 
 // *, *::before, *::after {
 //   box-sizing: border-box;
@@ -40,7 +40,12 @@ $slide-change-timing: 10; // percentage of total animation cycle
   opacity: 0;
   filter: drop-shadow(0 2px 2px #555);
   will-change: transform, opacity;
-  animation: carousel-animate-vertical $animation-timing linear infinite reverse
+  animation: carousel-animate-vertical $animation-timing cubic-bezier(0.38, 1.34, 1, 1) infinite reverse ;
+  animation-play-state: running;
+}
+.ex-carousel:hover .carousel__item {
+  animation-play-state: paused ;
+  cursor: pointer;
 }
 
 @for $i from 1 through ($carousel-items - 1) { 
@@ -88,37 +93,38 @@ $slide-change-timing: 10; // percentage of total animation cycle
   border-radius: 8px;
 }
 
+
 @keyframes carousel-animate-vertical {
   0% {
-    transform: translateX(-100%) scale(0.5);
+    transform: translateX(100%) scale(0.2);
     opacity: 0;
     visibility: hidden;
   }
   #{$slide-change-timing}%,
   #{$animation-steps-fraction}% {
-    transform: translateX(-100%) scale(0.2) ;//rotateX(180deg);
-    opacity: .0;
+    transform: translateX(100%) scale(0.5);
+    opacity: .4;
     visibility: visible;
   }
   #{$animation-steps-fraction + $slide-change-timing}%,
   #{$animation-steps-fraction * 2}% {
-    transform: translateX(0) scale(1);
+    transform: translateX(0) scale(1.2);
     opacity: 1;
     visibility: visible;
   }
   #{($animation-steps-fraction * 2) + $slide-change-timing}%,
   #{$animation-steps-fraction * 3}% {
-    transform: translateX(100%) scale(0.2) ;//rotateX(180deg);
-    opacity: .0;
+    transform: translateX(-100%) scale(0.5);
+    opacity: .4;
     visibility: visible;
   }
   #{($animation-steps-fraction * 3) + $slide-change-timing}% {
-    transform: translateX(100%) scale(0.5);
+    transform: translateX(-100%) scale(0.2);
     opacity: 0;
     visibility: visible;
   }
   100% {
-    transform: translateX(100%) scale(0.5);
+    transform: translateX(-100%) scale(0.2);
     opacity: 0;
     visibility: hidden;
   }

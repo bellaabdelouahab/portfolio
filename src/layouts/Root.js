@@ -48,7 +48,13 @@ export default function Root() {
                   <NavLink to="/" target="">
                     Home
                   </NavLink>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
                 </li>
+                <hr />
+                <br />
                 <li>
                   <NavLink to="/resume" target="">
                     Resume
@@ -59,18 +65,26 @@ export default function Root() {
                     All Projects
                   </NavLink>
                 </li>
+                <br />
+                <hr />
+                <br />
                 <li>
                   <NavLink to="/skills">Skills</NavLink>
                 </li>
                 <li>
                   <NavLink to="/certificates">Certificates</NavLink>
-                </li>
+                </li>{" "}
+                <br />
+                <hr/>
+                <br />
                 <li>
                   <NavLink to="/articles">Articles</NavLink>
                 </li>
                 <li>
                   <NavLink to="/reports">Reports</NavLink>
                 </li>
+                <br />
+                <hr/> 
               </ul>
             </div>
           </div>
