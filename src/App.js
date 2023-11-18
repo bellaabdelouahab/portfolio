@@ -21,7 +21,6 @@ const router = createBrowserRouter(
       <Route path="Reports" element={<Reports />} loader={getReports} />
       <Route path="articles" element={<Articles />} />
       <Route path="fillDB" element={<FillDB />} />
-      <Route path="test" element={<ExperienceCarousel />} />
     </Route>
   )
 );

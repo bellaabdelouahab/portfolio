@@ -584,7 +584,7 @@
     background-size: 100% 120%;
     background-position: center;
     background-repeat: no-repeat;
-    border-radius: 15px;
+    border-radius: 10px;
   }
   .home-third-sections__img::after,.home-third-sections__img::before {
     content: "";
@@ -619,7 +619,7 @@
     width: 100%;
     background: #1e1e1e;
   }
-  .home-last-sections > .about > .title, .home-last-sections > .experience > .title{
+  .home-last-sections > .about > .title, .home-forth-sections > .experience > .title{
     font-size:large;
     letter-spacing: 4px;
     display:  flex;
@@ -632,12 +632,12 @@
     padding-top: 4vh;
     margin-bottom: 4vh;
   }
-  .home-last-sections > .about > .title > span, .home-last-sections > .experience > .title > span{
+  .home-last-sections > .about > .title > span, .home-forth-sections > .experience > .title > span{
     color: #2ac17f;
     margin-right: 5px;
     padding-right: 10px;
   }
-  .home-last-sections > .about > .title > hr, .home-last-sections > .experience > .title > hr{
+  .home-last-sections > .about > .title > hr, .home-forth-sections > .experience > .title > hr{
     width: 20vw;
     background: #233554;
     opacity: 0.5;

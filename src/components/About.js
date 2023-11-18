@@ -5,10 +5,30 @@ import ExperienceCarousel from "./ExperienceCarousel";
 export default function About() { 
     return (
       <>
-        <section className="home-last-sections">
-          <div className="about hidden-area">
+        <section className="home-forth-sections hidden-area" style={{ marginTop: "5rem", height:"auto",width:"100%" }}>
+          <div className="experience">
             <div className="title">
-              <span>01. </span>
+              <span>03. </span>
+              Internship Projects
+              <hr />
+            </div>
+            <div className="experience experience-content">
+              <ExperienceCarousel />
+              <div>
+                In this example, the --bg-image CSS variable is set inline on the element using the style attribute.
+                The CSS variable is then used as the value for background-image property in the CSS declaration.
+                Note that CSS variables can be defined globally or scoped to specific elements or selectors.
+                The above example demonstrates the usage of a globally defined CSS variable.
+                Regenerate response
+              </div>
+            </div>
+
+          </div>
+        </section>
+        <section className="home-last-sections hidden-area">
+          <div className="about">
+            <div className="title">
+              <span>04. </span>
               About Me
               <hr />
             </div>
@@ -42,7 +62,7 @@ export default function About() {
           </div>
           <div className="get-in-touch hidden-area">
             <div className="title">
-              <span>03. </span>
+              <span>05. </span>
               Get in Touch
               <hr />
             </div>
@@ -57,25 +77,6 @@ export default function About() {
                 <button style={{ marginBottom: "5rem" }}>Get in Touch</button>
               </a>
             </div>
-          </div>
-        </section>
-        <section className="home-last-sections" style={{ marginTop: "5rem", height:"90rem" }}>
-          <div className="experience hidden-area">
-            <div className="title">
-              <span>03. </span>
-              Internship Projects
-            </div>
-            <div className="experience-content">
-              <ExperienceCarousel />
-              <div>
-                In this example, the --bg-image CSS variable is set inline on the element using the style attribute.
-                 The CSS variable is then used as the value for background-image property in the CSS declaration.
-                  Note that CSS variables can be defined globally or scoped to specific elements or selectors.
-                The above example demonstrates the usage of a globally defined CSS variable.
-                Regenerate response
-              </div>
-            </div>
-
           </div>
         </section>
       </>

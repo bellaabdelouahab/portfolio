@@ -58,7 +58,7 @@ export default function Home() {
         <About />
       </section>
 
-      <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe>
+      {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
     </>
   );
 }
