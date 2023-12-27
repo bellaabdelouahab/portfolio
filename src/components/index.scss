@@ -1,0 +1,86 @@
+:root {
+  --bg1: url("https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --bg2: url("https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --bg3: url("https://images.unsplash.com/photo-1569959220744-ff553533f492?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --bg4: url("https://images.unsplash.com/photo-1607585011081-241d2bacb7de?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  --bg5: url("https://images.unsplash.com/photo-1449452198679-05c7fd30f416?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+}
+
+@function get-background($index) {
+  @return var(--bg#{$index});
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// body {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden;
+//   height: 100vh;
+//   background: #161616;
+// }
+
+.box-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 10px;
+  width: 100%;
+  max-width: 1100px;
+  height: 70vh;
+  max-height: 900px;
+  padding: 1rem;
+  margin: 0 auto;
+
+  .box {
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        background: get-background($i);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: auto 200%;
+      }
+    }
+
+    width: 25%;
+    height: 440px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: width 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+
+    .overlay {
+      opacity: 0;
+    }
+
+    &.closed {
+      width: 5%;
+      .overlay {
+        opacity: 1;
+      }
+    }
+
+    &.expanded {
+      width: 85%;
+    }
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  transition: 0.5s ease;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+}

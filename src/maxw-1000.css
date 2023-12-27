@@ -7,4 +7,37 @@
     #header{
         background: #191919;
     }
+  .block__button button::after {
+    display: none;
+  }
+
+  .block__button button {
+    background: #2ac17f !important;
+    padding-top: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+    letter-spacing: 0;
+  }
+  .navbar__menu__list > li > a{
+    padding: 10px 20px !important;
+    border-bottom: 1px dashed #333;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+    .navbar__menu__list > li > a:hover {
+        text-decoration: none;
+        background: #333;
+        border-radius: 5px;
+
+    }
+.navbar__menu__list ul {
+    min-width: 90%;
+}
+
+  .navbar__menu__list > li > a.active {
+    background: rgb(38, 43, 69);
+    border-radius: 5px;
+
+  }
 }
