@@ -121,43 +121,6 @@ div[role="main"] {
 
 
 
-/* 
-@media screen and (max-width: 1470px) {
-  .navbar__header__logolink {
-    display: block;
-    margin: 10px 10px;
-    background: url('../public/logo.jpg');
-    width: 50px;
-    height: 50px;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    border-radius: 50%;
-  }
-
-  .navbar__header {
-    max-width: 100%;
-    padding: 0 24px;
-  }
-
-  .navbar {
-    background: #191919;
-    padding: 10px;
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link {
-    padding: 0 10px;
-  }
-
-  #header-sign-up-btn {
-    margin-top: 0 !important;
-    position: relative;
-    top: -4px;
-  }
-
-  .navbar-right {
-    margin-top: 14px;
-  }
-} */
 
 @media screen and (max-width: 990px) {
   .navbar-fedora .navbar-collapse.in,
@@ -214,29 +177,29 @@ div[role="main"] {
   .navbar-fedora .navbar-header-courses {
     position: static;
   }
-  .home-first-sections{
+  .home-introduction-section{
     height: 45vh;
     width: 100%;
   }
-  .home-first-sections__img{
+  .home-introduction-section__img{
     display: none;
   }
-  .home-second-sections{
+  .home-projects-section{
     height: fit-content;
   }
-  .home-second-sections__projects {
+  .home-projects-section__projects {
     grid-template-columns: repeat(1, 1fr);
     /* center */
     justify-items: center;
   }
-  .home-second-sections__projects__project{
+  .home-projects-section__projects__project{
     max-width: 40rem;
     height: 40rem;
   }
-  .home-third-sections{
+  .github-progress-section{
     height: fit-content;
   }
-  .home-third-sections__img{
+  .github-progress-section__img{
     width: 50rem;
     height: 25rem;
   }
@@ -266,7 +229,7 @@ div[role="main"] {
     position: static;
   }
 
-  .home-first-sections {
+  .home-introduction-section {
     height: 75vh;
     width: 100%;
     background: url("./assets/images/home-section-bg1.jpg");
@@ -276,7 +239,7 @@ div[role="main"] {
     position: relative;
   }
 
-  .home-first-sections__img {
+  .home-introduction-section__img {
     position: absolute;
     bottom: 12vh;
     right: 4vw;
@@ -290,11 +253,11 @@ div[role="main"] {
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
   }
-  .home-second-sections__projects {
+  .home-projects-section__projects {
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
   }
-  .home-second-sections__projects__project {
+  .home-projects-section__projects__project {
     max-width: 35rem;
   }
 } */
