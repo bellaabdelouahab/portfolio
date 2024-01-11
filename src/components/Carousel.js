@@ -1,10 +1,9 @@
 // import '../assets/css/carsual.css'
 import './index.scss';
-
 export default function Carousel({ carouselImages}) {
   console.log("carouselImages", carouselImages);
   const boxes = document.querySelectorAll(".box");
-  let activeIndex = 1;
+  let activeIndex = 0;
   let isTransitioning = false;
 
   function updateCurrentImg() {

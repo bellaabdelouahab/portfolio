@@ -39,7 +39,7 @@ export default function About() {
 
               <p>
                 Hi, my name is Bella Abdelouahab and I am an experienced data
-                scientist with six months of experience. I have strong training
+                scientist with ten months of experience. I have strong training
                 in decision-making, data science and computer systems
                 engineering and software. I have developed expertise in web
                 development and machine learning. I am passionate about my work
@@ -77,6 +77,19 @@ export default function About() {
                 <button style={{ marginBottom: "5rem" }}>Get in Touch</button>
               </a>
             </div>
+          </div>
+          <div className="happy-clients hidden-area">
+            <div className="title">
+              <span>06. </span>
+              Happy Clients
+              <hr />
+            </div>
+            <p className="happy0clients-content">
+              I am actively seeking new career opportunities and my inbox is
+              open for potential job offers. Feel free to reach out with any
+              relevant job opportunities or to connect for potential future
+              collaborations. I look forward to hearing from you!
+            </p>
           </div>
         </section>
       </>

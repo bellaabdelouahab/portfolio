@@ -1,5 +1,4 @@
 import { NavLink, Outlet } from "react-router-dom";
-import axios from "axios";
 
 export default function Root() {
   const toggleMenu = (id) => {
