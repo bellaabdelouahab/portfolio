@@ -8,6 +8,7 @@ import AboutMeSection from "../components/home_components/AboutMeSection";
 import GetInTouchSection from "../components/home_components/GetInTouchSection";
 import HappyClientsSection from "../components/home_components/HappyClientsSection";
 import { useLoaderData } from "react-router-dom";
+import "../assets/css/internship/index.css";
 
 export default function Home() {
   const projectHighlight = useLoaderData();
@@ -28,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <main className="main">
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
       <AboutMeSection />
@@ -38,7 +39,7 @@ export default function Home() {
       <GetInTouchSection />
 
       {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
-    </>
+    </main>
   );
 }
 

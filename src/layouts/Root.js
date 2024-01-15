@@ -89,9 +89,9 @@ export default function Root() {
           </div>
         </nav>
       </header>
-      <main className="main">
+      
         <Outlet />
-      </main>
+        
     </>
   );
 }

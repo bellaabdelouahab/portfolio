@@ -3,8 +3,27 @@
 
 
 .experience-content{
-    height: 50vh;
-    width: .4rem;
+    height: 100vh;
+    width: 40rem;
     margin-left: 2rem;
-    background: #000;
+    background: #ee0909;
+    position: static;
+    top:0;
+    scale: 1 1;
+    animation: scroll-watcher linear;
+    /* animation-timeline: scroll(root); */
+    animation-timeline: view(200px);
+}
+.tester{
+    height: 400vh;
+    width: 100%;
+}
+
+@keyframes scroll-watcher{
+    from {
+        background-color: red;
+    }
+    to {
+        background-color: blue;
+    }
 }
