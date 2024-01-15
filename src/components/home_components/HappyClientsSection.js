@@ -2,7 +2,7 @@ export default function HappyClientsSection() {
     return (
         <div className="happy-clients-section hidden-area">
             <div className="home-sections-title">
-                <span>06. </span>
+                <span>05. </span>
                 What My Clients Say
                 <hr />
             </div>

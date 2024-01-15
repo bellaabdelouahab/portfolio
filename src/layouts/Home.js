@@ -31,11 +31,11 @@ export default function Home() {
     <>
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
+      <AboutMeSection />
       <GithubProgressSection />
       <InternshipProjectsSection />
-      <AboutMeSection />
-      <GetInTouchSection />
       <HappyClientsSection />
+      <GetInTouchSection />
 
       {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
     </>

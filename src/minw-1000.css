@@ -5,7 +5,7 @@
   background-color: #ff0000 !important;
 } */
 
-@media screen and (min-width: 1000px) {
+@media screen and (max-width: 4000px) {
   .root {
     flex-direction: row;
     flex-wrap: wrap;
@@ -419,11 +419,10 @@
 
   .home-introduction-section__img {
     position: absolute;
-    bottom: 17vh;
+    bottom: 13.5vh;
     right: 7vw;
     width: 688.5px;
     height: 154.5px;
-    background: url("http://localhost:5000/code1.png");
     box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
     background-size: cover;
     background-position: center;
@@ -433,7 +432,7 @@
   }
   .home-introduction-section__img:hover{
 
-    transform: translateY(5px);
+    transform: translateY(15px);
   }
   .home-projects-section {
     height: auto;
@@ -618,6 +617,7 @@
     height: fit-content;
     width: 100%;
     background: #1e1e1e;
+    position: relative;
   }
  .home-sections-title{
     font-size: large;
@@ -646,17 +646,17 @@
   }
   .about-content{
     position: relative;
-    width: 70%;
+    width: 80%;
     margin: auto;
     height: 60vh;
     /* background: red; */
   }
   .about-content-main {
-    width: 30%;
+    width: 25%;
     height: 70%;
     position: absolute;
     top: 60px;
-    right: 3vw;
+    right: 0vw;
     border-radius: 5px;
     background: #1e1e1e; 
     z-index: 1;
@@ -666,6 +666,9 @@
     min-height: 280px;
     max-width: 220px;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     border-radius: 5px;
   }
   #about-content-img_flow::before{
@@ -703,30 +706,38 @@
     left: 10px;
   }
   .about-content > p {
-    position:absolute;
-    width: 60%;
-    font-size: 17px;
-    font-family: 'Times New Roman', Times, serif;
+    padding-top: 4vw;
+    width: 70%;
+    font-size: 12px;
     font-weight: 700;
     color: rgb(178, 177, 177);
     line-height: 2rem;
-    top: 15vh;
     text-align:justify
   }
+  .about-content-skills_title{
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: min-content;
+    color: #29b578;
+    padding-top: 2vh;
+    /* underline the text */
+    text-decoration: underline;
+  }
   .about-skills-list {
-    position: absolute;
-    bottom: 8vh;
-    left: 2vw;
-    width: 90%;
-    /* height: 70%; */
-    /* background: red; */
+    width: 100%;
   }
   .about-skills-list > ul {
     display: grid;
     grid-template-columns: repeat(2, minmax(100px, 250px));
-    gap: 5px 0px;
+    gap: 5px 10rem;
     padding: 0px;
-    margin: 10px 0px 0px;
+    margin: 1vh 0px 0px;
+    padding: 1vh;
     overflow: hidden;
     list-style: none;
   }
@@ -736,6 +747,7 @@
     margin-bottom: 10px;
     font-size: 1.1rem;
     font-weight: 700;
+    width: max-content;
     color: #aeaeae;
   }
   .about-skills-list > ul > li::before {
@@ -746,17 +758,6 @@
     font-size: 1.5rem;
     line-height: 12px;
   }
-  /* .get-in-touch{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 10vh;
-    background: #1e1e1e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  } */
 
   .get-in-touch-content{
     display: flex;

@@ -8,7 +8,6 @@ import Skills from './layouts/Skills';
 import Reports, { getReports } from "./layouts/Reports";
 import Articles from './layouts/Articles';
 import FillDB from './layouts/FillDB';
-import ExperienceCarousel from './components/ExperienceCarousel';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
