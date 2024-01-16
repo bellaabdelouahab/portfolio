@@ -29,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="main">
+    <>
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
       <AboutMeSection />
@@ -39,7 +39,7 @@ export default function Home() {
       <GetInTouchSection />
 
       {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
-    </main>
+    </>
   );
 }
 

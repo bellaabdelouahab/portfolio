@@ -354,7 +354,7 @@
 
 
   .home-introduction-section {
-    height: 55vh;
+    min-height: 55vh;
     width: 100%;
     background: url("./assets/images/home-section-bg1.jpg");
     background-size: cover;
@@ -549,7 +549,7 @@
     font-family: var(--font-family);
   }
   .github-progress-section {
-    height: 65vh;
+    min-height: 65vh;
     width: 100%;
     /* background: transparent; */
   }
@@ -610,6 +610,12 @@
     100% {
       background-position: 0% 50%;
     }
+  }
+
+
+
+  .internship-projects-section{
+  min-height: 150vh;
   }
 
   .home-about-sections {
