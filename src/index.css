@@ -109,7 +109,7 @@ div[role="main"] {
 
 .main {
   background: #262926;
-  position: relative;
+  /* position: relative; */
   /* scroll-snap-align: y mandatory; */
   height: 100vh;
   overflow-y: auto;

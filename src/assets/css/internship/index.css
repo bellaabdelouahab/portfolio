@@ -6,7 +6,7 @@
     height: 0vh;
     width: 7rem;
     border-radius: .4rem;
-    margin-left: 2rem;
+    margin-left: 0rem;
     background: #262926;
     position: absolute;
     top:5%;
@@ -26,6 +26,28 @@
         height: 95%;
     }
 }
+.gradientLine {
+  height: 25vh;
+  width: 0.4rem;
+  background: linear-gradient(transparent, #2ac17f 40%, transparent);
+  margin-left: 1.5rem;
+}
+.animation-line2{
+    height: 35vh;
+}
+
+.iconContainer {
+  height: 4rem;
+  width: 3.8rem;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #33b3ae;
+  font-size: 1.2rem;
+  margin-left: 0rem;
+}
+
 .intership-project{
     width: 100rem;
     height: 40vh;
@@ -61,5 +83,48 @@
 .intership-project__content{
     width: calc(95% - 275px);
     height: 200px;
-    background: red;
+    /* background: red; */
+}
+.intership-project__content > h1{
+    font-size: 1.7rem;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+}
+.intership-project__content > .content{
+    font-size: 1.2rem;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    width: 100%;
+    height: fit-content;
+    max-height: 12rem;
+    /* background: #000; */
+}
+.intership-project__content__link{
+    /* it is <a/> tag */
+    font-size: 1.2rem;
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    width: fit-content;
+    height: fit-content;
+    /* background: #000; */
+    float: right;
+    margin-right: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+}
+.intership-project__content__list{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.7rem 1.5rem;
+    margin-top: 1.5rem;
+}
+.intership-project__content__list > li{
+    list-style: none;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #2ac180ab;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
 }

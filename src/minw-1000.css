@@ -844,8 +844,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   .quotes-pic{
-    left: 70% !important;
+    left: 90% !important;
     border: none !important;
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 0px !important;
+    opacity: .7;
   }
 
 
@@ -880,4 +884,17 @@
     font-size: 1rem;
   }
 
+  .social-networks{
+    position: absolute;
+    width: 3rem;
+    height: 155px;
+    background: #282c35;
+    z-index: 100;
+    /* move it to the right */
+    right: 0;
+    top: calc(50% - 77.5px);
+    /* margin-right: 1rem; */
+    border-radius: 1rem 0 0 1rem ;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
+}
 }

@@ -25,12 +25,14 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 135vh;
-    width: 57.5%;
+    height: 1200px;
+    width: 846px;
     margin: 0vh auto;
     margin-top: 5vh;
     position: relative;
     border-radius: 10px;
+    opacity: 0.9;
+    margin-bottom: 5vh;
   }
 .resume-section__tools{
     width: 100%;
@@ -61,6 +63,7 @@
     font-size: 1em;
     font-weight: 700;
     letter-spacing: 4px;
+    padding: .5rem;
     margin: auto 2vw;
     font-family: var(--font-family);
     border: none;
@@ -69,5 +72,5 @@
 }
 .resume-section__tools__download::before{
     content: '⬇️';
-    margin-left: 1vw;
+    margin-left: .2vw;
 }

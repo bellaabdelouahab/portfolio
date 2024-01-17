@@ -55,24 +55,20 @@ export default function Root() {
                 <hr />
                 <br />
                 <li>
-                  <NavLink to="/resume" target="">
-                    Resume
-                  </NavLink>
+                  <NavLink to="/projects" target="">All Projects</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/projects" target="">
-                    All Projects
-                  </NavLink>
+                  <NavLink to="/certificates">Certificates</NavLink>
                 </li>
                 <br />
                 <hr />
                 <br />
                 <li>
-                  <NavLink to="/skills">Skills</NavLink>
+                  <NavLink to="/resume" target="">Resume</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/certificates">Certificates</NavLink>
-                </li>{" "}
+                  <NavLink to="/skills">Skills</NavLink>
+                </li>
                 <br />
                 <hr/>
                 <br />
@@ -90,6 +86,33 @@ export default function Root() {
         </nav>
       </header>
       <main className="main">
+        <div className="social-networks">
+          {createSocialLink({
+            href: "https://www.linkedin.com/in/bellaabdelouahab/",
+            src: "./social/linkedin.png",
+            alt: "linkedin",
+          })}
+          {createSocialLink({
+            href: "#",
+            src: "./social/twitter.png",
+            alt: "twitter",
+          })}
+          {createSocialLink({
+            href: "#",
+            src: "./social/github.png",
+            alt: "github",
+          })}
+          {createSocialLink({
+            href: "#",
+            src: "./social/instagram.png",
+            alt: "instagram",
+          })}
+          {createSocialLink({
+            href: "#",
+            src: "./social/facebook.png",
+            alt: "facebook",
+          })}
+        </div>
         <Outlet />
       </main>
         
@@ -149,3 +172,20 @@ export default function Root() {
     <input type="submit" value="Send" />
 </form> */
 }
+function createSocialLink({ href, src, alt }) {
+  return <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="social-networks__link"
+  >
+    <img
+      src={src}
+      alt={alt}
+      className="social-networks__link__img"
+      height="20px"
+      width="20px"
+      style={{ margin: "0 auto", marginTop: "1rem" }} />
+  </a>;
+}
+

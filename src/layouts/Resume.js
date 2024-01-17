@@ -11,7 +11,7 @@ export default function Resume() {
             <div className="resume-section__resume">
                 <div className="resume-section__tools">
                     <h2 className="resume-section__tools__title">Bella Abdelouahab Resume</h2>
-                    <button className="resume-section__tools__download">Download Resume</button>
+                    <button className="resume-section__tools__download">Download Resume PDF</button>
                 </div>
             </div>
         </section></>
