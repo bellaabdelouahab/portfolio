@@ -1,44 +1,186 @@
 
-.project-first-section {
+section.project-page{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgb(238, 255, 0);
+}
+
+.project-overview{
     min-height : 53vh;
     width: 100%;
-    background: #252525;
-    position: relative;
-}
-.project-first-section__project__image{
-    display: inline-block;
-    height: 320px;
-    width: 520px;
-    background: url(http://localhost:5000/project1.png);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color:#252525;
+} 
+.project-overview > .project__image{
+    min-height: 320px;
+    min-width: 520px;
     margin: 20px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: absolute;
     border-radius: 10px;
 }
-.project-first-section__project__info{
-    display: inline-block;
-    width: 45%;
-    margin: 20px;
+.project-overview > .project__info{
+    width: 50%;
     color: #fff;
-    position: absolute;
-    right: 0;
-    height: 90%;
+    height: 88%;
     padding: 20px;
     padding-top: 50px;
 }
-.project-first-section__project__info__title{
+.project__info > .project__info__title{
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 20px;
 }
-.project-first-section__project__info__description{
+.project__info > .project__info__description{
     font-size: 1.5rem;
     font-weight: 400;
     margin-bottom: 20px;
-    line-height: 2;
+    line-height: 1.5;
 }
+
+
+
+.project__tools {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    background: #212121;
+}
+
+.project__tools__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 4rem;
+    margin-left: 1rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+    padding: 10px;
+    float: left;
+}
+
+.project__tools__list {
+    list-style-type: none;
+    padding: 3rem 3rem;
+    margin: 0;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 4rem;
+    background: #333333;
+}
+
+.project__tools__item {
+    font-size: 1.5rem;
+    font-weight: 400;
+    padding: 15px;
+    border: .5rem solid #212121;
+    border-top: none;
+    color: #bbbbbb;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+/* hover lighter*/
+.project__tools__item:hover {
+    background: #4c4c4c;
+}
+
+.project__tools__item:nth-child(1) {
+    border-top: .5rem solid #212121;
+}
+
+
+
+
+.project__data-sources {
+    margin-top: 4rem;
+    width: 100%;
+}
+
+.project__data-sources__title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #ffffff;
+    padding: 10px;
+    float: left;
+}
+
+.project__data-sources__list {
+    list-style-type: none;
+    padding: 3rem 3rem;
+    margin: 0;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    background: #000;
+}
+
+.project__data-sources__item {
+    width: 17.5rem;
+    height: 20rem;
+    margin-bottom: 2rem;
+    background: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: .7rem;
+    padding-bottom: .1rem;
+}
+
+.project__data-sources__item__image {
+    width: 80%;
+    padding: .5rem;
+}
+
+.project__data-sources__item__image img {
+    width: 100%;
+}
+
+.project__data-sources__item__info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.project__data-sources__item__info__name {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    width: 10rem;
+    color: #bbbbbb;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.project__data-sources__item__info__size {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #bbbbbb;
+}
+
+
+
+
+
+
+
 .project-second-section{
     height: 60vh;
     width: 100%;

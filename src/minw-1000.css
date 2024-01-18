@@ -5,6 +5,12 @@
   background-color: #ff0000 !important;
 } */
 
+
+/* font var */
+:root {
+  --font-family: "poppins", sans-serif;
+}
+
 @media screen and (max-width: 4000px) {
   .root {
     flex-direction: row;
@@ -505,14 +511,12 @@
     color: rgb(194, 189, 189);
     width: 90%;
     line-height: 1.5em;
-
     font-size: 1em;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family:'Helvetica Neue', sans-serif;
     letter-spacing: 2px;
     margin-top: 2vh;
     margin-left: 1.5vw;
     margin-bottom: 2vh;
-    /* color: #6a6666; */
   }
   /* put in buttom */
   .home-projects-section__projects__project__buttons {

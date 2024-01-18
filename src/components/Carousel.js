@@ -1,7 +1,10 @@
 // import '../assets/css/carsual.css'
 import './index.scss';
+import {useEffect} from 'react';
 export default function Carousel({ carouselImages}) {
   console.log("carouselImages", carouselImages);
+
+  useEffect(() => {
   const boxes = document.querySelectorAll(".box");
   let activeIndex = 0;
   let isTransitioning = false;
@@ -55,6 +58,7 @@ export default function Carousel({ carouselImages}) {
   boxes.forEach((box, index) => {
     box.addEventListener("click", () => handleBoxClick(index));
   });
+  }, [])
 
   return (
     <div className="box-container">
