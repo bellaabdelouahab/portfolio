@@ -1,0 +1,113 @@
+@media screen and (max-width: 4000px) {  
+  .home-projects-section {
+    height: auto;
+    width: 100%;
+  }
+  .home-projects-section__title {
+    color: rgb(255, 255, 255);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-top: 2vh;
+    margin-left: 3vw;
+    margin-bottom: 2vh;
+    font-family: var(--font-family);
+  }
+  .home-projects-section__hr {
+    height: 0.5px;
+    width: 95%;
+    border-width: 0;
+    color: #6a6666;
+    background-color: #6a6666;
+  }
+  .home-projects-section__projects {
+    height: auto;
+    width: 90%;
+    margin: 0 auto;
+    /* background: red; */
+    display: flex;
+    flex-flow: row wrap;
+    gap: 3rem;
+    justify-content: center;
+    padding: 20px;
+  }
+  .home-projects-section__projects__project {
+    background: #333232;
+    border-radius: 5px;
+    width: 325px;
+    height: 400px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: ease-in 0.22s;
+  }
+  /* hover animation rotate */
+  .home-projects-section__projects__project:hover {
+    /* border:3px solid rgba(0, 255, 255, 0.671); */
+    transform: rotateZ(-1.5deg) scale(1.1);
+    box-shadow: 5px 7px 9px rgb(0 0 0 / 20%);
+  }
+  .home-projects-section__projects__project__img {
+    height: 45%;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 4px 4px 0 0;
+    /* background-image: url(../images/1.jpg); */
+  }
+  .home-projects-section__projects__project__title {
+    color: rgb(255, 255, 255);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-top: 2vh;
+    margin-left: 1.5vw;
+    margin-bottom: 2vh;
+    font-family: var(--font-family);
+  }
+  .home-projects-section__projects__project__description {
+    color: rgb(194, 189, 189);
+    width: 90%;
+    line-height: 1.5em;
+    font-size: 1em;
+    font-family:'Helvetica Neue', sans-serif;
+    letter-spacing: 2px;
+    margin-top: 2vh;
+    margin-left: 1.5vw;
+    margin-bottom: 2vh;
+  }
+  /* put in buttom */
+  .home-projects-section__projects__project__buttons {
+    position: absolute;
+    bottom: 2vh;
+    left: 0;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .home-projects-section__projects__project__buttons__view {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    background-color: #d91b42;
+    color: #fff;
+    border: none;
+    font-family: var(--font-family);
+  }
+  .home-projects-section__projects__project__buttons__sponsor {
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    background-color: #474747e2;
+    border-style: dotted;
+    font-size: 1.01em;
+    color: gray;
+    font-family: var(--font-family);
+  }
+}

@@ -1,0 +1,65 @@
+@media screen and (max-width: 4000px) {
+  .github-progress-section {
+    min-height: 65vh;
+    width: 100%;
+    /* background: transparent; */
+  }
+  .github-progress-section__title {
+    color: rgb(255, 255, 255);
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-top: 2vh;
+    margin-left: 3vw;
+    margin-bottom: 2vh;
+    font-family: var(--font-family);
+  }
+  .github-progress-section__hr {
+    height: 0.5px;
+    width: 95%;
+    border-width: 0;
+    color: #6a6666;
+    background-color: #6a6666;
+  }
+  .github-progress-section__img {
+    height: 75%;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 4vh;
+    border-radius: 5px;
+    position: relative;
+  }
+  .visible > .github-progress-section__img{
+    background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=eb3a0e&point=f18701&area=true&hide_border=true) 100% 100% no-repeat;
+    background-size: 100% 120%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+  }
+  .github-progress-section__img::after,.github-progress-section__img::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background: linear-gradient(45deg, #e6fb04,#ff6600,#00ff66,#ff00ff,#ff0099,#6e0dd0,#ff3300,#099fff);
+    background-size: 300% 400%;
+    border-radius: 5px;
+    animation: gradient 5s linear infinite;
+    z-index: -1;
+    filter: blur(10px);
+    opacity: .2;
+  }
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+  .happy-clients-section * {
+    /* border: 1px solid red; */
+  }
+  
+  .happy-clients-section{
+    height: fit-content;
+  }
+
+  .happy-clients-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    height: fit-content;
+    padding: 20px;
+  }
+
+  .happy-clients-card {
+    background-color: #1e1e1e;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
+
+  .happy-clients-card > .client-pic , .happy-clients-card > .quotes-pic{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .quotes-pic{
+    left: 90% !important;
+    border: none !important;
+    width: 25px !important;
+    height: 25px !important;
+    border-radius: 0px !important;
+    opacity: .7;
+  }
+
+
+  .happy-clients-card h3 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #b0afaf;
+    margin-bottom: 20%;
+    margin-top: 12%;
+    margin-left: 15%;
+    width: 50%;
+    text-wrap:wrap;
+  }
+
+  .happy-clients-card p {
+    font-size: 1rem;
+    color: #666;
+  }
+  .client-profession {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .client-profession p:first-child {
+    color: #2ac17f;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 5px;
+  }
+
+  .client-profession p:nth-child(2) {
+    color: #b2b2b2;
+    font-size: 1rem;
+    border: 3px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+
+  }

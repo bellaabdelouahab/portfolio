@@ -1,5 +1,5 @@
-
-import { ProjectCard } from "../ProjectCard";
+import "./wide-screen.css"
+import { ProjectCard } from "../../ProjectCard";
 
 export default function ProjectsSection({ projectHighlight }) {
     return <section className="home-projects-section hidden-area">

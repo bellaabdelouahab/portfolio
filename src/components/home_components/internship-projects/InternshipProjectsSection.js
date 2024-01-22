@@ -1,5 +1,5 @@
 // import style from assets
-import "../../assets/css/internship/intership-wide-screen.css";
+import "./intership_projects.wide.css";
 
 export default function InternshipProjectsSection() {
     return <section className="internship-projects-section hidden-area" style={{ marginTop: "5rem", height: "27vh", width: "100%"}}>

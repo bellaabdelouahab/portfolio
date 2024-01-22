@@ -1,13 +1,13 @@
 import {createBrowserRouter,RouterProvider,Route,createRoutesFromElements} from 'react-router-dom';
-import Root from './layouts/Root';
-import Home, {getHighlightedProjects} from './layouts/Home';
-import Resume from './layouts/Resume';
-import Projects, { getProjects } from "./layouts/Projects";
-import Project ,{getProject}from './layouts/Project';
-import Skills from './layouts/Skills';
-import Reports, { getReports } from "./layouts/Reports";
-import Articles from './layouts/Articles';
-import FillDB from './layouts/FillDB';
+import Root from './views/Root';
+import Home, {getHighlightedProjects} from './views/Home';
+import Resume from './views/Resume';
+import Projects, { getProjects } from "./views/Projects";
+import Project ,{getProject}from './views/Project';
+import Skills from './views/Skills';
+import Reports, { getReports } from "./views/Reports";
+import Articles from './views/Articles';
+import FillDB from './views/FillDB';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
