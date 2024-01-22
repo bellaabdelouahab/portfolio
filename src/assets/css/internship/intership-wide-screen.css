@@ -12,10 +12,10 @@
     top:5%;
     scale: 1 1;
     animation: scroll-watcher linear forwards;
-    /* animation-timeline: scroll(root); */
     animation-timeline: view(0px 100px);
     overflow: hidden;
 }
+
 @keyframes scroll-watcher{
     from {
         min-height: 0px;
@@ -26,48 +26,52 @@
         height: 95%;
     }
 }
+
 .gradientLine {
-  height: 25vh;
-  width: 0.4rem;
-  background: linear-gradient(transparent, #2ac17f 40%, transparent);
-  margin-left: 1.5rem;
+    height: 25vh;
+    width: 0.4rem;
+    background: linear-gradient(transparent, #2ac17f 40%, transparent);
+    margin-left: 1.5rem;
 }
-.animation-line2{
+
+.animation-line2 {
     height: 35vh;
 }
 
 .iconContainer {
-  height: 4rem;
-  width: 3.8rem;
-  background-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #33b3ae;
-  font-size: 1.2rem;
-  margin-left: 0rem;
+    height: 4rem;
+    width: 3.8rem;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #33b3ae;
+    font-size: 1.2rem;
+    margin-left: 0rem;
 }
 
-.intership-project{
-    width: 100rem;
-    height: 40vh;
+.intership-project {
+    width: 85%;
+    height: fit-content;
     background-color: #1e1e1e;
     border-radius: .5rem;
-    margin-left: 10rem;
+    margin-left: 7%;
     margin-top: 7rem;
     position: relative;
     display: flex;
     align-items: center;
-
 }
-.intership-project__img{
+
+.intership-project__img {
     width: 275px;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 3rem 0;
 }
-.intership-project__logo{
+
+.intership-project__logo {
     position: absolute;
     top: 50%;
     right: -100px;
@@ -80,51 +84,57 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-.intership-project__content{
+
+.intership-project__content {
     width: calc(95% - 275px);
-    height: 200px;
-    /* background: red; */
+    height: 100%;
 }
-.intership-project__content > h1{
+
+.intership-project__content > h1 {
     font-size: 1.7rem;
     color: #fff;
     padding: 0.7rem 1.5rem;
+    padding-top: 5rem;
 }
-.intership-project__content > .content{
+
+.intership-project__content > .content {
     font-size: 1.2rem;
     color: #fff;
     padding: 0.7rem 1.5rem;
     width: 100%;
     height: fit-content;
     max-height: 12rem;
-    /* background: #000; */
+    height: 7rem;
 }
-.intership-project__content__link{
-    /* it is <a/> tag */
+
+.intership-project__content__link {
     font-size: 1.2rem;
     color: #fff;
-    padding: 0.7rem 1.5rem;
     width: fit-content;
     height: fit-content;
-    /* background: #000; */
+    height: 2.5rem;
     float: right;
     margin-right: 3rem;
-    border-radius: 1rem;
     display: flex;
     align-items: center;
 }
-.intership-project__content__list{
-    display: flex;
+
+.intership-project__content__list {
     gap: 1rem;
     align-items: center;
     padding: 0.7rem 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 2.5rem;
+    width: 100%;
 }
-.intership-project__content__list > li{
+
+.intership-project__content__list > li {
     list-style: none;
     font-size: 1.2rem;
     color: #fff;
     background-color: #2ac180ab;
     padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    border-radius: 5px;
+    display: inline-block;
+    width: fit-content;
+    margin: .4rem;
 }

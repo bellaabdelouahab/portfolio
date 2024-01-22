@@ -1,0 +1,94 @@
+@media screen and (max-width: 4000px) {
+    .home-introduction-section {
+    height: auto;
+    width: 100%;
+    background: url("../../../images/home-section-bg1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+  .home-introduction-section::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background: linear-gradient(to bottom, transparent 0%, #262926 100%);
+  }
+  .home-introduction-section__title {
+    color: rgb(255, 255, 255);
+    font-weight: 700;
+    /* text-transform: uppercase; */
+    letter-spacing: 4px;
+    /* text-shadow: 0 0 5px rgba(206, 203, 203, 0.775); */
+    margin-top: 7vh;
+    margin-left: 3vw;
+    font-size: clamp(1rem, 3vw + 1rem, 3.5rem);
+    font-family: "Source Code Pro", monospace;
+    position: relative;
+    display: block;
+  }
+
+
+
+
+  .home-introduction-section__subtitle {
+    color: rgb(214, 214, 214);
+    font-size: 2em;
+    font-weight: 700;
+    /* text-transform: uppercase; */
+    letter-spacing: 4px;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    margin-left: 3vw;
+    font-family: var(--font-family);
+    display: block;
+  }
+  .home-introduction-section__button {
+    margin-left: 5vw;
+    padding: 10px 50px;
+    padding-right: 20px;
+    font-size: 1.5em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border-radius: 5px;
+    background-color: #79d558;
+    border: none;
+    font-family: var(--font-family);
+    width: max-content;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5vw;
+    margin-top: 7vh;
+    margin-bottom: 7vh;
+    
+  }
+  .home-introduction-section__button span {
+    margin-left: 20px;
+  }
+
+  .home-introduction-section__img {
+    /* position: absolute; */
+    /* bottom: 13.5vh; */
+    /* right: 7vw; */
+    display: inline-block;
+    width: 688.5px;
+    height: 154.5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+    /* aling horis */
+    margin:auto;
+    margin-bottom: 7vh;
+    margin-left: 4rem;
+  }
+  .home-introduction-section__img:hover{
+
+    transform: translateY(15px);
+  }
+}

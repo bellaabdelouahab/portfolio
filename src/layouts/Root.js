@@ -1,5 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCertificate } from "@fortawesome/free-solid-svg-icons";
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFlaskVial } from "@fortawesome/free-solid-svg-icons";
+import { faNewspaper } from "@fortawesome/free-solid-svg-icons";
+import { faFlag } from "@fortawesome/free-solid-svg-icons";
+
 export default function Root() {
   const toggleMenu = (id) => {
     console.log("hey");
@@ -46,6 +55,7 @@ export default function Root() {
               >
                 <li>
                   <NavLink to="/" target="">
+                    <FontAwesomeIcon icon={faHome} />
                     Home
                   </NavLink>
                   <br />
@@ -56,67 +66,58 @@ export default function Root() {
                 <hr />
                 <br />
                 <li>
-                  <NavLink to="/projects" target="">All Projects</NavLink>
+                  <NavLink to="/projects" target="">
+                    <FontAwesomeIcon icon={faListCheck} />
+                    All Projects
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/certificates">Certificates</NavLink>
+                  <NavLink to="/certificates">
+                    <FontAwesomeIcon icon={faCertificate} />
+                    Certificates
+                  </NavLink>
                 </li>
                 <br />
                 <hr />
                 <br />
                 <li>
-                  <NavLink to="/resume" target="">Resume</NavLink>
+                  <NavLink to="/resume" target="">
+                    <FontAwesomeIcon icon={faFileAlt} />
+                    Resume
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/skills">Skills</NavLink>
+                  <NavLink to="/skills">
+                    <FontAwesomeIcon icon={faFlaskVial} />
+                    Skills
+                  </NavLink>
                 </li>
                 <br />
-                <hr/>
+                <hr />
                 <br />
                 <li>
-                  <NavLink to="/articles">Articles</NavLink>
+                  <NavLink to="/articles">
+                    <FontAwesomeIcon icon={faNewspaper} />
+                    Articles
+                  </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/reports">Reports</NavLink>
+                  <NavLink to="/reports">
+                    <FontAwesomeIcon icon={faFlag} />
+                    Reports
+                  </NavLink>
                 </li>
                 <br />
-                <hr/> 
+                <hr />
               </ul>
             </div>
           </div>
         </nav>
       </header>
+        
       <main className="main">
-        <div className="social-networks">
-          {createSocialLink({
-            href: "https://www.linkedin.com/in/bellaabdelouahab/",
-            src: "./social/linkedin.png",
-            alt: "linkedin",
-          })}
-          {createSocialLink({
-            href: "#",
-            src: "./social/twitter.png",
-            alt: "twitter",
-          })}
-          {createSocialLink({
-            href: "#",
-            src: "./social/github.png",
-            alt: "github",
-          })}
-          {createSocialLink({
-            href: "#",
-            src: "./social/instagram.png",
-            alt: "instagram",
-          })}
-          {createSocialLink({
-            href: "#",
-            src: "./social/facebook.png",
-            alt: "facebook",
-          })}
-        </div>
         <Outlet />
       </main>
-        
     </>
   );
 }
@@ -174,19 +175,21 @@ export default function Root() {
 </form> */
 }
 function createSocialLink({ href, src, alt }) {
-  return <a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-networks__link"
-  >
-    <img
-      src={src}
-      alt={alt}
-      className="social-networks__link__img"
-      height="20px"
-      width="20px"
-      style={{ margin: "0 auto", marginTop: "1rem" }} />
-  </a>;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-networks__link"
+    >
+      <img
+        src={src}
+        alt={alt}
+        className="social-networks__link__img"
+        height="20px"
+        width="20px"
+        style={{ margin: "0 auto", marginTop: "1rem" }}
+      />
+    </a>
+  );
 }
-

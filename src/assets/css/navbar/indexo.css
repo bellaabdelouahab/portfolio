@@ -10,17 +10,17 @@
   }
   .navbar__menu__list > li > a {
     padding: 5px 10px !important;
-    text-align: center;
     font-size: 14px;
     white-space: nowrap;
   }
   .navbar__menu__list > li > a:hover {
-    text-decoration: none;
-    background: #333;
     border-radius: 5px;
   }
   .navbar__menu__list > hr {
     width: 100%;
+  }
+  .navbar__menu__list  svg {
+    margin: 0 10px;
   }
 }
 

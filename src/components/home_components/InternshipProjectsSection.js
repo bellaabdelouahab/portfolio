@@ -1,5 +1,5 @@
 // import style from assets
-import "../../assets/css/internship/index.css";
+import "../../assets/css/internship/intership-wide-screen.css";
 
 export default function InternshipProjectsSection() {
     return <section className="internship-projects-section hidden-area" style={{ marginTop: "5rem", height: "27vh", width: "100%"}}>
@@ -7,7 +7,7 @@ export default function InternshipProjectsSection() {
             <div className="home-sections-title">
                 <span>03. </span>
                 Professional Experience
-                <hr />
+                <hr /> 
             </div>
         </div>
         <div className="lineAnimation">
@@ -43,7 +43,6 @@ export default function InternshipProjectsSection() {
                     <li>Express</li>
                     <li>React</li>
                     <li>Redux</li>
-                    <li>Material UI</li>
                 </ul>
             </div>
         </div>

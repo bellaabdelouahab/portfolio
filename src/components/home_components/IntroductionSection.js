@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../../assets/css/home-style/introducation-section/wide-screen.css"
 
 export default function IntroductionSection() {
 

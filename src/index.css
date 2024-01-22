@@ -66,13 +66,26 @@ p {
 
 .main {
   background: #262926;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   position: relative;
 }
+.social-networks{
+    position: absolute;
+    width: 3rem;
+    height: 155px;
+    background: #282c35;
+    z-index: 100;
+    /* move it to the right */
+    right: 0;
+    top: calc(50% - 77.5px);
+    margin-right: 1rem;
+    border-radius: 1rem 0 0 1rem ;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
+}
 
 
-
+/* 
 @media screen and (max-width: 467px) {
   .home-introduction-section {
     height: 65vh;
@@ -83,7 +96,6 @@ p {
   }
   .home-projects-section__projects {
     grid-template-columns: repeat(1, 1fr);
-    /* center */
     justify-items: center;
   }
   .home-projects-section__projects__project {
@@ -116,4 +128,4 @@ p {
     position: unset;
     top: 25vh;
   }
-}
+} */

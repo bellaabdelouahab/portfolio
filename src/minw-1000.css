@@ -265,7 +265,7 @@
   }
 
 
-  .home-introduction-section {
+  /* .home-introduction-section {
     min-height: 55vh;
     width: 100%;
     background: url("./assets/images/home-section-bg1.jpg");
@@ -273,7 +273,6 @@
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    /* opacity: 0.2; */
   }
   .home-introduction-section::after {
     content: "";
@@ -287,9 +286,7 @@
   .home-introduction-section__title {
     color: rgb(255, 255, 255);
     font-weight: 700;
-    /* text-transform: uppercase; */
     letter-spacing: 4px;
-    /* text-shadow: 0 0 5px rgba(206, 203, 203, 0.775); */
     margin-top: 7vh;
     margin-left: 3vw;
     font-size: clamp(1rem, 3vw + 1rem, 3.5rem);
@@ -306,7 +303,6 @@
     color: rgb(214, 214, 214);
     font-size: 2em;
     font-weight: 700;
-    /* text-transform: uppercase; */
     letter-spacing: 4px;
     margin-top: 3vh;
     margin-bottom: 10vh;
@@ -345,7 +341,7 @@
   .home-introduction-section__img:hover{
 
     transform: translateY(15px);
-  }
+  } */
   .home-projects-section {
     height: auto;
     width: 100%;
@@ -794,17 +790,5 @@
     font-size: 1rem;
   }
 
-  .social-networks{
-    position: absolute;
-    width: 3rem;
-    height: 155px;
-    background: #282c35;
-    z-index: 100;
-    /* move it to the right */
-    right: 0;
-    top: calc(50% - 77.5px);
-    /* margin-right: 1rem; */
-    border-radius: 1rem 0 0 1rem ;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
-}
+
 }
