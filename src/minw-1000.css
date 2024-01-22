@@ -1,21 +1,10 @@
-/* li {
-  background-color: #00ff66 !important;
-} */
-/* li > a{
-  background-color: #ff0000 !important;
-} */
-
-
 /* font var */
 :root {
   --font-family: "poppins", sans-serif;
 }
 
 @media screen and (max-width: 4000px) {
-  .root {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+  
   .navbar__menu__list > li > a.active::after {
     /* background: rgb(38, 43, 69);
     border-radius: 5px; */
@@ -29,10 +18,7 @@
     
 
   }
-  #header-sign-up-btn {
-    background: transparent !important;
-    border: 0 !important;
-  }
+
 
   /* homepage sidebar */
   .preview-bar.admin-header {
@@ -43,7 +29,7 @@
     opacity: 0.7;
   }
 
-  .root.blogbody {
+    .root.blogbody {
     flex-wrap: nowrap;
   }
 
@@ -52,18 +38,16 @@
   }
 
   .root > header {
-    max-height: 100%;
-    min-height: 100%;
-    max-width: 300px;
+    height: 100%;
+    width: 20%;
     background: #191919;
     position: relative;
-    min-width: 300px;
   }
 
   .navbar {
     background: transparent;
-    width: 300px;
-    position: fixed;
+    width: 100%;
+    height:80%;
     padding: 0;
   }
 
@@ -87,7 +71,7 @@
   }
 
   .navbar__menu__list.hidden {
-    display: block;
+    display: none;
     width: 100%;
   }
 
@@ -139,7 +123,6 @@
   }
 
   .navbar__menu__list a::before {
-    content: "library_books";
     font-family: "Material Icons";
     margin-right: 10px;
     font-size: 1.2em;
@@ -220,22 +203,7 @@
     float: none !important;
   }
 
-  .nav.navbar-nav > li a.fedora-navbar-link,
-  .nav.navbar-nav > li a#header-sign-up-btn {
-    margin-left: 0 !important;
-    margin-top: 8px;
-    padding-top: 0px !important;
-    color: #bbb !important;
-    line-height: 18px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    font-size: 14px;
-    float: none !important;
-    text-align: left;
-    padding-bottom: 5px !important;
-    border-left: 6px solid #191919 !important;
-    background: transparent !important;
-  }
+
 
   .navbar-nav > li > .dropdown-menu {
     position: relative;
@@ -262,28 +230,9 @@
     color: white !important;
   }
 
-  .nav.navbar-nav > li a.fedora-navbar-link.current-page,
-  .navbar__menu ul li a.current-page {
-    border-left: 6px solid #d91b42 !important;
-    color: white !important;
-    /* margin-left: 0 !important; */
-  }
 
-  .nav.navbar-nav > li a.fedora-navbar-link:hover {
-    background: transparent !important;
-    color: #fff;
-  }
+  
 
-  .nav.navbar-nav > li .fedora-navbar-link::before,
-  .nav.navbar-nav > li a#header-sign-up-btn::before {
-    content: "library_books";
-    font-family: "Material Icons";
-    margin-right: 10px;
-    font-size: 1.2em;
-    position: relative;
-    top: 4px;
-    font-weight: normal;
-  }
 
   .navbar-fedora .gravatar,
   .navbar__menu .gravatar {
@@ -309,49 +258,6 @@
     top: 0;
   }
 
-  /* icons for navbar, both page styles */
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/resume"]::before,
-  .navbar__menu__list a[href="/resume"]::before {
-    content: "assignment_ind";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/"]::before,
-  .navbar__menu__list a[href="/"]::before {
-    content: "home";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/projects"]::before,
-  .navbar__menu__list a[href="/projects"]::before,
-  .nav.navbar-nav > li a#header-sign-up-btn::before {
-    content: "code";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/skills"]::before,
-  .navbar__menu__list a[href="/skills"]::before {
-    content: "build";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/articles"]::before,
-  .navbar__menu__list a[href="/articles"]::before {
-    content: "library_books";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/reports"]::before,
-  .navbar__menu__list a[href="/reports"]::before {
-    content: "assignment";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link[href="/blog"]::before,
-  .navbar__menu__list a[href="/blog"]::before {
-    content: "article";
-  }
-
-  .nav.navbar-nav > li .fedora-navbar-link.open-my-profile-dropdown::before {
-    content: "";
-    margin-right: 0;
-    content: "";
-  }
   .navbar__menu__list > hr {
     margin: 0;
     border: none;

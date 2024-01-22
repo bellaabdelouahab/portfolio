@@ -1,11 +1,8 @@
 @media screen and (max-width: 1000px) {
-    .navbar__menu__list > hr,
+    /* .navbar__menu__list > hr,
     .navbar__menu__list > br,
     .navbar__menu__list > li > br {
         display: none;
-    }
-    #header{
-        background: #191919;
     }
   .block__button button::after {
     display: none;
@@ -42,5 +39,5 @@
   }
   .navbar__header__logolink {
     display: none;
-  }
+  } */
 }

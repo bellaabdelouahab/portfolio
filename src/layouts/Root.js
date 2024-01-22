@@ -2,6 +2,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function Root() {
   const toggleMenu = (id) => {
+    console.log("hey");
     const el = document.getElementById(id);
     if (el.classList.contains("hidden")) {
       document.querySelectorAll(".inner-menu").forEach((item) => {
@@ -36,7 +37,7 @@ export default function Root() {
                 <span></span>
               </button>
               <ul
-                className="navbar__menu__list menu hidden"
+                className="navbar__menu__list menu"
                 id="hamburger-menu"
                 role="menu"
                 aria-describedby="hamburger"
