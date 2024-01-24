@@ -6,7 +6,7 @@ export default function Carousel({ carouselImages}) {
 
   useEffect(() => {
   const boxes = document.querySelectorAll(".box");
-  let activeIndex = 0;
+  let activeIndex = 1;
   let isTransitioning = false;
 
   function updateCurrentImg() {

@@ -1,12 +1,26 @@
 import axios from 'axios';
 import { useNavigate, useLoaderData } from 'react-router-dom'
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import '../assets/css/projects.css'
 
 
 export default function Projects() {
     const projects = useLoaderData();
     const Navigate = useNavigate();
+    const [filter, setFilter] = useState('All');
+
+    // handleFilterShow
+    const handleFilterShow = (e) => {
+        const filterElement = document.querySelector('.filter');
+        const filters = document.querySelector('.filters');
+        if (!filters.classList.contains('hidden')) {
+            filters.classList.add('hidden');
+            filterElement.innerHTML = filter + ' ▼';
+        } else {
+            filters.classList.remove('hidden');
+            filterElement.innerHTML = filter + ' ▶';
+        }
+    }
 
     // use effet :
     useEffect(()=>{
@@ -21,10 +35,26 @@ export default function Projects() {
             };
         };
     },[])
-    return (
+    return ( 
         <>
             <section className="projects-section">
-                <h1 className="projects-section__title">Projects Library</h1>
+                <div className='projects-header'>
+                    <h1 className="projects-section__title">Projects Library</h1>
+                    <div className="projects-section__filters">
+                            <label >Category: <span className='filter' onClick={handleFilterShow}> {filter} ▼</span> </label>
+                    </div>
+                </div>
+                <div className='filters-container'>
+                    <div className="filters hidden">
+                        <ul>
+                            <li onClick={e=>{setFilter('All')}}>All</li>
+                            <li onClick={e=>{setFilter('Web')}}>Web</li>
+                            <li onClick={e=>{setFilter('Mobile')}}>Mobile</li>
+                            <li onClick={e=>{setFilter('Desktop')}}>Desktop</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <h2 className="projects-section__subtitle">Get Access To All My Public Projects</h2>
                 <div id='cards'>
                     {projects && projects.map((project,index)=>(

@@ -4,6 +4,7 @@ import Home, {getHighlightedProjects} from './views/Home';
 import Resume from './views/Resume';
 import Projects, { getProjects } from "./views/Projects";
 import Project ,{getProject}from './views/Project';
+import Certificates, { getCertificates } from './views/Certificates'
 import Skills from './views/Skills';
 import Reports, { getReports } from "./views/Reports";
 import Articles from './views/Articles';
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
       <Route path="resume" element={<Resume />} />
       <Route path="projects" element={<Projects />} loader={getProjects} />
       <Route path="projects/:id" element={<Project />} loader={getProject} />
+      <Route path="certificates" element={<Certificates />} loader={getCertificates} />
       <Route path="skills" element={<Skills />} />
       <Route path="Reports" element={<Reports />} loader={getReports} />
       <Route path="articles" element={<Articles />} />

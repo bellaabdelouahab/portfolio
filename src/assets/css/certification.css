@@ -1,0 +1,74 @@
+
+
+.certifications-header{
+    width: 100%;
+    height: 5vh;
+    /* background: rgb(46, 45, 45); */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 10rem;
+    color: #e8e8e8;
+    font-size: 1.7rem;
+    letter-spacing: .5px;
+}
+
+.certifications-header > label{
+  cursor: text;
+}
+.certifications-header > label > span{
+  padding-left: .5rem;
+  cursor: pointer;
+  color: #e8e8e8;
+}
+
+.certifications-content{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(10px, 100%));
+    /* gap: 1rem; */
+    padding: 0 5rem;
+}
+.certification-element{
+    height: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 1rem;
+    color: #e8e8e8dd;
+    gap: 1rem;
+    border-right: .5px solid #8f9b8f50;
+    border-bottom: .5px solid #8f9b8f50;
+    cursor: pointer;
+}
+.certification-element:nth-child(3n+1) {
+    border-left: 0;
+}
+.certification-element:nth-child(3n+3) {
+    border-right: 0;
+}
+.certification-element:nth-child(1){
+    border-top: 1px solid #8f9b8f50;
+}
+.certification-element:nth-child(2){
+    border-top: 1px solid #8f9b8f50;
+}
+.certification-element:nth-child(3){
+    border-top: 1px solid #8f9b8f50;
+}
+.certification-element > img {
+    min-width: 15rem;
+    min-height: 15rem;
+    max-width: 15rem;
+    max-height: 15rem;
+}
+.certification-title{
+    font-weight: bold;
+    font-size: 2.2rem;
+    margin-top: 0.5rem;
+}
+.certification-element:hover > .certification-title{
+    text-decoration: underline;
+}

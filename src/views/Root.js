@@ -1,7 +1,25 @@
 import { NavLink, Outlet } from "react-router-dom";
-import Navbar from "components/navbar/Navbar"
+import Navbar from "components/navbar/Navbar";
+import { useEffect } from "react";
 
 export default function Root() {
+
+  const resetScroll = () => {
+    document.getElementsByClassName("main")[0].scrollTop = 0;
+  };
+  useEffect(() => {
+    const navLinks = document.querySelectorAll(".navbar__menu__list a");
+    navLinks.forEach((link) => {
+      link.addEventListener("click", resetScroll);
+    });
+
+    return () => {
+      navLinks.forEach((link) => {
+        link.removeEventListener("click", resetScroll);
+      });
+    };
+  }, []);
+
   return (
     <>
       <NavLink id="top" />

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useLoaderData } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import Collaborators from 'components/project-collaborators/Collaborators';
 
 export default function Project() {
   const project = useLoaderData();
@@ -56,7 +57,7 @@ export default function Project() {
 
 
           <li  className="project__tools__item">
-            random tool 1
+            random tool 1  <span>HHHHHHHHHHHHHHHHHHHHHHHHHHH</span>
           </li>
           <li  className="project__tools__item">
             random tool 2
@@ -111,6 +112,7 @@ export default function Project() {
 
       {/* carousel */}
       <Carousel carouselImages={project.carouselImages} />
+      <Collaborators collaborators={project.collaborators} />
     </section>
   );
 }
