@@ -15,7 +15,8 @@ export default function ProjectOverView({ project }) {
         <p className="description">{project.description}</p>
         <div className="bottom_options">
           <p className="project__dates">
-            13-06-2023 ⇒ 07-09-2023 | Duration : {"6 months"}
+            {project.startDate} ⇒ {project.endDate} | Duration :{" "}
+            {project.durration}
           </p>
           <a href={project.githubLink} target="_blank" rel="noreferrer">
             <FontAwesomeIcon icon={faGithub} />

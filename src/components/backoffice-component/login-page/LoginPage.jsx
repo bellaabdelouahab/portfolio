@@ -1,4 +1,5 @@
 import axios from "axios";
+import "./LoginPage.css";
 
 export default function LoginPage({ setAuthenticated }) {
   return (

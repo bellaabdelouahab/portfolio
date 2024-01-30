@@ -66,15 +66,6 @@ export default function Projects() {
                                 <p className="projects-section__projects__project__description">{project.description}</p>  
                         </div>
                     ))} 
-                    {projects && projects.map((project, index) => (
-                        <div key={project._id} className="card" onClick={e => { Navigate('/projects/' + project._id) }} >
-                            <div className="projects-section__projects__project__img" style={{
-                                backgroundImage: `url(http://localhost:5000/${project.image})`
-                            }} />
-                            <h3 className="projects-section__projects__project__title">{project.title}</h3>
-                            <p className="projects-section__projects__project__description">{project.description}</p>
-                        </div>
-                    ))} 
                 </div> 
             </section>
         </>

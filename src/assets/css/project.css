@@ -21,12 +21,13 @@ section.project-page{
 } 
 .project-overview > .project__image{
     min-height: 320px;
-    min-width: 520px;
+    min-width: 533px;
     margin: 20px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
+    background: #000;
 }
 .project-overview > .project__info{
     width: 50%;

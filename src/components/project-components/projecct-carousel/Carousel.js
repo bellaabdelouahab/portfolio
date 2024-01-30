@@ -1,25 +1,92 @@
 
-import {useEffect} from 'react';
-import './carousel-wide-screen.css'
-export default function Carousel({ carouselImages}) {
+import { useEffect, useState } from 'react';
+import './carousel-wide-screen.css';
+
+export default function Carousel({ carouselImages }) {
+  const [currentPic, setCurrentPic] = useState(0);
+  
+  useEffect(() => {
+    const bigImage = document.querySelector('.big-image');
+    const carouselPreview = document.querySelector('.carousel-preview');
+    const picPreviews = document.querySelectorAll('.pic-preview');
+    const overlay = document.querySelector('.overlay');
+    const carouselNavLeft = document.querySelector('.carousel-nav-left');
+    const carouselNavRight = document.querySelector('.carousel-nav-right');
+
+    const pics = [...picPreviews];
+
+    carouselNavLeft.addEventListener('click', () => {
+      const newImageIndex = currentPic === 0 ? carouselImages.length - 1 : currentPic - 1;
+      console.log(newImageIndex);
+      setCurrentPic(newImageIndex);
+      changePic(newImageIndex);
+    });
+
+    carouselNavRight.addEventListener('click', () => {
+      const newImageIndex = currentPic === carouselImages.length - 1 ? 0 : currentPic + 1;
+      setCurrentPic(newImageIndex);
+      changePic(newImageIndex);
+    });
+    
+    function changePic(currentPic) {
+      console.log("currentPic", carouselImages[currentPic]);
+      bigImage.style.background = `url(http://localhost:5000/${carouselImages[currentPic].img}) no-repeat center center/cover`;
+      overlay.innerHTML = `
+      <div class="overlay-content">
+      <p class="overlay-content__description">${carouselImages[currentPic].title}</p>
+      </div>
+      `;
+      pics.forEach((pic, index) => {
+        pic.classList.toggle('active', index === currentPic);
+      });
+    }
+    
+    changePic(currentPic);
+    
+    picPreviews.forEach((pic, index) => {
+      pic.addEventListener('click', () => {
+        setCurrentPic(index);
+      });
+    });
+
+    return () => {
+      picPreviews.forEach((pic, index) => {
+        pic.removeEventListener('click', () => {
+          setCurrentPic(index);
+        });
+      });
+    };
+  }, [currentPic]);
+  
+  if (!carouselImages || carouselImages.length === 0) return null;
+
   return (
     <div className="carousel-container">
       <div className="big-image">
         <div className="overlay">
-          dfjsdfjkds
+          fdf
         </div>
       </div>
       <div className='carousel-preview-container'>
-        <img className="carousel-nav" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
+        <img className="carousel-nav-left" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
         <div className="carousel-preview">
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          {carouselImages.map((elem, index) => (
+            <img
+              key={index}
+              className={`pic-preview ${index === currentPic ? 'active' : ''}`}
+              src={`http://localhost:5000/${elem.img}`}
+              alt="Picture Not Loaded"
+              onClick={() => setCurrentPic(index)}
+            />
+          ))}
+          {/* <img key={0} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          <img key={1} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          <img key={2} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          <img key={3} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          <img key={4} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
+          <img key={5} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" /> */}
         </div>
-        <img className="carousel-nav" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
+        <img className="carousel-nav-right" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
       </div>
     </div>
   );
