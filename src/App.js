@@ -8,7 +8,7 @@ import Certificates, { getCertificates } from './views/Certificates'
 import Skills from './views/Skills';
 import Reports, { getReports } from "./views/Reports";
 import Articles from './views/Articles';
-import FillDB from './views/FillDB';
+import FillDB from './views/back-office/BackOffice';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

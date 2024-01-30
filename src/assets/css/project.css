@@ -226,7 +226,7 @@ section.project-page{
 
 
 
-.project-second-section{
+.code-samples-section{
     height: 60vh;
     width: 100%;
     background: #252525;
@@ -239,7 +239,7 @@ section.project-page{
 .project-second-section__title{
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     color: #d2d2d2;
     margin-top: 3vh;
 }
@@ -253,7 +253,7 @@ section.project-page{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 4vh;
+    margin-top: 2vh;
     border-radius: 10px;
 }
 .project-second-section__code-samples__sample{
@@ -263,20 +263,22 @@ section.project-page{
 .project-second-section__code-samples__sample__title{
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: -1rem;
     color: #d2d2d2;
     margin-top: 3vh;
     margin-left: 5vw;
     background: #4c4c4cbe;
     padding: 10px;
+    padding-bottom: 2rem;
     width: 85%;
-    border: 1px solid #82808089;
+    /* border: 1px solid #82808089; */
+    border-radius: 10px 10px 0 0;
 }
 .project-second-section__code-samples__sample__code{
     background: #23272e;
     color: #fff;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px ;
     margin-bottom: 20px;
     font-size: 1.2rem;
     font-family: 'Courier New', Courier, monospace;

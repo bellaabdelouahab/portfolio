@@ -93,6 +93,12 @@ export default function Navbar() {
               Skills
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/music">
+              <FontAwesomeIcon icon={faFlag} />
+              Music Picks
+            </NavLink>
+          </li>
           <br />
           <hr />
           <br />

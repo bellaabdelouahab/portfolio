@@ -30,11 +30,12 @@
     position: relative;
   }
   .visible > .github-progress-section__img{
-    background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=eb3a0e&point=f18701&area=true&hide_border=true) 100% 100% no-repeat;
+    background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=d91b42&point=79d558&area=true&hide_border=true) 100% 100% no-repeat;
     background-size: 100% 120%;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
+    /* background: #262926; */
   }
   .github-progress-section__img::after,.github-progress-section__img::before {
     content: "";
