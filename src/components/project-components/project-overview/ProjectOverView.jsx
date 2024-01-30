@@ -7,7 +7,7 @@ export default function ProjectOverView({ project }) {
       <div
         className="project__image"
         style={{
-          backgroundImage: `url(http://localhost:5000/${project.image})`,
+          background: `url(http://localhost:5000/${project.image})`,
         }}
       />
       <div className="project__info">

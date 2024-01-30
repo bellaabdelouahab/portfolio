@@ -23,9 +23,9 @@ section.project-page{
     min-height: 320px;
     min-width: 533px;
     margin: 20px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
     border-radius: 10px;
     background: #000;
 }

@@ -7,13 +7,12 @@ import CarouselForm from "../caousel-form/CarouselForm";
 import CodeSampleForm from "../code-sample-form/CodeSampleForm";
 
 export default function ProjectForm() {
+  const [popUpWindow, setPopUpWindow] = useState(false);
   const [codeSamples, setCodeSamples] = useState([]);
-  const [codeSampleWindow, setCodeSampleWindow] = useState(false);
   const [carouselSamples, setCarouselSamples] = useState([]);
-  const [carouselleWindow, setCarouselleWindow] = useState(false);
   const [tools, setTools] = useState([]);
-  const [toolWindow, setToolWindow] = useState(false);
-
+  // const [collaborators, setCollaborators] = useState([]);
+  // const[collaboratorsWindow, setCollaboratorsWindow] = useState(false);
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -29,7 +28,7 @@ export default function ProjectForm() {
       carouselImages: [],
       startDate: startDate,
       endDate: endDate,
-      highlighted: e.target.highlighted.checked? "star": "basic",
+      highlighted: e.target.highlighted.checked ? "star" : "basic",
     };
     const imageinput = e.target.image;
     const image = imageinput.files[0];
@@ -129,15 +128,14 @@ export default function ProjectForm() {
     setTools(temp);
     setToolWindow(false);
     console.log(temp);
-  }
+  };
   const handleToolClose = (e, index) => {
     e.preventDefault();
     let temp = [...tools];
     temp.splice(index, 1);
     setTools(temp);
     explode();
-  }
-
+  };
 
   return (
     <form onSubmit={handleFormSubmit} className="filldb-form project-form">
@@ -304,7 +302,7 @@ export default function ProjectForm() {
         ))}
       </div>
 
-      {codeSampleWindow && (
+      {popUpWindow && (
         <CodeSampleForm
           setCodeSampleWindow={setCodeSampleWindow}
           handleCodeSampleSubmit={handleCodeSampleSubmit}
