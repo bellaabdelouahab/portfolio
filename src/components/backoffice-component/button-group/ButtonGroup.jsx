@@ -1,32 +1,16 @@
-export default function ButtonGroup({ activeTab, handleTabChange }) {
+export default function ButtonGroup({ tabs,activeTab, handleTabChange }) {
   return (
-    <div className="buttons" data-tabIndex={activeTab}>
-      <button
-        className={"filldb-nav__btn"}
-        onClick={() => {
-          handleTabChange(0);
-        }}
-      >
-        Project
-      </button>
+    <div className="buttons" data-tabindex={activeTab}>
+      {tabs.map((tab, index) => (
+        <button
+          key={index}
+          className="filldb-nav__btn"
+          onClick={() => handleTabChange(index)}
+        >
+          {tab.label}
+        </button>
+      ))}
 
-      <button
-        className={"filldb-nav__btn"}
-        onClick={() => {
-          handleTabChange(1);
-        }}
-      >
-        Skill
-      </button>
-
-      <button
-        className={"filldb-nav__btn"}
-        onClick={() => {
-          handleTabChange(2);
-        }}
-      >
-        Report
-      </button>
     </div>
   );
 }

@@ -47,7 +47,7 @@ export const getHighlightedProjects = async () => {
   console.log("getProjects");
   return await axios
     .get(
-      "http://localhost:5000/api/projects?limit=3&sort=star&fields=title,description,githubLink,highlight"
+      "http://localhost:5000/api/projects/getoverview"
     )
     .then((res) => {
       console.log(res.data.data);

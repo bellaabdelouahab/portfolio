@@ -3,11 +3,10 @@ import { createStarryNight, common } from "@wooorm/starry-night";
 import { useState, useEffect } from "react";
 
 export default function CodeSampleForm({
-  setCodeSampleWindow,
-  handleCodeSampleSubmit,
+  codeSamples,
+  setCodeSamples,
+  setPopupWindow,
 }) {
-
-
   const [scopes, setScopes] = useState([]);
 
   useEffect(() => {
@@ -15,14 +14,25 @@ export default function CodeSampleForm({
       const starryNight = await createStarryNight(common);
       const scopes = starryNight.scopes();
       setScopes(scopes);
-    }
+    };
     fillScopes();
   }, []);
+
+  const handleCodeSampleSubmit = () => {
+    let temp = [...codeSamples];
+    temp.push({
+      title: document.querySelector(".codeSampleTitle").value,
+      code: document.querySelector(".codeSample-code").value,
+      language: document.querySelector(".codeSample-language").value,
+    });
+    setCodeSamples(temp);
+    setPopupWindow(null);
+  };
 
   return (
     <div className="popup-container">
       <div className="popup">
-        <p onClick={() => setCodeSampleWindow(false)}>X</p>
+        <p onClick={() => setPopupWindow(null)}>X</p>
         <input
           type="text"
           className="codeSampleTitle"

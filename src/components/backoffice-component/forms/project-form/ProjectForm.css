@@ -55,10 +55,14 @@ input[name="title"],input[name="githubLink"] {
     filter: invert(1);
 }
 
+/* .project-form  *{
+    border: 1px solid #c91d1d;
+} */
+
 .input-flow input[type="checkbox"] {
     width: 10% !important;
     font-weight: 700;
-    margin-top: 0rem;
+    margin-top: 1.75rem;
     background: transparent;
     color: rgb(255, 255, 255);
     font-family: "Century Gothic";
@@ -99,6 +103,8 @@ input[name="title"],input[name="githubLink"] {
 
 .project-form > .popup-container {
     position: absolute;
+    top: 0;
+    left: 0;
     margin: 0 auto;
     display: flex;
     flex-direction: column;

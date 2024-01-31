@@ -10,7 +10,8 @@
     border-radius: 10px;
     padding: 2rem;
     margin-top: 4vh;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 20px rgba(133, 18, 199, 0.792);
+    border: 3px solid #aeaeae86;
     width: 50%;
 
 }
@@ -105,8 +106,8 @@
     align-items: center;
     position: absolute;
     top: 0; 
-    left: calc(100%/3*var(--button-index));
-    width: calc(100%/3);
+    left: calc(100%/4*var(--button-index));
+    width: calc(100%/4);
     height: 4.3rem;
     background: #48f32179;
     border-radius: 20px;
@@ -123,6 +124,9 @@
     cursor: pointer;
     padding: 0 5rem;
     position: relative;
+    text-align: justify;
+    white-space: nowrap;
+    text-align-last: center;
     
 }
 
@@ -132,12 +136,13 @@
 
 .input-flow{
     position: relative;
+    height: 4.3rem;
 }
 
 .form__label {
   position: absolute;
-  left: 1rem;
-  top: 1.8rem;
+  left: 0rem;
+  top: 1.5rem;
   padding: 0 0.5rem;
   font-size: 1.4rem;
   color: rgb(220, 216, 216);

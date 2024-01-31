@@ -26,6 +26,7 @@ export function CodeSample({ codeSample }) {
     const code = async () => {
       const starryNight = await createStarryNight(common)
       // const scope = starryNight.flagToScope("markdown");
+      console.log(codeSample);
       const tree = starryNight.highlight(codeSample.code, codeSample.language);
       setHighlightedCode(toHtml(tree));
       console.log(starryNight.scopes())

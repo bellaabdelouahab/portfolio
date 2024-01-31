@@ -49,6 +49,10 @@
     width: 150px;
     height: 85px;
     border-radius: 10%;
+    position: relative;
+}
+.pic-preview.active{
+    border: 2px solid #fff;
 }
 .carousel-nav-left, 
 .carousel-nav-right{

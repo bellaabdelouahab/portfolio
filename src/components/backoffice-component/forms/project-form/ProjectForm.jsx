@@ -3,16 +3,16 @@ import axios from "axios";
 import explode from "assets/js/codesamples.js";
 import "assets/css/codesample.css";
 import "./ProjectForm.css";
-import CarouselForm from "../caousel-form/CarouselForm";
-import CodeSampleForm from "../code-sample-form/CodeSampleForm";
+import CarouselForm from "./caousel-form/CarouselForm";
+import CodeSampleForm from "./code-sample-form/CodeSampleForm";
+import ToolsForm from "./tools-form/ToolsForm";
 
 export default function ProjectForm() {
-  const [popUpWindow, setPopUpWindow] = useState(false);
+  const [popupWindow, setPopupWindow] = useState(null);
   const [codeSamples, setCodeSamples] = useState([]);
   const [carouselSamples, setCarouselSamples] = useState([]);
   const [tools, setTools] = useState([]);
   // const [collaborators, setCollaborators] = useState([]);
-  // const[collaboratorsWindow, setCollaboratorsWindow] = useState(false);
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -67,22 +67,7 @@ export default function ProjectForm() {
     });
   };
 
-  // code sample handlers
-  const handleAddCodeSample = () => {
-    setCodeSampleWindow(true);
-  };
-
-  const handleCodeSampleSubmit = () => {
-    let temp = [...codeSamples];
-    temp.push({
-      title: document.querySelector(".codeSampleTitle").value,
-      code: document.querySelector(".codeSample-code").value,
-      language: document.querySelector(".codeSample-language").value,
-    });
-    setCodeSamples(temp);
-    setCodeSampleWindow(false);
-  };
-
+  // code samples functions
   const handleCodeSampleClose = (e, index) => {
     e.preventDefault();
     let temp = [...codeSamples];
@@ -90,23 +75,7 @@ export default function ProjectForm() {
     setCodeSamples(temp);
     explode();
   };
-
-  // carousel handlers
-  const handleAddCarousel = () => {
-    setCarouselleWindow(true);
-  };
-
-  const handleCarouselSubmit = () => {
-    let temp = [...carouselSamples];
-    temp.push({
-      title: document.querySelector(".carouselSampleTitle").value,
-      img: document.querySelector(".image_carussel").files,
-    });
-    setCarouselSamples(temp);
-    setCarouselleWindow(false);
-    console.log(temp);
-  };
-
+  // carousel functions
   const handleCarouselClose = (e, index) => {
     e.preventDefault();
     let temp = [...carouselSamples];
@@ -114,21 +83,7 @@ export default function ProjectForm() {
     setCarouselSamples(temp);
     explode();
   };
-
-  // tool handlers
-  const handleAddTool = () => {
-    setToolWindow(true);
-  };
-  const handleToolSubmit = () => {
-    let temp = [...tools];
-    temp.push({
-      title: document.querySelector(".toolTitle").value,
-      description: document.querySelector(".toolDescription").value,
-    });
-    setTools(temp);
-    setToolWindow(false);
-    console.log(temp);
-  };
+  // tools functions
   const handleToolClose = (e, index) => {
     e.preventDefault();
     let temp = [...tools];
@@ -136,6 +91,25 @@ export default function ProjectForm() {
     setTools(temp);
     explode();
   };
+
+  const forms = [
+    <CodeSampleForm
+      codeSamples={codeSamples}
+      setCodeSamples={setCodeSamples}
+      setPopupWindow={setPopupWindow}
+    />,
+    <CarouselForm
+      carouselSamples={carouselSamples}
+      setCarouselSamples={setCarouselSamples}
+      setPopupWindow={setPopupWindow}
+    />,
+    <ToolsForm
+      tools={tools}
+      setTools={setTools}
+      setPopupWindow={setPopupWindow}
+    />,
+    // Add more buttons here if needed
+  ];
 
   return (
     <form onSubmit={handleFormSubmit} className="filldb-form project-form">
@@ -150,9 +124,7 @@ export default function ProjectForm() {
             className="form__input"
             placeholder=" "
           />
-          <label className="form__label" htmlFor="title">
-            Title
-          </label>
+          <label className="form__label">Title</label>
         </div>
         <div className="input-flow">
           <input
@@ -161,9 +133,7 @@ export default function ProjectForm() {
             className="form__input"
             placeholder=" "
           />
-          <label className="form__label" htmlFor="gitlink">
-            Github Link
-          </label>
+          <label className="form__label">Github Link</label>
         </div>
       </div>
       <br />
@@ -177,9 +147,7 @@ export default function ProjectForm() {
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
-          <label className="form__label" htmlFor="startDate">
-            Start Date
-          </label>
+          <label className="form__label">Start Date</label>
         </div>
         <div className="input-flow">
           <input
@@ -190,9 +158,7 @@ export default function ProjectForm() {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-          <label className="form__label" htmlFor="endDate">
-            End Date
-          </label>
+          <label className="form__label">End Date</label>
         </div>
       </div>
       <br />
@@ -201,7 +167,7 @@ export default function ProjectForm() {
         className="description"
         type="text"
         name="description"
-        placeholder="description"
+        placeholder="Write a Brief Description of the Project"
       />
       <br />
 
@@ -214,63 +180,55 @@ export default function ProjectForm() {
           type="button"
           className="add-code-sample"
           value="Add Code"
-          onClick={handleAddCodeSample}
+          onClick={() => {
+            setPopupWindow(forms[0]);
+          }}
         />
       </div>
-      <div
-        className="code-samples h-list"
-        style={
-          codeSamples.length === 0 ? { display: "none" } : { display: "flex" }
-        }
-      >
-        {codeSamples.map((codeSample, index) => (
-          <li key={index} className="tab tabSelected">
-            <button className="btn title" title="View Code">
-              {codeSample.title}
-            </button>
-            <button
-              className="btn closeTab"
-              onClick={(e) => handleCodeSampleClose(e, index)}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </div>
+      {codeSamples.length > 0 && (
+        <div className="code-samples h-list">
+          {codeSamples.map((codeSample, index) => (
+            <li key={index} className="tab tabSelected">
+              <button className="btn title">{codeSample.title}</button>
+              <button
+                className="btn closeTab"
+                onClick={(e) => handleCodeSampleClose(e, index)}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </div>
+      )}
       <br />
       <br />
-      {/* carousels */}
+
       <div className="input-container">
         <h2 className="title">Carousels</h2>
         <input
           type="button"
           className="add-code-sample"
           value="Add Carousel"
-          onClick={handleAddCarousel}
+          onClick={() => {
+            setPopupWindow(forms[1]);
+          }}
         />
       </div>
-      <div
-        className="code-samples h-list"
-        style={
-          carouselSamples.length === 0
-            ? { display: "none" }
-            : { display: "flex" }
-        }
-      >
-        {carouselSamples.map((carouselSample, index) => (
-          <li key={index} className="tab tabSelected">
-            <button className="btn title" title="View Code">
-              {carouselSample.title}
-            </button>
-            <button
-              className="btn closeTab"
-              onClick={(e) => handleCarouselClose(e, index)}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </div>
+      {carouselSamples.length > 0 && (
+        <div className="code-samples h-list">
+          {carouselSamples.map((carouselSample, index) => (
+            <li key={index} className="tab tabSelected">
+              <button className="btn title">{carouselSample.title}</button>
+              <button
+                className="btn closeTab"
+                onClick={(e) => handleCarouselClose(e, index)}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
+        </div>
+      )}
       <br />
       <br />
       {/* tools */}
@@ -280,78 +238,38 @@ export default function ProjectForm() {
           type="button"
           className="add-code-sample"
           value="Add Tool"
-          onClick={handleAddTool}
+          onClick={() => {
+            setPopupWindow(forms[2]);
+          }}
         />
       </div>
-      <div
-        className="code-samples h-list"
-        style={tools.length === 0 ? { display: "none" } : { display: "flex" }}
-      >
-        {tools.map((tool, index) => (
-          <li key={index} className="tab tabSelected">
-            <button className="btn title" title="View Code">
-              {tool.title}
-            </button>
-            <button
-              className="btn closeTab"
-              onClick={(e) => handleToolClose(e, index)}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
-      </div>
-
-      {popUpWindow && (
-        <CodeSampleForm
-          setCodeSampleWindow={setCodeSampleWindow}
-          handleCodeSampleSubmit={handleCodeSampleSubmit}
-        />
-      )}
-
-      {carouselleWindow && (
-        <CarouselForm
-          setCarouselleWindow={setCarouselleWindow}
-          handleCarouselSubmit={handleCarouselSubmit}
-        />
-      )}
-
-      {toolWindow && (
-        <div className="popup-container">
-          <div className="popup">
-            <p onClick={() => setToolWindow(false)}>X</p>
-            <input
-              type="text"
-              className="toolTitle"
-              name="toolTitle"
-              placeholder="Tool Title"
-            />
-            <br />
-            <textarea
-              type="text"
-              className="toolDescription"
-              name="toolDescription"
-              placeholder="Tool Description"
-            />
-            <button onClick={handleToolSubmit}>Submit</button>
-          </div>
+      {tools.length && (
+        <div className="code-samples h-list">
+          {tools.map((tool, index) => (
+            <li key={index} className="tab tabSelected">
+              <button className="btn title" title="View Code">
+                {tool.title}
+              </button>
+              <button
+                className="btn closeTab"
+                onClick={(e) => handleToolClose(e, index)}
+              >
+                ✕
+              </button>
+            </li>
+          ))}
         </div>
       )}
+
+      {popupWindow}
 
       <br />
       <br />
       {/* highlighted start or basic  */}
       <div className="input-container">
         <div className="input-flow">
-          <input
-            type="checkbox"
-            name="highlighted"
-            className="form__input"
-            placeholder=" "
-          />
-          <label className="form__label" htmlFor="highlighted">
-            Highlighted
-          </label>
+          <input type="checkbox" name="highlighted" />
+          <label className="form__label">Highlighted</label>
         </div>
       </div>
 

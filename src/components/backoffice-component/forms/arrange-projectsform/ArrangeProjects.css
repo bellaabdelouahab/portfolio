@@ -1,0 +1,53 @@
+.arrange-projects-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #bab9b9;
+}
+
+.highlighted-projects {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    min-height: 3rem;
+}
+
+.highlighted-project {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.scrollable-grid {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.project h3 {
+    margin-bottom: 5px;
+}
+
+.validate-btn{
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #222222;
+    color: #bab9b9;
+    cursor: pointer;
+}
