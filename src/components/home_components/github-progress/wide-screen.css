@@ -1,6 +1,6 @@
 @media screen and (max-width: 4000px) {
   .github-progress-section {
-    min-height: 65vh;
+    height: auto;
     width: 100%;
     /* background: transparent; */
   }

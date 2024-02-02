@@ -7,11 +7,12 @@
   }
 
   .happy-clients-content {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    height: fit-content;
+    height: max-content;
     padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
   }
 
   .happy-clients-card {
@@ -19,12 +20,15 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
+    margin: 1rem;
+    width: 250px;
+    height: 200px;
   }
 
   .happy-clients-card > .client-pic , .happy-clients-card > .quotes-pic{

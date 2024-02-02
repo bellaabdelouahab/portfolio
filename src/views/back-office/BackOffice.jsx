@@ -7,13 +7,15 @@ import ReportForm from "components/backoffice-component/forms/ReportForm";
 import "./filldb.css";
 import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
 import ButtonGroup from "../../components/backoffice-component/button-group/ButtonGroup";
-import ArrangeProjects from "components/backoffice-component/forms/arrange-projectsform/ArragneProjects";
+import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
+import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
 
 const tabs = [
   { id: 0, label: "Project", component: <ProjectForm /> },
   { id: 1, label: "Arrange Projects", component: <ArrangeProjects /> },
-  { id: 2, label: "Skill", component: <SkillForm /> },
-  { id: 3, label: "Report", component: <ReportForm /> },
+  { id: 2, label: "Certificate", component: <CertificatesForm /> },
+  { id: 3, label: "Skill", component: <SkillForm /> },
+  { id: 4, label: "Report", component: <ReportForm /> },
   // Add more buttons here if needed
 ];
 
