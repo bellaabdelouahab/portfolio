@@ -6,7 +6,7 @@ export default function ProjectTools({ tools }) {
       <ul className="project__tools__list">
         {tools.map((tool, index) => (
           <li key={index} className="project__tools__item">
-            {tool.title} <span>{tool.descreption}</span>
+            {tool.title} <span>{tool.description}</span>
           </li>
         ))}
       </ul>

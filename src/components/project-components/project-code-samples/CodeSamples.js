@@ -9,6 +9,8 @@ export default function CodeSamples({ codeSamples }) {
   return (
 
     <section className="code-samples-section">
+      <link rel="stylesheet" href="https://esm.sh/@wooorm/starry-night@1/style/both.css" />
+      <h1 className="project-second-section__title">Code Samples</h1>
       {
         codeSamples.map((elem, index) => {
           return <CodeSample key={index} codeSample={elem} />;
@@ -29,15 +31,13 @@ export function CodeSample({ codeSample }) {
       console.log(codeSample);
       const tree = starryNight.highlight(codeSample.code, codeSample.language);
       setHighlightedCode(toHtml(tree));
-      console.log(starryNight.scopes())
-      console.log(toHtml(tree));
+      // console.log(starryNight.scopes())
+      // console.log(toHtml(tree));
     }
     code();
   }, []);
   return (
     <>
-      <link rel="stylesheet" href="https://esm.sh/@wooorm/starry-night@1/style/both.css" />
-      <h1 className="project-second-section__title">Code Samples</h1>
       <div className="project-second-section__code-samples">
         <div className="project-second-section__code-samples__sample">
           <h2 className="project-second-section__code-samples__sample__title">

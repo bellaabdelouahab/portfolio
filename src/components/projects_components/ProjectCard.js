@@ -1,22 +1,25 @@
 export function ProjectCard({ project }) {
   const { title, description, image, githubLink, highlighted } = project;
+  let truncatedDescription = description.slice(0, 250);
+  const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
+  truncatedDescription = truncatedDescription.slice(0, lastSpaceIndex);
 
   return (
     <div
       className="home-projects-section__projects__project"
       style={{
         border: highlighted === "star" ? "2px solid #ffda59" : "none",
-        borderRadius: "5px",
       }}
     >
       <div
         className="home-projects-section__projects__project__img"
-        style={{ backgroundImage: `url(http://localhost:5000/${image})` }} />
+        style={{ backgroundImage: `url(http://localhost:5000/${image})` }}
+      />
       <h3 className="home-projects-section__projects__project__title">
         {title}
       </h3>
       <p className="home-projects-section__projects__project__description">
-        {description}
+        {truncatedDescription}...
       </p>
       <div className="home-projects-section__projects__project__buttons">
         <a

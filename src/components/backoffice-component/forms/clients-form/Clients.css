@@ -1,0 +1,75 @@
+.add-client-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 50%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 3rem;
+}
+
+.add-client-form > .client-profession {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.client-profession input,
+.client-profession textarea {
+  background: transparent;
+  color: #f8f8f8;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+input[type="file"].client-picture-input {
+  all: unset;
+  font-weight: 700;
+  width: 70%;
+  color: rgb(255, 255, 255);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 30px;
+  margin: 0.5rem auto;
+}
+input[type="file"].client-picture-input:focus {
+  border-color: #2196f3;
+  outline: none;
+}
+
+input[type="file"].client-picture-input::before {
+  content: 'Upload image 50x50 px';
+  color: white;
+  background-color: #2196f3;
+  display: inline-block;
+  padding: 8px 16px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 3rem;
+  border-radius: 15px;
+}
+input[type="file"].client-picture-input::-webkit-file-upload-button {
+  display: none;
+}
+
+
+button[type="submit"] {
+  padding: 0.5rem 1rem;
+  background-color: #09710b;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #09710b;
+}

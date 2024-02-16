@@ -28,6 +28,7 @@ export default function ProjectForm() {
       carouselImages: [],
       startDate: startDate,
       endDate: endDate,
+      tools: tools,
       highlighted: e.target.highlighted.checked ? "star" : "basic",
     };
     const imageinput = e.target.image;

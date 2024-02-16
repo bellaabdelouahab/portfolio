@@ -1,6 +1,16 @@
-import "./wide-screen.css"
+import { useEffect, useState } from "react";
+import "./wide-screen.css";
 
 export default function HappyClientsSection() {
+    const [clients, setClients] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:5000/api/clients")
+            .then(response => response.json())
+            .then(data => setClients(data.data))
+            .catch(error => console.error(error));
+    }, []);
+
     return (
         <div className="happy-clients-section hidden-area">
             <div className="home-sections-title">
@@ -9,46 +19,18 @@ export default function HappyClientsSection() {
                 <hr />
             </div>
             <div className="happy-clients-content">
-                <div className="happy-clients-card">
-                    <img className="client-pic" src="https://via.placeholder.com/75" alt="client" />
-                    <img className="quotes-pic" src="./quotes.png" alt="quotes" />
-                    <h3>Ph. sosana</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="client-profession">
-                        <p>Client Profession</p>
-                        <p>Company</p>
+                {clients?.map(client => (
+                    <div className="happy-clients-card" key={client.id}>
+                        <img className="client-pic" src={`http://localhost:5000${client.image}`} alt="client" />
+                        <img className="quotes-pic" src="./quotes.png" alt="quotes" />
+                        <h3>{client.name}</h3>
+                        <p>{client.description}</p>
+                        <div className="client-profession">
+                            <p>{client.profession}</p>
+                            <p>{client.company}</p>
+                        </div>
                     </div>
-                </div>
-                <div className="happy-clients-card">
-                    <img className="client-pic" src="https://via.placeholder.com/75" alt="client" />
-                    <img className="quotes-pic" src="./quotes.png" alt="quotes" />
-                    <h3>Client 1</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="client-profession">
-                        <p>Client Profession</p>
-                        <p>Company</p> 
-                    </div>
-                </div>
-                <div className="happy-clients-card">
-                    <img className="client-pic" src="https://via.placeholder.com/75" alt="client" />
-                    <img className="quotes-pic" src="./quotes.png" alt="quotes" />
-                    <h3>Client 1</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="client-profession">
-                        <p>Client Profession</p>
-                        <p>Company</p>
-                    </div>
-                </div>
-                <div className="happy-clients-card">
-                    <img className="client-pic" src="https://via.placeholder.com/75" alt="client" />
-                    <img className="quotes-pic" src="./quotes.png" alt="quotes" />
-                    <h3>Client 1</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                    <div className="client-profession">
-                        <p>Client Profession</p>
-                        <p>Company</p>
-                    </div>
-                </div>
+                ))}
             </div>
         </div>
     );

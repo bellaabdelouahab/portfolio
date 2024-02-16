@@ -228,7 +228,7 @@ section.project-page{
 
 
 .code-samples-section{
-    height: 60vh;
+    min-height: 60vh;
     width: 100%;
     background: #252525;
     display: flex;

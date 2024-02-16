@@ -9,6 +9,7 @@ import LoginPage from "../../components/backoffice-component/login-page/LoginPag
 import ButtonGroup from "../../components/backoffice-component/button-group/ButtonGroup";
 import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
 import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
+import Clients from "components/backoffice-component/forms/clients-form/Clients";
 
 const tabs = [
   { id: 0, label: "Project", component: <ProjectForm /> },
@@ -16,12 +17,13 @@ const tabs = [
   { id: 2, label: "Certificate", component: <CertificatesForm /> },
   { id: 3, label: "Skill", component: <SkillForm /> },
   { id: 4, label: "Report", component: <ReportForm /> },
+  { id: 5, label: "Clients", component: <Clients/>}
   // Add more buttons here if needed
 ];
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState(tabs[1].id);
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   /**
    * useEffect hook to update the CSS variable '--button-index' when the activeTab changes.
@@ -37,6 +39,13 @@ export default function FillDB() {
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   return (
     <>

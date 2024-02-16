@@ -15,9 +15,9 @@ import {
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
-  const toggleMenu = (id) => {
+  const toggleMenu = () => {
     console.log("hey");
-    const el = document.getElementById(id);
+    const el = document.getElementById("hamburger-menu");
     if (el.classList.contains("hidden")) {
       document.querySelectorAll(".inner-menu").forEach((item) => {
         item.classList.add("hidden");
@@ -31,6 +31,7 @@ export default function Navbar() {
     }
     !el.classList.contains("hidden") && el.focus();
   };
+  // onClick={() => handleNavLinkClick("hamburger-menu")}
 
   return (
     <nav className="navbar at-top" id="navbar" role="navigation">
@@ -42,7 +43,7 @@ export default function Navbar() {
           id="hamburger"
           className="hamburger"
           aria-label="Toggle navigation"
-          onClick={(e) => toggleMenu("hamburger-menu")}
+          onClick={(e) => toggleMenu()}
         >
           <span></span>
         </button>
@@ -55,7 +56,7 @@ export default function Navbar() {
           aria-hidden="true"
         >
           <li>
-            <NavLink to="/" target="">
+            <NavLink to="/" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faHome} />
               Home
             </NavLink>
@@ -67,13 +68,13 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <NavLink to="/projects" target="">
+            <NavLink to="/projects" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faListCheck} />
               All Projects
             </NavLink>
           </li>
           <li>
-            <NavLink to="/certificates">
+            <NavLink to="/certificates" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faCertificate} />
               Certificates
             </NavLink>
@@ -82,19 +83,19 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <NavLink to="/resume" target="">
+            <NavLink to="/resume" target="" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faFileAlt} />
               Resume
             </NavLink>
           </li>
           <li>
-            <NavLink to="/skills">
+            <NavLink to="/skills" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faFlaskVial} />
               Skills
             </NavLink>
           </li>
           <li>
-            <NavLink to="/music">
+            <NavLink to="/music" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faFlag} />
               Music Picks
             </NavLink>
@@ -103,13 +104,13 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <NavLink to="/articles">
+            <NavLink to="/articles" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faNewspaper} />
               Articles
             </NavLink>
           </li>
           <li>
-            <NavLink to="/reports">
+            <NavLink to="/reports" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faFlag} />
               Reports
             </NavLink>
