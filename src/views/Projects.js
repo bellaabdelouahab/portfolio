@@ -69,15 +69,9 @@ export default function Projects() {
         const filterElement = document.querySelector('.filter');
         handleFilter(filterElement);
         const filters = document.querySelector('.filters');
-        if (!showFilter) {
-            filters.classList.remove('hidden');
-            filterElement.innerHTML = filter + ' ▶';
-            setShowFilter(true);
-        } else {
-            filters.classList.add('hidden');
-            filterElement.innerHTML = filter + ' ▼';
-            setShowFilter(false);
-        }
+        filters.classList.add('hidden');
+        filterElement.innerHTML = filter + ' ▼';
+        setShowFilter(false);
     }, [filter,InitProjects])
 
 

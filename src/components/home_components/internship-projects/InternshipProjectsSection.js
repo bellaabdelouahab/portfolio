@@ -13,9 +13,9 @@ export default function InternshipProjectsSection() {
 
         <div className="intership-project">
             <div className="intership-project__img">
-                <img src="./No_image_available.svg.png" width="250px" height="200px" alt="Not Found" border="0" />
+                <img src="./icons/404.png" width="250px" height="200px" alt="Not Found" border="0" />
             </div>
-            <div className="intership-project__logo" style={{ backgroundImage: "url(./PosteMaroc.jpg)" }} >
+            <div className="intership-project__logo" style={{ backgroundImage: "url(./internshipes/PosteMaroc.jpg)" }} >
             </div>
             <div className="intership-project__content">
                 <h1>A web Site For Envolop Database Managmnet </h1>
@@ -36,9 +36,9 @@ export default function InternshipProjectsSection() {
         </div>
         <div className="intership-project">
             <div className="intership-project__img">
-                <img src="./PostMarocProject.png" width="250px" height="200px" alt="Internship-Project-1" border="0" />
+                <img src="./internshipes/PostMarocProject.png" width="250px" height="200px" alt="Internship-Project-1" border="0" />
             </div>
-            <div className="intership-project__logo" style={{ backgroundImage: "url(./1200px-GBAM_LOGO.png)" }}>
+            <div className="intership-project__logo" style={{ backgroundImage: "url(./internshipes/1200px-GBAM_LOGO.png)" }}>
             </div>
             <div className="intership-project__content">
                 <h1>Desktop application for managing package sending for special clients</h1>
@@ -49,7 +49,7 @@ export default function InternshipProjectsSection() {
                 </p>
                 {/* link to interprise */}
                 <a href="#" target="_blank" className="intership-project__content__link">
-                    <img src="./icons8-site-50.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
+                    <img src="./icons/site.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
                     CodeMaster.test.ninja
                 </a>
                 <ul className="intership-project__content__list">
@@ -76,7 +76,7 @@ export default function InternshipProjectsSection() {
                 </p>
                 {/* link to interprise */}
                 <a href="#" target="_blank" className="intership-project__content__link">
-                    <img src="./icons8-site-50.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
+                    <img src="./icons/site.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
                     CodeMaster.test.ninja
                 </a>
                 <ul className="intership-project__content__list">
@@ -90,15 +90,15 @@ export default function InternshipProjectsSection() {
         <div className="lineAnimation">
             <div className="gradientLine" />
             <div className="iconContainer">
-                <img src="./icons8-calendar-50.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
+                <img src="./icons/calendar.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
             </div>
             <div className="gradientLine animation-line2" />
             <div className="iconContainer">
-                <img src="./icons8-calendar-50.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
+                <img src="./icons/calendar.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
             </div>
             <div className="gradientLine animation-line2" />
             <div className="iconContainer">
-                <img src="./icons8-calendar-50.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
+                <img src="./icons/calendar.png" width="25px" height="25px" alt="Internship-Project-1" border="0" />
             </div>
             {/* <div className="gradientLine animation-line2" /> */}
         </div>

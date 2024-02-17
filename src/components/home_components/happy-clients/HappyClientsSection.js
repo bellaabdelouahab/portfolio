@@ -27,7 +27,7 @@ export default function HappyClientsSection() {
                 {clients?.map(client => (
                     <div className="happy-clients-card" key={client.id}>
                         <img className="client-pic" src={`${backendUploadsApi}${client.image}`} alt="client" />
-                        <img className="quotes-pic" src="./quotes.png" alt="quotes" />
+                        <img className="quotes-pic" src="./icons/quotes.png" alt="quotes" />
                         <h3>{client.name}</h3>
                         <p>{client.description}</p>
                         <div className="client-profession">
