@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import explode from "assets/js/codesamples.js";
 import "assets/css/codesample.css";
 import "./ProjectForm.css";
 import CarouselForm from "./caousel-form/CarouselForm";
 import CodeSampleForm from "./code-sample-form/CodeSampleForm";
 import ToolsForm from "./tools-form/ToolsForm";
+import axiosInstance from "utils/axios";
 
 export default function ProjectForm() {
   const [popupWindow, setPopupWindow] = useState(null);
@@ -50,8 +50,8 @@ export default function ProjectForm() {
           title: carouselSamples[i].title,
         });
         if (i === carouselSamples.length - 1) {
-          axios
-            .post("http://localhost:5000/api/projects", data)
+          axiosInstance
+            .post("projects", data)
             .then((res) => {
               console.log(res);
             })

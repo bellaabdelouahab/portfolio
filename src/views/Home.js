@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import axios from "axios";
 import IntroductionSection from "../components/home_components/introduction/IntroductionSection";
 import ProjectsSection from "../components/home_components/projects/ProjectsSection";
 import GithubProgressSection from "../components/home_components/github-progress/GithubProgressSection";
@@ -8,6 +7,7 @@ import AboutMeSection from "../components/home_components/about-me/AboutMeSectio
 import GetInTouchSection from "../components/home_components/get-in-touch/GetInTouchSection";
 import HappyClientsSection from "../components/home_components/happy-clients/HappyClientsSection";
 import { useLoaderData } from "react-router-dom";
+import axiosInstance from "utils/axios";
 // import "../assets/css/internship/intership-wide-screen.css";
 
 export default function Home() {
@@ -45,13 +45,13 @@ export default function Home() {
 
 export const getHighlightedProjects = async () => {
   console.log("getProjects");
-  return await axios
+  return await axiosInstance
     .get(
-      "http://localhost:5000/api/projects/getoverview"
+      "/projects/getoverview"
     )
     .then((res) => {
-      console.log(res.data.data);
-      return res.data.data;
+      console.log(res.data);
+      return res.data;
     });
 };
 

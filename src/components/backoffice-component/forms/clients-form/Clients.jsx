@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "./Clients.css";
+import axiosInstance from "utils/axios";
 
 function AddClientForm() {
   const [clientName, setClientName] = useState("");
   const [clientDescription, setClientDescription] = useState("");
   const [clientProfession, setClientProfession] = useState("");
   const [clientCompany, setClientCompany] = useState("");
-  const [clientPicture, setClientPicture] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,8 +23,8 @@ function AddClientForm() {
 
       reader.onloadend = () => {
         clientData.image = reader.result;
-        const response = axios.post(
-          "http://localhost:5000/api/clients",
+        const response = axiosInstance.post(
+          "clients",
           clientData,
           {
             headers: {

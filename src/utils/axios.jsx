@@ -1,6 +1,7 @@
 import axios from "axios";
 // get api from .env
-const API = process.env.BACKEND_API;
+const API = process.env.REACT_APP_BACKEND_API;
+console.log("API", API);
 // ----------------------------------------------------------------------
 const axiosInstance = axios.create({
   baseURL: API,
@@ -15,7 +16,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => response.data,
   (error) =>
     Promise.reject(
       (error.response && error.response.data) || "Something went wrong"

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "utils/axios";
 
 export default function SkillForm() {
   return (
@@ -14,8 +14,8 @@ export default function SkillForm() {
         reader.addEventListener("load", () => {
           data["roadmapImage"] = reader.result;
           console.log(data);
-          axios
-            .post("http://localhost:5000/api/skills", data)
+          axiosInstance
+            .post("/skills", data)
             .then((res) => {
               console.log(res);
             })

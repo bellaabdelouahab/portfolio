@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "utils/axios";
+
 import "./ArrangeProjects.css";
 
 export default function ArrangeProjects() {
@@ -8,11 +9,11 @@ export default function ArrangeProjects() {
 
   useEffect(() => {
     // Fetch projects from the backend
-    axios
-      .get("http://localhost:5000/api/projects?fields=title")
+    axiosInstance
+      .get("/projects?fields=title")
       .then((response) => {
-        setProjects(response.data.data);
-        console.log(response.data.data);
+        setProjects(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -29,8 +30,8 @@ const handleValidate = async () => {
     const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : "";
 
     // Pass selected projects and JWT token to the backend
-    await axios
-        .put("http://localhost:5000/api/projects/overview", {
+    await axiosInstance
+        .put("/projects/overview", {
             projectIds: selectedProjects.map((project) => project._id),
         }, {
             headers: {
@@ -38,7 +39,7 @@ const handleValidate = async () => {
             },
         })
         .then((response) => {
-            console.log(response.data.data);
+            console.log(response.data);
         })
         .catch((error) => console.error(error));
 };

@@ -1,6 +1,6 @@
 import '../assets/css/reports.css'
-import axios from 'axios';
 import { useLoaderData } from 'react-router-dom'
+import axiosInstance from 'utils/axios';
 export default function Reports() {
     const reports = useLoaderData();
     return (
@@ -35,9 +35,9 @@ export default function Reports() {
 
 export async function getReports() {
     console.log("getReports");
-    return await axios.get('http://localhost:5000/api/reports')
+    return await axiosInstance.get('reports')
     .then(res=>{
-        return res.data.data;
+        return res.data;
     }
     )
     .catch(err=>console.log(err))

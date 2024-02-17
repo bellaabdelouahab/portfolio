@@ -1,3 +1,4 @@
+const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
 export function ProjectCard({ project }) {
   const { title, description, image, githubLink, highlighted } = project;
   let truncatedDescription = description.slice(0, 250);
@@ -13,7 +14,7 @@ export function ProjectCard({ project }) {
     >
       <div
         className="home-projects-section__projects__project__img"
-        style={{ backgroundImage: `url(http://localhost:5000/${image})` }}
+        style={{ backgroundImage: `url(${backendUploadsApi}/${image})` }}
       />
       <h3 className="home-projects-section__projects__project__title">
         {title}

@@ -1,5 +1,5 @@
-import axios from "axios";
 import "./LoginPage.css";
+import axiosInstance from "utils/axios";
 
 export default function LoginPage({ setAuthenticated }) {
   return (
@@ -11,8 +11,8 @@ export default function LoginPage({ setAuthenticated }) {
           const data = {};
           data["email"] = e.target.email.value;
           data["password"] = e.target.password.value;
-          axios
-            .post("http://localhost:5000/api/users/login", data)
+          axiosInstance
+            .post("users/login", data)
             .then((res) => {
               console.log(res);
               // add cookie

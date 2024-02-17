@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import axiosInstance from "utils/axios";
+
 export default function CertificatesForm() {
   return (
     <form
@@ -16,8 +17,8 @@ export default function CertificatesForm() {
         reader.addEventListener("load", () => {
           data["image"] = reader.result;
           console.log(data);
-          axios
-            .post("http://localhost:5000/api/certificates", data, {
+          axiosInstance
+            .post("certificates", data, {
               headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer " + localStorage.getItem("jwt"),

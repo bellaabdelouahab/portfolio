@@ -1,5 +1,7 @@
 import "assets/css/certification.css";
 import { useLoaderData } from "react-router-dom";
+import axiosInstance from "utils/axios";
+const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
 
 export default function Certificates() {
     const certificates = useLoaderData();
@@ -15,7 +17,7 @@ export default function Certificates() {
             <div className="certifications-content">
                 {certificates.map((certificate, index) => (
                     <div className="certification-element" key={index}>
-                        <img src={`http://localhost:5000${certificate.image}`} alt="NoImage" width="100" height="100" />
+                        <img src={`${backendUploadsApi}${certificate.image}`} alt="NoImage" width="100" height="100" />
                         <div className="certification-title">{certificate.title}</div>
                     </div>
                 ))}
@@ -25,7 +27,7 @@ export default function Certificates() {
 }
 
 export async function getCertificates() {
-    const res = await fetch("http://localhost:5000/api/certificates");
-    const data = await res.json();
-    return data.data;
+    const res = await axiosInstance.get("certificates");
+    const data = res.data;
+    return data;
 }

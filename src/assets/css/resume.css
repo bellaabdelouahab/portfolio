@@ -21,10 +21,6 @@
     border: 1px solid rgb(201, 198, 198);
 }
 .resume-section__resume{
-    background: url(http://localhost:5000/resume.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     height: 1200px;
     width: 846px;
     margin: 0vh auto;

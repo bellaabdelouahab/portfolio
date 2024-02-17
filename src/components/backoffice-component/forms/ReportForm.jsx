@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "utils/axios";
 
 export default function ReportForm() {
   return (
@@ -15,8 +15,8 @@ export default function ReportForm() {
         reader.addEventListener("load", () => {
           data["reportFile"] = reader.result;
           console.log(data);
-          axios
-            .post("http://localhost:5000/api/reports", data)
+          axiosInstance
+            .post("/reports", data)
             .then((res) => {
               console.log(res);
             })

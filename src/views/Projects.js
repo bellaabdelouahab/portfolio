@@ -1,7 +1,8 @@
-import axios from 'axios';
 import { useNavigate, useLoaderData } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import '../assets/css/projects.css'
+import axiosInstance from 'utils/axios';
+const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
 
 
 export default function Projects() {
@@ -27,7 +28,9 @@ export default function Projects() {
                 }
             };
             updateFilters(tag)
+            return
         })
+        return
     })
 
     useEffect(() => {
@@ -65,8 +68,17 @@ export default function Projects() {
         }
         const filterElement = document.querySelector('.filter');
         handleFilter(filterElement);
-        handleFilterShow()
-    }, [filter])
+        const filters = document.querySelector('.filters');
+        if (!showFilter) {
+            filters.classList.remove('hidden');
+            filterElement.innerHTML = filter + ' ▶';
+            setShowFilter(true);
+        } else {
+            filters.classList.add('hidden');
+            filterElement.innerHTML = filter + ' ▼';
+            setShowFilter(false);
+        }
+    }, [filter,InitProjects])
 
 
     // handleFilterShow
@@ -120,7 +132,7 @@ export default function Projects() {
                     {projects && projects.map((project, index) => (
                         <div key={project._id} className="card" onClick={e => { Navigate('/projects/' + project._id) }} >
                             <div className="projects-section__projects__project__img" style={{
-                                backgroundImage: `url(http://localhost:5000/${project.image})`
+                                backgroundImage: `url(${backendUploadsApi}/${project.image})`
                             }} />
                             <h3 className="projects-section__projects__project__title">{project.title}</h3>
                             <p className="projects-section__projects__project__description">{project.description}</p>
@@ -132,9 +144,9 @@ export default function Projects() {
     )
 }
 export const getProjects = async () => {
-    return await axios.get('http://localhost:5000/api/projects')
+    return await axiosInstance.get('projects')
         .then(res => {
-            return res.data.data;
+            return res.data;
         }
         )
         .catch(err => console.log(err))
