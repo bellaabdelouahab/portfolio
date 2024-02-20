@@ -1,4 +1,4 @@
-export default function ({dataSources}){
+export default function ProjectDataSource({dataSources}){
     if (!dataSources || dataSources.length === 0) return null;
     return (
         <div className="project__data-sources">

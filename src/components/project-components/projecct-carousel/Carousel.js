@@ -8,7 +8,6 @@ export default function Carousel({ carouselImages }) {
   
   useEffect(() => {
     const bigImage = document.querySelector('.big-image');
-    const carouselPreview = document.querySelector('.carousel-preview');
     const picPreviews = document.querySelectorAll('.pic-preview');
     const overlay = document.querySelector('.overlay');
     const carouselNavLeft = document.querySelector('.carousel-nav-left');
@@ -57,7 +56,7 @@ export default function Carousel({ carouselImages }) {
         });
       });
     };
-  }, [currentPic]);
+  }, [currentPic,carouselImages]);
   
   if (!carouselImages || carouselImages.length === 0) return null;
 
@@ -69,14 +68,14 @@ export default function Carousel({ carouselImages }) {
         </div>
       </div>
       <div className='carousel-preview-container'>
-        <img className="carousel-nav-left" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
+        <img className="carousel-nav-left" src="https://via.placeholder.com/75" alt="Not Loaded" />
         <div className="carousel-preview">
           {carouselImages.map((elem, index) => (
             <img
               key={index}
               className={`pic-preview ${index === currentPic ? 'active' : ''}`}
               src={`${backendUploadsApi}/${elem.img}`}
-              alt="Picture Not Loaded"
+              alt="Not Loaded"
               onClick={() => setCurrentPic(index)}
             />
           ))}
@@ -87,7 +86,7 @@ export default function Carousel({ carouselImages }) {
           <img key={4} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
           <img key={5} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" /> */}
         </div>
-        <img className="carousel-nav-right" src="https://via.placeholder.com/75" alt="Picture Not Loaded" />
+        <img className="carousel-nav-right" src="https://via.placeholder.com/75" alt="Not Loaded" />
       </div>
     </div>
   );

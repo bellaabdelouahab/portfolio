@@ -47,11 +47,6 @@ export default function InternshipProjectsSection() {
                     The application is used to manage the sending of packages for special clients (Lawyers, Journalists, Writers). This application was created
                     to make it easy for them to send packages instead of waiting in lines. The application is used by the post office employees.
                 </p>
-                {/* link to interprise */}
-                <a href="#" target="_blank" className="intership-project__content__link">
-                    <img src="./icons/site.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
-                    CodeMaster.test.ninja
-                </a>
                 <ul className="intership-project__content__list">
                     <li>JavaFX</li>
                     <li>Oracle</li>
@@ -75,7 +70,7 @@ export default function InternshipProjectsSection() {
                     ad minim veniam, quis nostrud
                 </p>
                 {/* link to interprise */}
-                <a href="#" target="_blank" className="intership-project__content__link">
+                <a href="codemaster.ninja" target="_blank" className="intership-project__content__link">
                     <img src="./icons/site.png" width="20px" height="20px" alt="Internship-Project-1" border="0" style={{ marginRight: ".4rem" }} />
                     CodeMaster.test.ninja
                 </a>

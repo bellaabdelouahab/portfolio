@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import "./wide-screen.css";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

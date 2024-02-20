@@ -35,7 +35,7 @@ export function CodeSample({ codeSample }) {
       // console.log(toHtml(tree));
     }
     code();
-  }, []);
+  }, [codeSample]);
   return (
     <>
       <div className="project-second-section__code-samples">
