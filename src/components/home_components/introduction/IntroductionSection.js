@@ -60,7 +60,7 @@ export default function IntroductionSection() {
             rel="noopener noreferrer"
             href="https://github.com/bellaabdelouahab"
         >
-            Find Me On Github <span>{">"}</span>{" "}
+            Buy Me A Coffee <span>{">"}</span>{" "}
         </a>
 
         <div className="home-introduction-section__img" style={{ backgroundImage: 'url(./code.png)' }} />
