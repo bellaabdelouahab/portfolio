@@ -10,7 +10,6 @@ export default function IntroductionSection() {
     useEffect(() => {
         const handleMouseOver = (event) => {
             let iteration = 0;
-6
             clearInterval(interval);
 
             interval = setInterval(() => {
