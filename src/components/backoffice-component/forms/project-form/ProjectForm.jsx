@@ -19,7 +19,7 @@ export default function ProjectForm() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const data = {
+    let data = {
       title: e.target.title.value,
       description: e.target.description.value,
       githubLink: e.target.githubLink.value,
