@@ -1,4 +1,4 @@
-export default function ProjectDataSource({dataSources}){
+export default function ProjectDataSources({dataSources}){
     if (!dataSources || dataSources.length === 0) return null;
 
       const dataSourcesImg = [
