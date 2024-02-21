@@ -16,8 +16,8 @@ export default function LoginPage({ setAuthenticated }) {
             .then((res) => {
               console.log(res);
               // add cookie
-              document.cookie = `jwt=${res.data.token}`;
-              localStorage.setItem("jwt", res.data.token);
+              document.cookie = `jwt=${res.token}`;
+              localStorage.setItem("jwt", res.token);
               setAuthenticated(true);
             })
             .catch((err) => {
