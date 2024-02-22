@@ -27,7 +27,7 @@ export default function Certificates() {
 }
 
 export async function getCertificates() {
-    const res = await axiosInstance.get("certificates");
+    const res = await axiosInstance.get("certificates?sort=createdAt");
     const data = res.data;
     return data;
 }
