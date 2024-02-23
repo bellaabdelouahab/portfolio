@@ -4,12 +4,12 @@ import axiosInstance from "utils/axios";
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function Certificates() {
-    const certificates = useLoaderData();
+    const {certificates,count} = useLoaderData();
 
     return (
         <>
             <div className="certifications-header">
-                <div className="count">+{certificates.length} Badges & Certifications</div>
+                <div className="count">+{count} Badges & Certifications</div>
                 <label>
                     Sorted By :<span className="filter"> Date Earned ▼</span>{" "}
                 </label>
@@ -28,6 +28,8 @@ export default function Certificates() {
 
 export async function getCertificates() {
     const res = await axiosInstance.get("certificates");
-    const data = res.data;
+    const certificates = res.data;
+    const count = await axiosInstance.get("certificates/count");
+    const data = { certificates, count: count.data.data };
     return data;
 }
