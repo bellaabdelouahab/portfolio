@@ -30,6 +30,6 @@ export async function getCertificates() {
     const res = await axiosInstance.get("certificates");
     const certificates = res.data;
     const count = await axiosInstance.get("certificates/count");
-    const data = { certificates, count: count.data.data };
+    const data = { certificates, count: count.data };
     return data;
 }
