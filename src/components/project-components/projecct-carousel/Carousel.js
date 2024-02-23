@@ -5,8 +5,9 @@ const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
 
 export default function Carousel({ carouselImages }) {
   const [currentPic, setCurrentPic] = useState(0);
-  
+
   useEffect(() => {
+    if (!carouselImages || carouselImages.length === 0) return ;
     const bigImage = document.querySelector('.big-image');
     const picPreviews = document.querySelectorAll('.pic-preview');
     const overlay = document.querySelector('.overlay');

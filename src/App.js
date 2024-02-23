@@ -16,7 +16,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} loader={getHighlightedProjects} />
       <Route path="resume" element={<Resume />} />
       <Route path="projects" element={<Projects />} loader={getProjects} />
-      <Route path="projects/:id" element={<Project />} loader={getProject} />
+      <Route path="projects/:title" element={<Project />} />
       <Route path="certificates" element={<Certificates />} loader={getCertificates} />
       <Route path="skills" element={<Skills />} />
       <Route path="Reports" element={<Reports />} loader={getReports} />

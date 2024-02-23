@@ -124,7 +124,7 @@ export default function Projects() {
                 <h2 className="projects-section__subtitle">Get Access To All My Public Projects</h2>
                 <div id='cards'>
                     {projects && projects.map((project, index) => (
-                        <div key={project._id} className="card" onClick={e => { Navigate('/projects/' + project._id) }} >
+                        <div key={project._id} className="card" onClick={e => { Navigate('/projects/' + project.title.replace(/\s/g, '-'), { state: project }) }}>
                             <div className="projects-section__projects__project__img" style={{
                                 backgroundImage: `url(${backendUploadsApi}/${project.image})`
                             }} />

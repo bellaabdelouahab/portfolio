@@ -12,59 +12,58 @@ export default function ProjectForm() {
   const [codeSamples, setCodeSamples] = useState([]);
   const [carouselSamples, setCarouselSamples] = useState([]);
   const [tools, setTools] = useState([]);
-  // const [collaborators, setCollaborators] = useState([]);
+  const [tags, setTags] = useState(""); // Added tags state
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    let data = {
-      title: e.target.title.value,
-      description: e.target.description.value,
-      githubLink: e.target.githubLink.value,
+
+    const formData = new FormData(e.target);
+    const image = formData.get("image");
+
+    const data = {
+      title: formData.get("title"),
+      description: formData.get("description"),
+      githubLink: formData.get("githubLink"),
       image: null,
       codeSamples: codeSamples,
       carouselImages: [],
       startDate: startDate,
       endDate: endDate,
       tools: tools,
-      highlighted: e.target.highlighted.checked ? "star" : "basic",
+      highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
+      tags: tags.split(",").map((tag) => tag.trim()), // Added tags field
     };
-    const imageinput = e.target.image;
-    const image = imageinput.files[0];
-    const reader = new FileReader();
-    const filereaders = [];
 
-    reader.addEventListener("load", () => {
-      data.image = reader.result;
-    });
-    reader.readAsDataURL(image);
+    if (image) {
+      data.image = await convertImageToBase64(image);
+    }
 
     for (let i = 0; i < carouselSamples.length; i++) {
       const element = carouselSamples[i];
-      filereaders.push(new FileReader());
-      filereaders[i].addEventListener("load", () => {
-        data.carouselImages.push({
-          img: filereaders[i].result,
-          title: carouselSamples[i].title,
-        });
-        if (i === carouselSamples.length - 1) {
-          axiosInstance
-            .post("projects", data)
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
+      const carouselImage = await convertImageToBase64(element.img[0]);
+      data.carouselImages.push({
+        img: carouselImage,
+        title: element.title,
       });
-      filereaders[i].readAsDataURL(element.img[0]);
     }
 
-    window.addEventListener("load", () => {
-      console.log(data.carousels);
+    try {
+      const response = await axiosInstance.post("projects", data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const convertImageToBase64 = (image) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(image);
     });
   };
 
@@ -124,6 +123,7 @@ export default function ProjectForm() {
             name="title"
             className="form__input"
             placeholder=" "
+            required
           />
           <label className="form__label">Title</label>
         </div>
@@ -133,6 +133,7 @@ export default function ProjectForm() {
             name="githubLink"
             className="form__input"
             placeholder=" "
+            required
           />
           <label className="form__label">Github Link</label>
         </div>
@@ -145,6 +146,7 @@ export default function ProjectForm() {
             name="startDate"
             className="form__input"
             placeholder=" "
+            required
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
@@ -154,8 +156,8 @@ export default function ProjectForm() {
           <input
             type="date"
             name="endDate"
-            className="form__input"
             placeholder=" "
+            className="form__input"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
@@ -168,6 +170,7 @@ export default function ProjectForm() {
         className="description"
         type="text"
         name="description"
+        required
         placeholder="Write a Brief Description of the Project"
       />
       <br />
@@ -271,6 +274,21 @@ export default function ProjectForm() {
         <div className="input-flow">
           <input type="checkbox" name="highlighted" />
           <label className="form__label">Highlighted</label>
+        </div>
+      </div>
+
+      <div className="input-container">
+        <div className="input-flow">
+          <input
+            type="text"
+            name="tags"
+            className="form__input"
+            placeholder=" "
+            required
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+          <label className="form__label">Tags (separated by comma)</label>
         </div>
       </div>
 
