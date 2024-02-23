@@ -176,7 +176,7 @@
   .navbar__menu__list {
     position: absolute;
     top: 0;
-    left: calc(100%-100vw);
+    left: calc(100% - 100vw);
   }
   .navbar__menu__list.hidden {
     display: none;
