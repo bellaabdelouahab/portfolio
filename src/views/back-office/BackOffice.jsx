@@ -42,6 +42,25 @@ export default function FillDB() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
+    // check if jwt is correct isLoggedIn route
+    const res = async () => {
+      await axiosInstance
+        .get("/users/isLoggedIn", {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        })
+        .then((res) => {
+          // if 401 error is returned, set authenticated to false
+          if (res.status === 401) {
+            setAuthenticated(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setAuthenticated(false);
+        });
+    }
     if (jwt) {
       setAuthenticated(true);
     }
