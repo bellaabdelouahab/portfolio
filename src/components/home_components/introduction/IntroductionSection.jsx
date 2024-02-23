@@ -49,9 +49,9 @@ export default function IntroductionSection() {
     }, [interval, letters]);
 
     return <section className="home-introduction-section">
-        <h1 className="home-introduction-section__title">
-            <h1 className="animated-intro-text" data-value="Hi, I'm .Abdelouahab"> Hi, I'm B.Abdelouahab</h1>
-        </h1>
+        <div className="home-introduction-section__title">
+            <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">Hi, I'm Abdelouahab</h1>
+        </div>
         <h2 className="home-introduction-section__subtitle"> ⟫⟫ a Data Scientist & Software Engineer</h2>
         <a
             className="home-introduction-section__button"
