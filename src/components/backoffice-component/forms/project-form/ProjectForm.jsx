@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import explode from "assets/js/codesamples.js";
 import "assets/css/codesample.css";
 import "./ProjectForm.css";

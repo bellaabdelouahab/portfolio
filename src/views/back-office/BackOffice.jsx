@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProjectForm from "components/backoffice-component/forms/project-form/ProjectForm";
 import SkillForm from "components/backoffice-component/forms/SkillForm";
 import ReportForm from "components/backoffice-component/forms/ReportForm";

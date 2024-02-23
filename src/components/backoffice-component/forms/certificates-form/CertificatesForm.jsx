@@ -1,4 +1,3 @@
-import React from "react";
 import axiosInstance from "utils/axios";
 
 export default function CertificatesForm() {

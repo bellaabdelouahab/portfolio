@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import{ useState } from "react";
 import "./Clients.css";
 import axiosInstance from "utils/axios";
 

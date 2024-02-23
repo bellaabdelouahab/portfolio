@@ -23,7 +23,15 @@ export default defineConfig(() => {
         
         server: {
             port: 3000,
-            open: true
+            open: true,
+        },
+        
+        optimizeDeps: {
+            include: ['axios', 'react-router-dom'],
+        },
+        
+        esbuild: {
+            jsxInject: `import React from 'react';`,
         },
     };
 });

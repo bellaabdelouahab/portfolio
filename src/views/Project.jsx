@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/css/project.css";
 import CodeSamples from "../components/project-components/project-code-samples/CodeSamples";
