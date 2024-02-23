@@ -1,16 +1,16 @@
 export default function ProjectDataSources({dataSources}){
     if (!dataSources || dataSources.length === 0) return null;
 
-      const dataSourcesImg = [
-        "https://img.icons8.com/color/250/000000/microsoft-excel-2019--v1.png",
-        "https://img.icons8.com/color/250/000000/csv.png",
-        "https://img.icons8.com/color/250/000000/json--v1.png",
-        "https://img.icons8.com/color/250/000000/microsoft-sql-server.png",
-        "https://img.icons8.com/color/250/000000/mysql-logo.png",
-        "https://img.icons8.com/color/250/000000/mongodb.png",
-        "https://img.icons8.com/color/250/000000/python.png",
-        "https://img.icons8.com/color/250/000000/xml.png",
-      ];
+      const dataSourcesImg = {
+        excel: "https://img.icons8.com/color/250/000000/microsoft-excel-2019--v1.png",
+        csv: "https://img.icons8.com/color/250/000000/csv.png",
+        json: "https://img.icons8.com/color/250/000000/json--v1.png",
+        "sql-server": "https://img.icons8.com/color/250/000000/microsoft-sql-server.png",
+        mysql: "https://img.icons8.com/color/250/000000/mysql-logo.png",
+        mongodb: "https://img.icons8.com/color/250/000000/mongodb.png",
+        python: "https://img.icons8.com/color/250/000000/python.png",
+        xml: "https://img.icons8.com/color/250/000000/xml.png",
+      };
 
     return (
       <div className="project__data-sources">
@@ -26,7 +26,7 @@ export default function ProjectDataSources({dataSources}){
                 <p className="project__data-sources__item__info__name">
                   {dataSource.name}
                 </p>
-                <p className="project__data-sources__item__info__size">142Mb</p>
+                <p className="project__data-sources__item__info__size">{dataSource.size}</p>
               </div>
             </div>
           ))}
