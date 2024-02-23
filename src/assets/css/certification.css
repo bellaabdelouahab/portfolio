@@ -71,3 +71,27 @@
 .certification-element:hover > .certification-title{
     text-decoration: underline;
 }
+
+/* max 1024  change to 2 an redifine chileds*/
+@media screen and (max-width: 1024px) {
+    .certifications-content{
+        grid-template-columns: repeat(2, minmax(10px, 100%));
+    }
+    .certification-element:nth-child(2n+1) {
+        border-left: 0;
+    }
+    .certification-element:nth-child(2n) {
+        border-right: 0;
+    }
+
+}
+/* max 760 px change to 1 and redifine chileds*/
+@media screen and (max-width: 760px) {
+    .certifications-content{
+        display: contents;
+    }
+    .certification-element{
+        border: 1px solid #8f9b8f50 !important;
+    }
+
+}
