@@ -2,7 +2,7 @@ import { useNavigate, useLoaderData } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import '../assets/css/projects.css'
 import axiosInstance from 'utils/axios';
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 
 export default function Projects() {

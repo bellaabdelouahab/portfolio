@@ -1,6 +1,6 @@
 import '../assets/css/resume.css'
 
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./wide-screen.css";
 import axiosInstance from "utils/axios";
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function HappyClientsSection() {
     const [clients, setClients] = useState([]);

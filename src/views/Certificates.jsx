@@ -1,7 +1,7 @@
 import "assets/css/certification.css";
 import { useLoaderData } from "react-router-dom";
 import axiosInstance from "utils/axios";
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function Certificates() {
     const certificates = useLoaderData();

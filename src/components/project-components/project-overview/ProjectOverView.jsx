@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function ProjectOverView({ project }) {
   const startDate = project.startDate ? project.startDate.slice(0, 10) : "";

@@ -1,4 +1,4 @@
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 export function ProjectCard({ project }) {
   const { title, description, image, githubLink, highlighted } = project;
   let truncatedDescription = description.slice(0, 250);

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import './carousel-wide-screen.css';
-const backendUploadsApi = process.env.REACT_APP_BACKEND_UPLOADS_API;
+const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function Carousel({ carouselImages }) {
   const [currentPic, setCurrentPic] = useState(0);
