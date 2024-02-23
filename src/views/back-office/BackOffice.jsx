@@ -55,14 +55,19 @@ export default function FillDB() {
           if (res.status === 401) {
             setAuthenticated(false);
           }
+          // if 200 is returned, set authenticated to true
+          if (res.status === 200) {
+            setAuthenticated(true);
+          }
+          else
+          {
+            setAuthenticated(false);
+          }
         })
         .catch((err) => {
           console.log(err);
           setAuthenticated(false);
         });
-    }
-    if (jwt) {
-      setAuthenticated(true);
     }
   }, []);
 
