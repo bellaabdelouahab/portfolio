@@ -2,7 +2,7 @@
 import "./intership_projects.wide.css";
 
 export default function InternshipProjectsSection() {
-    return <section className="internship-projects-section hidden-area" style={{ marginTop: "5rem", height: "27vh", width: "100%" }}>
+    return <section className="internship-projects-section hidden-area" style={{ marginTop: "5rem", height: "auto", width: "100%" }}>
         <div className="experience">
             <div className="home-sections-title">
                 <span>03. </span>

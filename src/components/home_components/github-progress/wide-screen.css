@@ -64,3 +64,13 @@
     }
   }
 }
+
+@media screen and (max-width: 760px){
+  .github-progress-section__img{
+    height: 35vw;
+    width: 95%;
+  }
+  .visible > .github-progress-section__img {
+    background-size: 100%;
+  }
+}

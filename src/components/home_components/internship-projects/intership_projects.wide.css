@@ -1,7 +1,5 @@
 @media screen and (max-width: 4000px) {
-  .internship-projects-section {
-    min-height: 150vh;
-  }
+
 
   .lineAnimation {
     height: 0vh;
