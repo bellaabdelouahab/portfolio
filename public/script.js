@@ -58,6 +58,3 @@ domBody.addEventListener("mousedown", () => {
 domBody.addEventListener("keydown", () => {
   domBody.classList.remove(usingMouse);
 });
-
-
-console.log("script.js loaded");

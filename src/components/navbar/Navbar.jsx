@@ -14,7 +14,6 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
   const toggleMenu = () => {
-    console.log("hey");
     const el = document.getElementById("hamburger-menu");
     if (el.classList.contains("hidden")) {
       document.querySelectorAll(".inner-menu").forEach((item) => {

@@ -10,7 +10,6 @@ export default function HappyClientsSection() {
         axiosInstance.get("/clients")
             .then(res => {
                 setClients(res.data)
-                console.log(res.data);
             }
                 )
             .catch(error => console.error(error));
@@ -24,8 +23,8 @@ export default function HappyClientsSection() {
                 <hr />
             </div>
             <div className="happy-clients-content">
-                {clients?.map(client => (
-                    <div className="happy-clients-card" key={client.id}>
+                {clients?.map((client,index) => (
+                    <div className="happy-clients-card" key={index}>
                         <img className="client-pic" src={`${backendUploadsApi}${client.image}`} alt="client" />
                         <img className="quotes-pic" src="./icons/quotes.png" alt="quotes" />
                         <h3>{client.name}</h3>

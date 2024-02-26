@@ -44,13 +44,11 @@ export default function Home() {
 }
 
 export const getHighlightedProjects = async () => {
-  console.log("getProjects");
   return await axiosInstance
     .get(
       "/projects/getoverview"
     )
     .then((res) => {
-      console.log(res.data);
       return res.data;
     });
 };
