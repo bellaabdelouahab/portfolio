@@ -33,58 +33,73 @@ export default function InternshipProjectsSection() {
           <hr />
         </div>
       </div>
-
       <div className="intership-project">
         <div className="intership-project__img">
           <img
-            src="./icons/404.png"
+            src="./internshipes/agri4.0.png"
             width="250px"
             height="200px"
-            alt="Not Found"
+            alt="Internship-Project-1"
             border="0"
+            style={{
+              outline: "#fff 3px solid",
+            }}
           />
         </div>
-        <div
-          className="intership-project__logo"
-          style={{ backgroundImage: "url(./internshipes/PosteMaroc.jpg)" }}
-        ></div>
         <div className="intership-project__content">
-          <h1>A web Site For Envolop Database Managmnet </h1>
+          <h1>E-khsab : A Connected Cow Monitoring System</h1>
           <p className="content">
-            {" "}
-            duringing this intership i have worked on a web site for the
-            management of the envelops database the workflow of the application
-            is as follows : a costumer bring a package or an envelop to the post
-            office, the post office employee will regester the envolop and scan
-            its code and the system will automatically generate a tracking
-            number for the envelop and the costumer will receive a receipt with
-            the tracking number on it, the costumer can use the tracking number
-            to track the status of the envelop on the web site.{" "}
+            Development of e-services to monitor in real-time the health status
+            and well-being of cows, plan artificial inseminations, enhance herd
+            reproduction, and implement a heat detection system within a core
+            group of breeders, which will be extended to a larger number of
+            breeders on a national scale.
           </p>
+          {/* link to interprise */}
+          <a
+            href="https://poledigital.ma/projets/projets-elevage-4-0/e-khsab"
+            style={{
+              outline: "1px solid #268b60",
+              borderRadius: "5px",
+              padding: ".5rem",
+            }}
+            target="_blank"
+            className="intership-project__content__link"
+          >
+            <img
+              src="./icons/site.png"
+              width="20px"
+              height="20px"
+              alt="Internship-Project-1"
+              border="0"
+              style={{ marginRight: ".4rem" }}
+            />
+            Link to website for more details
+          </a>
           <ul className="intership-project__content__list">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>Flask</li>
+            <li>Spring Boot</li>
+            <li>JHipster</li>
+            <li>React</li>
+            <li>PostgreSQL</li>
+            <li>RabbitMQ</li>
+            <li>WebSockets</li>
+            <li>Ardunio</li>
           </ul>
         </div>
       </div>
       <div className="intership-project">
         <div className="intership-project__img">
           <img
-            src="./internshipes/PostMarocProject.png"
+            src="./internshipes/1200px-GBAM_LOGO.png"
             width="250px"
             height="200px"
             alt="Internship-Project-1"
             border="0"
+            style={{
+              outline: "#0163ad 3px solid",
+            }}
           />
         </div>
-        <div
-          className="intership-project__logo"
-          style={{
-            backgroundImage: "url(./internshipes/1200px-GBAM_LOGO.png)",
-          }}
-        ></div>
         <div className="intership-project__content">
           <h1>
             Desktop application for managing package sending for special clients
@@ -110,45 +125,38 @@ export default function InternshipProjectsSection() {
       <div className="intership-project">
         <div className="intership-project__img">
           <img
-            src="./linkedin.png"
+            src="./internshipes/PosteMaroc.jpg"
             width="250px"
             height="200px"
-            alt="Internship-Project-1"
+            alt="Not Found"
             border="0"
+            style={{
+              outline: "#fce533 3px solid",
+            }}
           />
         </div>
-        <div className="intership-project__logo"></div>
         <div className="intership-project__content">
-          <h1>Internship Project 1</h1>
+          <h1>A web Site For Envolop Database Managmnet </h1>
           <p className="content">
-            lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud
+            {" "}
+            duringing this intership i have worked on a web site for the
+            management of the envelops database the workflow of the application
+            is as follows : a costumer bring a package or an envelop to the post
+            office, the post office employee will regester the envolop and scan
+            its code and the system will automatically generate a tracking
+            number for the envelop and the costumer will receive a receipt with
+            the tracking number on it, the costumer can use the tracking number
+            to track the status of the envelop on the web site.{" "}
           </p>
-          {/* link to interprise */}
-          <a
-            href="codemaster.ninja"
-            target="_blank"
-            className="intership-project__content__link"
-          >
-            <img
-              src="./icons/site.png"
-              width="20px"
-              height="20px"
-              alt="Internship-Project-1"
-              border="0"
-              style={{ marginRight: ".4rem" }}
-            />
-            CodeMaster.test.ninja
-          </a>
           <ul className="intership-project__content__list">
-            <li>Nodejs</li>
-            <li>Express</li>
-            <li>React</li>
-            <li>Redux</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Flask</li>
           </ul>
         </div>
       </div>
+
       <div className="lineAnimation">
         <div className="gradientLine-both gradientLine-0" />
         <div className="iconContainer">
