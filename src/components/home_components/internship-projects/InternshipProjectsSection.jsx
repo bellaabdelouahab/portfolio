@@ -47,7 +47,7 @@ export default function InternshipProjectsSection() {
           />
         </div>
         <div className="intership-project__content">
-          <h1>E-khsab : A Connected Cow Monitoring System</h1>
+          <h1>E-khsab : A Connected Cow Monitoring System [Agri4.0]</h1>
           <p className="content">
             Development of e-services to monitor in real-time the health status
             and well-being of cows, plan artificial inseminations, enhance herd
@@ -114,7 +114,7 @@ export default function InternshipProjectsSection() {
           </p>
           <ul className="intership-project__content__list">
             <li>JavaFX</li>
-            <li>Oracle</li>
+            <li>Oracle - Cloud</li>
             <li>XML</li>
             <li>CSS</li>
             <li>Python</li>

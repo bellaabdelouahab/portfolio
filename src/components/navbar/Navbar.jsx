@@ -86,9 +86,9 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/skills" onClick={(e) => toggleMenu()} >
+            <NavLink to="/my-team" onClick={(e) => toggleMenu()} >
               <FontAwesomeIcon icon={faFlaskVial} />
-              Skills
+              Team
             </NavLink>
           </li>
           <li>
