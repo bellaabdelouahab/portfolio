@@ -15,10 +15,10 @@ export default function Project() {
   return (
     <section className="project-page">
       <ProjectOverView project={project} />
-      <CodeSamples codeSamples={project.codeSamples} />
       <ProjectTools tools={project.tools} />
-      <ProjectDataSources dataSources={project.dataSources} />
       <Carousel carouselImages={project.carouselImages} />
+      <ProjectDataSources dataSources={project.dataSources} />
+      <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
     </section>
   );

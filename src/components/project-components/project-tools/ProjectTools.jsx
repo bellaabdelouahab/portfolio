@@ -1,3 +1,4 @@
+import "./ProjectTools.css";
 export default function ProjectTools({ tools }) {
   if (!tools || tools.length === 0) return null;
   return (
