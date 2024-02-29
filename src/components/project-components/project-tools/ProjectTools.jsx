@@ -1,15 +1,14 @@
+import ResourcesUsed from "./resources_used/ResourcesUsed";
+import TechnologesUsed from "./technologies/TechnologesUsed";
+import "./project_tools.css"; 
+
 export default function ProjectTools({ tools }) {
-  if (!tools || tools.length === 0) return null;
+  if (!tools) return null;
+  console.log(tools);
   return (
     <div className="project__tools">
-      <h2 className="project__tools__title">Technology Stack Used...</h2>
-      <ul className="project__tools__list">
-        {tools.map((tool, index) => (
-          <li key={index} className="project__tools__item">
-            {tool.title} <span>{tool.description}</span>
-          </li>
-        ))}
-      </ul>
+      <TechnologesUsed technologes={tools.tech} />
+      <ResourcesUsed resources={tools.resources} />
     </div>
   );
 }

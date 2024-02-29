@@ -15,8 +15,8 @@ export default function Project() {
   return (
     <section className="project-page">
       <ProjectOverView project={project} />
-      <CodeSamples codeSamples={project.codeSamples} />
       <ProjectTools tools={project.tools} />
+      <CodeSamples codeSamples={project.codeSamples} />
       <ProjectDataSources dataSources={project.dataSources} />
       <Carousel carouselImages={project.carouselImages} />
       <Collaborators collaborators={project.collaborators} />

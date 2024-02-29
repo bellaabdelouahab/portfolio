@@ -4,7 +4,9 @@ const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function ProjectOverView({ project }) {
   const startDate = project.startDate ? project.startDate.slice(0, 10) : "";
-  const endDate = project.endDate ? project.endDate.slice(0, 10) : "Still Working";  
+  const endDate = project.endDate
+    ? project.endDate.slice(0, 10)
+    : "Still Working";
 
   return (
     <div className="project-overview">
@@ -21,9 +23,12 @@ export default function ProjectOverView({ project }) {
           <p className="project__dates">
             {startDate} ⇒ {endDate} | Duration : {project?.durration}
           </p>
-          <a href={project.githubLink} target="_blank" rel="noreferrer">
-            <FontAwesomeIcon icon={faGithub} />
-          </a>
+          <div>
+            <a href={project.githubLink} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faGithub} />
+            </a>
+            Github
+          </div>
         </div>
       </div>
     </div>

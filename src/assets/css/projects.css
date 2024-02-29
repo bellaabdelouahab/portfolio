@@ -152,7 +152,7 @@
 }
 .projects-section__projects__project__img {
   height: 200px;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 5px 5px 0 0;
