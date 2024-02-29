@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import ProjectForm from "components/backoffice-component/forms/project-form/ProjectForm";
 import SkillForm from "components/backoffice-component/forms/SkillForm";
 import ReportForm from "components/backoffice-component/forms/ReportForm";
-
-
+import axiosInstance from "utils/axios";
 import "./filldb.css";
 import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
 import ButtonGroup from "../../components/backoffice-component/button-group/ButtonGroup";
@@ -17,7 +16,7 @@ const tabs = [
   { id: 2, label: "Certificate", component: <CertificatesForm /> },
   { id: 3, label: "Skill", component: <SkillForm /> },
   { id: 4, label: "Report", component: <ReportForm /> },
-  { id: 5, label: "Clients", component: <Clients/>}
+  { id: 5, label: "Clients", component: <Clients /> },
   // Add more buttons here if needed
 ];
 
@@ -42,33 +41,26 @@ export default function FillDB() {
 
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
+    console.log("jwt", jwt);
     // check if jwt is correct isLoggedIn route
-    const res = async () => {
-      await axiosInstance
-        .get("/users/isLoggedIn", {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        })
-        .then((res) => {
-          // if 401 error is returned, set authenticated to false
-          if (res.status === 401) {
-            setAuthenticated(false);
-          }
-          // if 200 is returned, set authenticated to true
-          if (res.status === 200) {
-            setAuthenticated(true);
-          }
-          else
-          {
-            setAuthenticated(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+    axiosInstance
+      .get("users/is-logged-in", {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      })
+      .then((res) => {
+        // if 200 is returned, set authenticated to true
+        if (res.status === "success") {
+          setAuthenticated(true);
+        } else {
           setAuthenticated(false);
-        });
-    }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setAuthenticated(false);
+      });
   }, []);
 
   return (

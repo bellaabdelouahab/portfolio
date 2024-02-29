@@ -19,6 +19,8 @@ export default function Project() {
       <CodeSamples codeSamples={project.codeSamples} />
       <ProjectDataSources dataSources={project.dataSources} />
       <Carousel carouselImages={project.carouselImages} />
+      <ProjectDataSources dataSources={project.dataSources} />
+      <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
     </section>
   );

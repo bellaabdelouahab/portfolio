@@ -17,6 +17,8 @@ export default function LoginPage({ setAuthenticated }) {
               console.log(res);
               // add cookie
               document.cookie = `jwt=${res.token}`;
+              // remove old jwt if exists
+              localStorage.removeItem("jwt");
               localStorage.setItem("jwt", res.token);
               setAuthenticated(true);
             })

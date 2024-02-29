@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import explode from "assets/js/codesamples.js";
 import "assets/css/codesample.css";
 import "./ProjectForm.css";
@@ -16,6 +16,7 @@ export default function ProjectForm() {
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [submitButtonText, setSubmitButtonText] = useState("Submit");
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -53,6 +54,7 @@ export default function ProjectForm() {
     try {
       const response = await axiosInstance.post("projects", data);
       console.log(response);
+      setSubmitButtonText("Successfully Submitted");
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +68,23 @@ export default function ProjectForm() {
       reader.readAsDataURL(image);
     });
   };
+
+  useEffect(() => {
+    const handleInputChange = () => {
+      setSubmitButtonText("Submit");
+    };
+
+    const inputs = document.querySelectorAll("input, textarea");
+    inputs.forEach((input) => {
+      input.addEventListener("input", handleInputChange);
+    });
+
+    return () => {
+      inputs.forEach((input) => {
+        input.removeEventListener("input", handleInputChange);
+      });
+    };
+  }, []);
 
   // code samples functions
   const handleCodeSampleClose = (e, index) => {
@@ -292,7 +311,7 @@ export default function ProjectForm() {
         </div>
       </div>
 
-      <input type="submit" value="Submit" />
+      <input type="submit" value={submitButtonText} />
     </form>
   );
 }

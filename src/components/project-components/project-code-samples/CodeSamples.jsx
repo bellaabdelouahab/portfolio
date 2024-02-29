@@ -7,17 +7,20 @@ import { toHtml } from "hast-util-to-html";
 export default function CodeSamples({ codeSamples }) {
   if (!codeSamples || codeSamples.length === 0) return null;
   return (
-
     <section className="code-samples-section">
-      <link rel="stylesheet" href="https://esm.sh/@wooorm/starry-night@1/style/both.css" />
+      <link
+        rel="stylesheet"
+        href="https://esm.sh/@wooorm/starry-night@1/style/both.css"
+      />
       <h1 className="project-second-section__title">Code Samples</h1>
-      {
-        codeSamples.map((elem, index) => {
-          return <CodeSample key={index} codeSample={elem} />;
-        })
-      }
+      <div className="code-samples-section-content">
+
+      {codeSamples.map((elem, index) => {
+        return <CodeSample key={index} codeSample={elem} />;
+      })}
+      </div>
     </section>
-  )
+  );
 
 }
 
