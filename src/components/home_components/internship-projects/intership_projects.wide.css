@@ -1,7 +1,5 @@
 @media screen and (max-width: 4000px) {
-  .internship-projects-section {
-    min-height: 150vh;
-  }
+
 
   .lineAnimation {
     height: 0vh;
@@ -9,7 +7,7 @@
     border-radius: 0.4rem;
     margin-left: 0rem;
     position: absolute;
-    top: 5%; 
+    top: 10%; 
     scale: 1 1;
     animation: scroll-watcher linear forwards;
     animation-timeline: view(10vh 0);
@@ -27,11 +25,17 @@
     }
   }
 
-  .gradientLine {
+  .gradientLine-start,.gradientLine-end,.gradientLine-both {
     height: 25vh;
     width: 0.4rem;
     background: linear-gradient(transparent, #2ac17f 40%, transparent);
     margin-left: 1.5rem;
+  }
+  .gradientLine-start{
+    background: linear-gradient(#2ac17f 40%, transparent);
+  }
+  .gradientLine-end{
+    background: linear-gradient(transparent, #2ac17f 40%);
   }
 
   .animation-line2 {
@@ -71,25 +75,16 @@
     margin: 3rem 0;
   }
   .intership-project__img > img {
-    border-radius: .5rem;
+    border-radius: 1.5rem;
   }
 
-  .intership-project__logo {
-    position: absolute;
-    top: 50%;
-    right: -100px;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 2px solid #00ffff6f;
+
+  .intership-project__content__link:hover {
+    color: #2ac17f;
   }
 
   .intership-project__content {
-    width: calc(95% - 275px);
+    width: calc(100% - 275px);
     height: 100%;
   }
 
@@ -153,7 +148,7 @@
     float: right;
     margin-right: 5%;
     padding: 15px;
-    margin-top: 5rem;
+    margin-top: 75px;
     animation: appear ease-in-out forwards;
     animation-timeline: view(99vh 50vh);
     opacity: 0;
@@ -166,10 +161,6 @@
       opacity: 1;
     }
   }
-  .intership-project__logo{
-    top: 0;
-    left: 50%;
-  }
   .intership-project__img > img{
     margin-top: 3rem;
   }
@@ -177,10 +168,14 @@
     width: 100%;
     padding: 0;
   }
-  .gradientLine{
-    height: 35vh;
+  .intership-project >.intership-project__content> p {
+    padding: 0.7rem 1.5rem;
+    padding-top: 5rem;
+    height: fit-content;
+    max-height: fit-content !important;
   }
   .lineAnimation{
     animation-timeline: view(100px 300px);
+    top:5%
   }
 }

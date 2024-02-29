@@ -2,6 +2,7 @@
   .home-projects-section {
     height: auto;
     width: 100%;
+    background: #252525;
   }
   .home-projects-section__title {
     color: rgb(255, 255, 255);
