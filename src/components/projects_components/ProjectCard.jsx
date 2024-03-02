@@ -14,7 +14,7 @@ export function ProjectCard({ project }) {
     >
       <div
         className="home-projects-section__projects__project__img"
-        style={{ backgroundImage: `url(${backendUploadsApi}${image})` }}
+        style={{ backgroundImage: `url(${backendUploadsApi}${image})`, backgroundSize: "100%" }}
       />
       <h3 className="home-projects-section__projects__project__title">
         {title}

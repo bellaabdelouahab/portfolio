@@ -2,20 +2,28 @@ import { useState, useEffect } from "react";
 import explode from "assets/js/codesamples.js";
 import "assets/css/codesample.css";
 import "./ProjectForm.css";
-import CarouselForm from "./caousel-form/CarouselForm";
-import CodeSampleForm from "./code-sample-form/CodeSampleForm";
-import ToolsForm from "./tools-form/ToolsForm";
+import CarouselForm from "./components/caousel-form/CarouselForm";
+import CodeSampleForm from "./components/code-sample-form/CodeSampleForm";
+import TechsForm from "./components/techs-form/TechsForm";
+import ResourcesForm from "./components/resources_form/ResourceForm";
+import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
+
 import axiosInstance from "utils/axios";
+import {
+  InputComponent,
+  FileInputComponent,
+  CheckboxComponent,
+  ProjectDataComponent,
+} from "./components/IndexForm";
 
 export default function ProjectForm() {
   const [popupWindow, setPopupWindow] = useState(null);
   const [codeSamples, setCodeSamples] = useState([]);
   const [carouselSamples, setCarouselSamples] = useState([]);
-  const [tools, setTools] = useState([]);
+  const [techs, setTechs] = useState([]);
+  const [resources, setResources] = useState([]);
+  const [dataSources, setDataSources] = useState([]);
   const [tags, setTags] = useState(""); // Added tags state
-
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const [submitButtonText, setSubmitButtonText] = useState("Submit");
 
   const handleFormSubmit = async (e) => {
@@ -31,9 +39,13 @@ export default function ProjectForm() {
       image: null,
       codeSamples: codeSamples,
       carouselImages: [],
-      startDate: startDate,
-      endDate: endDate,
-      tools: tools,
+      startDate: formData.get("startDate"),
+      endDate: formData.get("endDate")?formData.get("endDate"):null,
+      tools: {
+        techs: techs,
+        resources: resources,
+      },
+      dataSources: dataSources,
       highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
       tags: tags.split(",").map((tag) => tag.trim()), // Added tags field
     };
@@ -103,11 +115,11 @@ export default function ProjectForm() {
     explode();
   };
   // tools functions
-  const handleToolClose = (e, index) => {
+  const handleTechClose = (e, index) => {
     e.preventDefault();
-    let temp = [...tools];
+    let temp = [...techs];
     temp.splice(index, 1);
-    setTools(temp);
+    setTechs(temp);
     explode();
   };
 
@@ -122,12 +134,21 @@ export default function ProjectForm() {
       setCarouselSamples={setCarouselSamples}
       setPopupWindow={setPopupWindow}
     />,
-    <ToolsForm
-      tools={tools}
-      setTools={setTools}
+    <TechsForm
+      techs={techs}
+      setTechs={setTechs}
       setPopupWindow={setPopupWindow}
     />,
-    // Add more buttons here if needed
+    <ResourcesForm
+      resources={resources}
+      setResources={setResources}
+      setPopupWindow={setPopupWindow}
+    />,
+    <DataSourcesForm
+      dataSources={dataSources}
+      setDataSources={setDataSources}
+      setPopupWindow={setPopupWindow}
+    />,
   ];
 
   return (
@@ -136,54 +157,18 @@ export default function ProjectForm() {
       <br />
 
       <div className="input-container">
-        <div className="input-flow">
-          <input
-            type="text"
-            name="title"
-            className="form__input"
-            placeholder=" "
-            required
-          />
-          <label className="form__label">Title</label>
-        </div>
-        <div className="input-flow">
-          <input
-            type="text"
-            name="githubLink"
-            className="form__input"
-            placeholder=" "
-            required
-          />
-          <label className="form__label">Github Link</label>
-        </div>
+        <InputComponent name="title" label="Title" />
+        <InputComponent name="githubLink" label="Github Link" />
       </div>
-      <br />
       <div className="input-container">
-        <div className="input-flow">
-          <input
-            type="date"
-            name="startDate"
-            className="form__input"
-            placeholder=" "
-            required
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-          <label className="form__label">Start Date</label>
-        </div>
-        <div className="input-flow">
-          <input
-            type="date"
-            name="endDate"
-            placeholder=" "
-            className="form__input"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-          <label className="form__label">End Date</label>
-        </div>
+        <InputComponent type="date" name="startDate" label="Start Date" />
+        <InputComponent
+          type="date"
+          name="endDate"
+          required={false}
+          label="End Date"
+        />
       </div>
-      <br />
 
       <textarea
         className="description"
@@ -192,126 +177,69 @@ export default function ProjectForm() {
         required
         placeholder="Write a Brief Description of the Project"
       />
-      <br />
 
-      <input type="file" name="image" />
+      <FileInputComponent name="image" />
       <br />
       {/* code samples */}
-      <div className="input-container">
-        <h2 className="title">Code Samples</h2>
-        <input
-          type="button"
-          className="add-code-sample"
-          value="Add Code"
-          onClick={() => {
-            setPopupWindow(forms[0]);
-          }}
-        />
-      </div>
-      {codeSamples.length > 0 && (
-        <div className="code-samples h-list">
-          {codeSamples.map((codeSample, index) => (
-            <li key={index} className="tab tabSelected">
-              <button className="btn title">{codeSample.title}</button>
-              <button
-                className="btn closeTab"
-                onClick={(e) => handleCodeSampleClose(e, index)}
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </div>
-      )}
-      <br />
-      <br />
+      <ProjectDataComponent
+        items={codeSamples}
+        setItems={setCodeSamples}
+        title="Code Samples"
+        formComponent={forms[0]}
+        setPopupWindow={setPopupWindow}
+      />
 
-      <div className="input-container">
-        <h2 className="title">Carousels</h2>
-        <input
-          type="button"
-          className="add-code-sample"
-          value="Add Carousel"
-          onClick={() => {
-            setPopupWindow(forms[1]);
-          }}
-        />
-      </div>
-      {carouselSamples.length > 0 && (
-        <div className="code-samples h-list">
-          {carouselSamples.map((carouselSample, index) => (
-            <li key={index} className="tab tabSelected">
-              <button className="btn title">{carouselSample.title}</button>
-              <button
-                className="btn closeTab"
-                onClick={(e) => handleCarouselClose(e, index)}
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </div>
-      )}
-      <br />
-      <br />
-      {/* tools */}
-      <div className="input-container">
-        <h2 className="title">Tools</h2>
-        <input
-          type="button"
-          className="add-code-sample"
-          value="Add Tool"
-          onClick={() => {
-            setPopupWindow(forms[2]);
-          }}
-        />
-      </div>
-      {tools.length && (
-        <div className="code-samples h-list">
-          {tools.map((tool, index) => (
-            <li key={index} className="tab tabSelected">
-              <button className="btn title" title="View Code">
-                {tool.title}
-              </button>
-              <button
-                className="btn closeTab"
-                onClick={(e) => handleToolClose(e, index)}
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </div>
-      )}
+      <ProjectDataComponent
+        items={carouselSamples}
+        setItems={setCarouselSamples}
+        title="Carousels"
+        formComponent={forms[1]}
+        setPopupWindow={setPopupWindow}
+      />
+
+      <ProjectDataComponent
+        items={techs}
+        setItems={setTechs}
+        title="Technologies"
+        formComponent={forms[2]}
+        setPopupWindow={setPopupWindow}
+      />
+
+      <ProjectDataComponent
+        items={resources}
+        setItems={setResources}
+        title="Resources"
+        formComponent={forms[3]}
+        setPopupWindow={setPopupWindow}
+      />
+
+      <ProjectDataComponent
+        items={dataSources}
+        setItems={setDataSources}
+        title="Data Sources"
+        formComponent={forms[4]}
+        setPopupWindow={setPopupWindow}
+      />
 
       {popupWindow}
-
       <br />
       <br />
       {/* highlighted start or basic  */}
-      <div className="input-container">
-        <div className="input-flow">
-          <input type="checkbox" name="highlighted" />
-          <label className="form__label">Highlighted</label>
-        </div>
-      </div>
+      <CheckboxComponent name="highlighted" />
 
-      <div className="input-container">
-        <div className="input-flow">
-          <input
-            type="text"
-            name="tags"
-            className="form__input"
-            placeholder=" "
-            required
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-          />
-          <label className="form__label">Tags (separated by comma)</label>
-        </div>
-      </div>
+      <InputComponent
+        type="text"
+        name="tags"
+        className="form__input"
+        placeholder=" "
+        required
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
+        label="Tags (separated by comma)"
+      />
 
       <input type="submit" value={submitButtonText} />
     </form>
   );
 }
+

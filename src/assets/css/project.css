@@ -19,13 +19,13 @@ section.project-page {
   background-color: #252525;
 }
 .project-overview > .project__image {
-  min-height: 320px;
-  min-width: 533px;
+  min-height: 304px;
+  min-width: 523px;
   margin: 20px;
-  background-size: cover !important;
+  background-size: 100% 100% !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  border-radius: 10px;
+  border-radius: 5px;
   background: #000;
 }
 .project-overview > .project__info {
@@ -35,17 +35,24 @@ section.project-page {
   padding: 20px;
   padding-top: 10px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .project__info > .title {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 2rem;
+  align-items: center;
 }
 .project__info > .description {
   font-size: 1.5rem;
   font-weight: 400;
   margin-bottom: 20px;
   line-height: 1.5;
+  text-align: justify;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .project__info > .bottom_options {

@@ -1,14 +1,14 @@
 .projects-section {
   height: auto;
   width: 100%;
-  display: inline-block
+  display: inline-block;
 }
 .projects-header * {
   /* border: 1px solid rgb(188, 233, 29); */
 }
-.projects-header{
+.projects-header {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   justify-content: space-between;
   height: 10vh;
   width: 90%;
@@ -27,7 +27,7 @@
   width: fit-content;
   display: inline-block;
 }
-.projects-section__filters{
+.projects-section__filters {
   background: #2f2f2f;
   margin-right: 7vw;
   margin-top: 0rem;
@@ -39,23 +39,23 @@
   border-radius: 5px;
   font-size: 1.5em;
   font-weight: 700;
-  letter-spacing: .75px;
+  letter-spacing: 0.75px;
 }
-.projects-section__filters > label{
+.projects-section__filters > label {
   cursor: text;
 }
-.projects-section__filters > label > span{
-  padding-left: .5rem;
+.projects-section__filters > label > span {
+  padding-left: 0.5rem;
   cursor: pointer;
   color: #e8e8e8;
 }
-.filters-container{
+.filters-container {
   position: relative;
   height: 0vh;
   width: 100%;
   z-index: 200;
 }
- .filters {
+.filters {
   position: absolute;
   top: 0;
   left: 0;
@@ -66,17 +66,17 @@
   border-radius: 3px;
   display: grid;
   grid-template-columns: repeat(3, minmax(10px, 100%));
-  transition: transform .5s;
+  transition: transform 0.5s;
   transform: rotateX(0deg);
   transform-origin: top;
   position: static;
 }
-.filters.hidden{
+.filters.hidden {
   /* fold it to top (rotate)*/
   transform: rotateX(-90deg);
   transform-origin: top;
 }
-.filter-element{
+.filter-element {
   border: 1px solid #858585aa;
   border-style: dotted;
   padding: 1.5rem;
@@ -84,9 +84,8 @@
   color: #e8e8e8;
   font-size: 1.5rem;
   font-weight: 500;
-
 }
-.filter-element:hover{
+.filter-element:hover {
   background-color: #3d3d3d;
   cursor: pointer;
 }
@@ -216,7 +215,6 @@
 /* -- ↓ ↓ ↓ some responsiveness ↓ ↓ ↓ -- */
 
 @media (max-width: 1000px) {
-
   #cards {
     max-width: 1000px;
     padding: 10px 0px;
@@ -226,11 +224,26 @@
     flex-shrink: 1;
     width: calc(50% - 4px);
   }
-} 
+}
 
 @media (max-width: 500px) {
+  .projects-header {
+    margin-top: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .projects-section__title {
+    font-size: 1.5rem;
+    height: fit-content;
+    padding: 0;
+  }
+  .projects-section__filters {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
   .card {
-    height: 180px;
+    height: 60vh;
   }
 
   .card-image {

@@ -69,7 +69,7 @@ export default function Carousel({ carouselImages }) {
         </div>
       </div>
       <div className='carousel-preview-container'>
-        <img className="carousel-nav-left" src="https://via.placeholder.com/75" alt="Not Loaded" />
+        <img className="carousel-nav-left" src="../icons/left-arrow.png" alt="Not Loaded" />
         <div className="carousel-preview">
           {carouselImages.map((elem, index) => (
             <img
@@ -87,7 +87,7 @@ export default function Carousel({ carouselImages }) {
           <img key={4} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
           <img key={5} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" /> */}
         </div>
-        <img className="carousel-nav-right" src="https://via.placeholder.com/75" alt="Not Loaded" />
+        <img className="carousel-nav-right" src="../icons/left-arrow.png" alt="Not Loaded" style={{ transform: 'rotate(180deg)' }} />
       </div>
     </div>
   );

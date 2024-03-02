@@ -17,6 +17,15 @@
     align-items: center;
     position: relative;
     width: 100%;
+    margin: .5rem 0;
+}
+
+.project-form .group-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .input-container > .input-flow {
@@ -133,7 +142,7 @@ input[name="title"],input[name="githubLink"] {
     background: transparent;
     color: #fff;
     cursor: pointer;
-    width: 7rem;
+    width: 15rem;
     display: flex;
     align-items: center;
     justify-content: center;

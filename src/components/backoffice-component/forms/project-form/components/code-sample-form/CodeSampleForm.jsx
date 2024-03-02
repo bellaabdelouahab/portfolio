@@ -42,8 +42,8 @@ export default function CodeSampleForm({
         <br />
         {/* input seslect to select the language from stary night languages */}
         <select name="language" id="language" className="codeSample-language">
-          {scopes.map((scope) => (
-            <option value={scope}>{scope}</option>
+          {scopes.map((scope,index) => (
+            <option key={index} value={scope}>{scope}</option>
           ))}
         </select>
 

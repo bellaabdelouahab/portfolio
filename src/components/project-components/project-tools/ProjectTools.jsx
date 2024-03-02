@@ -7,7 +7,7 @@ export default function ProjectTools({ tools }) {
   console.log(tools);
   return (
     <div className="project__tools">
-      <TechnologesUsed technologes={tools.tech} />
+      <TechnologesUsed technologes={tools.techs} />
       <ResourcesUsed resources={tools.resources} />
     </div>
   );
