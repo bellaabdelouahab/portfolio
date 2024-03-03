@@ -9,12 +9,15 @@ export function ProjectCard({ project }) {
     <div
       className="home-projects-section__projects__project"
       style={{
-        border: highlighted === "star" ? "2px solid #ffda59" : "none",
+        border: highlighted === "star" ? "4px solid #c39a3b" : "none",
       }}
     >
       <div
         className="home-projects-section__projects__project__img"
-        style={{ backgroundImage: `url(${backendUploadsApi}${image})`, backgroundSize: "100%" }}
+        style={{
+          backgroundImage: `url(${backendUploadsApi}${image})`,
+          backgroundSize: "100%",
+        }}
       />
       <h3 className="home-projects-section__projects__project__title">
         {title}
