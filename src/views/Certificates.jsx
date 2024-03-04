@@ -11,24 +11,26 @@ export default function Certificates() {
 
     // a handler for the show more button
     useEffect(() => {
-        const handleShowMore = () => {
-            setPage(page + 1);
-            // fetch more certificates
-            axiosInstance.get(`certificates?limit=9&page=${page + 1}`)
-                .then(res => {
-                    const newCertificates = res.data;
-                    console.log(newCertificates);
-                    setCertificates([...certificates, ...newCertificates]);
-
-                })
-                .catch(err => console.log(err));
-        };
-        const showMoreButton = document.querySelector(".certifications-show-more button");
-        showMoreButton.addEventListener("click", handleShowMore);
-        return () => {
-            showMoreButton.removeEventListener("click", handleShowMore);
-        };
-    }, [page]);
+      const handleShowMore = () => {
+        setPage(page + 1);
+        // fetch more certificates
+        axiosInstance
+          .get(`certificates?limit=9&page=${page + 1}`)
+          .then((res) => {
+            const newCertificates = res.data;
+            console.log(newCertificates);
+            setCertificates([...certificates, ...newCertificates]);
+          })
+          .catch((err) => console.log(err));
+      };
+      const showMoreButton = document.querySelector(
+        ".certifications-show-more button"
+      );
+      showMoreButton.addEventListener("click", handleShowMore);
+      return () => {
+        showMoreButton.removeEventListener("click", handleShowMore);
+      };
+    }, [page, setCertificates, certificates, setPage]);
 
 
     return (
