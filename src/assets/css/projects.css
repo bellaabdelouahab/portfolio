@@ -136,7 +136,8 @@
   font-size: 2em;
   font-weight: 700;
   margin-top: 2vh;
-  margin-left: 2vw;
+  padding: 0 1vw;
+  text-align: center;
   margin-bottom: 2vh;
   font-family: var(--font-family);
 }
@@ -144,9 +145,7 @@
   color: rgb(201, 198, 198);
   font-size: 1.2em;
   text-align: justify;
-  margin-top: 2vh;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  padding: 1rem 2vw;
   margin-bottom: 2vh;
 }
 .projects-section__projects__project__img {
@@ -154,7 +153,7 @@
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 5px 5px 0 0;
+  border-radius: 10px 10px 0 0;
 }
 
 #cards:hover > .card::after {
