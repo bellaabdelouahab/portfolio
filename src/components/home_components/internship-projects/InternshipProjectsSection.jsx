@@ -28,7 +28,7 @@ export default function InternshipProjectsSection() {
     >
       <div className="experience">
         <div className="home-sections-title">
-          <span>03. </span>
+          <span>04. </span>
           Professional Experience
           <hr />
         </div>

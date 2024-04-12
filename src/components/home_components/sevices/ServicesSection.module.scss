@@ -1,0 +1,81 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: center;
+  grid-gap: 20px;
+  padding: 20px;
+  margin: auto;
+  width: 100%;
+
+  // card styles:
+  .card {
+    width: 350px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: #29b57820 6px 2px 16px 0px, #29b57820 -6px -2px 16px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card img {
+    font-size: 48px;
+    color: #333;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+
+  .cardTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #29b578;
+  }
+
+  .cardText {
+    font-size: 18px;
+    line-height: 1.2;
+    color: #b6b4b4;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .cardButton {
+    text-decoration: none;
+    color: rgb(46, 45, 45);
+    background: #2ac17f;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: all 0.5s ease;
+    border: 1px solid #2ac17f;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .cardButton:hover {
+    background: #1e1e1e;
+    color: #2ac17f;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+
+    .card {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    padding: 10px;
+    grid-gap: 10px;
+
+    .card {
+      padding: 10px;
+    }
+  }
+}

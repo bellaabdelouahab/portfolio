@@ -5,7 +5,7 @@ export default function AboutMeSection() {
     <section className="home-about-section">
       <div className="hidden-area">
         <div className="home-sections-title">
-          <span>04. </span>
+          <span>02. </span>
           About Me
           <hr />
         </div>

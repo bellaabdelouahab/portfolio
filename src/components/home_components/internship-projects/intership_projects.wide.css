@@ -161,19 +161,22 @@
       opacity: 1;
     }
   }
-  .intership-project__img > img{
-    margin-top: 3rem;
+  .intership-project__img,.intership-project__img > img{
+    margin-top: 0rem;
   }
   .intership-project__content{
     width: 100%;
     padding: 0;
   }
-  .intership-project >.intership-project__content> p {
-    padding: 0.7rem 1.5rem;
-    padding-top: 5rem;
-    height: fit-content;
-    max-height: fit-content !important;
+  .intership-project >.intership-project__content> h1,.intership-project >.intership-project__content> p {
+    padding-top: .55rem;
+    height: 100%;
+    display: inline-block;
   }
+  .intership-project >.intership-project__content> p {
+    padding-bottom: 1rem;
+  }
+
   .lineAnimation{
     animation-timeline: view(100px 300px);
     top:5%

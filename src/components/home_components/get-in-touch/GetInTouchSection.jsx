@@ -1,7 +1,7 @@
 export default function GetInTouchSection() {
     return <div className="get-in-touch hidden-area">
         <div className="home-sections-title">
-            <span>06. </span>
+            <span>07. </span>
             Get in Touch
             <hr />
         </div>

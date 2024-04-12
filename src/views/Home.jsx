@@ -8,6 +8,7 @@ import GetInTouchSection from "../components/home_components/get-in-touch/GetInT
 import HappyClientsSection from "../components/home_components/happy-clients/HappyClientsSection";
 import { useLoaderData } from "react-router-dom";
 import axiosInstance from "utils/axios";
+import ServicesSection from "../components/home_components/sevices/ServicesSection";
 // import "../assets/css/internship/intership-wide-screen.css";
 
 export default function Home() {
@@ -36,6 +37,7 @@ export default function Home() {
       <GithubProgressSection />
       <InternshipProjectsSection />
       <HappyClientsSection />
+      <ServicesSection/>
       <GetInTouchSection />
 
       {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
