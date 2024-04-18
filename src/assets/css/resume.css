@@ -30,6 +30,9 @@
     opacity: 0.9;
     margin-bottom: 5vh;
   }
+
+
+
 .resume-section__tools{
     width: 100%;
     height: 5vh;
@@ -69,4 +72,48 @@
 .resume-section__tools__download::before{
     content: '⬇️';
     margin-left: .2vw;
+}
+
+@media screen and (max-width: 768px), (max-width: 600px), (max-width: 400px), (max-width: 300px) {
+    .resume-section__resume {
+        height: 423px;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .resume-section__tools {
+        height: 5vh;
+    }
+    .resume-section__tools__download {
+        font-size: .8em;
+    }
+    .resume-section__resume .resume-section__tools__title {
+        font-size: .5em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .resume-section__resume {
+        width: 600px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .resume-section__resume {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .resume-section__resume {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .resume-section__resume {
+        width: 200px;
+    }
+    .resume-section__tools__download {
+        font-size: .5em;
+    }
 }
