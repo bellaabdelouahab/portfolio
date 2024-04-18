@@ -9,15 +9,17 @@ import Skills from './views/Skills';
 import Reports, { getReports } from "./views/Reports";
 import Articles from './views/Articles';
 import FillDB from './views/back-office/BackOffice';
+import MusicPicks from './views/music-picks/MusicPicks';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route index element={<Home />} loader={getHighlightedProjects} />
-      <Route path="resume" element={<Resume />} />
       <Route path="projects" element={<Projects />} loader={getProjects} />
       <Route path="projects/:title" element={<Project />} />
       <Route path="certificates" element={<Certificates />} loader={getCertificates} />
+      <Route path="resume" element={<Resume />} />
+      <Route path="music" element={<MusicPicks />} /> 
       <Route path="skills" element={<Skills />} />
       <Route path="Reports" element={<Reports />} loader={getReports} />
       <Route path="articles" element={<Articles />} />

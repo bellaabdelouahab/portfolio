@@ -1,0 +1,97 @@
+/* MusicPicks.module.css */
+
+.MusicPicks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.musicSection {
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.musicSection h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #c8c8c8;
+}
+
+.musicCards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 20px;
+
+}
+
+.musicCard {
+    background-color: #fff;
+    border-radius: 8px;
+    padding-bottom: 2.5px;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.musicCard:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+.musicCard img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 10px;
+    position: relative;
+}
+.musicCard::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    background: url("icons/play-button.png") no-repeat;
+    background-size: 80%;
+    background-position: center;
+    opacity: 0;
+}
+.musicCard:hover::after {
+    opacity: 1;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.musicCard h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: .5px;
+}
+
+.musicCard p {
+    font-size: 14px;
+    color: #888;
+}
+
+/* responsive : mobile */
+@media (max-width: 768px) {
+    .musicSection {
+        margin-bottom: 20px;
+    }
+
+    .musicCard {
+        width: 100%;
+    }
+}
