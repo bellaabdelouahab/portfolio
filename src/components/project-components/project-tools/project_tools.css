@@ -5,3 +5,9 @@
   align-items: left;
   background: #212121;
 }
+
+@media (max-width: 768px) {
+  .project__tools {
+    flex-direction: column;
+  }
+}

@@ -88,6 +88,8 @@ p {
 @media screen and (max-width: 990px) {
   .main {
     margin-top: 7rem;
+    width: 100%;
+    height: auto;
   }
 }
 

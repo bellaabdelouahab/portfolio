@@ -246,3 +246,121 @@ section.project-page {
   width: 85%;
   margin-left: 5vw;
 }
+
+
+
+/* mobile design */
+@media screen and (max-width: 768px) {
+  .project-overview {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .project-overview > .project__image {
+    min-width: 80%;
+    min-height: 204px;
+    margin: 20px;
+    background-size: 100% 100% !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 5px;
+    background: #000;
+  }
+  .project-overview > .project__info {
+    width: 90%;
+    color: #fff;
+    height: 85%;
+    padding: 20px;
+    padding-top: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .project__info > .title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    align-items: center;
+  }
+  .project__info > .description {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    text-align: justify;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .project__info > .bottom_options {
+    width: 80%;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 1.5rem;
+  }
+
+  .project__info > .bottom_options > .project__dates {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #bdbdbd;
+    margin-top: 1rem;
+  }
+
+  .project__info > .bottom_options > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 1px;
+  }
+
+  .project__info > .bottom_options > div > a {
+    font-size:
+    2.5rem;
+    font-weight: 400;
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 1rem;
+    transition: 0.3s ease-in;
+  }
+
+  .project__data-sources {
+    width: 100%;
+    background: #00000034;
+  }
+  .project__data-sources__title {
+    margin-top: 0.4rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #d2d2d2;
+    padding: 10px;
+    float: left;
+    margin-left: 1rem;
+  }
+
+  .project__data-sources > hr {
+    width: 98%;
+    border: 0.5px solid #d5d5d5;
+    margin-bottom: 20px;
+  }
+
+  .project__data-sources__list {
+    list-style-type: none;
+    padding: 3rem 3rem;
+    margin: 0;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+}

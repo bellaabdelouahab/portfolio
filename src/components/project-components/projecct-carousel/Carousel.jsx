@@ -31,14 +31,14 @@ export default function Carousel({ carouselImages }) {
     
     function changePic(currentPic) {
       console.log("currentPic", carouselImages[currentPic]);
-      bigImage.style.background = `url(${backendUploadsApi}/${carouselImages[currentPic].img}) no-repeat center center` ;
+      bigImage.style.background = `url(${backendUploadsApi}/${carouselImages[currentPic].img}) no-repeat center center / contain` ;
       overlay.innerHTML = `
       <div class="overlay-content">
       <p class="overlay-content__description">${carouselImages[currentPic].title}</p>
       </div>
       `;
       pics.forEach((pic, index) => {
-        pic.classList.toggle('active', index === currentPic);
+      pic.classList.toggle('active', index === currentPic);
       });
     }
     

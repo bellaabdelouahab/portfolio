@@ -107,3 +107,35 @@
   font-size: 1.5rem;
   font-weight: 400;
 }
+
+
+/* mobile repsonsivity */
+@media screen and (max-width: 768px) {
+  .carousel-container {
+    width: 100%;
+  }
+  .carousel-container > .big-image {
+    width: 100%;
+    height: 200px;
+  }
+  .carousel-preview-container {
+    height: 100px;
+  }
+  .carousel-preview {
+    max-width: 70%;
+    min-width: 70%;
+    overflow-x: scroll;
+  }
+  .pic-preview {
+    width: 100px;
+    height: 85px;
+  }
+  .carousel-nav-left,
+  .carousel-nav-right {
+    width: 20px;
+    height: 20px;
+  }
+  .overlay-content__description {
+    font-size: 1rem;
+  }
+}
