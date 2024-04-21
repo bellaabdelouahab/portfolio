@@ -82,7 +82,6 @@ export default function MusicPicks() {
       {/* imge at the top */}
       <img
         src="/bg-copy_LE_auto_x2.png"
-        width={700}
         style={{
           margin: 10,
           marginBottom: 50,

@@ -22,6 +22,12 @@
     margin-bottom: 20px;
 }
 
+.MusicPicks img {
+    width: 70%;
+    max-width: 100%;
+    height: auto;
+
+}
 .sectionTitle h2 {
     font-size: 24px;
     font-weight: bold;
@@ -89,7 +95,7 @@
     width: 50%;
     height: 50%;
     transform: translateY(-50%) translateX(-50%);
-    background: url("icons/play-button.png") no-repeat;
+    background: url("../../assets/images/play-button.png") no-repeat;
     background-size: 80%;
     background-position: center;
     opacity: 0;
@@ -144,6 +150,7 @@
 
 .podcastCard img {
     max-height: 150px;
+    width: 50%;
     object-fit: cover;
     border-radius: 5px;
     position: relative;
@@ -173,11 +180,37 @@
 
 /* responsive : mobile */
 @media (max-width: 768px) {
-    .musicSection {
-        margin-bottom: 20px;
+    .musicCards {
+        justify-content: center;
     }
 
     .musicCard {
+        width: 150px;
+    }
+
+    .musicCard img {
+        max-height: 150px;
+    }
+
+    .podcastCards {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .podcastCard {
+        height: 175px;
         width: 100%;
+    }
+
+    .podcastCard img {
+        height: 100%;
+        width: 50%;
+    }
+
+    .podcastInfo h3 {
+        font-size: 14px;
+    }
+
+    .podcastInfo p {
+        font-size: 12px;
     }
 }
