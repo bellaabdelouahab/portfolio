@@ -1,37 +1,146 @@
-import {createBrowserRouter,RouterProvider,Route,createRoutesFromElements} from 'react-router-dom';
-import Root from './views/Root';
-import Home, {getHighlightedProjects} from './views/Home';
-import Resume from './views/Resume';
-import Projects, { getProjects } from "./views/Projects";
-import Project from './views/Project';
-import Certificates, { getCertificates } from './views/Certificates'
-import Skills from './views/Skills';
-import Reports, { getReports } from "./views/Reports";
-import Articles from './views/Articles';
-import FillDB from './views/back-office/BackOffice';
-import MusicPicks from './views/music-picks/MusicPicks';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  createRoutesFromElements,
+} from "react-router-dom";
+import { Suspense } from "react";
+
+import { getHighlightedProjects } from "./views/Home";
+import { getProjects } from "./views/Projects";
+import { getCertificates } from "./views/Certificates";
+import { getReports } from "./views/Reports";
+
+// Define a fallback UI for loading state
+const fallback = (
+  <div
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      color: "white",
+      width: "100vw",
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundImage: "url('preloader.png')",
+      backgroundSize: "auto 50%",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }}
+    className="preloader"
+  >
+  </div>
+);
+
+// Import components lazily
+const Root = React.lazy(() => import("./views/Root"));
+const Home = React.lazy(() => import("./views/Home"));
+const Projects = React.lazy(() => import("./views/Projects"));
+const Project = React.lazy(() => import("./views/Project"));
+const Certificates = React.lazy(() => import("./views/Certificates"));
+const Resume = React.lazy(() => import("./views/Resume"));
+const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
+const Skills = React.lazy(() => import("./views/Skills"));
+const Reports = React.lazy(() => import("./views/Reports"));
+const Articles = React.lazy(() => import("./views/Articles"));
+const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Root />}>
-      <Route index element={<Home />} loader={getHighlightedProjects} />
-      <Route path="projects" element={<Projects />} loader={getProjects} />
-      <Route path="projects/:title" element={<Project />} />
-      <Route path="certificates" element={<Certificates />} loader={getCertificates} />
-      <Route path="resume" element={<Resume />} />
-      <Route path="music" element={<MusicPicks />} /> 
-      <Route path="skills" element={<Skills />} />
-      <Route path="Reports" element={<Reports />} loader={getReports} />
-      <Route path="articles" element={<Articles />} />
-      <Route path="fillDB" element={<FillDB />} />
+    <Route path="/" element={<Suspense fallback={fallback}><Root /></Suspense>}>
+      <Route
+        index
+        element={
+          <Suspense fallback={fallback}>
+            <Home />
+          </Suspense>
+        }
+        loader={getHighlightedProjects}
+      />
+      <Route
+        path="projects"
+        element={
+          <Suspense fallback={fallback}>
+            <Projects />
+          </Suspense>
+        }
+        loader={getProjects}
+      />
+      <Route
+        path="projects/:title"
+        element={
+          <Suspense fallback={fallback}>
+            <Project />
+          </Suspense>
+        }
+      />
+      <Route
+        path="certificates"
+        element={
+          <Suspense fallback={fallback}>
+            <Certificates />
+          </Suspense>
+        }
+        loader={getCertificates}
+      />
+      <Route
+        path="resume"
+        element={
+          <Suspense fallback={fallback}>
+            <Resume />
+          </Suspense>
+        }
+      />
+      <Route
+        path="music"
+        element={
+          <Suspense fallback={fallback}>
+            <MusicPicks />
+          </Suspense>
+        }
+      />
+      <Route
+        path="skills"
+        element={
+          <Suspense fallback={fallback}>
+            <Skills />
+          </Suspense>
+        }
+      />
+      <Route
+        path="Reports"
+        element={
+          <Suspense fallback={fallback}>
+            <Reports />
+          </Suspense>
+        }
+        loader={getReports}
+      />
+      <Route
+        path="articles"
+        element={
+          <Suspense fallback={fallback}>
+            <Articles />
+          </Suspense>
+        }
+      />
+      <Route
+        path="fillDB"
+        element={
+          <Suspense fallback={fallback}>
+            <BackOffice />
+          </Suspense>
+        }
+      />
     </Route>
   )
 );
 
-function App() { 
-  return (
-      <RouterProvider router={router}/>
-  )
+function App() {
+  return <RouterProvider router={router} fallbackElement={fallback} />;
 }
 
 export default App;

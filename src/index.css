@@ -6,7 +6,7 @@ body {
   font-family: "poppins", sans-serif, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-    padding-bottom: 0 !important;
+  padding-bottom: 0 !important;
   background: #252525 !important;
   font-family: "Poppins", sans-serif !important;
 }
@@ -33,6 +33,37 @@ code {
   flex-direction: row;
   flex-wrap: wrap;
   position: relative;
+}
+
+.preloader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("preloader.png");
+  background-size: auto 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* bg image zoom animtation note image already in the center */
+  animation: zoom 1s infinite;
+}
+
+@keyframes zoom {
+  0% {
+    background-size: auto 50%;
+  }
+  50% {
+    background-size: auto 60%;
+  }
+  100% {
+    background-size: auto 50%;
+  }
 }
 
 .hidden-area {
@@ -62,28 +93,25 @@ p {
   letter-spacing: 0.5px;
 }
 
-
-
 .main {
   background: #212121;
   height: 100%;
   overflow-y: auto;
   position: relative;
 }
-.social-networks{
-    position: absolute;
-    width: 3rem;
-    height: 155px;
-    background: #282c35;
-    z-index: 100;
-    /* move it to the right */
-    right: 0;
-    top: calc(50% - 77.5px);
-    margin-right: 1rem;
-    border-radius: 1rem 0 0 1rem ;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
+.social-networks {
+  position: absolute;
+  width: 3rem;
+  height: 155px;
+  background: #282c35;
+  z-index: 100;
+  /* move it to the right */
+  right: 0;
+  top: calc(50% - 77.5px);
+  margin-right: 1rem;
+  border-radius: 1rem 0 0 1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
 
 @media screen and (max-width: 990px) {
   .main {
@@ -92,7 +120,6 @@ p {
     height: auto;
   }
 }
-
 
 /* 
 @media screen and (max-width: 467px) {
