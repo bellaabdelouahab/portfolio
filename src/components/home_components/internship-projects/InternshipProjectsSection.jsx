@@ -1,31 +1,102 @@
-// import style from assets
-import { useEffect } from "react";
-import "./intership_projects.wide.css";
+import { useEffect, useState ,useRef} from "react";
+import "./internship_projects.wide.css";
 
 export default function InternshipProjectsSection() {
+  const [projects, setProjects] = useState([
+    {
+      title: "E-khsab: A Connected Cow Monitoring System [Agri4.0]",
+      description:
+        "Development of e-services to monitor in real-time the health status and well-being of cows, plan artificial inseminations, enhance herd reproduction, and implement a heat detection system within a core group of breeders, which will be extended to a larger number of breeders on a national scale.",
+      link: "https://poledigital.ma/projets/projets-elevage-4-0/e-khsab",
+      image: "./internshipes/agri4.0.png",
+      technologies: [
+        "Spring Boot",
+        "JHipster",
+        "React",
+        "PostgreSQL",
+        "RabbitMQ",
+        "WebSockets",
+        "Arduino",
+      ],
+    },
+    {
+      title: "E-khsab: A Connected Cow Monitoring System [Agri4.0]",
+      description:
+        "Development of e-services to monitor in real-time the health status and well-being of cows, plan artificial inseminations, enhance herd reproduction, and implement a heat detection system within a core group of breeders, which will be extended to a larger number of breeders on a national scale.",
+      link: "https://poledigital.ma/projets/projets-elevage-4-0/e-khsab",
+      image: "./internshipes/agri4.0.png",
+      technologies: [
+        "Spring Boot",
+        "JHipster",
+        "React",
+        "PostgreSQL",
+        "RabbitMQ",
+        "WebSockets",
+        "Arduino",
+      ],
+    },
+    {
+      title:
+        "Desktop application for managing package sending for special clients",
+      description:
+        "During this internship, I created a desktop application using JavaFX as a UI library and Oracle as a database. The application is used to manage the sending of packages for special clients (Lawyers, Journalists, Writers). This application was created to make it easy for them to send packages instead of waiting in lines. The application is used by the post office employees.",
+      link: "https://example.com/desktop-application",
+      image: "./internshipes/1200px-GBAM_LOGO.png",
+      technologies: [
+        "JavaFX",
+        "Oracle - Cloud",
+        "XML",
+        "CSS",
+        "Python",
+        "SMTP",
+      ],
+    },
+    {
+      title: "A Web Site For Envelope Database Management",
+      description:
+        "During this internship, I worked on a website for the management of the envelopes database. The workflow of the application is as follows: a customer brings a package or an envelope to the post office, the post office employee will register the envelope and scan its code, and the system will automatically generate a tracking number for the envelope which the customer will receive a receipt with.",
+      link: "https://example.com/envelope-management",
+      image: "./internshipes/PosteMaroc.jpg",
+      technologies: ["HTML", "CSS", "JavaScript", "Flask"],
+    },
+  ]);
+  const ref = useRef(null);
+
   useEffect(() => {
-    // get the size of each intership project and set the height of lineanimation to half of the size of the intership project
-    const intershipProjects = document.querySelectorAll(".intership-project");
-    intershipProjects.forEach((project) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          } else {
+            entry.target.classList.remove("is-visible");
+          }
+        });
+      },
+      {
+        root: null, // relative to the viewport
+        rootMargin: "0px",
+        threshold: 0.1, // 10% of the item is visible
+      }
+    );
+
+    const elements = ref.current.querySelectorAll(".animatable");
+    elements.forEach((el) => observer.observe(el));
+
+    const internshipProjects = document.querySelectorAll(".internship-project");
+    internshipProjects.forEach((project, index) => {
       const height = project.clientHeight;
-      // get  the lineAnimation element
-      const index = Array.from(project.parentElement.children).indexOf(project);
-      const lineAnimation = document.querySelector(
-        `.gradientLine-${(index - 1) * 2}`
+      const lineAnimation = document.querySelectorAll(
+        `.gradientLine-${index * 2}, .gradientLine-${index * 2 + 1}`
       );
-      lineAnimation.style.height = `${height / 2}px`;
-      const lineAnimation2 = document.querySelector(
-        `.gradientLine-${(index - 1) * 2 + 1}`
-      );
-      lineAnimation2.style.height = `${height / 2}px`;
+      lineAnimation.forEach((line) => (line.style.height = `${(height+1) / 2}px`));
     });
+
+    return () => elements.forEach((el) => observer.unobserve(el));
   }, []);
 
   return (
-    <section
-      className="internship-projects-section hidden-area"
-      style={{ marginTop: "5rem", height: "auto", width: "100%" }}
-    >
+    <section className="internship-projects-section" ref={ref}>
       <div className="experience">
         <div className="home-sections-title">
           <span>04. </span>
@@ -33,165 +104,47 @@ export default function InternshipProjectsSection() {
           <hr />
         </div>
       </div>
-      <div className="intership-project">
-        <div className="intership-project__img">
-          <img
-            src="./internshipes/agri4.0.png"
-            width="250px"
-            height="200px"
-            alt="Internship-Project-1"
-            border="0"
-            style={{
-              outline: "#fff 3px solid",
-            }}
-          />
-        </div>
-        <div className="intership-project__content">
-          <h1>E-khsab : A Connected Cow Monitoring System [Agri4.0]</h1>
-          <p className="content">
-            Development of e-services to monitor in real-time the health status
-            and well-being of cows, plan artificial inseminations, enhance herd
-            reproduction, and implement a heat detection system within a core
-            group of breeders, which will be extended to a larger number of
-            breeders on a national scale.
-          </p>
-          {/* link to interprise */}
-          <a
-            href="https://poledigital.ma/projets/projets-elevage-4-0/e-khsab"
-            style={{
-              outline: "1px solid #268b60",
-              borderRadius: "5px",
-              padding: ".5rem",
-            }}
-            target="_blank"
-            className="intership-project__content__link"
-          >
-            <img
-              src="./icons/site.png"
-              width="20px"
-              height="20px"
-              alt="Internship-Project-1"
-              border="0"
-              style={{ marginRight: ".4rem" }}
-            />
-            Link to website for more details
-          </a>
-          <ul className="intership-project__content__list">
-            <li>Spring Boot</li>
-            <li>JHipster</li>
-            <li>React</li>
-            <li>PostgreSQL</li>
-            <li>RabbitMQ</li>
-            <li>WebSockets</li>
-            <li>Ardunio</li>
-          </ul>
-        </div>
-      </div>
-      <div className="intership-project">
-        <div className="intership-project__img">
-          <img
-            src="./internshipes/1200px-GBAM_LOGO.png"
-            width="250px"
-            height="200px"
-            alt="Internship-Project-1"
-            border="0"
-            style={{
-              outline: "#0163ad 3px solid",
-            }}
-          />
-        </div>
-        <div className="intership-project__content">
-          <h1>
-            Desktop application for managing package sending for special clients
-          </h1>
-          <p className="content">
-            During this internship, I have created a desktop application using
-            JavaFX as a UI library and Oracle as a database. The application is
-            used to manage the sending of packages for special clients (Lawyers,
-            Journalists, Writers). This application was created to make it easy
-            for them to send packages instead of waiting in lines. The
-            application is used by the post office employees.
-          </p>
-          <ul className="intership-project__content__list">
-            <li>JavaFX</li>
-            <li>Oracle - Cloud</li>
-            <li>XML</li>
-            <li>CSS</li>
-            <li>Python</li>
-            <li>SMTP</li>
-          </ul>
-        </div>
-      </div>
-      <div className="intership-project">
-        <div className="intership-project__img">
-          <img
-            src="./internshipes/PosteMaroc.jpg"
-            width="250px"
-            height="200px"
-            alt="Not Found"
-            border="0"
-            style={{
-              outline: "#fce533 3px solid",
-            }}
-          />
-        </div>
-        <div className="intership-project__content">
-          <h1>A web Site For Envolop Database Managmnet </h1>
-          <p className="content">
-            {" "}
-            duringing this intership i have worked on a web site for the
-            management of the envelops database the workflow of the application
-            is as follows : a costumer bring a package or an envelop to the post
-            office, the post office employee will regester the envolop and scan
-            its code and the system will automatically generate a tracking
-            number for the envelop and the costumer will receive a receipt with
-            the tracking number on it, the costumer can use the tracking number
-            to track the status of the envelop on the web site.{" "}
-          </p>
-          <ul className="intership-project__content__list">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-            <li>Flask</li>
-          </ul>
-        </div>
-      </div>
-
+      {projects.map((project, index) => (
+        <InternshipProject key={index} project={project} />
+      ))}
       <div className="lineAnimation">
-        <div className="gradientLine-both gradientLine-0" />
-        <div className="iconContainer">
-          <img
-            src="./icons/calendar.png"
-            width="25px"
-            height="25px"
-            alt="Internship-Project-1"
-            border="0"
-          />
-        </div>
-        <div className="gradientLine-end  gradientLine-1" />
-        <div className="gradientLine-start gradientLine-2" />
-        <div className="iconContainer">
-          <img
-            src="./icons/calendar.png"
-            width="25px"
-            height="25px"
-            alt="Internship-Project-1"
-            border="0"
-          />
-        </div>
-        <div className="gradientLine-end  gradientLine-3" />
-        <div className="gradientLine-start gradientLine-4" />
-        <div className="iconContainer">
-          <img
-            src="./icons/calendar.png"
-            width="25px"
-            height="25px"
-            alt="Internship-Project-1"
-            border="0"
-          />
-        </div>
-        <div className="gradientLine-both gradientLine-5" />
+        {projects.map((_, index) => (
+          <div className="animatable" key={index}>
+            <div className={`gradientLine-start gradientLine-${index * 2}`} />
+            <div className="iconContainer">
+              <img src="./icons/calendar.png" alt="Calendar" width="30" />
+            </div>
+            <div className={`gradientLine-end gradientLine-${index * 2 + 1}`} />
+          </div>
+        ))}
       </div>
     </section>
+  );
+}
+
+function InternshipProject({ project }) {
+  return (
+    <div className="internship-project animatable">
+      <div className="internship-project__img">
+        <img src={project.image} alt={project.title} />
+      </div>
+      <div className="internship-project__content">
+        <h1>{project.title}</h1>
+        <p>{project.description}</p>
+        <a
+          href={project.link}
+          target="_blank"
+          className="internship-project__content__link"
+        >
+          <img src="./icons/site.png" alt="Link icon" width="20" />
+          Link to website for more details
+        </a>
+        <ul className="internship-project__content__list">
+          {project.technologies.map((tech, idx) => (
+            <li key={idx}>{tech}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 }

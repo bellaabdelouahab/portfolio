@@ -1,90 +1,90 @@
-  .happy-clients-section * {
-    /* border: 1px solid red; */
-  }
-  
-  .happy-clients-section{
-    height: fit-content;
-  }
+.happy-clients-section {
+    background-color: #1e1e1e; /* Dark greenish-gray background */
+    padding:  10px 0px  40px 0px;
+    margin-top: 80px;
+    box-sizing: border-box;
+    color: #cfcfcf; /* Light gray for text */
+    height: auto;
+}
 
-  .happy-clients-content {
-    height: max-content;
-    padding: 20px;
-    width: 100%;
+.happy-clients-content {
     display: flex;
-    flex-flow: row wrap;
+    flex-wrap: wrap;
     justify-content: center;
-  }
+    gap: 20px;
+}
 
-  .happy-clients-card {
-    background-color: #1e1e1e;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.happy-clients-card {
+    background-color: #252525; /* Slightly lighter gray for the card */
+    padding: 20px;
+    margin: 25px 0px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow for depth */
+    width: 300px;
+    transition: transform 0.3s ease-in-out;
     position: relative;
-    margin: 1rem;
-    width: 250px;
-    height: 200px;
-  }
+    display: flex;
+    flex-direction: column;
+}
 
-  .happy-clients-card > .client-pic , .happy-clients-card > .quotes-pic{
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    width: 75px;
-    height: 75px;
+
+.happy-clients-card:hover {
+    transform: translateY(-10px);
+}
+
+.client-pic {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 3px solid #4c4c4c;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  .quotes-pic{
-    left: 85% !important;
-    border: none !important;
-    width: 25px !important;
-    height: 25px !important;
-    border-radius: 0px !important;
-    opacity: .7;
-  }
+}
 
+.quotes-pic {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0.8;
+    border: none;
+    width: 20px;
+    height: 20px;
+}
 
-  .happy-clients-card h3 {
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: #b0afaf;
-    margin-bottom: 20%;
-    margin-top: 12%;
-    margin-left: 15%;
-    width: 50%;
-    text-wrap:wrap;
-  }
+.happy-clients-card h3 {
+    color: #b0afaf; /* Light gray for headings */
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
 
-  .happy-clients-card p {
-    font-size: 1rem;
-    color: #666;
-  }
-  .client-profession {
-    margin-top: 1rem;
-    width: 100%;
+.happy-clients-card  p {
+    color: #cfcfcf; /* Light gray for text */
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+.happy-clients-card > p {
+    flex: 1;
+}
+
+.client-profession {
     display: flex;
     justify-content: space-between;
-  }
+    align-items: center;
+    margin-top: 10px;
+    width: 100%;
+}
 
-  .client-profession p:first-child {
-    color: #2ac17f;
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 5px;
-  }
-
-  .client-profession p:nth-child(2) {
-    color: #b2b2b2;
+.client-profession p {
     font-size: 1rem;
-    border: 3px solid gray;
+    padding: 3px 6px;
     border-radius: 5px;
-    padding: 5px;
+    background-color: #2f2f2f; /* Slightly darker gray for contrast */
+    color: #cfcfcf;
+}
 
-  }
+.client-profession p:first-child {
+    font-weight: bold;
+}
+
+.client-profession p:nth-child(2) {
+    background-color: #191919; /* Darkest gray for additional contrast */
+}

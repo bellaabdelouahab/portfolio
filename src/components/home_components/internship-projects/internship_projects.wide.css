@@ -1,0 +1,204 @@
+.internship-projects-section {
+  margin-top: 5rem;
+  width: 100%;
+  position: relative;
+}
+
+.experience .home-sections-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.internship-project {
+  background-color: #1e1e1e;
+  border-radius: 0.5rem;
+  margin: 4rem 7% 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+  padding: 2rem 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.internship-project__img img {
+  width: 250px;
+  height: 200px;
+  outline: 3px solid #fff;
+  border-radius: 1.5rem;
+}
+
+.internship-project__content {
+  width: calc(100% - 250px);
+  padding: 0 0  0 1.5rem;
+}
+
+.internship-project__content h1 {
+  color: #fff;
+  font-size: 1.7rem;
+  margin-top: 5rem;
+}
+
+.internship-project__content p {
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  max-height: 12rem;
+  overflow: auto;
+}
+
+.internship-project__content__link {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #268b60;
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  width: fit-content;
+  float: right;
+}
+
+.internship-project__content__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.internship-project__content__list li {
+  background-color: #2ac180ab;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.lineAnimation {
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 7rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.lineAnimation > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.gradientLine-start,
+.gradientLine-end,
+.gradientLine-both {
+  width: 0.4rem;
+  background: linear-gradient(transparent, #2ac17f 40%, transparent);
+}
+.gradientLine-start {
+  background: linear-gradient(#2ac17f 40%, transparent);
+}
+.gradientLine-end {
+  background: linear-gradient(transparent, #2ac17f 40%);
+}
+
+.iconContainer {
+  width: 3.8rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.animatable {
+  opacity: 0;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animatable.is-visible {
+  opacity: 1;
+}
+
+/* Base styles for larger screens are assumed to be already included as you provided */
+
+/* Tablet devices */
+@media (max-width: 992px) {
+  .internship-projects-section {
+    padding: 20px;
+  }
+
+  .internship-project {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px 0;
+    border-radius: 10px;
+    margin: 4rem 0% 0;
+  }
+
+  .internship-project__img img {
+    width: 200px;
+    height: 160px;
+  }
+
+  .internship-project__content {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .internship-project__content h1 {
+    font-size: 1.5rem;
+    margin-top: 20px;
+  }
+
+  .internship-project__content p {
+    font-size: 1rem;
+  }
+
+  .internship-project__content__link {
+    margin-top: 20px;
+    float: none;
+  }
+
+  .internship-project__content__list li {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 576px) {
+  .home-sections-title {
+    font-size: 1.5rem;
+  }
+
+  .internship-project__img img {
+    width: 180px;
+    height: 140px;
+  }
+
+  .internship-project__content h1 {
+    font-size: 1.2rem;
+  }
+
+  .internship-project__content p {
+    font-size: 0.9rem;
+  }
+
+  .lineAnimation {
+    display: none; /* Hide the line animation on very small screens for better readability */
+  }
+}
