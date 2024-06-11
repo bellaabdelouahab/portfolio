@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import styles from "./MusicPicks.module.css";
 
 export default function MusicPicks() {
@@ -144,9 +143,9 @@ export default function MusicPicks() {
         <div className={styles.podcastCards}>
           {podcasts.map((podcast) => (
             <div key={podcast.id} className={styles.podcastCard}>
-                {!imageLoaded[podcast.id] && (
-                  <Skeleton height="150" width="150" />
-                )}
+              {!imageLoaded[podcast.id] ? (
+                <Skeleton height="150px" width="150px" />
+              ) : (
                 <img
                   src={podcast.image}
                   alt={podcast.title}
@@ -157,6 +156,7 @@ export default function MusicPicks() {
                     display: imageLoaded[podcast.id] ? "block" : "none",
                   }}
                 />
+              )}
 
               {imageLoaded[podcast.id] ? (
                 <div className={styles.podcastInfo}>
