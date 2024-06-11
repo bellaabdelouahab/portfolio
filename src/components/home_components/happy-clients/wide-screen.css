@@ -1,7 +1,6 @@
 .happy-clients-section {
     background-color: #1e1e1e; /* Dark greenish-gray background */
     padding:  10px 0px  40px 0px;
-    margin-top: 80px;
     box-sizing: border-box;
     color: #cfcfcf; /* Light gray for text */
     height: auto;
@@ -17,11 +16,10 @@
 .happy-clients-card {
     background-color: #252525; /* Slightly lighter gray for the card */
     padding: 20px;
-    margin: 25px 0px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow for depth */
     width: 300px;
-    transition: transform 0.3s ease-in-out;
+    transition: scale 0.3s ease-in-out;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -29,7 +27,7 @@
 
 
 .happy-clients-card:hover {
-    transform: translateY(-10px);
+    scale: 1.1;
 }
 
 .client-pic {
@@ -88,3 +86,4 @@
 .client-profession p:nth-child(2) {
     background-color: #191919; /* Darkest gray for additional contrast */
 }
+

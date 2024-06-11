@@ -1,3 +1,8 @@
+.collaborations {
+  background-color: #212121;
+  padding: 2rem 0;
+}
+
 .scroller {
   margin: auto;
   max-width: 95%;
@@ -52,5 +57,13 @@
 @keyframes scroll {
   to {
     transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+
+/* mobile stylw */
+@media screen and (max-width: 768px) {
+  .scroller__inner img {
+    height: 75px;
   }
 }

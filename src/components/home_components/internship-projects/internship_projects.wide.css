@@ -1,7 +1,9 @@
 .internship-projects-section {
   margin-top: 5rem;
+  padding-bottom: 5.3rem;
   width: 100%;
   position: relative;
+  background: #1e1e1e;
 }
 
 .experience .home-sections-title {
@@ -11,8 +13,8 @@
 }
 
 .internship-project {
-  background-color: #1e1e1e;
-  border-radius: 0.5rem;
+  background-color: #252525;
+  border-radius: 1.5rem;
   margin: 4rem 7% 0;
   display: flex;
   align-items: center;
@@ -40,13 +42,13 @@
 
 .internship-project__content {
   width: calc(100% - 250px);
-  padding: 0 0  0 1.5rem;
+  padding: 0 0 0 1.5rem;
 }
 
 .internship-project__content h1 {
   color: #fff;
   font-size: 1.7rem;
-  margin-top: 5rem;
+  padding-bottom: 1rem;
 }
 
 .internship-project__content p {
@@ -86,7 +88,7 @@
 
 .lineAnimation {
   position: absolute;
-  top: 10%;
+  top: -2rem;
   left: 0;
   width: 7rem;
   overflow: hidden;
@@ -124,14 +126,38 @@
   align-items: center;
 }
 
+
 .animatable {
-  opacity: 0;
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
 }
 
-.animatable.is-visible {
-  opacity: 1;
+.animatable::after{
+  content: '';
+  display: block;
+  width: 100%;
+  background: #1e1e1e;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
 }
+
+.animatable.is-visible::after {
+  animation: appear-from-top .75s ease-out forwards;
+}
+
+@keyframes appear-from-top {
+  from {
+    height: 100%;
+  }
+  to {
+    height: 0;
+  }
+}
+
 
 /* Base styles for larger screens are assumed to be already included as you provided */
 
@@ -177,6 +203,10 @@
   .internship-project__content__list li {
     font-size: 1rem;
   }
+
+  .lineAnimation {
+    display: none; /* Hide the line animation on very small screens for better readability */
+  }
 }
 
 /* Mobile devices */
@@ -201,4 +231,36 @@
   .lineAnimation {
     display: none; /* Hide the line animation on very small screens for better readability */
   }
+}
+
+/* remove last line */
+.lineAnimation > div:last-child .gradientLine-end {
+  display: none;
+}
+.lineAnimation > div:first-child .gradientLine-start {
+  opacity: 0;
+}
+
+.internship-projects-section__projects {
+  position: relative;
+}
+
+.show-more-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.show-more-button button {
+  padding: 0.5rem 1rem;
+  background-color: #268b60;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.show-more-button button:hover {
+  background-color: #1e7e4e;
 }

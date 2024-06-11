@@ -4,9 +4,8 @@ export default function ServicesSection() {
   return (
     <div className={styles.servicesSection}>
       <div className="home-sections-title">
-        <span>06. </span>
+        <span>07. </span>
         Services
-        <hr />
       </div>
       <div className={styles.cards}>
         <div className={styles.card}>

@@ -18,9 +18,8 @@ export default function HappyClientsSection() {
     return (
         <div className="happy-clients-section hidden-area">
             <div className="home-sections-title">
-                <span>05. </span>
+                <span>06. </span>
                 What My Clients Say
-                <hr />
             </div>
             <div className="happy-clients-content">
                 {clients?.map((client,index) => (

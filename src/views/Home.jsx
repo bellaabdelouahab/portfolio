@@ -37,8 +37,8 @@ export default function Home() {
       <AboutMeSection />
       <GithubProgressSection />
       <InternshipProjectsSection />
-      <HappyClientsSection />
       <Collaborations />
+      <HappyClientsSection />
       <ServicesSection/>
       <GetInTouchSection />
 

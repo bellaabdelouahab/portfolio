@@ -36,10 +36,7 @@ export default function Certificates() {
     return (
       <>
         <div className="certifications-header">
-          <div className="count">+{count} Badges & Certifications</div>
-          <label>
-            Sorted By :<span className="filter"> Date Earned ▼</span>{" "}
-          </label>
+          <div className="count">Over {count} Badges & Certifications</div>
         </div>
         <div className="certifications-content">
           {certificates.map((certificate, index) => (

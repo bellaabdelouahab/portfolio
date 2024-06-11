@@ -34,9 +34,8 @@ export default function Collaborations() {
   return (
     <div className="collaborations hidden-area">
       <div className="home-sections-title">
-        <span>06. </span>
+        <span>05. </span>
         Collaborations
-        <hr />
       </div>
       <div className="scroller" data-direction="right" data-speed="fast">
         <div className="scroller__inner">

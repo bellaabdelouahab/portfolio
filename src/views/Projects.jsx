@@ -111,9 +111,9 @@ export default function Projects() {
         <div className="projects-header">
           <h1 className="projects-section__title">Projects Library</h1>
           <div className="projects-section__filters">
-            <label>
+            <label onClick={handleFilterShow}>
               Category:{" "}
-              <span className="filter" onClick={handleFilterShow}>
+              <span className="filter">
                 {filter} ▼
               </span>{" "}
             </label>

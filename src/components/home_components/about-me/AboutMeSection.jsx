@@ -7,7 +7,6 @@ export default function AboutMeSection() {
         <div className="home-sections-title">
           <span>02. </span>
           About Me
-          <hr />
         </div>
         <div className="about-content">
           <div className="about-content-text">
