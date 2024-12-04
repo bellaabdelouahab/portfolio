@@ -1,0 +1,99 @@
+$anime-time: 8s;
+
+$box-size: 200px;
+$clip-distance: .05;
+$clip-size: $box-size * (1 + $clip-distance * 2);
+$path-width: 2px;
+
+$main-color: #69ca62;
+
+$codepen-logo-path: url('//blog.codepen.io/wp-content/uploads/2012/06/Button-White-Large.png');
+
+%full-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.bb {
+  &:before,
+  &:after {
+    @extend %full-fill;
+    content: '';
+    z-index: 10; // Changed from -1 to 10
+    margin: -1 * $clip-distance * 100%;
+    box-shadow: inset 0 0 0 $path-width; 
+    animation: clipMe $anime-time linear infinite;
+  }
+
+  &::before {
+    animation-delay: $anime-time * -.5;
+  }
+  @extend %full-fill;
+  width: $box-size;
+  height: $box-size;
+  margin: auto;
+  background: $codepen-logo-path no-repeat 50% / 70% rgba(#000, .1);
+  color: $main-color;
+  box-shadow: inset 0 0 0 1px rgba($main-color, .5);
+  overflow: visible; // Added to allow pseudo-elements to appear outside
+}
+
+@keyframes clipMe {
+  0%, 100% {clip: rect(0px, $clip-size, $path-width, 0px); }
+  25% {clip: rect(0px, $path-width, $clip-size, 0px); }
+  50% {clip: rect($clip-size - $path-width, $clip-size, $clip-size, 0px); }
+  75% {clip: rect(0px, $clip-size, $clip-size, $clip-size - $path-width); }
+}
+
+
+.team-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.team-card {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: #212121;
+  overflow: visible; // Changed from hidden to visible
+  cursor: pointer;
+  transition: transform 0.3s;
+  margin: 13px;
+  user-select: none; // Prevent text selection
+  -webkit-user-select: none; // Prevent text selection for Safari
+  -ms-user-select: none; // Prevent text selection for IE/Edge
+  z-index: 5;
+}
+
+.team-card:hover {
+  transform: scale(1.05);
+}
+
+.team-card h3,
+.team-card p {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  margin: 0;
+  color: #333;
+}
+
+.line {
+  position: absolute;
+  background-color: $main-color;
+  height: .2px; // Set the height of the line
+  opacity: .3;
+  z-index: 0; // Ensure lines are behind the cards
+  pointer-events: none;
+}

@@ -46,11 +46,19 @@ const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
 const Skills = React.lazy(() => import("./views/Skills"));
 const Reports = React.lazy(() => import("./views/Reports"));
 const Articles = React.lazy(() => import("./views/Articles"));
+const Team = React.lazy(()=> import("./views/Team"));
 const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Suspense fallback={fallback}><Root /></Suspense>}>
+    <Route
+      path="/"
+      element={
+        <Suspense fallback={fallback}>
+          <Root />
+        </Suspense>
+      }
+    >
       <Route
         index
         element={
@@ -91,6 +99,14 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={fallback}>
             <Resume />
+          </Suspense>
+        }
+      />
+      <Route
+        path="my-team"
+        element={
+          <Suspense fallback={fallback}>
+            <Team />
           </Suspense>
         }
       />
