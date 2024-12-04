@@ -103,9 +103,7 @@ export default function InternshipProjectsSection() {
     setDisplayCount(projects.length);
   };
 
-  const handleReset = () => {
-    setDisplayCount(3);
-  };
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -172,7 +170,6 @@ export default function InternshipProjectsSection() {
           </div>
         ) : (
           <div className="show-more-button">
-            <button onClick={handleReset}>Hide</button>
           </div>
         )}
       </div>

@@ -3,6 +3,7 @@
   --font-family: "poppins", sans-serif;
 }
 
+
 @media screen and (max-width: 4000px) {
   
   .navbar__menu__list > li > a.active::after {

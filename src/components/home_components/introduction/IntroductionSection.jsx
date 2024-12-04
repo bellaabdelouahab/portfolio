@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import "./wide-screen.css"
 import "./small-screen.css"
+import Skeleton from "react-loading-skeleton";
 
 export default function IntroductionSection() {
 
@@ -48,20 +49,30 @@ export default function IntroductionSection() {
         };
     }, [interval, letters]);
 
-    return <section className="home-introduction-section">
+    return (
+      <section className="home-introduction-section">
         <div className="home-introduction-section__title">
-            <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">Hi, I'm Abdelouahab</h1>
+          <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">
+            Hi, I'm Abdelouahab
+          </h1>
         </div>
-        <h2 className="home-introduction-section__subtitle"> ⟫⟫ a Data Scientist & Software Engineer</h2>
+        <h2 className="home-introduction-section__subtitle">
+          {" "}
+          ⟫⟫ a Data Scientist & Software Engineer
+        </h2>
         <a
-            className="home-introduction-section__button"
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/bellaabdelouahab"
+          className="home-introduction-section__button"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/bellaabdelouahab"
         >
-            Buy Me A Coffee <span>{">"}</span>{" "}
+          Buy Me A Coffee <span>{">"}</span>{" "}
         </a>
 
-        <div className="home-introduction-section__img" style={{ backgroundImage: 'url(./code.png)' }} />
-    </section>;
+        <div
+          className="home-introduction-section__img"
+          style={{ backgroundImage: "url(./code.png)" }}
+        />
+      </section>
+    );
 }

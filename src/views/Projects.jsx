@@ -1,7 +1,9 @@
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 import "../assets/css/projects.css";
 import axiosInstance from "utils/axios";
+
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function Projects() {
@@ -10,16 +12,16 @@ export default function Projects() {
   const Navigate = useNavigate();
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState("All");
+  const [imageLoaded, setImageLoaded] = useState({});
 
   let filters = [
     {
       All: -1,
     },
   ];
+
   InitProjects.map((project) => {
     project?.tags?.map((tag) => {
-      // search if the tag is in filters
-      // if so we increment the tag value by 1 else we initialize it by 1
       const updateFilters = (tag) => {
         const filterIndex = filters.findIndex((filter) =>
           filter.hasOwnProperty(tag)
@@ -39,13 +41,11 @@ export default function Projects() {
   useEffect(() => {
     const handleFilterClick = (e) => {
       const selectedTag = e.target.getAttribute("data-tag");
-      console.log(selectedTag);
       setFilter(selectedTag);
     };
 
     const filterElements = document.querySelectorAll(".filter-element");
     filterElements.forEach((element) => {
-      console.log(element);
       element.addEventListener("click", handleFilterClick);
     });
 
@@ -60,14 +60,12 @@ export default function Projects() {
     const handleFilter = (filterElement) => {
       filterElement.innerHTML = filter + " ▼";
       setShowFilter(false);
-      // Perform filtering logic here based on the selected tag
       const filteredProjects = InitProjects.filter((project) => {
         if (filter === "All") {
           return true;
         }
         return project.tags.includes(filter);
       });
-      // Update the UI with the filtered projects
       setProjects(filteredProjects);
     };
     const filterElement = document.querySelector(".filter");
@@ -78,7 +76,6 @@ export default function Projects() {
     setShowFilter(false);
   }, [filter, InitProjects]);
 
-  // handleFilterShow
   const handleFilterShow = (e) => {
     const filterElement = document.querySelector(".filter");
     const filtersElem = document.querySelector(".filters");
@@ -92,7 +89,7 @@ export default function Projects() {
       setShowFilter(false);
     }
   };
-  // use effet :
+
   useEffect(() => {
     document.getElementById("cards").onmousemove = (e) => {
       for (const card of document.getElementsByClassName("card")) {
@@ -105,6 +102,11 @@ export default function Projects() {
       }
     };
   }, []);
+
+  const handleImageLoad = (projectId) => {
+    setImageLoaded((prevState) => ({ ...prevState, [projectId]: true }));
+  };
+
   return (
     <>
       <section className="projects-section">
@@ -112,10 +114,7 @@ export default function Projects() {
           <h1 className="projects-section__title">Projects Library</h1>
           <div className="projects-section__filters">
             <label onClick={handleFilterShow}>
-              Category:{" "}
-              <span className="filter">
-                {filter} ▼
-              </span>{" "}
+              Category: <span className="filter">{filter} ▼</span>{" "}
             </label>
           </div>
         </div>
@@ -137,14 +136,14 @@ export default function Projects() {
         <div id="cards">
           {projects &&
             projects.map((project, index) => {
-              const description = project.description
+              const description = project.description;
               let truncatedDescription = description.slice(0, 350);
               const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
               truncatedDescription = truncatedDescription.slice(
                 0,
                 lastSpaceIndex
               );
-              if (description.length> 350) truncatedDescription += "...";
+              if (description.length > 350) truncatedDescription += "...";
               return (
                 <div
                   key={project._id}
@@ -158,15 +157,53 @@ export default function Projects() {
                   <div
                     className="projects-section__projects__project__img"
                     style={{
-                      backgroundImage: `url(${backendUploadsApi}/${project.image}) `,
+                      backgroundImage: imageLoaded[project._id]
+                        ? `url(${backendUploadsApi}/${project.image})`
+                        : "none",
                     }}
-                  />
-                  <h3 className="projects-section__projects__project__title">
-                    {project.title}
-                  </h3>
-                  <p className="projects-section__projects__project__description">
-                    {truncatedDescription}
-                  </p>
+                  >
+                    {!imageLoaded[project._id] && <Skeleton height="100%" />}
+                    <img
+                      src={`${backendUploadsApi}/${project.image}`}
+                      alt={project.title}
+                      style={{ display: "none" }}
+                      onLoad={() => handleImageLoad(project._id)}
+                      // on error set image as not found image at assets/images/notfound.png
+                       
+                    />
+                  </div>
+                  {imageLoaded[project._id] ? (
+                    <>
+                      <h3 className="projects-section__projects__project__title">
+                        {project.title}
+                      </h3>
+                      <p className="projects-section__projects__project__description">
+                        {truncatedDescription}
+                      </p>
+                    </>
+                  ) : (
+                    <div>
+                      
+                      <div className="home-projects-section__projects__project__description" style={{
+                        display:"flex",
+                        justifyContent:"center",
+                        width:"100%"
+                      }}>
+                      <Skeleton
+                        height={24}
+                        width={`10rem`}
+                        style={{
+                          marginBottom: "10px",
+                          marginTop: "10px",
+                          marginLeft: "10px",
+                        }}
+                      />
+                      </div>
+                      <div className="home-projects-section__projects__project__description">
+                        <Skeleton count={7} />
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -175,6 +212,7 @@ export default function Projects() {
     </>
   );
 }
+
 export const getProjects = async () => {
   return await axiosInstance
     .get("projects")

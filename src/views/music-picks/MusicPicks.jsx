@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
 import styles from "./MusicPicks.module.css";
 
 export default function MusicPicks() {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [podcasts, setPodcasts] = useState([]);
+  const [imageLoaded, setImageLoaded] = useState({});
 
   useEffect(() => {
     setRecentlyPlayed(sampleMusicData);
     setPodcasts(samplePodcastsData);
   }, []);
+
   const sampleMusicData = [
     {
       id: 1,
@@ -75,18 +78,20 @@ export default function MusicPicks() {
     },
   ];
 
-  // Set the sample music data to the state variables
+  const handleImageLoad = (id) => {
+    setImageLoaded((prevState) => ({ ...prevState, [id]: true }));
+  };
 
   return (
     <div className={styles.MusicPicks}>
-      {/* imge at the top */}
       <img
         src="/bg-copy_LE_auto_x2.png"
         style={{
           margin: 10,
           marginBottom: 50,
           borderRadius: 10,
-          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.",
+          boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
+          height: "150px",
         }}
         alt="Music Picks"
       />
@@ -98,15 +103,34 @@ export default function MusicPicks() {
         <div className={styles.musicCards}>
           {recentlyPlayed.map((music) => (
             <div key={music.id} className={styles.musicCard}>
-              {/* Render recently played music card */}
-              <img
-                src={music.image}
-                alt={music.title}
-                width="175"
-                height="175"
-              />
-              <h3>{music.title}</h3>
-              <p>{music.artist}</p>
+              <div className={styles.imageWrapper}>
+                {!imageLoaded[music.id] && (
+                  <Skeleton height="175px" width="175px" />
+                )}
+                <img
+                  src={music.image}
+                  alt={music.title}
+                  width="175"
+                  height="175"
+                  onLoad={() => handleImageLoad(music.id)}
+                  style={{ display: imageLoaded[music.id] ? "block" : "none" }}
+                />
+              </div>
+              {imageLoaded[music.id] ? (
+                <>
+                  <h3>{music.title}</h3>
+                  <p>{music.artist}</p>
+                </>
+              ) : (
+                <div>
+                  <Skeleton
+                    height={24}
+                    width={`60%`}
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <Skeleton width={`80%`} />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -117,19 +141,38 @@ export default function MusicPicks() {
           <button>See all</button>
         </div>
         <div className={styles.podcastCards}>
-          {podcasts.map((music) => (
-            <div key={music.id} className={styles.podcastCard}>
-              {/* Render best songs music card */}
-              <img
-                src={music.image}
-                alt={music.title}
-                width="150"
-                height="150"
-              />
-              <div className={styles.podcastInfo}>
-                <h3>{music.title}</h3>
-                <p>{music.artist}</p>
-              </div>
+          {podcasts.map((podcast) => (
+            <div key={podcast.id} className={styles.podcastCard}>
+              {!imageLoaded[podcast.id] ? (
+                <Skeleton height="150px" width="150px" />
+              ) : (
+                <img
+                  src={podcast.image}
+                  alt={podcast.title}
+                  width="150"
+                  height="150"
+                  onLoad={() => handleImageLoad(podcast.id)}
+                  style={{
+                    display: imageLoaded[podcast.id] ? "block" : "none",
+                  }}
+                />
+              )}
+
+              {imageLoaded[podcast.id] ? (
+                <div className={styles.podcastInfo}>
+                  <h3>{podcast.title}</h3>
+                  <p>{podcast.artist}</p>
+                </div>
+              ) : (
+                <div>
+                  <Skeleton
+                    height={24}
+                    width={`60%`}
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <Skeleton width={`80%`} />
+                </div>
+              )}
             </div>
           ))}
         </div>
