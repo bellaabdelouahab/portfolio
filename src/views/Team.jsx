@@ -1,32 +1,45 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import Draggable from "react-draggable";
 import "./Team.scss";
 
 const teamMembers = [
   {
-    name: "John Doe",
-    role: "Developer",
-    position: { x: 0, y: 250 },
+    name: "Abdelouahab Bella",
+    role: "Jack of all trades",
+    position: {
+      x: window.innerWidth * 0.5 - 120,
+      y: window.innerHeight * 0.1 - 80,
+    },
     image:
       "https://github.com/bellaabdelouahab/portfolio/blob/master/public/Personal%20Picture.jpg?raw=true",
   },
   {
-    name: "Jane Smith",
-    role: "Designer",
-    position: { x: 100, y: 0 },
-    image: "path/to/jane-smith.jpg",
+    name: "Boujrada Yassine",
+    role: "Software Engineer & Web scrapping expert",
+    position: {
+      x: window.innerWidth * 0.3 - 120,
+      y: window.innerHeight * 0.1 - 80,
+    },
+    image: "/src/assets/images/yassin.png",
   },
   {
     name: "Mike Johnson",
     role: "Manager",
-    position: { x: 150, y: 550 },
+    position: {
+      x: window.innerWidth * 0.5 - 120,
+      y: window.innerHeight * 0.1 - 80,
+    },
     image: "path/to/mike-johnson.jpg",
   },
   // Add more team members with their positions and images as needed
 ];
 
+console.log(teamMembers);
+
+
 const Team = () => {
   const containerRef = useRef(null);
+  const [hoveredMember, setHoveredMember] = useState(teamMembers[0]);
 
   const drawLines = useCallback(() => {
     const cards = document.querySelectorAll(".team-card");
@@ -80,6 +93,14 @@ const Team = () => {
     setTimeout(drawLines, 3); // Ensure lines are drawn after draggable animation completes
   };
 
+  const handleMouseEnter = (member) => {
+    setHoveredMember(member);
+  };
+
+  const handleMouseLeave = () => {
+    // setHoveredMember(null);
+  };
+
   return (
     <div className="team-container" ref={containerRef}>
       {teamMembers.map((member, index) => (
@@ -96,8 +117,10 @@ const Team = () => {
               backgroundImage: `url(${member.image})`,
               backgroundSize: "60%",
               backgroundPosition: "center",
-              backgroundRepeat:"no-repeat",
+              backgroundRepeat: "no-repeat",
             }}
+            onMouseEnter={() => handleMouseEnter(member)}
+            onMouseLeave={handleMouseLeave}
           >
             <div className="bb"></div>
             <h3>{member.name}</h3>
@@ -105,6 +128,13 @@ const Team = () => {
           </div>
         </Draggable>
       ))}
+      <div className="info-card">
+        {(
+          <>
+            <p>Additional information about {hoveredMember.name}.</p>
+          </>
+        )}
+      </div>
     </div>
   );
 };

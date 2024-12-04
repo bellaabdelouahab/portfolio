@@ -50,9 +50,6 @@ $main-color: #69ca62;
 }
 
 .team-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   gap: 20px;
   padding: 20px;
   width: 100%;
@@ -96,4 +93,29 @@ $main-color: #69ca62;
   opacity: .3;
   z-index: 0; // Ensure lines are behind the cards
   pointer-events: none;
+}
+
+.info-card {
+  position: absolute;
+  bottom: -10%; // Start off-screen
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 10%;
+  padding: 20px;
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: bottom 1s ease-in-out, opacity 1s ease-in-out;
+  z-index: 100;
+  opacity: 0; // Start invisible
+  text-align: center;
+  color: #fff; // Text color
+  font-family: 'Arial', sans-serif; // Font family
+  font-size: 1.5rem; // Font size
+  line-height: 1.5; // Line height
+}
+
+.team-card:hover ~ .info-card {
+  bottom: 0px; // Move into view
+  opacity: 1; // Make visible
 }
