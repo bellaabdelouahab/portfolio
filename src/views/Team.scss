@@ -7,7 +7,7 @@ $path-width: 2px;
 
 $main-color: #69ca62;
 
-$codepen-logo-path: url('//blog.codepen.io/wp-content/uploads/2012/06/Button-White-Large.png');
+// Removed $codepen-logo-path variable
 
 %full-fill {
   position: absolute;
@@ -35,7 +35,8 @@ $codepen-logo-path: url('//blog.codepen.io/wp-content/uploads/2012/06/Button-Whi
   width: $box-size;
   height: $box-size;
   margin: auto;
-  background: $codepen-logo-path no-repeat 50% / 70% rgba(#000, .1);
+  background: no-repeat 50% / 70% rgba(#000, .1); // Removed $codepen-logo-path
+  background-size: 60%;
   color: $main-color;
   box-shadow: inset 0 0 0 1px rgba($main-color, .5);
   overflow: visible; // Added to allow pseudo-elements to appear outside
@@ -47,7 +48,6 @@ $codepen-logo-path: url('//blog.codepen.io/wp-content/uploads/2012/06/Button-Whi
   50% {clip: rect($clip-size - $path-width, $clip-size, $clip-size, 0px); }
   75% {clip: rect(0px, $clip-size, $clip-size, $clip-size - $path-width); }
 }
-
 
 .team-container {
   display: flex;
