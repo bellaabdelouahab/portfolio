@@ -3,21 +3,19 @@ import axiosInstance from "utils/axios";
 
 export default function LoginPage({ setAuthenticated }) {
   return (
-    <div className="filldb-container">
+    <div className="login-container">
       <form
         className="login-form"
         onSubmit={(e) => {
           e.preventDefault();
-          const data = {};
-          data["email"] = e.target.email.value;
-          data["password"] = e.target.password.value;
+          const data = {
+            email: e.target.email.value,
+            password: e.target.password.value,
+          };
           axiosInstance
             .post("users/login", data)
             .then((res) => {
-              console.log(res);
-              // add cookie
               document.cookie = `jwt=${res.token}`;
-              // remove old jwt if exists
               localStorage.removeItem("jwt");
               localStorage.setItem("jwt", res.token);
               setAuthenticated(true);
@@ -32,13 +30,13 @@ export default function LoginPage({ setAuthenticated }) {
           className="login-input"
           type="text"
           name="email"
-          placeholder="email"
+          placeholder="Email"
         />
         <input
           className="login-input"
           type="password"
           name="password"
-          placeholder="password"
+          placeholder="Password"
         />
         <input type="submit" className="login-submit" value="Submit" />
       </form>

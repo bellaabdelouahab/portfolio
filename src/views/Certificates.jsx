@@ -36,7 +36,7 @@ export default function Certificates() {
     return (
       <>
         <div className="certifications-header">
-          <div className="count">Over {count} Badges & Certifications</div>
+          <div className="count">Over +{count} Badges & Certifications</div>
         </div>
         <div className="certifications-content">
           {certificates.map((certificate, index) => (
@@ -46,6 +46,7 @@ export default function Certificates() {
                 alt="NoImage"
                 width="100"
                 height="100"
+                style={certificate.issuer?.toLowerCase() === 'ibm' ? { borderRadius: '50%' } : {}}
               />
               <div className="certification-title">{certificate.title}</div>
             </div>

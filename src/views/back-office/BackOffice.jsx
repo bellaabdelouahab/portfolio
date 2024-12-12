@@ -5,7 +5,6 @@ import ReportForm from "components/backoffice-component/forms/ReportForm";
 import axiosInstance from "utils/axios";
 import "./filldb.css";
 import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
-import ButtonGroup from "../../components/backoffice-component/button-group/ButtonGroup";
 import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
 import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
 import Clients from "components/backoffice-component/forms/clients-form/Clients";
@@ -17,32 +16,14 @@ const tabs = [
   { id: 3, label: "Skill", component: <SkillForm /> },
   { id: 4, label: "Report", component: <ReportForm /> },
   { id: 5, label: "Clients", component: <Clients /> },
-  // Add more buttons here if needed
 ];
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
-  /**
-   * useEffect hook to update the CSS variable '--button-index' when the activeTab changes.
-   */
-  useEffect(() => {
-    const buttonsContainer = document.getElementsByClassName("buttons")[0];
-    if (buttonsContainer)
-      buttonsContainer.style.setProperty(
-        "--button-index",
-        tabs.findIndex((tab) => tab.id === activeTab).toString()
-      );
-  }, [activeTab]);
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
-
   useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    console.log("jwt", jwt);
-    // check if jwt is correct isLoggedIn route
     axiosInstance
       .get("users/is-logged-in", {
         headers: {
@@ -50,7 +31,6 @@ export default function FillDB() {
         },
       })
       .then((res) => {
-        // if 200 is returned, set authenticated to true
         if (res.status === "success") {
           setAuthenticated(true);
         } else {
@@ -68,14 +48,22 @@ export default function FillDB() {
       {!authenticated ? (
         <LoginPage setAuthenticated={setAuthenticated} />
       ) : (
-        <>
-          <ButtonGroup
-            tabs={tabs}
-            activeTab={activeTab}
-            handleTabChange={handleTabChange}
-          />
-          {tabs.map((tab) => activeTab === tab.id && tab.component)}
-        </>
+        <div className="filldb-container">
+          <div className="buttons">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={`filldb-nav__btn ${activeTab === tab.id ? "active" : ""}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <div className="tab-content">
+            {tabs.map((tab) => activeTab === tab.id && tab.component)}
+          </div>
+        </div>
       )}
     </>
   );
