@@ -18,63 +18,73 @@ export default function MusicPicks() {
       title: "Blinding Lights",
       artist: "The Weeknd",
       image: "music/image1.png",
+      url: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b",
     },
     {
       id: 2,
       title: "Dance Monkey",
       artist: "Tones and I",
       image: "music/image2.png",
+      url: "https://open.spotify.com/track/1rgnBhdG2JDFTbYkYRZAku",
     },
     {
       id: 3,
       title: "Side Effects",
       artist: "The Chainsmokers ft. Emily Warren",
       image: "music/image3.png",
+      url: "https://open.spotify.com/track/0bGLvHd0ApdT4t0shCfpzG?si=a1bb180330b049a5",
     },
     {
       id: 4,
       title: "Youngblood",
       artist: "5 Seconds of Summer",
       image: "music/image4.png",
+      url: "https://open.spotify.com/track/2iUXsYOEPhVqEBwsqP70rE",
     },
     {
       id: 5,
       title: "Be Alright",
       artist: "Dean Lewis",
       image: "music/image5.png",
+      url: "https://open.spotify.com/track/5qrSlOut2rNAWv3ubArkNy",
     },
   ];
 
   const samplePodcastsData = [
     {
       id: 1,
-      title: "The Daily",
-      artist: "The New York Times",
+      title: "العرب في 100 عام",
+      artist: "ستيب بودكاست",
       image: "podcast/image1.png",
+      url: "https://open.spotify.com/episode/5sIQ4ebjXsMVLK5RbEukEZ?si=9e088120474a4a43",
     },
     {
       id: 2,
       title: "مستقبل الخوف",
       artist: "السبيل",
       image: "podcast/image2.png",
+      url: "https://open.spotify.com/episode/5jtCNQcTfBD9SdvsByVidX?si=G_X8542vT8CU3QfnMhrU2w",
     },
     {
       id: 3,
       title: "ارض الميعاد",
       artist: "السبيل",
       image: "podcast/image3.png",
+      url: "https://open.spotify.com/episode/1LpFIKRzq66CtY0v87jYWZ?si=p9xXf5sBS3aDaa_-UR0HLw",
     },
     {
       id: 4,
       title: "بنو اسرائيل",
       artist: "السبيل",
       image: "podcast/image4.png",
+      url: "https://open.spotify.com/episode/6MfOvHRl467MwXHieGvc3I?si=2d0260cc1549404f",
     },
     {
       id: 5,
       title: "تشرسح الدولة",
       artist: "السبيل",
       image: "podcast/image5.png",
+      url: "https://open.spotify.com/episode/2wFLyWV2QPuJQole1Ze7Lc?si=91273ebe999a4c1d",
     },
   ];
 
@@ -91,7 +101,8 @@ export default function MusicPicks() {
           marginBottom: 50,
           borderRadius: 10,
           boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
-          height: "150px",
+          // height: "150px",
+          transform:"scale(0.8)"
         }}
         alt="Music Picks"
       />
@@ -102,7 +113,13 @@ export default function MusicPicks() {
         </div>
         <div className={styles.musicCards}>
           {recentlyPlayed.map((music) => (
-            <div key={music.id} className={styles.musicCard}>
+            <a 
+              href={music.url}
+              key={music.id} 
+              className={styles.musicCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <div className={styles.imageWrapper}>
                 {!imageLoaded[music.id] && (
                   <Skeleton height="175px" width="175px" />
@@ -131,7 +148,7 @@ export default function MusicPicks() {
                   <Skeleton width={`80%`} />
                 </div>
               )}
-            </div>
+            </a>
           ))}
         </div>
       </section>
@@ -142,7 +159,13 @@ export default function MusicPicks() {
         </div>
         <div className={styles.podcastCards}>
           {podcasts.map((podcast) => (
-            <div key={podcast.id} className={styles.podcastCard}>
+            <a
+              href={podcast.url}
+              key={podcast.id} 
+              className={styles.podcastCard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {!imageLoaded[podcast.id] ? (
                 <Skeleton height="150px" width="150px" />
               ) : (
@@ -173,7 +196,7 @@ export default function MusicPicks() {
                   <Skeleton width={`80%`} />
                 </div>
               )}
-            </div>
+            </a>
           ))}
         </div>
       </section>

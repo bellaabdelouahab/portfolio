@@ -1,6 +1,8 @@
 import "assets/css/certification.css";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import axiosInstance from "utils/axios";
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
@@ -8,6 +10,7 @@ export default function Certificates() {
     const {certificatesInit,count} = useLoaderData();
     const [certificates, setCertificates] = useState(certificatesInit);
     const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState({});
 
     // a handler for the show more button
     useEffect(() => {
@@ -18,7 +21,6 @@ export default function Certificates() {
           .get(`certificates?limit=9&page=${page + 1}`)
           .then((res) => {
             const newCertificates = res.data;
-            console.log(newCertificates);
             setCertificates([...certificates, ...newCertificates]);
           })
           .catch((err) => console.log(err));
@@ -32,6 +34,9 @@ export default function Certificates() {
       };
     }, [page, setCertificates, certificates, setPage]);
 
+    const handleImageLoad = (index) => {
+      setLoading(prev => ({...prev, [index]: false}));
+    };
 
     return (
       <>
@@ -41,12 +46,23 @@ export default function Certificates() {
         <div className="certifications-content">
           {certificates.map((certificate, index) => (
             <div className="certification-element" key={index}>
+              {loading[index] !== false && (
+                <Skeleton 
+                  width={100} 
+                  height={100} 
+                  circle={certificate.issuer?.toLowerCase() === 'ibm'}
+                />
+              )}
               <img
+                style={{
+                  display: loading[index] !== false ? 'none' : 'block',
+                  ...(certificate.issuer?.toLowerCase() === 'ibm' ? { borderRadius: '50%' } : {})
+                }}
                 src={`${backendUploadsApi}${certificate.image}`}
                 alt="NoImage"
                 width="100"
                 height="100"
-                style={certificate.issuer?.toLowerCase() === 'ibm' ? { borderRadius: '50%' } : {}}
+                onLoad={() => handleImageLoad(index)}
               />
               <div className="certification-title">{certificate.title}</div>
             </div>
@@ -55,8 +71,7 @@ export default function Certificates() {
         {/* div for show more */}
         <div className="certifications-show-more">
             <div className="line"></div>
-          <button 
-          >Show More</button>
+          <button>Show More</button>
             <div className="line"></div>
         </div>
       </>
