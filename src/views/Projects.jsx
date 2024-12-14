@@ -137,13 +137,13 @@ export default function Projects() {
           {projects &&
             projects.map((project, index) => {
               const description = project.description;
-              let truncatedDescription = description.slice(0, 350);
+              let truncatedDescription = description.slice(0, 250); // Increased limit slightly
               const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
               truncatedDescription = truncatedDescription.slice(
                 0,
                 lastSpaceIndex
               );
-              if (description.length > 350) truncatedDescription += "...";
+              if (description.length > 200) truncatedDescription += "...";
               return (
                 <div
                   key={project._id}

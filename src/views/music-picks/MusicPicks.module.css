@@ -178,6 +178,16 @@
     color: #888;
 }
 
+.musicCard, .podcastCard {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.musicCard:hover, .podcastCard:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s ease;
+}
 
 /* responsive : mobile */
 @media (max-width: 768px) {

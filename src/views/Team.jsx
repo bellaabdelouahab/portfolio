@@ -103,6 +103,7 @@ const Team = () => {
 
   return (
     <div className="team-container" ref={containerRef}>
+      drag and drop to see info about him
       {teamMembers.map((member, index) => (
         <Draggable
           key={index}
