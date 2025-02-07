@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import "./wide-screen.css";
 import axiosInstance from "utils/axios";
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 export default function HappyClientsSection() {
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
-        axiosInstance.get("/clients")
-            .then(res => {
-                setClients(res.data)
+        const fetchClients = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "clients"));
+                const clientsData = querySnapshot.docs.map(doc => doc.data());
+                setClients(clientsData);
+            } catch (error) {
+                console.error(error);
             }
-                )
-            .catch(error => console.error(error));
+        };
+
+        fetchClients();
     }, []);
 
     return (
-        <div className="happy-clients-section hidden-area">
+        <div className="happy-clients-section hidden-area">     
             <div className="home-sections-title">
                 <span>06. </span>
                 What My Clients Say

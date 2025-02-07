@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "../assets/css/projects.css";
 import axiosInstance from "utils/axios";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
@@ -214,10 +216,8 @@ export default function Projects() {
 }
 
 export const getProjects = async () => {
-  return await axiosInstance
-    .get("projects")
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => console.log(err));
+  const colRef = collection(db, "projects");
+  const snapshot = await getDocs(colRef);
+  const data = snapshot.docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
+  return data;
 };

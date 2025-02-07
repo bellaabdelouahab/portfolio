@@ -13,6 +13,8 @@
     "@wooorm/starry-night": "^1.5.0",
     "axios": "^1.6.0",
     "dotenv": "^16.4.5",
+    "firebase": "^11.3.0",
+    "firebase-admin": "^13.1.0",
     "hast-util-to-html": "^8.0.4",
     "portfolio": "file:",
     "react": "^18.2.0",

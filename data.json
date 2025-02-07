@@ -1,0 +1,384 @@
+{"data":[{
+  "_id": "65d749b4ca30574a4559da4e"
+  ,
+  "title": "Train a Supervised Machine Learning Model",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/65d749b4ca30574a4559da4e.webp",
+  "link": "https://openclassrooms.com/en/courses/6389626/certificate_example",
+  "downloadPath": "https://openclassrooms.com/en/courses/6389626/certificate_example",
+  "createdAt": {
+    "$date": "2024-02-22T13:18:44.934Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T13:18:44.934Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d74febca30574a4559da55"
+  ,
+  "title": "Secure Your Web Application With Spring Security",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/65d74febca30574a4559da55.webp",
+  "link": "https://openclassrooms.com/en/course-certificates/4113945945",
+  "downloadPath": "https://openclassrooms.com/en/course-certificates/4113945945",
+  "createdAt": {
+    "$date": "2024-02-22T13:45:15.751Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T13:45:15.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d750b6ca30574a4559da59"
+  ,
+  "title": "Design Your Software Architecture Using Industry-Standard Patterns",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/65d750b6ca30574a4559da59.webp",
+  "link": "https://openclassrooms.com/en/course-certificates/7867133141",
+  "downloadPath": "https://openclassrooms.com/en/course-certificates/7867133141",
+  "createdAt": {
+    "$date": "2024-02-22T13:48:38.744Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T13:48:38.744Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d7538dca30574a4559da5d"
+  ,
+  "title": "Introduction to Deep Learning Models",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/65d7538dca30574a4559da5d.webp",
+  "link": "https://openclassrooms.com/en/course-certificates/7364583466",
+  "downloadPath": "https://openclassrooms.com/en/course-certificates/7364583466",
+  "createdAt": {
+    "$date": "2024-02-22T14:00:45.225Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:00:45.225Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d75466ca30574a4559da61"
+  ,
+  "title": "Introduction to Natural Language Processing",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/65d75466ca30574a4559da61.webp",
+  "link": "https://openclassrooms.com/en/course-certificates/3052390427",
+  "downloadPath": "https://openclassrooms.com/en/course-certificates/3052390427",
+  "createdAt": {
+    "$date": "2024-02-22T14:04:22.732Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:04:22.732Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d755b0ca30574a4559da65"
+  ,
+  "title": "Data Analysis with Python",
+  "issuer": "Cognitive Class",
+  "image": "/images/certificates/65d755b0ca30574a4559da65.webp",
+  "link": "https://courses.cognitiveclass.ai/certificates/26a821cb2a7e4132a5fb0232790cf449",
+  "downloadPath": "https://courses.cognitiveclass.ai/certificates/26a821cb2a7e4132a5fb0232790cf449",
+  "createdAt": {
+    "$date": "2024-02-22T14:09:52.038Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:09:52.038Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d759c7ca30574a4559da6a"
+  ,
+  "title": "Data Visualization with Python",
+  "issuer": "Cognitive Class",
+  "image": "/images/certificates/65d759c7ca30574a4559da6a.webp",
+  "link": "https://courses.cognitiveclass.ai/certificates/e8a88ea06c4c4e759b35f8dd22e6af93",
+  "downloadPath": "https://courses.cognitiveclass.ai/certificates/e8a88ea06c4c4e759b35f8dd22e6af93",
+  "createdAt": {
+    "$date": "2024-02-22T14:27:19.971Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:27:19.971Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d75b2bca30574a4559da6e"
+  ,
+  "title": "DataOps Methodology",
+  "issuer": "Cognitive Class",
+  "image": "/images/certificates/65d75b2bca30574a4559da6e.webp",
+  "link": "https://courses.cognitiveclass.ai/certificates/384e888eab734de18b2ed310b7faaa68",
+  "downloadPath": "https://courses.cognitiveclass.ai/certificates/384e888eab734de18b2ed310b7faaa68",
+  "createdAt": {
+    "$date": "2024-02-22T14:33:15.869Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:33:15.869Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d76028ca30574a4559da77"
+  ,
+  "title": "No-Code Machine Learning Using Amazon AWS SageMaker Canvas",
+  "issuer": "Udemy",
+  "image": "/images/certificates/65d76028ca30574a4559da77.webp",
+  "link": "https://www.udemy.com/certificate/UC-65731730-3a5b-4f1d-a692-36c58784a9d6/",
+  "downloadPath": "https://www.udemy.com/certificate/UC-65731730-3a5b-4f1d-a692-36c58784a9d6/",
+  "createdAt": {
+    "$date": "2024-02-22T14:54:32.777Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:54:32.777Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d7612fca30574a4559da7b"
+  ,
+  "title": "Active Member",
+  "issuer": "DIGITAL INITIATIVE",
+  "image": "/images/certificates/65d7612fca30574a4559da7b.webp",
+  "link": "#",
+  "downloadPath": "#",
+  "createdAt": {
+    "$date": "2024-02-22T14:58:55.719Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-22T14:58:55.719Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8714594f886331c74eb82"
+  ,
+  "title": "Data Analytics Essentials",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8714594f886331c74eb82.webp",
+  "link": "https://www.credly.com/badges/20629f13-f3ca-407e-8607-30195db7f00c",
+  "downloadPath": "https://www.credly.com/badges/20629f13-f3ca-407e-8607-30195db7f00c",
+  "createdAt": {
+    "$date": "2024-02-23T10:19:49.720Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:19:49.720Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d871a894f886331c74eb86"
+  ,
+  "title": "Data Visualization & Dashboard Essentials",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d871a894f886331c74eb86.webp",
+  "link": "https://www.credly.com/badges/cd8ce73c-d9d5-45f4-901d-419db6a26edc/public_url",
+  "downloadPath": "https://www.credly.com/badges/cd8ce73c-d9d5-45f4-901d-419db6a26edc/public_url",
+  "createdAt": {
+    "$date": "2024-02-23T10:21:28.883Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:21:28.883Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d871eb94f886331c74eb8a"
+  ,
+  "title": "Excel Essentials for Data Analytics",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d871eb94f886331c74eb8a.webp",
+  "link": "https://www.credly.com/badges/a2a244e9-e00f-44a0-b3e7-ac70153aa4ec",
+  "downloadPath": "https://www.credly.com/badges/a2a244e9-e00f-44a0-b3e7-ac70153aa4ec",
+  "createdAt": {
+    "$date": "2024-02-23T10:22:35.347Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:22:35.347Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8722f94f886331c74eb8e"
+  ,
+  "title": "Python for Data Science and AI",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8722f94f886331c74eb8e.webp",
+  "link": "https://www.credly.com/badges/3e20302d-bf3a-4ddc-9827-f7b3a69772a6",
+  "downloadPath": "https://www.credly.com/badges/3e20302d-bf3a-4ddc-9827-f7b3a69772a6",
+  "createdAt": {
+    "$date": "2024-02-23T10:23:43.089Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:23:43.089Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8726d94f886331c74eb92"
+  ,
+  "title": "Python Project for Data Science",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8726d94f886331c74eb92.webp",
+  "link": "https://www.credly.com/badges/5b1d3460-2911-4763-9cca-849e666418a6",
+  "downloadPath": "https://www.credly.com/badges/5b1d3460-2911-4763-9cca-849e666418a6",
+  "createdAt": {
+    "$date": "2024-02-23T10:24:45.724Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:24:45.724Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8741c94f886331c74eb96"
+  ,
+  "title": "Databases and SQL for Data Science",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8741c94f886331c74eb96.webp",
+  "link": "https://www.credly.com/badges/c62c6b33-3b64-4637-925c-a65e45b14854",
+  "downloadPath": "https://www.credly.com/badges/c62c6b33-3b64-4637-925c-a65e45b14854",
+  "createdAt": {
+    "$date": "2024-02-23T10:31:56.818Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:31:56.818Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8744894f886331c74eb9a"
+  ,
+  "title": "Data Analysis with Python",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8744894f886331c74eb9a.webp",
+  "link": "https://www.credly.com/badges/46acd749-a827-4583-a867-38d7d0d2b6ab",
+  "downloadPath": "https://www.credly.com/badges/46acd749-a827-4583-a867-38d7d0d2b6ab",
+  "createdAt": {
+    "$date": "2024-02-23T10:32:40.374Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:32:40.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d8747a94f886331c74eb9e"
+  ,
+  "title": "Data Visualization with Python",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d8747a94f886331c74eb9e.webp",
+  "link": "https://www.credly.com/badges/bbb4c341-37d0-47e8-a0da-16bb58f3e1af",
+  "downloadPath": "https://www.credly.com/badges/bbb4c341-37d0-47e8-a0da-16bb58f3e1af",
+  "createdAt": {
+    "$date": "2024-02-23T10:33:30.313Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:33:30.313Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d874a594f886331c74eba2"
+  ,
+  "title": "Data Analyst Capstone Project",
+  "issuer": "IBM",
+  "image": "/images/certificates/65d874a594f886331c74eba2.webp",
+  "link": "https://www.credly.com/badges/a4305437-0399-454f-97f1-645d0209d264",
+  "downloadPath": "https://www.credly.com/badges/a4305437-0399-454f-97f1-645d0209d264",
+  "createdAt": {
+    "$date": "2024-02-23T10:34:13.347Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:34:13.347Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "65d874cb94f886331c74eba6"
+  ,
+  "title": "IBM Data Analyst Professional Certificate",
+  "issuer": "IBM & Coursera",
+  "image": "/images/certificates/65d874cb94f886331c74eba6.webp",
+  "link": "https://www.credly.com/badges/3be60c46-2b7c-4e35-9d00-c186316dfbd1",
+  "downloadPath": "https://www.credly.com/badges/3be60c46-2b7c-4e35-9d00-c186316dfbd1",
+  "createdAt": {
+    "$date": "2024-02-23T10:34:51.907Z"
+  },
+  "updatedAt": {
+    "$date": "2024-02-23T10:34:51.907Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "6751c662dea507a60f1e4729"
+  ,
+  "title": "SQL",
+  "issuer": "365 DataScience",
+  "image": "/images/certificates/6751c662dea507a60f1e4729.jpeg",
+  "link": "test",
+  "downloadPath": "asddasdsa",
+  "createdAt": {
+    "$date": "2024-12-05T15:27:30.294Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-05T15:27:30.294Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "675ad5802344603d4b33c341"
+  ,
+  "title": "Python Intermediate",
+  "issuer": "sololearn",
+  "image": "/images/certificates/675ad5802344603d4b33c341.webp",
+  "link": "https://www.sololearn.com/certificates/CC-R7NGKMH9",
+  "downloadPath": "https://api2.sololearn.com/v2/certificates/CC-R7NGKMH9/image/png?t=638309333831571040?mode=download",
+  "createdAt": {
+    "$date": "2024-12-12T12:22:24.829Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-12T12:22:24.829Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "675ad6632344603d4b33c346"
+  ,
+  "title": "Create a Web Application With React.js",
+  "issuer": "OPEN CLASS ROOM",
+  "image": "/images/certificates/675ad6632344603d4b33c346.webp",
+  "link": "https://openclassrooms.com/en/courses/7132446/certificate_example",
+  "downloadPath": "https://openclassrooms.com/en/courses/7132446/certificate_example",
+  "createdAt": {
+    "$date": "2024-12-12T12:26:11.024Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-12T12:26:11.024Z"
+  },
+  "__v": 0
+},
+{
+  "_id": "675ada4c2344603d4b33c36d"
+  ,
+  "title": "Problem Solving Competition ",
+  "issuer": "OPEN SOURCE",
+  "image": "/images/certificates/675ada4c2344603d4b33c36d.webp",
+  "link": "#",
+  "downloadPath": "#",
+  "createdAt": {
+    "$date": "2024-12-12T12:42:52.950Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-12T12:42:52.950Z"
+  },
+  "__v": 0
+}]}

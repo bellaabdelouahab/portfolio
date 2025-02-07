@@ -7,9 +7,10 @@ import AboutMeSection from "../components/home_components/about-me/AboutMeSectio
 import GetInTouchSection from "../components/home_components/get-in-touch/GetInTouchSection";
 import HappyClientsSection from "../components/home_components/happy-clients/HappyClientsSection";
 import { useLoaderData } from "react-router-dom";
-import axiosInstance from "utils/axios";
 import ServicesSection from "../components/home_components/sevices/ServicesSection";
 import Collaborations from "../components/home_components/collaborations/Collaborations";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 // import "../assets/css/internship/intership-wide-screen.css";
 
 export default function Home() {
@@ -48,13 +49,12 @@ export default function Home() {
 }
 
 export const getHighlightedProjects = async () => {
-  return await axiosInstance
-    .get(
-      "/projects/getoverview"
-    )
-    .then((res) => {
-      return res.data;
-    });
+  const colRef = collection(db, "projects");
+  const snapshot = await getDocs(colRef);
+  const data = snapshot.docs
+    .map((doc) => ({ _id: doc.id, ...doc.data() }))
+    .filter((project) => project.showInOverview === true);
+  return data;
 };
 
 

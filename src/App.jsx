@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 import { getHighlightedProjects } from "./views/Home";
 import { getProjects } from "./views/Projects";
-import { getCertificates } from "./views/Certificates";
+import { getAllCertificates } from "./utils/firebaseQueries";
 import { getReports } from "./views/Reports";
 
 // Define a fallback UI for loading state
@@ -92,7 +92,7 @@ const router = createBrowserRouter(
             <Certificates />
           </Suspense>
         }
-        loader={getCertificates}
+        loader={getAllCertificates}
       />
       <Route
         path="resume"
