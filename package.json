@@ -57,16 +57,3 @@
     "vite": "^5.1.4"
   }
 }
-
-
-
-
-BACKEND_API: https: //codemaster.ninja/api/
-BACKEND_UPLOADS_API: https: //raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public
-VITE_FIREBASE_API_KEY: AIzaSyC_S3ogmaZ9laLIetOD6eWO8HESZ7OFXEU
-VITE_FIREBASE_AUTH_DOMAIN: portfolio-d0eff.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID: portfolio-d0eff
-VITE_FIREBASE_STORAGE_BUCKET: portfolio-d0eff.firebasestorage.app
-VITE_FIREBASE_MESSAGING_SENDER_ID: 68887099400
-VITE_FIREBASE_APP_ID: 1: 68887099400:web:a697b208557cd1eed2f9bd
-VITE_FIREBASE_MEASUREMENT_ID: G-D8JLXQDMXF
