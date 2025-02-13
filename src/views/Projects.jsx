@@ -2,7 +2,6 @@ import { useNavigate, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "../assets/css/projects.css";
-import axiosInstance from "utils/axios";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 

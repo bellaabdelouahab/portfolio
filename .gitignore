@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .env.production
+portfolio-d0eff-firebase-adminsdk-m2qoy-aeb5920ad6.json
+firestore.rules
+.env

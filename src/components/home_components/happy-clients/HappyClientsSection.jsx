@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./wide-screen.css";
-import axiosInstance from "utils/axios";
 const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";

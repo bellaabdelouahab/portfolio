@@ -6,7 +6,6 @@ import Collaborators from "components/project-components/project-collaborators/C
 import ProjectOverView from "components/project-components/project-overview/ProjectOverView";
 import ProjectTools from "components/project-components/project-tools/ProjectTools";
 import ProjectDataSources from "components/project-components/project-datasource/ProjectDataSources";
-import axiosInstance from "utils/axios";
 
 export default function Project() {
   const location = useLocation();

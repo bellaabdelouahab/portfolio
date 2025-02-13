@@ -181,7 +181,7 @@
 .musicCard, .podcastCard {
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex;
 }
 
 .musicCard:hover, .podcastCard:hover {
