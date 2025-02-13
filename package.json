@@ -1,5 +1,6 @@
 {
   "name": "portfolio",
+  "homepage": "https://bellaabdelouahab.github.io/portfolio",
   "version": "0.1.0",
   "main": "src/index.js",
   "private": true,
@@ -31,7 +32,7 @@
     "serve": "vite preview",
     "clean": "rmdir /s /q build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
