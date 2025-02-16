@@ -13,6 +13,8 @@ import {
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
+  const basePath = import.meta.env.BASE_URL;
+
   const toggleMenu = () => {
     const el = document.getElementById("hamburger-menu");
     if (el.classList.contains("hidden")) {
@@ -28,11 +30,17 @@ export default function Navbar() {
     }
     !el.classList.contains("hidden") && el.focus();
   };
-  // onClick={() => handleNavLinkClick("hamburger-menu")}
+
+  const getNavLink = (path, label, icon) => (
+    <NavLink to={`${basePath}${path}`} onClick={(e) => toggleMenu()}>
+      <FontAwesomeIcon icon={icon} />
+      {label}
+    </NavLink>
+  );
 
   return (
     <nav className="navbar at-top" id="navbar" role="navigation">
-      <NavLink className="navbar__logolink" to="/"></NavLink>
+      <NavLink className="navbar__logolink" to={`${basePath}/`} />
       <div className="navbar__menu">
         <button
           htmlFor="f-toggle"
@@ -53,10 +61,7 @@ export default function Navbar() {
           aria-hidden="true"
         >
           <li>
-            <NavLink to="/" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faHome} />
-              Home
-            </NavLink>
+            {getNavLink("/", "Home", faHome)}
             <br />
             <br />
             <br />
@@ -65,52 +70,31 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <NavLink to="/projects" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faListCheck} />
-              All Projects
-            </NavLink>
+            {getNavLink("/projects", "All Projects", faListCheck)}
           </li>
           <li>
-            <NavLink to="/certificates" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faCertificate} />
-              Certificates
-            </NavLink>
+            {getNavLink("/certificates", "Certificates", faCertificate)}
           </li>
           <br />
           <hr />
           <br />
           <li>
-            <NavLink to="/resume" target="" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faFileAlt} />
-              Resume
-            </NavLink>
+            {getNavLink("/resume", "Resume", faFileAlt)}
           </li>
           <li>
-            <NavLink to="/my-team" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faFlaskVial} />
-              Team
-            </NavLink>
+            {getNavLink("/my-team", "Team", faFlaskVial)}
           </li>
           <li>
-            <NavLink to="/music" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faFlag} />
-              Music Picks
-            </NavLink>
+            {getNavLink("/music", "Music Picks", faFlag)}
           </li>
           <br />
           <hr />
           <br />
           <li>
-            <NavLink to="/articles" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faNewspaper} />
-              Articles
-            </NavLink>
+            {getNavLink("/articles", "Articles", faNewspaper)}
           </li>
           <li>
-            <NavLink to="/reports" onClick={(e) => toggleMenu()} >
-              <FontAwesomeIcon icon={faFlag} />
-              Reports
-            </NavLink>
+            {getNavLink("/reports", "Reports", faFlag)}
           </li>
           <br />
           <hr />
