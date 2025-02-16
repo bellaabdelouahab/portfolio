@@ -13,7 +13,7 @@ import {
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
-  const basePath = import.meta.env.BASE_URL;
+  const basePath = process.env.VITE_BASE_URL;
 
   const toggleMenu = () => {
     const el = document.getElementById("hamburger-menu");
