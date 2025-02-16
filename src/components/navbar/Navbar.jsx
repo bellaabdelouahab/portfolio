@@ -32,7 +32,7 @@ export default function Navbar() {
   };
 
   const getNavLink = (path, label, icon) => (
-    <NavLink to={`${basePath}${path}`} onClick={(e) => toggleMenu()}>
+    <NavLink to={`${path}`} onClick={(e) => toggleMenu()}>
       <FontAwesomeIcon icon={icon} />
       {label}
     </NavLink>
@@ -40,7 +40,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar at-top" id="navbar" role="navigation">
-      <NavLink className="navbar__logolink" to={`${basePath}/`} />
+      <NavLink className="navbar__logolink" to={`/`} />
       <div className="navbar__menu">
         <button
           htmlFor="f-toggle"
