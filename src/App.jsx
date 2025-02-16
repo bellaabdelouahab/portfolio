@@ -48,11 +48,12 @@ const Reports = React.lazy(() => import("./views/Reports"));
 const Articles = React.lazy(() => import("./views/Articles"));
 const Team = React.lazy(()=> import("./views/Team"));
 const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
+const NotFound = React.lazy(() => import("./views/NotFound"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      path="/"
+      path="/portfolio"
       element={
         <Suspense fallback={fallback}>
           <Root />
@@ -127,7 +128,7 @@ const router = createBrowserRouter(
         }
       />
       <Route
-        path="Reports"
+        path="reports"
         element={
           <Suspense fallback={fallback}>
             <Reports />
@@ -148,6 +149,14 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={fallback}>
             <BackOffice />
+          </Suspense>
+        }
+      />
+      <Route
+        path="*"
+        element={
+          <Suspense fallback={fallback}>
+            <NotFound />
           </Suspense>
         }
       />
