@@ -32,7 +32,7 @@ export default function Navbar() {
   };
 
   const getNavLink = (path, label, icon) => (
-    <NavLink to={`${path}`} onClick={(e) => toggleMenu()}>
+    <NavLink to={`${basePath}${path}`} onClick={(e) => toggleMenu()}>
       <FontAwesomeIcon icon={icon} />
       {label}
     </NavLink>
