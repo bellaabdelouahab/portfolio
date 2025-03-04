@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 export default function Certificates() {
+  const basePath = process.env.VITE_BASE_URL;
   // Loader now returns allCertificates and count
   const { allCertificates, count } = useLoaderData();
   const certificatesPerPage = 9;
@@ -24,8 +25,10 @@ export default function Certificates() {
         {displayedCertificates.map((certificate, index) => (
           <div className="certification-element" key={index}>
             <img
-              src={`/portfolio/${certificate.image
-                .replace(".webp", "_result.webp")}`}
+              src={`${basePath}${certificate.image.replace(
+                ".webp",
+                "_result.webp"
+              )}`}
               alt="NoImage"
               width="100"
               height="100"
