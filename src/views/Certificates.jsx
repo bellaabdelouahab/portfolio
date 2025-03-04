@@ -24,7 +24,8 @@ export default function Certificates() {
         {displayedCertificates.map((certificate, index) => (
           <div className="certification-element" key={index}>
             <img
-              src={`${process.env.BACKEND_UPLOADS_API}${certificate.image}`}
+              src={`/portfolio/${certificate.image
+                .replace(".webp", "_result.webp")}`}
               alt="NoImage"
               width="100"
               height="100"
