@@ -1,6 +1,6 @@
 .happy-clients-section {
     background-color: #1e1e1e; /* Dark greenish-gray background */
-    padding:  10px 0px  40px 0px;
+    padding:  10px 0px  5px 0px;
     box-sizing: border-box;
     color: #cfcfcf; /* Light gray for text */
     height: auto;
@@ -85,5 +85,37 @@
 
 .client-profession p:nth-child(2) {
     background-color: #191919; /* Darkest gray for additional contrast */
+}
+
+.add-testimonial-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.add-testimonial-btn {
+  padding: 12px 24px;
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  border-radius: 5px;
+  background-color: #d91b42;
+  color: #fff;
+  border: none;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(217, 27, 66, 0.3);
+}
+
+.add-testimonial-btn:hover {
+  background-color: #e82e55;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(217, 27, 66, 0.4);
+}
+
+.add-testimonial-btn:active {
+  transform: translateY(1px);
 }
 
