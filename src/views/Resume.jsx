@@ -11,7 +11,7 @@ const resumes = [
     image: `./images/resumes/bella-SE.png`,
     bgimages: [],
 
-    downloadUrl: `${backendUploadsApi}resume-dev.pdf`,
+    downloadUrl: `${backendUploadsApi}/images/resumes/Bella_Abdelouahab-Software-Engineer.pdf`,
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const resumes = [
       "Resume focused on data analysis, machine learning, and statistical modeling experience.",
     image: `./images/resumes/bella-DS.png`,
     bgimages: [],
-    downloadUrl: `${backendUploadsApi}resume-data.pdf`,
+    downloadUrl: `${backendUploadsApi}/images/resumes/Bella_Abdelouahab-Data-Scientist.pdf`,
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const resumes = [
       "Resume showcasing data analysis, visualization, and business intelligence skills.",
     image: `./images/resumes/bella-DA.png`,
     bgimages: [],
-    downloadUrl: `${backendUploadsApi}resume-analyst.pdf`,
+    downloadUrl: `${backendUploadsApi}/images/resumes/Bella_Abdelouahab-Data-Analyst.pdf`,
   },
 ];
 
@@ -62,7 +62,7 @@ export default function Resume() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Download PDF
+              Request PDF
             </a>
           </div>
         ))}

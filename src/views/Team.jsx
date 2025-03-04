@@ -7,31 +7,30 @@ const teamMembers = [
     name: "Abdelouahab Bella",
     role: "Jack of all trades",
     position: {
-      x: window.innerWidth * 0.5 - 120,
+      x: window.innerWidth * 0.5 - 420,
       y: window.innerHeight * 0.1 - 80,
     },
     image:
       "https://github.com/bellaabdelouahab/portfolio/blob/master/public/Personal%20Picture.jpg?raw=true",
   },
   {
-    name: "Boujrada Yassine",
-    role: "Software Engineer & Web scrapping expert",
+    name: "Yassir Loukilia",
+    role: "Software Engineer & Frontend Specialist",
     position: {
-      x: window.innerWidth * 0.3 - 120,
-      y: window.innerHeight * 0.1 - 80,
+      x: window.innerWidth * 0.3 - 320,
+      y: window.innerHeight * 0.1 + 80,
     },
-    image: "/src/assets/images/yassin.png",
+    image: "https://avatars.githubusercontent.com/u/127755141?v=4",
   },
   {
-    name: "Mike Johnson",
+    name: "Yassine Boujrada",
     role: "Manager",
     position: {
       x: window.innerWidth * 0.5 - 120,
-      y: window.innerHeight * 0.1 - 80,
+      y: window.innerHeight * 0.1 + 50,
     },
-    image: "path/to/mike-johnson.jpg",
+    image: "yassine-pic.png",
   },
-  // Add more team members with their positions and images as needed
 ];
 
 console.log(teamMembers);
@@ -103,7 +102,6 @@ const Team = () => {
 
   return (
     <div className="team-container" ref={containerRef}>
-      drag and drop to see info about him
       {teamMembers.map((member, index) => (
         <Draggable
           key={index}
@@ -116,23 +114,26 @@ const Team = () => {
             style={{
               userSelect: "none",
               backgroundImage: `url(${member.image})`,
+              borderRadius: "50px",
               backgroundSize: "60%",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
             onMouseEnter={() => handleMouseEnter(member)}
             onMouseLeave={handleMouseLeave}
+            
           >
             <div className="bb"></div>
-            <h3>{member.name}</h3>
-            <p>{member.role}</p>
+            <h3 style={{
+              color: "#aaa",
+            }}>{member.name}</h3>
           </div>
         </Draggable>
       ))}
       <div className="info-card">
         {(
           <>
-            <p>Additional information about {hoveredMember.name}.</p>
+            <p>{hoveredMember.name} is a {hoveredMember.role}</p>
           </>
         )}
       </div>
