@@ -10,10 +10,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 10vh;
+  height: 8vh;
   width: 90%;
   margin: auto;
-  margin-top: 5vh;
+  margin-top: 4vh;
   border-bottom: 1px solid rgba(121, 119, 119, 0.619);
 }
 .projects-section__title {

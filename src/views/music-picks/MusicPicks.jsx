@@ -95,14 +95,14 @@ export default function MusicPicks() {
   return (
     <div className={styles.MusicPicks}>
       <img
-        src="/bg-copy_LE_auto_x2.png"
+        src="music/bg-music.png"
         style={{
           margin: 10,
           marginBottom: 50,
           borderRadius: 10,
           boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.1)",
           // height: "150px",
-          transform:"scale(0.8)"
+          transform: "scale(0.8)",
         }}
         alt="Music Picks"
       />
@@ -113,9 +113,9 @@ export default function MusicPicks() {
         </div>
         <div className={styles.musicCards}>
           {recentlyPlayed.map((music) => (
-            <a 
+            <a
               href={music.url}
-              key={music.id} 
+              key={music.id}
               className={styles.musicCard}
               target="_blank"
               rel="noopener noreferrer"
@@ -161,7 +161,7 @@ export default function MusicPicks() {
           {podcasts.map((podcast) => (
             <a
               href={podcast.url}
-              key={podcast.id} 
+              key={podcast.id}
               className={styles.podcastCard}
               target="_blank"
               rel="noopener noreferrer"

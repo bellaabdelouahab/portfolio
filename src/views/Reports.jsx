@@ -27,7 +27,7 @@ export default function Reports() {
                                 <td>{report.date}</td>
                                 <td>{report.description}</td>
                                 <td>
-                                    <a className='btn-download' href={report.reportFile} download>
+                                    <a className='btn-download' href={"reports/"+report.name} style={{cursor: 'pointer'}}>
                                         Download
                                     </a>
                                 </td>
