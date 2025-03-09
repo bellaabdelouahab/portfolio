@@ -14,21 +14,24 @@ jobs:
       - name: Install Dependencies
         run: npm install
       
+      - name: Write Environment Variables to .env.production
+        run: |
+          cat <<EOF > .env.production
+          NODE_ENV=production
+          BACKEND_API=${{ secrets.BACKEND_API }}
+          BACKEND_UPLOADS_API=${{ secrets.BACKEND_UPLOADS_API }}
+          VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}
+          VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          EOF
+
       - name: Build
-        env:
-          NODE_ENV: production
-          BACKEND_API: ${{ secrets.BACKEND_API }}
-          BACKEND_UPLOADS_API: ${{ secrets.BACKEND_UPLOADS_API }}
-          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
         run: npm run build
-      
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
