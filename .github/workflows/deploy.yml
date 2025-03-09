@@ -16,6 +16,7 @@ jobs:
       
       - name: Build
         env:
+          NODE_ENV: production
           BACKEND_API: ${{ secrets.BACKEND_API }}
           BACKEND_UPLOADS_API: ${{ secrets.BACKEND_UPLOADS_API }}
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
