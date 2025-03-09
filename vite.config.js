@@ -6,7 +6,7 @@ import fs from 'fs';
 let env = dotenv.config().parsed || process.env;
 const isProduction = process.env.NODE_ENV === 'production';
 
-if (!isProduction ) {
+if (!isProduction) {
     // check if the .env.development file exists
     if (fs.existsSync('.env')) {
         env = dotenv.parse(fs.readFileSync('.env'));
@@ -27,7 +27,7 @@ if (!isProduction ) {
     }
 }
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
     return {
         build: {
             outDir: 'build',
@@ -42,17 +42,17 @@ export default defineConfig(() => {
             },
         },
         define: {
-            'process.env': env,
+            'process.env': {
+                ...env,
+                NODE_ENV: mode === 'production' ? 'production' : 'development',
+            },
         },
-        
         server: {
             port: 3000,
         },
-        
         optimizeDeps: {
             include: ['axios', 'react-router-dom'],
         },
-        
         esbuild: {
             jsxInject: `import React from 'react';`,
         },

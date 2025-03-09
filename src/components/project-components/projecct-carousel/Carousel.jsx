@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from 'react';
 import './carousel-wide-screen.css';
-const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function Carousel({ carouselImages }) {
   const [currentPic, setCurrentPic] = useState(0);
@@ -31,7 +30,7 @@ export default function Carousel({ carouselImages }) {
     
     function changePic(currentPic) {
       console.log("currentPic", carouselImages[currentPic]);
-      bigImage.style.background = `url(${backendUploadsApi}/${carouselImages[currentPic].img}) no-repeat center center / contain` ;
+      bigImage.style.background = `url(${carouselImages[currentPic].img}) no-repeat center center / contain` ;
       overlay.innerHTML = `
       <div class="overlay-content">
       <p class="overlay-content__description">${carouselImages[currentPic].title}</p>
@@ -74,7 +73,7 @@ export default function Carousel({ carouselImages }) {
             <img
               key={index}
               className={`pic-preview ${index === currentPic ? 'active' : ''}`}
-              src={`${backendUploadsApi}/${elem.img}`}
+              src={`${elem.img}`}
               alt="Not Loaded"
               onClick={() => setCurrentPic(index)}
             />

@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
-
 export function ProjectCard({ project }) {
   const { title, description, image, githubLink, highlighted } = project;
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -14,7 +12,7 @@ export function ProjectCard({ project }) {
 
   useEffect(() => {
     const img = new Image();
-    img.src = `${backendUploadsApi}${image}`;
+    img.src = `${image}`;
     img.onload = () => setImageLoaded(true);
   }, [image]);
 
@@ -29,7 +27,7 @@ export function ProjectCard({ project }) {
         className="home-projects-section__projects__project__img"
         style={{
           backgroundImage: imageLoaded
-            ? `url(${backendUploadsApi}${image})`
+            ? `url(${image})`
             : "none",
           backgroundSize: "100.5% 100%",
         }}

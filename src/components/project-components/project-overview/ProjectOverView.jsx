@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 
 export default function ProjectOverView({ project }) {
   const startDate = project.startDate ? project.startDate.slice(0, 10) : "";
@@ -13,7 +12,7 @@ export default function ProjectOverView({ project }) {
       <div
         className="project__image"
         style={{
-          background: `url(${backendUploadsApi}/${project.image})`,
+          background: `url(${project.image})`,
         }}
       />
       <div className="project__info">

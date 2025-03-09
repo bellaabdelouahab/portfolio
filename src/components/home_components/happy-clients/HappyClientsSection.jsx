@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./wide-screen.css";
 import Modal from "../../common/Modal";
-const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 
@@ -38,7 +37,7 @@ export default function HappyClientsSection() {
             <div className="happy-clients-card" key={index}>
               <img
                 className="client-pic"
-                src={`${backendUploadsApi}${client.image}`}
+                src={`${client.image}`}
                 alt="client"
               />
               <img

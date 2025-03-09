@@ -5,8 +5,6 @@ import "../assets/css/projects.css";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 
-const backendUploadsApi = process.env.BACKEND_UPLOADS_API;
-
 export default function Projects() {
   const InitProjects = useLoaderData();
   const [projects, setProjects] = useState(InitProjects);
@@ -159,13 +157,13 @@ export default function Projects() {
                     className="projects-section__projects__project__img"
                     style={{
                       backgroundImage: imageLoaded[project._id]
-                        ? `url(${backendUploadsApi}/${project.image})`
+                        ? `url(${project.image})`
                         : "none",
                     }}
                   >
                     {!imageLoaded[project._id] && <Skeleton height="100%" />}
                     <img
-                      src={`${backendUploadsApi}/${project.image}`}
+                      src={`${project.image}`}
                       alt={project.title}
                       style={{ display: "none" }}
                       onLoad={() => handleImageLoad(project._id)}
