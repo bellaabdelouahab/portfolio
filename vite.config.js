@@ -56,6 +56,6 @@ export default defineConfig(() => {
         esbuild: {
             jsxInject: `import React from 'react';`,
         },
-        base: process.env.VITE_BASE_URL || '/portfolio',
+        base: process.env.VITE_BASE_URL || '',
     };
 });

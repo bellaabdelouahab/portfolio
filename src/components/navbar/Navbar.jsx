@@ -90,9 +90,9 @@ export default function Navbar() {
           <br />
           <hr />
           <br />
-          <li>
+          {/* <li>
             {getNavLink("/articles", "Articles", faNewspaper)}
-          </li>
+          </li> */}
           <li>
             {getNavLink("/reports", "Reports", faFlag)}
           </li>
