@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 
 export default function Certificates() {
-  const basePath = process.env.VITE_BASE_URL;
+  const basePath = process.env.VITE_BASE_URL || "";
   // Loader now returns allCertificates and count
   const { allCertificates, count } = useLoaderData();
   const certificatesPerPage = 9;

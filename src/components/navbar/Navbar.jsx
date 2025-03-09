@@ -13,7 +13,7 @@ import {
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Navbar() {
-  const basePath = process.env.VITE_BASE_URL;
+  const basePath = process.env.VITE_BASE_URL || "";
 
   const toggleMenu = () => {
     const el = document.getElementById("hamburger-menu");
@@ -32,6 +32,7 @@ export default function Navbar() {
   };
 
   const getNavLink = (path, label, icon) => (
+
     <NavLink to={`${basePath}${path}`} onClick={(e) => toggleMenu()}>
       <FontAwesomeIcon icon={icon} />
       {label}

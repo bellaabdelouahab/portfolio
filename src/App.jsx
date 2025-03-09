@@ -53,7 +53,7 @@ const NotFound = React.lazy(() => import("./views/NotFound"));
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      path="/portfolio"
+      path="/"
       element={
         <Suspense fallback={fallback}>
           <Root />
