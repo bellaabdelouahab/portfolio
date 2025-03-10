@@ -77,6 +77,15 @@
     background: #555;
 }
 
+.filldb-nav__btn.logout-btn {
+    background-color: #dc3545;
+    margin-left: auto;
+}
+
+.filldb-nav__btn.logout-btn:hover {
+    background-color: #c82333;
+}
+
 .input-flow {
     position: relative;
     height: 4.3rem;
@@ -96,6 +105,46 @@
     top: 0.5rem;
     font-size: 1rem;
     color: #2196f3;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-name {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.loading-auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(145deg, #2d2d2d, #3d3d3d);
+  color: #fff;
+  font-size: 1.5rem;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import axiosInstance from "utils/axios";
+import { collection, getDocs, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../../../firebase";
 
 import "./ArrangeProjects.css";
 
@@ -8,41 +9,79 @@ export default function ArrangeProjects() {
   const [selectedProjects, setSelectedProjects] = useState([]);
 
   useEffect(() => {
-    // Fetch projects from the backend
-    axiosInstance
-      .get("/projects?fields=title")
-      .then((response) => {
-        setProjects(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => console.error(error));
+    // Fetch projects from Firebase Firestore
+    const fetchProjects = async () => {
+      try {
+        const projectsCollection = collection(db, "projects");
+        const projectsSnapshot = await getDocs(projectsCollection);
+        const projectsList = projectsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProjects(projectsList);
+        console.log(projectsList);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+    
+    fetchProjects();
   }, []);
 
   const numColumns = Math.ceil(projects.length / 3); // Calculate the number of columns
 
-const handleValidate = async () => {
-    // Get the JWT cookie
-    const jwtCookie = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("jwt="));
+  const handleValidate = async () => {
+    try {
+      // Get the Firebase authentication token (optional, for enhanced security)
+      const authToken = localStorage.getItem("firebaseAuthToken");
 
-    // Extract the JWT token from the cookie
-    const jwtToken = jwtCookie ? jwtCookie.split("=")[1] : "";
+      if (!authToken) {
+        console.error("Authentication token is missing.");
+        alert(
+          "Authentication token is missing.  Cannot update featured projects."
+        );
+        return;
+      }
 
-    // Pass selected projects and JWT token to the backend
-    await axiosInstance
-        .put("/projects/overview", {
-            projectIds: selectedProjects.map((project) => project._id),
-        }, {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-        })
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => console.error(error));
-};
+      // 1. Set showInOverview to false for all projects
+      const projectsCollection = collection(db, "projects");
+      const projectsSnapshot = await getDocs(projectsCollection);
+
+      // Create an array of promises to update each project
+      const updatePromises = projectsSnapshot.docs.map(async (docSnapshot) => {
+        const projectRef = doc(db, "projects", docSnapshot.id);
+        await updateDoc(projectRef, {
+          showInOverview: false,
+          authToken: authToken, // Include the token here
+        });
+      });
+
+      // Wait for all updates to complete
+      await Promise.all(updatePromises);
+
+      // 2. Set showInOverview to true for selected projects
+      const selectedProjectIds = selectedProjects.map((project) => project.id);
+
+      // Create an array of promises to update selected projects
+      const selectedUpdatePromises = selectedProjectIds.map(
+        async (projectId) => {
+          const projectRef = doc(db, "projects", projectId);
+          await updateDoc(projectRef, {
+            showInOverview: true,
+            authToken: authToken, // Include the token here
+          });
+        }
+      );
+
+      // Wait for all updates to complete
+      await Promise.all(selectedUpdatePromises);
+
+      alert("Featured projects updated successfully!");
+    } catch (error) {
+      console.error("Error updating featured projects:", error);
+      alert("Failed to update featured projects. See console for details.");
+    }
+  };
 
   return (
     <div className="arrange-projects-form filldb-form">
@@ -52,7 +91,7 @@ const handleValidate = async () => {
           selectedProjects
             .filter((_, index) => index < 3)
             .map((project) => (
-              <div key={project.title} className="highlighted-project" onClick={() => {
+              <div key={project.id || project.title} className="highlighted-project" onClick={() => {
                 // remove project from selected projects
                 setSelectedProjects(
                     selectedProjects.filter(
@@ -74,7 +113,7 @@ const handleValidate = async () => {
           {projects.length > 0 &&
             projects.map((project) => (
               <div
-                key={project.title}
+                key={project.id || project.title}
                 style={{ flex: `1 0 ${100 / numColumns}%` }}
                 className="project"
                 onClick={() => {
@@ -100,7 +139,7 @@ const handleValidate = async () => {
             ))}
         </div>
       </div>
-      {/* validate buttn */}
+      {/* validate button */}
       <button className="validate-btn" onClick={() => handleValidate()}>
         Validate
       </button>

@@ -43,7 +43,6 @@ const Project = React.lazy(() => import("./views/Project"));
 const Certificates = React.lazy(() => import("./views/Certificates"));
 const Resume = React.lazy(() => import("./views/Resume"));
 const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
-const Skills = React.lazy(() => import("./views/Skills"));
 const Reports = React.lazy(() => import("./views/Reports"));
 const Articles = React.lazy(() => import("./views/Articles"));
 const Team = React.lazy(()=> import("./views/Team"));
@@ -116,14 +115,6 @@ const router = createBrowserRouter(
         element={
           <Suspense fallback={fallback}>
             <MusicPicks />
-          </Suspense>
-        }
-      />
-      <Route
-        path="skills"
-        element={
-          <Suspense fallback={fallback}>
-            <Skills />
           </Suspense>
         }
       />

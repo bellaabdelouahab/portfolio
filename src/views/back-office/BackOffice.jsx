@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import ProjectForm from "components/backoffice-component/forms/project-form/ProjectForm";
-import SkillForm from "components/backoffice-component/forms/SkillForm";
 import ReportForm from "components/backoffice-component/forms/ReportForm";
-import axiosInstance from "utils/axios";
 import "./filldb.css";
 import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
 import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
 import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
 import Clients from "components/backoffice-component/forms/clients-form/Clients";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const tabs = [
   { id: 0, label: "Project", component: <ProjectForm /> },
   { id: 1, label: "Arrange Projects", component: <ArrangeProjects /> },
   { id: 2, label: "Certificate", component: <CertificatesForm /> },
-  { id: 3, label: "Skill", component: <SkillForm /> },
   { id: 4, label: "Report", component: <ReportForm /> },
   { id: 5, label: "Clients", component: <Clients /> },
 ];
@@ -21,27 +19,85 @@ const tabs = [
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
+  // Handle authentication state
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    axiosInstance
-      .get("users/is-logged-in", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      })
-      .then((res) => {
-        if (res.status === "success") {
+    const auth = getAuth();
+    
+    // Listen for auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        // User is signed in - verify it's the right user
+        if (currentUser.email === "abdobella977@gmail.com") {
+          setUser(currentUser);
           setAuthenticated(true);
+          
+          // Save user info to localStorage as a backup
+          localStorage.setItem("firebaseAuthUser", JSON.stringify({
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            email: currentUser.email,
+            photoURL: currentUser.photoURL
+          }));
+        } else {
+          // Wrong user, sign them out
+          signOut(auth).then(() => {
+            setUser(null);
+            setAuthenticated(false);
+            localStorage.removeItem("firebaseAuthUser");
+          });
+        }
+      } else {
+        // User is signed out - check localStorage as fallback
+        setUser(null);
+        const storedUser = localStorage.getItem("firebaseAuthUser");
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          if (parsedUser.email === "abdobella977@gmail.com") {
+            setAuthenticated(true);
+            setUser(parsedUser);
+          } else {
+            localStorage.removeItem("firebaseAuthUser");
+            setAuthenticated(false);
+          }
         } else {
           setAuthenticated(false);
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        setAuthenticated(false);
-      });
+      }
+      setAuthChecked(true);
+    });
+    
+    // Clean up subscription
+    return () => unsubscribe();
   }, []);
+
+  // Handle tab changes
+  useEffect(() => {
+    // Reset any form state when changing tabs
+    if (authenticated) {
+      console.log(`Tab changed to: ${tabs[activeTab]?.label}`);
+    }
+  }, [activeTab, authenticated]);
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      localStorage.removeItem("firebaseAuthUser");
+      localStorage.removeItem("githubToken");
+      setAuthenticated(false);
+      setUser(null);
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
+
+  // Show loading state while checking auth
+  if (!authChecked) {
+    return <div className="loading-auth">Checking authentication...</div>;
+  }
 
   return (
     <>
@@ -50,6 +106,20 @@ export default function FillDB() {
       ) : (
         <div className="filldb-container">
           <div className="buttons">
+            {user && (
+              <div className="user-profile">
+                <img 
+                  src={user.photoURL} 
+                  alt={user.displayName} 
+                  className="user-avatar"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://via.placeholder.com/30";
+                  }}
+                />
+                <span className="user-name">{user.displayName}</span>
+              </div>
+            )}
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -59,6 +129,9 @@ export default function FillDB() {
                 {tab.label}
               </button>
             ))}
+            <button className="filldb-nav__btn logout-btn" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
           <div className="tab-content">
             {tabs.map((tab) => activeTab === tab.id && tab.component)}

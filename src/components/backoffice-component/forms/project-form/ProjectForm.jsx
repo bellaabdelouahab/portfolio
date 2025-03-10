@@ -8,7 +8,11 @@ import TechsForm from "./components/techs-form/TechsForm";
 import ResourcesForm from "./components/resources_form/ResourceForm";
 import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
 
-import axiosInstance from "utils/axios";
+// Import Firebase related functions
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { db } from "../../../../firebase";
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   InputComponent,
   FileInputComponent,
@@ -25,60 +29,301 @@ export default function ProjectForm() {
   const [dataSources, setDataSources] = useState([]);
   const [tags, setTags] = useState(""); // Added tags state
   const [submitButtonText, setSubmitButtonText] = useState("Submit");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [projectId, setProjectId] = useState("");
+  
+  // GitHub commit related states
+  const [commitStatus, setCommitStatus] = useState('');
+  const [isCommitting, setIsCommitting] = useState(false);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  // GitHub repo details - hardcoded for this implementation
+  const githubDetails = {
+    owner: "bellaabdelouahab",
+    repo: "portfolio",
+    branch: "master", // Note: using master branch as per the repo URL
+    baseImagePath: "public/images/projects/",
+    token: localStorage.getItem("githubToken") || "" // Get token from localStorage if available
+  };
 
-    const formData = new FormData(e.target);
-    const image = formData.get("image");
+  // Function to convert file to base64
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // Extract the base64 data (remove the data:image/xxx;base64, prefix)
+        const base64String = reader.result.split(',')[1];
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
-    const data = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      githubLink: formData.get("githubLink"),
-      image: null,
-      codeSamples: codeSamples,
-      carouselImages: [],
-      startDate: formData.get("startDate"),
-      endDate: formData.get("endDate")?formData.get("endDate"):null,
-      tools: {
-        techs: techs,
-        resources: resources,
-      },
-      dataSources: dataSources,
-      highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
-      tags: tags.split(",").map((tag) => tag.trim()), // Added tags field
-    };
-
-    if (image) {
-      data.image = await convertImageToBase64(image);
-    }
-
-    for (let i = 0; i < carouselSamples.length; i++) {
-      const element = carouselSamples[i];
-      const carouselImage = await convertImageToBase64(element.img[0]);
-      data.carouselImages.push({
-        img: carouselImage,
-        title: element.title,
-      });
+  // Function to commit a file to GitHub
+  const commitFileToGithub = async (file, filePath, commitMessage) => {
+    if (!file || !githubDetails.token) {
+      throw new Error("Missing file or GitHub token");
     }
 
     try {
-      const response = await axiosInstance.post("projects", data);
-      console.log(response);
-      setSubmitButtonText("Successfully Submitted");
+      // Convert file to base64
+      const base64Content = await getBase64(file);
+      
+      // Check if file already exists to get its SHA (needed for updates)
+      let fileSha = null;
+      try {
+        const checkResponse = await fetch(
+          `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
+          {
+            headers: {
+              Authorization: `token ${githubDetails.token}`,
+              Accept: 'application/vnd.github.v3+json'
+            }
+          }
+        );
+        
+        if (checkResponse.status === 200) {
+          const fileData = await checkResponse.json();
+          fileSha = fileData.sha;
+        }
+      } catch (error) {
+        // File doesn't exist, which is fine for creating new files
+        console.log(`File does not exist yet: ${filePath}`);
+      }
+
+      // Prepare commit payload
+      const commitData = {
+        message: commitMessage,
+        content: base64Content,
+        branch: githubDetails.branch
+      };
+
+      // If we're updating an existing file, include the SHA
+      if (fileSha) {
+        commitData.sha = fileSha;
+      }
+
+      // Make the commit
+      const response = await fetch(
+        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${githubDetails.token}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(commitData)
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (response.status === 200 || response.status === 201) {
+        return responseData;
+      } else {
+        throw new Error(`GitHub API Error: ${responseData.message}`);
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Error committing to GitHub:', error);
+      throw error;
     }
   };
 
-  const convertImageToBase64 = (image) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(image);
-    });
+  // Function to commit all project images to GitHub
+  const commitProjectImages = async (mainImage, carouselImages, newProjectId) => {
+    setIsCommitting(true);
+    setCommitStatus("Starting to commit images to GitHub...");
+    
+    try {
+      const basePath = githubDetails.baseImagePath + newProjectId;
+      const carouselPath = `${basePath}/carousel`;
+      
+      // Create arrays to track all commits
+      const commitPromises = [];
+      
+      // Commit main image
+      if (mainImage) {
+        const timestamp = Date.now();
+        const mainImageName = `${timestamp}.webp`;
+        const mainImagePath = `${basePath}/${mainImageName}`;
+        
+        setCommitStatus(`Committing main image: ${mainImageName}`);
+        
+        const mainImagePromise = commitFileToGithub(
+          mainImage,
+          mainImagePath,
+          `Add project main image: ${mainImageName}`
+        );
+        
+        commitPromises.push(mainImagePromise);
+      }
+      
+      // Commit carousel images
+      for (let i = 0; i < carouselImages.length; i++) {
+        const carouselItem = carouselImages[i];
+        if (carouselItem.img && carouselItem.img[0]) {
+          const timestamp = Date.now();
+          const carouselImageName = `${timestamp}-${i}.webp`;
+          const carouselImagePath = `${carouselPath}/${carouselImageName}`;
+          
+          setCommitStatus(`Committing carousel image ${i+1}/${carouselImages.length}: ${carouselImageName}`);
+          
+          const carouselPromise = commitFileToGithub(
+            carouselItem.img[0],
+            carouselImagePath,
+            `Add project carousel image: ${carouselImageName}`
+          );
+          
+          commitPromises.push(carouselPromise);
+        }
+      }
+      
+      // Wait for all commits to complete
+      await Promise.all(commitPromises);
+      
+      setCommitStatus("All images successfully committed to GitHub!");
+      setTimeout(() => {
+        setCommitStatus("");
+        setIsCommitting(false);
+      }, 3000);
+      
+      return true;
+    } catch (error) {
+      console.error("Error committing images to GitHub:", error);
+      setCommitStatus(`Error committing images: ${error.message}`);
+      setIsCommitting(false);
+      return false;
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setSubmitButtonText("Submitting...");
+
+    try {
+      const formData = new FormData(e.target);
+      const mainImage = formData.get("image");
+      const authToken = localStorage.getItem("firebaseAuthToken");
+      
+      if (!authToken) {
+        alert("Authentication token not found. Please log in again.");
+        setSubmitButtonText("Submit");
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Check if GitHub token exists
+      if (!githubDetails.token) {
+        const token = prompt("Please enter your GitHub token to commit images:");
+        if (!token) {
+          alert("GitHub token is required to commit images.");
+          setSubmitButtonText("Submit");
+          setIsSubmitting(false);
+          return;
+        }
+        
+        // Save token to localStorage for future use
+        localStorage.setItem("githubToken", token);
+        githubDetails.token = token;
+      }
+
+      // Generate a unique ID for this project
+      const newProjectId = uuidv4();
+      setProjectId(newProjectId);
+      
+      // Set up file paths according to the repository structure
+      const projectPath = `public/images/projects/${newProjectId}`;
+      const carouselPath = `${projectPath}/carousel`;
+      
+      // Create base data object
+      const projectData = {
+        _id: newProjectId,
+        title: formData.get("title"),
+        description: formData.get("description"),
+        githubLink: formData.get("githubLink"),
+        startDate: formData.get("startDate") ? new Date(formData.get("startDate")).toISOString() : null,
+        endDate: formData.get("endDate") ? new Date(formData.get("endDate")).toISOString() : null,
+        durration: formData.get("endDate") ? "completed" : "ongoing",
+        highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
+        tags: tags.split(",").map((tag) => tag.trim()),
+        showInOverview: false,
+        codeSamples: codeSamples,
+        dataSources: dataSources,
+        tools: {
+          techs: techs.map((tech, index) => ({
+            _id: `${newProjectId}${index}t`,
+            title: tech.title,
+            description: tech.description
+          })),
+          resources: resources.map((resource, index) => ({
+            _id: `${newProjectId}${index}r`,
+            title: resource.title,
+            description: resource.description
+          })),
+        },
+        carouselImages: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        authToken: authToken,
+        __v: 0
+      };
+      
+      // Set up image paths in projectData
+      if (mainImage) {
+        const timestamp = Date.now();
+        const mainImageName = `${timestamp}.webp`;
+        projectData.image = `/images/projects/${newProjectId}/${mainImageName}`;
+      }
+
+      // Set up carousel image paths in projectData
+      for (let i = 0; i < carouselSamples.length; i++) {
+        const carouselItem = carouselSamples[i];
+        if (carouselItem.img && carouselItem.img[0]) {
+          const timestamp = Date.now();
+          const carouselImageName = `${timestamp}-${i}.webp`;
+          
+          projectData.carouselImages.push({
+            _id: `${newProjectId}${i}c`,
+            img: `/images/projects/${newProjectId}/carousel/${carouselImageName}`,
+            title: carouselItem.title
+          });
+        }
+      }
+
+      // Add the project to Firestore
+      setSubmitButtonText("Saving to Firebase...");
+      const projectRef = doc(db, "projects", newProjectId);
+      await setDoc(projectRef, projectData);
+      
+      // Now commit images to GitHub
+      setSubmitButtonText("Committing images...");
+      await commitProjectImages(mainImage, carouselSamples, newProjectId);
+      
+      // Display success message
+      setSubmitButtonText("Successfully Submitted!");
+      
+      // Reset form after successful submission
+      setTimeout(() => {
+        e.target.reset();
+        setCodeSamples([]);
+        setCarouselSamples([]);
+        setTechs([]);
+        setResources([]);
+        setDataSources([]);
+        setTags("");
+        setSubmitButtonText("Submit");
+        setIsSubmitting(false);
+      }, 3000);
+      
+    } catch (error) {
+      console.error("Error submitting project:", error);
+      setSubmitButtonText("Error: Please try again");
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -153,7 +398,7 @@ export default function ProjectForm() {
 
   return (
     <form onSubmit={handleFormSubmit} className="filldb-form project-form">
-      <h1 className="project-form__title">Project</h1>
+      <h1 className="project-form__title">Create New Project</h1>
       <br />
 
       <div className="input-container">
@@ -238,7 +483,26 @@ export default function ProjectForm() {
         label="Tags (separated by comma)"
       />
 
-      <input type="submit" value={submitButtonText} />
+      <input 
+        type="submit" 
+        value={submitButtonText} 
+        disabled={isSubmitting || isCommitting}
+        className={isSubmitting || isCommitting ? "submitting" : ""} 
+      />
+      
+      {/* GitHub commit status message */}
+      {(isCommitting || commitStatus) && (
+        <div className={`commit-status ${
+          commitStatus.includes("Error") 
+            ? "error" 
+            : commitStatus.includes("success") 
+              ? "success" 
+              : "info"
+        }`}>
+          {commitStatus}
+          {isCommitting && <div className="spinner"></div>}
+        </div>
+      )}
     </form>
   );
 }

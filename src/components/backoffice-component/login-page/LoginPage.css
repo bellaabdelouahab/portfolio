@@ -47,3 +47,86 @@
 .login-submit:hover {
   background-color: #218838;
 }
+
+.login-subtitle {
+  color: #999;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.github-login-btn {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: none;
+  background: #333;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.github-login-btn:hover {
+  background: #24292e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.github-login-btn:active {
+  transform: translateY(0);
+}
+
+.github-login-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.github-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.login-error {
+  background-color: rgba(220, 53, 69, 0.8);
+  color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-weight: 500;
+}
+
+.login-error.unauthorized {
+  background-color: #d63031;
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(214, 48, 49, 0.5);
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.error-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
