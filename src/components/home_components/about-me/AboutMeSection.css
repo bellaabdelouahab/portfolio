@@ -2,12 +2,11 @@
   height: max-content;
   width: 100%;
   background: #1e1e1e;
-  padding: 5rem 0;
 }
 .about-content {
   width: 80%;
   margin: auto;
-  height: 35vh;
+  height: 45vh;
   display: flex;
   align-items: center;
   justify-content: center;

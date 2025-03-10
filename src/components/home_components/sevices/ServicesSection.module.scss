@@ -138,19 +138,22 @@
   }
 
   .backButton {
-    background: none;
-    border: none;
-    color: #29b578;
+    background: #29b578d0;
+    border: 1px solid #29b578d0;
+    color: #fff;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    padding: 0;
+    padding: 10px 20px;
     display: inline-flex;
     align-items: center;
     margin-bottom: 5px;
+    transition: background 0.3s ease;
+    border-radius: 5px;
 
     &:hover {
-      text-decoration: underline;
+      background: #1e1e1e;
+      color: #29b578;
     }
   }
 }
@@ -192,7 +195,7 @@
 // Submit button styling
 .submitButton {
   background: #29b578;
-  color: #000;
+  color: #e2e2e2;
   padding: 12px 25px;
   border-radius: 5px;
   font-size: 1rem;
