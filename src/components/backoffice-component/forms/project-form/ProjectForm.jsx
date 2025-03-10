@@ -31,7 +31,6 @@ export default function ProjectForm() {
   const [tags, setTags] = useState([]); // Change tags state to an array
   const [submitButtonText, setSubmitButtonText] = useState("Submit");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [projectId, setProjectId] = useState("");
   
   // GitHub commit related states
   const [commitStatus, setCommitStatus] = useState('');
@@ -242,7 +241,6 @@ export default function ProjectForm() {
 
       // Generate a unique ID for this project (MongoDB style, without hyphens)
       const newProjectId = uuidv4().replace(/-/g, "").substring(0, 24);
-      setProjectId(newProjectId);
       
       // Set up file paths according to the repository structure
       const projectPath = `public/images/projects/${newProjectId}`;
