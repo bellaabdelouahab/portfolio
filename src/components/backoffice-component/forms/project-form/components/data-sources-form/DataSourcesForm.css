@@ -1,0 +1,70 @@
+.datasource-form {
+  max-width: 700px;
+  width: 100%;
+  color: #fff;
+}
+
+.datasource-types {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.datasource-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 10px;
+  background: rgba(40, 40, 40, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.datasource-type:hover {
+  background: rgba(60, 60, 60, 0.5);
+  transform: translateY(-3px);
+}
+
+.datasource-type.selected {
+  background: linear-gradient(145deg, #1e2a45, #2a3a5c);
+  border-color: #4b6cb7;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.datasource-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.datasource-icon img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.datasource-type span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field-icon {
+  margin-right: 8px;
+  color: #4b6cb7;
+}
+
+/* ... Rest of the styles similar to previous forms ... */
+
+@media (max-width: 600px) {
+  .datasource-types {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

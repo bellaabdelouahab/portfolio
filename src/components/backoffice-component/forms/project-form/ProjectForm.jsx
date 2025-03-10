@@ -7,6 +7,7 @@ import CodeSampleForm from "./components/code-sample-form/CodeSampleForm";
 import TechsForm from "./components/techs-form/TechsForm";
 import ResourcesForm from "./components/resources_form/ResourceForm";
 import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
+import TagInput from "./components/tag-input/TagInput";
 
 // Import Firebase related functions
 import { collection, addDoc, doc, setDoc } from "firebase/firestore";
@@ -27,7 +28,7 @@ export default function ProjectForm() {
   const [techs, setTechs] = useState([]);
   const [resources, setResources] = useState([]);
   const [dataSources, setDataSources] = useState([]);
-  const [tags, setTags] = useState(""); // Added tags state
+  const [tags, setTags] = useState([]); // Change tags state to an array
   const [submitButtonText, setSubmitButtonText] = useState("Submit");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [projectId, setProjectId] = useState("");
@@ -131,63 +132,71 @@ export default function ProjectForm() {
   };
 
   // Function to commit all project images to GitHub
-  const commitProjectImages = async (mainImage, carouselImages, newProjectId) => {
+  const commitProjectImages = async (
+    mainImage,
+    mainImageName,
+    carouselImages,
+    carouselImageNames,
+    newProjectId
+  ) => {
     setIsCommitting(true);
     setCommitStatus("Starting to commit images to GitHub...");
-    
+
     try {
       const basePath = githubDetails.baseImagePath + newProjectId;
       const carouselPath = `${basePath}/carousel`;
-      
+
       // Create arrays to track all commits
       const commitPromises = [];
-      
+
       // Commit main image
       if (mainImage) {
         const timestamp = Date.now();
-        const mainImageName = `${timestamp}.webp`;
         const mainImagePath = `${basePath}/${mainImageName}`;
-        
+
         setCommitStatus(`Committing main image: ${mainImageName}`);
-        
+
         const mainImagePromise = commitFileToGithub(
           mainImage,
           mainImagePath,
           `Add project main image: ${mainImageName}`
         );
-        
+
         commitPromises.push(mainImagePromise);
       }
-      
+
       // Commit carousel images
       for (let i = 0; i < carouselImages.length; i++) {
         const carouselItem = carouselImages[i];
         if (carouselItem.img && carouselItem.img[0]) {
-          const timestamp = Date.now();
-          const carouselImageName = `${timestamp}-${i}.webp`;
+          const carouselImageName = carouselImageNames[i];
           const carouselImagePath = `${carouselPath}/${carouselImageName}`;
-          
-          setCommitStatus(`Committing carousel image ${i+1}/${carouselImages.length}: ${carouselImageName}`);
-          
+
+          setCommitStatus(
+            `Committing carousel image ${i + 1}/${
+              carouselImages.length
+            }: ${carouselImageName}`
+          );
+
           const carouselPromise = commitFileToGithub(
             carouselItem.img[0],
             carouselImagePath,
             `Add project carousel image: ${carouselImageName}`
           );
-          
+
           commitPromises.push(carouselPromise);
         }
       }
-      
+
       // Wait for all commits to complete
       await Promise.all(commitPromises);
-      
+
       setCommitStatus("All images successfully committed to GitHub!");
       setTimeout(() => {
         setCommitStatus("");
         setIsCommitting(false);
       }, 3000);
-      
+
       return true;
     } catch (error) {
       console.error("Error committing images to GitHub:", error);
@@ -207,10 +216,10 @@ export default function ProjectForm() {
     try {
       const formData = new FormData(e.target);
       const mainImage = formData.get("image");
-      const authToken = localStorage.getItem("firebaseAuthToken");
       
-      if (!authToken) {
-        alert("Authentication token not found. Please log in again.");
+      // Check if main image is provided and is a .webp file
+      if (mainImage && mainImage.type !== "image/webp") {
+        alert("Only .webp images are accepted for the main image.");
         setSubmitButtonText("Submit");
         setIsSubmitting(false);
         return;
@@ -231,8 +240,8 @@ export default function ProjectForm() {
         githubDetails.token = token;
       }
 
-      // Generate a unique ID for this project
-      const newProjectId = uuidv4();
+      // Generate a unique ID for this project (MongoDB style, without hyphens)
+      const newProjectId = uuidv4().replace(/-/g, "").substring(0, 24);
       setProjectId(newProjectId);
       
       // Set up file paths according to the repository structure
@@ -249,7 +258,7 @@ export default function ProjectForm() {
         endDate: formData.get("endDate") ? new Date(formData.get("endDate")).toISOString() : null,
         durration: formData.get("endDate") ? "completed" : "ongoing",
         highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
-        tags: tags.split(",").map((tag) => tag.trim()),
+        tags: tags, // now using the tags array
         showInOverview: false,
         codeSamples: codeSamples,
         dataSources: dataSources,
@@ -268,24 +277,30 @@ export default function ProjectForm() {
         carouselImages: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        authToken: authToken,
         __v: 0
       };
       
       // Set up image paths in projectData
+      const timestamp = Date.now();
+      let mainImageName = null;
       if (mainImage) {
-        const timestamp = Date.now();
-        const mainImageName = `${timestamp}.webp`;
+        mainImageName = `${timestamp}.webp`;
         projectData.image = `/images/projects/${newProjectId}/${mainImageName}`;
       }
 
+      let carouselImageNames = [];
       // Set up carousel image paths in projectData
       for (let i = 0; i < carouselSamples.length; i++) {
         const carouselItem = carouselSamples[i];
         if (carouselItem.img && carouselItem.img[0]) {
-          const timestamp = Date.now();
+          if (carouselItem.img[0].type !== "image/webp") {
+            alert(`Only .webp images are accepted for carousel image ${i + 1}.`);
+            setSubmitButtonText("Submit");
+            setIsSubmitting(false);
+            return;
+          }
           const carouselImageName = `${timestamp}-${i}.webp`;
-          
+          carouselImageNames.push(carouselImageName);
           projectData.carouselImages.push({
             _id: `${newProjectId}${i}c`,
             img: `/images/projects/${newProjectId}/carousel/${carouselImageName}`,
@@ -301,7 +316,7 @@ export default function ProjectForm() {
       
       // Now commit images to GitHub
       setSubmitButtonText("Committing images...");
-      await commitProjectImages(mainImage, carouselSamples, newProjectId);
+      await commitProjectImages(mainImage, mainImageName, carouselSamples,carouselImageNames, newProjectId);
       
       // Display success message
       setSubmitButtonText("Successfully Submitted!");
@@ -314,7 +329,7 @@ export default function ProjectForm() {
         setTechs([]);
         setResources([]);
         setDataSources([]);
-        setTags("");
+        setTags([]);
         setSubmitButtonText("Submit");
         setIsSubmitting(false);
       }, 3000);
@@ -472,15 +487,10 @@ export default function ProjectForm() {
       {/* highlighted start or basic  */}
       <CheckboxComponent name="highlighted" />
 
-      <InputComponent
-        type="text"
-        name="tags"
-        className="form__input"
-        placeholder=" "
-        required
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
-        label="Tags (separated by comma)"
+      {/* Replace simple tags input with TagInput */}
+      <TagInput 
+        tags={tags} 
+        setTags={setTags} 
       />
 
       <input 

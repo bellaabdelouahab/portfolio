@@ -18,8 +18,9 @@ const InputComponent = ({
       required={required}
       value={value}
       onChange={onChange}
+      id={name}
     />
-    <label className="form__label">{label}</label>
+    <label className="form__label" htmlFor={name}>{label}</label>
   </div>
 );
 
