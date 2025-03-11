@@ -5,7 +5,7 @@ import "./Team.scss";
 const teamMembers = [
   {
     name: "Abdelouahab Bella",
-    role: "Jack of all trades",
+    role: "Jack of all trades & You are in my portfolio",
     position: {
       x: window.innerWidth * 0.5 - 420,
       y: window.innerHeight * 0.1 - 80,
@@ -24,7 +24,7 @@ const teamMembers = [
   },
   {
     name: "Yassine Boujrada",
-    role: "Manager",
+    role: "Master of web scraping and cybersecurity",
     position: {
       x: window.innerWidth * 0.5 - 120,
       y: window.innerHeight * 0.1 + 50,
