@@ -12,7 +12,7 @@
   margin-top: 4rem;
   margin-left: 1rem;
   margin-bottom: 20px;
-  color: #d2d2d2;
+  color: #00ff0086;
   padding: 10px;
   float: left;
 }
@@ -26,6 +26,7 @@
   margin: auto;
   margin-bottom: 4rem;
   background: #333333;
+  box-shadow: rgba(45, 184, 17, 0.685) -2.4px 2.4px 3.2px;
 }
 
 .project__technologes__item {

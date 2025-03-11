@@ -9,7 +9,7 @@
   border: 1px solid #333;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: #333333 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  box-shadow: rgba(45, 184, 17, 0.1) 0px 4px 16px, rgba(45, 184, 17, 0.1) 0px 8px 24px, rgba(45, 184, 17, 0.1) 0px 16px 56px;
 }
 .carousel-container > .big-image {
   width: 700px;
