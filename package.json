@@ -18,7 +18,7 @@
     "firebase-admin": "^13.1.0",
     "hast-util-to-html": "^8.0.4",
     "portfolio": "file:",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",
     "react-loading-skeleton": "^3.4.0",
