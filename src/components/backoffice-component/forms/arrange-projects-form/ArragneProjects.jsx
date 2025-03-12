@@ -32,16 +32,7 @@ export default function ArrangeProjects() {
 
   const handleValidate = async () => {
     try {
-      // Get the Firebase authentication token (optional, for enhanced security)
-      const authToken = localStorage.getItem("firebaseAuthToken");
 
-      if (!authToken) {
-        console.error("Authentication token is missing.");
-        alert(
-          "Authentication token is missing.  Cannot update featured projects."
-        );
-        return;
-      }
 
       // 1. Set showInOverview to false for all projects
       const projectsCollection = collection(db, "projects");
@@ -52,7 +43,6 @@ export default function ArrangeProjects() {
         const projectRef = doc(db, "projects", docSnapshot.id);
         await updateDoc(projectRef, {
           showInOverview: false,
-          authToken: authToken, // Include the token here
         });
       });
 
@@ -68,7 +58,6 @@ export default function ArrangeProjects() {
           const projectRef = doc(db, "projects", projectId);
           await updateDoc(projectRef, {
             showInOverview: true,
-            authToken: authToken, // Include the token here
           });
         }
       );
