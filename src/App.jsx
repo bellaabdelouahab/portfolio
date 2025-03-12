@@ -4,12 +4,13 @@ import {
   Route,
   createRoutesFromElements,
 } from "react-router-dom";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 
 import { getHighlightedProjects } from "./views/Home";
 import { getProjects } from "./views/Projects";
 import { getAllCertificates } from "./utils/firebaseQueries";
 import { getReports } from "./views/Reports";
+import { trackVisitor } from "./utils/visitorTracking";
 
 // Define a fallback UI for loading state
 const fallback = (
@@ -156,6 +157,11 @@ const router = createHashRouter(
 );
 
 function App() {
+  // Track visitor when app loads
+  useEffect(() => {
+    trackVisitor();
+  }, []);
+
   return <RouterProvider router={router} fallbackElement={fallback} />;
 }
 

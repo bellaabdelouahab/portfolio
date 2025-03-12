@@ -6,6 +6,7 @@ import LoginPage from "../../components/backoffice-component/login-page/LoginPag
 import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
 import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
 import Clients from "components/backoffice-component/forms/clients-form/Clients";
+import VisitorStats from "components/backoffice-component/visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const tabs = [
@@ -14,6 +15,7 @@ const tabs = [
   { id: 2, label: "Certificate", component: <CertificatesForm /> },
   { id: 4, label: "Report", component: <ReportForm /> },
   { id: 5, label: "Clients", component: <Clients /> },
+  { id: 6, label: "Visitor Stats", component: <VisitorStats /> },
 ];
 
 export default function FillDB() {
