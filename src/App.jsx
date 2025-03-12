@@ -5,6 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { Suspense, useEffect } from "react";
+import React from "react";
 
 import { getHighlightedProjects } from "./views/Home";
 import { getProjects } from "./views/Projects";
@@ -46,11 +47,10 @@ const Resume = React.lazy(() => import("./views/Resume"));
 const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
 const Reports = React.lazy(() => import("./views/Reports"));
 const Articles = React.lazy(() => import("./views/Articles"));
-const Team = React.lazy(()=> import("./views/Team"));
+const Team = React.lazy(() => import("./views/Team"));
 const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 const NotFound = React.lazy(() => import("./views/NotFound"));
 const SiteMap = React.lazy(() => import("./views/SiteMap"));
-const SitemapXml = React.lazy(() => import("./views/api/SitemapXml"));
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -139,7 +139,7 @@ const router = createHashRouter(
         }
       />
       <Route
-        path="fillDB"
+        path="fill-db"
         element={
           <Suspense fallback={fallback}>
             <BackOffice />
@@ -151,14 +151,6 @@ const router = createHashRouter(
         element={
           <Suspense fallback={fallback}>
             <SiteMap />
-          </Suspense>
-        }
-      />
-      <Route
-        path="api/sitemap.xml"
-        element={
-          <Suspense fallback={fallback}>
-            <SitemapXml />
           </Suspense>
         }
       />

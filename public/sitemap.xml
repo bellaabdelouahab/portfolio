@@ -1,9 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://bellaabdelouahab.github.io</loc>
+    <loc>https://bellaabdelouahab.github.io/#/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- The full sitemap is available at /#/api/sitemap.xml -->
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/certificates</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/resume</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/my-team</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/music</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/reports</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/site-map</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/Self-Driving-Cars-Using-Double-Deep-Q-learning-Network</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/ICAMAI-2024-%7C-Conference-Website</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/NidInnovation-Website</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/FastX%3A-Revolutionizing-Parcel-Delivery-Operations</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/Courier-Delivery-System</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/Smart-maint-Website</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/Moroccan-Traffic-Sign-Detection-</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://bellaabdelouahab.github.io/#/projects/Neural-Fusion-Studio</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
