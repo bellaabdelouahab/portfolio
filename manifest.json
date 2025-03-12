@@ -1,11 +1,28 @@
 {
-    "manifest_version": 2,
-    "name": "My Extension",
-    "version": "1.0",
-    "description": "My Extension",
-    "icons": [
-        { "size": 16, "src": "icon.png" },
-        { "size": 48, "src": "icon.png" },
-        { "size": 128, "src": "icon.png" }
-    ]
+  "manifest_version": 2,
+  "short_name": "AB Portfolio",
+  "name": "Abdelouahab Bella Portfolio",
+  "version": "1.0",
+  "description": "Portfolio of Abdelouahab Bella, a Data Scientist & Software Engineer",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/jpg"
+    },
+    {
+      "src": "/logo.jpg",
+      "type": "image/jpg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#1e1e1e"
 }
