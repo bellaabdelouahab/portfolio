@@ -5,7 +5,6 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import { Suspense, useEffect } from "react";
-import React from "react";
 
 import { getHighlightedProjects } from "./views/Home";
 import { getProjects } from "./views/Projects";
