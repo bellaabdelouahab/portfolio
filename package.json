@@ -29,7 +29,6 @@
   },
   "scripts": {
     "start": "vite",
-    "prebuild": "node scripts/generate-sitemap.js",
     "build": "vite build",
     "serve": "vite preview",
     "clean": "rmdir /s /q build",
