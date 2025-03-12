@@ -11,7 +11,7 @@ import ServicesSection from "../components/home_components/sevices/ServicesSecti
 import Collaborations from "../components/home_components/collaborations/Collaborations";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-// import "../assets/css/internship/intership-wide-screen.css";
+import SEO from "../components/common/SEO";
 
 export default function Home() {
   const projectHighlight = useLoaderData();
@@ -31,8 +31,37 @@ export default function Home() {
     });
   }, []);
 
+  // Create structured data for home page
+  const homeStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Abdelouahab Bella",
+      "jobTitle": "Data Scientist & Software Engineer",
+      "description": "Accomplished data scientist with extensive experience in data science, computer systems engineering, and software development.",
+      "url": "https://bellaabdelouahab.github.io",
+      "sameAs": [
+        "https://github.com/bellaabdelouahab",
+        "https://linkedin.com/in/abdelouahab-bella"
+      ],
+      "knowsAbout": [
+        "Data Science",
+        "Machine Learning",
+        "Web Development",
+        "Software Engineering"
+      ]
+    }
+  };
+
   return (
     <>
+      <SEO 
+        title="Home"
+        description="Portfolio of Abdelouahab Bella, a Data Scientist & Software Engineer with expertise in web development and machine learning"
+        keywords="Abdelouahab Bella, Data Science, Software Engineering, Portfolio, Projects, Machine Learning, Web Development"
+        structuredData={homeStructuredData}
+      />
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
       <AboutMeSection />
@@ -42,8 +71,6 @@ export default function Home() {
       <HappyClientsSection />
       <ServicesSection/>
       <GetInTouchSection />
-
-      {/* <iframe id="jsoncrackEmbed" src="https://jsoncrack.com/widget" width="70%" height="600px"></iframe> */}
     </>
   );
 }

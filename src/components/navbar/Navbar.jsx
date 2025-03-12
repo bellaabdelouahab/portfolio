@@ -9,6 +9,7 @@ import {
   faFlaskVial,
   faNewspaper,
   faFlag,
+  faSitemap
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
@@ -96,6 +97,9 @@ export default function Navbar() {
           </li> */}
           <li>
             {getNavLink("/reports", "Reports", faFlag)}
+          </li>
+          <li>
+            {getNavLink("/site-map", "Site Map", faSitemap)}
           </li>
           <br />
           <hr />

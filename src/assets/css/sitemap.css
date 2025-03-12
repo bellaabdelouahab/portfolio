@@ -1,0 +1,160 @@
+.sitemap-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #f8f8f8;
+}
+
+.sitemap-container h1 {
+  color: #d91b42;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #333;
+}
+
+.sitemap-description {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #aaa;
+}
+
+.sitemap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.sitemap-section {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sitemap-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sitemap-section h2 {
+  color: #61dafb;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.sitemap-section h2 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.sitemap-section h2 a:hover {
+  color: #d91b42;
+}
+
+.sitemap-section p {
+  color: #bbb;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.sitemap-subsections, 
+.sitemap-children {
+  margin-top: 1.5rem;
+}
+
+.sitemap-subsections h3,
+.sitemap-children h3 {
+  color: #aaa;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-list,
+.children-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.section-list li,
+.children-list li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid #333;
+  transition: border-color 0.2s ease;
+}
+
+.section-list li:hover,
+.children-list li:hover {
+  border-left-color: #d91b42;
+}
+
+.section-list li a,
+.children-list li a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  display: block;
+  padding: 0.3rem 0;
+}
+
+.section-list li a:hover,
+.children-list li a:hover {
+  color: #fff;
+}
+
+.item-description {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.more-items {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.sitemap-xml-link {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.sitemap-xml-link a {
+  color: #61dafb;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid #61dafb;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sitemap-xml-link a:hover {
+  background-color: #61dafb;
+  color: #000;
+}
+
+.loading-indicator,
+.error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.25rem;
+}
+
+.error-message {
+  color: #ff6b6b;
+}
+
+@media (max-width: 768px) {
+  .sitemap-grid {
+    grid-template-columns: 1fr;
+  }
+}

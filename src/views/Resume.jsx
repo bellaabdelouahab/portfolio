@@ -1,6 +1,5 @@
 import "../assets/css/resume.css";
-
-
+import SEO from "../components/common/SEO";
 
 const resumes = [
   {
@@ -34,8 +33,29 @@ const resumes = [
 ];
 
 export default function Resume() {
+  const resumeStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Abdelouahab Bella",
+    "jobTitle": "Data Scientist & Software Engineer",
+    "url": "https://bellaabdelouahab.github.io/#/resume",
+    "workLocation": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Morocco"
+      }
+    }
+  };
+
   return (
     <section className="resume-section">
+      <SEO 
+        title="Resume"
+        description="Professional resume of Abdelouahab Bella - Data Scientist & Software Engineer with experience in web development and machine learning."
+        keywords="Resume, CV, Abdelouahab Bella, Data Scientist, Software Engineer, Career, Experience, Skills"
+        structuredData={resumeStructuredData}
+      />
       <h1 className="resume-section__title">My Resumes</h1>
       <p className="resume-section__subtitle">
         Select a resume based on your interest

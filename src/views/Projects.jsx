@@ -4,76 +4,69 @@ import Skeleton from "react-loading-skeleton";
 import "../assets/css/projects.css";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import SEO from "../components/common/SEO";
 
 export default function Projects() {
-  const InitProjects = useLoaderData();
-  const [projects, setProjects] = useState(InitProjects);
+  const projects = useLoaderData();
   const Navigate = useNavigate();
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState("All");
   const [imageLoaded, setImageLoaded] = useState({});
-
-  let filters = [
-    {
-      All: -1,
-    },
-  ];
-
-  InitProjects.map((project) => {
-    project?.tags?.map((tag) => {
-      const updateFilters = (tag) => {
-        const filterIndex = filters.findIndex((filter) =>
-          filter.hasOwnProperty(tag)
-        );
-        if (filterIndex !== -1) {
-          filters[filterIndex][tag] += 1;
-        } else {
-          filters.push({ [tag]: 1 });
+  
+  // Create ProjectsPage structured data
+  const projectsStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Abdelouahab Bella's Projects",
+    "description": "A collection of projects developed by Abdelouahab Bella, including web development, machine learning, and data science projects.",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": projects.map((project, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "SoftwareSourceCode",
+          "name": project.title,
+          "description": project.description.substring(0, 160),
+          "url": `https://bellaabdelouahab.github.io/#/projects/${project.title.replace(/\s/g, "-")}`,
+          "codeRepository": project.githubLink
         }
-      };
-      updateFilters(tag);
-      return;
+      }))
+    }
+  };
+
+  // Generate a list of unique tags from all projects
+  const allTags = projects.reduce((acc, project) => {
+    const projectTags = project.tags || [];
+    projectTags.forEach((tag) => {
+      if (!acc[tag]) {
+        acc[tag] = 1;
+      } else {
+        acc[tag] += 1;
+      }
     });
-    return;
+    return acc;
+  }, {});
+
+  // Convert tags object to array of objects for filtering
+  const filters = [{ All: -1 }];
+  Object.entries(allTags).forEach(([tag, count]) => {
+    filters.push({ [tag]: count });
   });
 
-  useEffect(() => {
-    const handleFilterClick = (e) => {
-      const selectedTag = e.target.getAttribute("data-tag");
-      setFilter(selectedTag);
-    };
-
-    const filterElements = document.querySelectorAll(".filter-element");
-    filterElements.forEach((element) => {
-      element.addEventListener("click", handleFilterClick);
-    });
-
-    return () => {
-      filterElements.forEach((element) => {
-        element.removeEventListener("click", handleFilterClick);
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleFilter = (filterElement) => {
-      filterElement.innerHTML = filter + " ▼";
-      setShowFilter(false);
-      const filteredProjects = InitProjects.filter((project) => {
-        if (filter === "All") {
-          return true;
-        }
-        return project.tags.includes(filter);
-      });
-      setProjects(filteredProjects);
-    };
+  const handleFilterClick = (e) => {
+    // Only filter if we clicked on a filter element
+    if (!e.target.dataset.tag) return;
+    
+    const filterValue = e.target.dataset.tag;
+    setFilter(filterValue);
+    // Hide filters panel after selection
+    const filtersElem = document.querySelector(".filters");
     const filterElement = document.querySelector(".filter");
-    handleFilter(filterElement);
-    const filters = document.querySelector(".filters");
-    filters.classList.add("hidden");
-    filterElement.innerHTML = filter + " ▼";
+    filtersElem.classList.add("hidden");
+    filterElement.innerHTML = filterValue + " ▼";
     setShowFilter(false);
-  }, [filter, InitProjects]);
+  };
 
   const handleFilterShow = (e) => {
     const filterElement = document.querySelector(".filter");
@@ -100,6 +93,14 @@ export default function Projects() {
         card.style.setProperty("--mouse-y", `${y}px`);
       }
     };
+    
+    // Add click handler for filter options
+    const filtersContainer = document.querySelector(".filters");
+    filtersContainer?.addEventListener("click", handleFilterClick);
+    
+    return () => {
+      filtersContainer?.removeEventListener("click", handleFilterClick);
+    };
   }, []);
 
   const handleImageLoad = (projectId) => {
@@ -108,6 +109,12 @@ export default function Projects() {
 
   return (
     <>
+      <SEO 
+        title="Projects"
+        description="Browse through all projects developed by Abdelouahab Bella, including web development, machine learning, and data science projects."
+        keywords="Projects, Portfolio, Web Development, Software Engineering, Data Science, Machine Learning"
+        structuredData={projectsStructuredData}
+      />
       <section className="projects-section">
         <div className="projects-header">
           <h1 className="projects-section__title">Projects Library</h1>
@@ -135,6 +142,11 @@ export default function Projects() {
         <div id="cards">
           {projects &&
             projects.map((project, index) => {
+              // Filter projects based on selected filter
+              if (filter !== "All" && !(project.tags || []).includes(filter)) {
+                return null;
+              }
+              
               const description = project.description;
               let truncatedDescription = description.slice(0, 250); // Increased limit slightly
               const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
@@ -152,6 +164,7 @@ export default function Projects() {
                       state: project,
                     });
                   }}
+                  aria-label={`View details of ${project.title} project`}
                 >
                   <div
                     className="projects-section__projects__project__img"
@@ -164,7 +177,7 @@ export default function Projects() {
                     {!imageLoaded[project._id] && <Skeleton height="100%" />}
                     <img
                       src={`${project.image}`}
-                      alt={project.title}
+                      alt={`Preview of ${project.title} project`}
                       style={{ display: "none" }}
                       onLoad={() => handleImageLoad(project._id)}
                       // on error set image as not found image at assets/images/notfound.png

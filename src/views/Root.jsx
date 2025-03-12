@@ -1,17 +1,25 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "components/navbar/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 
 export default function Root() {
+  // State for theme color
+  const [themeColor, setThemeColor] = useState("#000000");
 
   const resetScroll = () => {
     document.getElementsByClassName("main")[0].scrollTop = 0;
   };
+
   useEffect(() => {
+    // Add click listener to nav links for scrolling to top
     const navLinks = document.querySelectorAll(".navbar__menu__list a");
     navLinks.forEach((link) => {
       link.addEventListener("click", resetScroll);
     });
+
+    // Set the lang attribute on the HTML tag
+    document.documentElement.lang = 'en';
 
     return () => {
       navLinks.forEach((link) => {
@@ -22,6 +30,14 @@ export default function Root() {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content={themeColor} />
+        <meta name="robots" content="index, follow" />
+        <link rel="icon" href="/logo.jpg" />
+      </Helmet>
+        
       <header id="header" className="header header-sticky">
         <Navbar />
       </header>
