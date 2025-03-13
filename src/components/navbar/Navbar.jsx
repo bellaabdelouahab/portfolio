@@ -1,5 +1,6 @@
 import "./wide-screen.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -12,9 +13,63 @@ import {
   faSitemap
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function Navbar() {
   const basePath = process.env.VITE_BASE_URL || "";
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // Check authentication status when component mounts
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser && currentUser.email === "abdobella977@gmail.com") {
+        setIsAuthenticated(true);
+        setUserEmail(currentUser.email);
+      } else {
+        // Check localStorage as fallback
+        const storedUser = localStorage.getItem("firebaseAuthUser");
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          if (parsedUser && parsedUser.email === "abdobella977@gmail.com") {
+            setIsAuthenticated(true);
+            setUserEmail(parsedUser.email);
+          } else {
+            setIsAuthenticated(false);
+            setUserEmail("");
+          }
+        } else {
+          setIsAuthenticated(false);
+          setUserEmail("");
+        }
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Add keyboard shortcut for admin panel
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Check for Ctrl + A shortcut
+      if (e.ctrlKey && e.key === 'a') {
+        e.preventDefault(); // Prevent default browser behavior (select all)
+        navigate(`${basePath}/fill-db`);
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [navigate, basePath]);
 
   const toggleMenu = () => {
     const el = document.getElementById("hamburger-menu");
@@ -32,11 +87,11 @@ export default function Navbar() {
     !el.classList.contains("hidden") && el.focus();
   };
 
-  const getNavLink = (path, label, icon) => (
-
-    <NavLink to={`${basePath}${path}`} onClick={(e) => toggleMenu()}>
+  const getNavLink = (path, label, icon, isBeta = false) => (
+    <NavLink to={`${basePath}${path}`} onClick={(e) => { if (!isBeta) toggleMenu(); }} style={{ pointerEvents: isBeta ? 'none' : 'auto' }}>
       <FontAwesomeIcon icon={icon} />
       {label}
+      {isBeta && <span className="beta-badge" style={{ marginLeft: '5px', fontSize: '0.6em', padding: '2px 4px', background: '#ffcc00', color: '#333', borderRadius: '3px', verticalAlign: 'center' }}>BETA</span>}
     </NavLink>
   );
 
@@ -92,15 +147,17 @@ export default function Navbar() {
           <br />
           <hr />
           <br />
-          {/* <li>
-            {getNavLink("/articles", "Articles", faNewspaper)}
-          </li> */}
           <li>
             {getNavLink("/reports", "Reports", faFlag)}
           </li>
           <li>
-            {getNavLink("/site-map", "Site Map", faSitemap)}
+            {getNavLink("/articles", "Articles", faNewspaper, true)}
           </li>
+          {isAuthenticated && userEmail === "abdobella977@gmail.com" && (
+            <li>
+              {getNavLink("/site-map", "Site Map", faSitemap)}
+            </li>
+          )}
           <br />
           <hr />
         </ul>

@@ -22,7 +22,9 @@ export default function ServicesSection() {
         timestamp: new Date(),
       };
       await addDoc(collection(db, "offers"), dataToSubmit);
-      alert("Thank you! Your request has been submitted. I will be in touch shortly.");
+      alert(
+        "Thank you! Your request has been submitted. I will be in touch shortly."
+      );
       setActiveForm(null);
       setFormData({ name: "", email: "" });
     } catch (error) {
@@ -52,12 +54,12 @@ export default function ServicesSection() {
               <img src="icons/AI.png" alt="" width={75} />
               <h3 className={styles.cardTitle}>AI solutions</h3>
               <p className={styles.cardText}>
-                Leverage our cutting-edge AI solutions to transform your
-                business operations and gain valuable insights. With our
-                expertise spanning chatbots, predictive analytics, and
-                automation, we empower you to stay ahead in today's data-centric
-                environment. Harness the power of AI with us to unlock new
-                opportunities and drive innovation in your organization.
+                Leverage my cutting-edge AI solutions to transform your business
+                operations and gain valuable insights. With my expertise
+                spanning chatbots, predictive analytics, and automation, I
+                empower you to stay ahead in today's data-centric environment.
+                Harness the power of AI with me to unlock new opportunities and
+                drive innovation in your organization.
               </p>
               <button
                 className={styles.cardButton}
