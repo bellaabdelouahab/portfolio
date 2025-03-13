@@ -1,0 +1,1 @@
+import{u as o,j as e}from"./index-DJGXM9mn.js";const n=()=>{const t=o();return e.jsxs("div",{style:{textAlign:"center",color:"white"},children:[e.jsx("h1",{children:"404 - Page Not Found"}),e.jsxs("p",{children:["The requested URL ",e.jsx("code",{children:t.pathname})," was not found on this server."]})]})};export{n as default};
