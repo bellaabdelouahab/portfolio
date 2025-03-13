@@ -13,6 +13,71 @@
     width: 50%;
 }
 
+/* New sidebar structure */
+.filldb-container {
+    display: flex;
+    flex-direction: row-reverse; /* Place sidebar on the right */
+    min-height: 100vh;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    background: #2a2a2a;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    padding: 1.5rem 1rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* User profile styling */
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.user-profile:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-name {
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
 .filldb-form input[type="text"],
 .filldb-form input[type="file"],
 .filldb-form input[type="submit"] {
@@ -44,8 +109,6 @@
   display: none;
 }
 
-
-
 .filldb-form input[type="submit"] {
     background-color: #28a745;
     border: none;
@@ -64,17 +127,38 @@
 }
 
 .filldb-nav__btn {
-    padding: 1rem 2rem;
+    padding: 0.8rem 1rem;
     border: none;
     border-radius: 5px;
     background: #444;
     color: #fff;
     cursor: pointer;
-    margin: 0.5rem;
+    margin: 0.4rem auto;
+    width: 95%;
+    text-align: left;
+    transition: all 0.3s ease;
 }
 
 .filldb-nav__btn:hover {
     background: #555;
+    transform: scale(1.05);
+}
+
+.filldb-nav__btn.active {
+    background: #2195f36c;
+    box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
+}
+
+.filldb-nav__btn.logout-btn {
+    background-color: #dc3545;
+    margin-top: auto; /* Push to bottom */
+    text-align: center;
+    width: 100%;
+}
+
+.filldb-nav__btn.logout-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
 }
 
 .filldb-nav__btn.logout-btn {
@@ -110,7 +194,6 @@
 .user-profile {
   display: flex;
   align-items: center;
-  margin-right: 20px;
   padding: 0.5rem 1rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 30px;
@@ -152,8 +235,38 @@
         width: 90%;
     }
 
-    .filldb-nav__btn {
+    .filldb-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
         width: 100%;
-        text-align: center;
+        height: auto;
+        position: relative;
+        flex-direction: column;
+    }
+    
+    .nav-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .filldb-nav__btn {
+        width: auto;
+        margin: 0.3rem;
+    }
+    
+    .user-profile {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        margin-bottom: 0;
     }
 }
+

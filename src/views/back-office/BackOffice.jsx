@@ -107,7 +107,7 @@ export default function FillDB() {
         <LoginPage setAuthenticated={setAuthenticated} />
       ) : (
         <div className="filldb-container">
-          <div className="buttons">
+          <div className="sidebar">
             {user && (
               <div className="user-profile">
                 <img 
@@ -122,20 +122,25 @@ export default function FillDB() {
                 <span className="user-name">{user.displayName}</span>
               </div>
             )}
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                className={`filldb-nav__btn ${activeTab === tab.id ? "active" : ""}`}
-                onClick={() => setActiveTab(tab.id)}
-              >
-                {tab.label}
-              </button>
-            ))}
+            
+            <div className="nav-buttons">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  className={`filldb-nav__btn ${activeTab === tab.id ? "active" : ""}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            
             <button className="filldb-nav__btn logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </div>
-          <div className="tab-content">
+          
+          <div className="main-content">
             {tabs.map((tab) => activeTab === tab.id && tab.component)}
           </div>
         </div>
