@@ -30,11 +30,11 @@ export default function SiteMap() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Abdelouahab Bella Portfolio",
-    "url": "https://bellaabdelouahab.github.io",
+    "url": "https://abdelouahab.xyz",
     "description": "Complete sitemap of Abdelouahab Bella's portfolio website",
     "potentialAction": {
       "@type": "ViewAction",
-      "target": "https://bellaabdelouahab.github.io/#/site-map"
+      "target": "https://abdelouahab.xyz/#/site-map"
     }
   };
 

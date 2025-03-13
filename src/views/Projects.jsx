@@ -28,7 +28,7 @@ export default function Projects() {
           "@type": "SoftwareSourceCode",
           "name": project.title,
           "description": project.description.substring(0, 160),
-          "url": `https://bellaabdelouahab.github.io/#/projects/${project.title.replace(/\s/g, "-")}`,
+          "url": `https://abdelouahab.xyz/#/projects/${project.title.replace(/\s/g, "-")}`,
           "codeRepository": project.githubLink
         }
       }))

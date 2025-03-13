@@ -15,7 +15,7 @@ export const generateSitemapXML = async () => {
     }));
 
     // Base URL for the site
-    const baseUrl = 'https://bellaabdelouahab.github.io';
+    const baseUrl = 'https://abdelouahab.xyz';
     
     // Static routes
     const staticRoutes = [
@@ -87,7 +87,7 @@ export const getSiteStructure = async () => {
     // Site structure
     return {
       name: 'Abdelouahab Bella Portfolio',
-      baseUrl: 'https://bellaabdelouahab.github.io',
+      baseUrl: 'https://abdelouahab.xyz',
       pages: [
         {
           title: 'Home',

@@ -40,7 +40,7 @@ export default function Home() {
       "name": "Abdelouahab Bella",
       "jobTitle": "Data Scientist & Software Engineer",
       "description": "Accomplished data scientist with extensive experience in data science, computer systems engineering, and software development.",
-      "url": "https://bellaabdelouahab.github.io",
+      "url": "https://abdelouahab.xyz",
       "sameAs": [
         "https://github.com/bellaabdelouahab",
         "https://linkedin.com/in/abdelouahab-bella"

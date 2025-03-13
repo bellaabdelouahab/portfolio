@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 export default function SEO({ 
   title, 
   description, 
-  image = "https://bellaabdelouahab.github.io/logo.jpg", 
+  image = "https://abdelouahab.xyz/logo.jpg", 
   url, 
   keywords,
   type = "website",
@@ -16,7 +16,7 @@ export default function SEO({
   // Set default keywords if none provided
   const pageKeywords = keywords || "Abdelouahab Bella, Data Scientist, Software Engineer, Web Development, Machine Learning, Portfolio";
   // Get current URL or use provided one
-  const pageUrl = url || typeof window !== 'undefined' ? window.location.href : 'https://bellaabdelouahab.github.io';
+  const pageUrl = url || typeof window !== 'undefined' ? window.location.href : 'https://abdelouahab.xyz';
 
   return (
     <Helmet>

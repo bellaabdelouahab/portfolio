@@ -38,7 +38,7 @@ export default function Resume() {
     "@type": "Person",
     "name": "Abdelouahab Bella",
     "jobTitle": "Data Scientist & Software Engineer",
-    "url": "https://bellaabdelouahab.github.io/#/resume",
+    "url": "https://abdelouahab.xyz/#/resume",
     "workLocation": {
       "@type": "Place",
       "address": {

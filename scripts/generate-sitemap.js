@@ -36,7 +36,7 @@ async function generateSitemapXML() {
     console.log(`Found ${projects.length} projects to include in sitemap`);
 
     // Base URL for the site
-    const baseUrl = 'https://bellaabdelouahab.github.io';
+    const baseUrl = 'https://abdelouahab.xyz';
     
     // Static routes
     const staticRoutes = [
@@ -80,7 +80,7 @@ async function generateSitemapXML() {
   } catch (error) {
     console.error('Error generating sitemap:', error);
     // Return a minimal valid sitemap in case of error
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://bellaabdelouahab.github.io</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>';
+    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://abdelouahab.xyz</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>';
   }
 }
 
