@@ -8,6 +8,14 @@ if (!Element.prototype.closest) {
     return null;
   };
 }
+
+
+
+
+
+
+
+
 const offMenu = (event) => {
   if (event.target.closest(".navbar__menu")) return;
   document.querySelectorAll(".menu").forEach((item) => {

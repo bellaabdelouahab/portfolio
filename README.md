@@ -1,132 +1,70 @@
-# Abdelouahab Bella Portfolio
+# Getting Started with Create React App
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/logo.jpg" alt="Portfolio Logo" width="120" height="120" style="border-radius: 50%;">
-  <br><br>
-  <p><em>Data Scientist & Software Engineer</em></p>
-</div>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-A modern, responsive portfolio website showcasing projects, skills, and professional information. Built with React and Firebase, featuring dynamic content loading and advanced SEO optimization.
+## Available Scripts
 
-## 🌟 Live Demo
+In the project directory, you can run:
 
-Visit the live portfolio at [abdelouahab.xyz](abdelouahab.xyz)
+### `npm start` suuup
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/Personal%20Picture.jpg" alt="Portfolio Screenshot" width="600">
-</div>
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## ✨ Features
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-- **Modern React Architecture** with lazy loading, code splitting and optimized performance
-- **Responsive Design** adaptable to all devices and screen sizes
-- **SEO Optimized** with structured data, meta tags and sitemap generation
-- **Project Showcase** with detailed individual project pages and filter capabilities
-- **Firebase Integration** for dynamic content management and visitor analytics
-- **Interactive UI** with animations and smooth transitions
-- **Multiple Resume Formats** tailored for different professional roles
-- **Protected Admin Dashboard** for content management
-- **Real-time Visitor Analytics** tracking user interactions and page views
+### `npm test`
 
-## 🛠️ Technology Stack
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-| Category | Technologies |
-|----------|-------------|
-| **Frontend** | React, React Router, CSS3 |
-| **State Management** | React Context API |
-| **Backend** | Firebase (Firestore) |
-| **Authentication** | Firebase Auth |
-| **Analytics** | Custom visitor tracking system |
-| **Deployment** | GitHub Pages |
-| **Build Tool** | Vite |
-| **SEO** | React Helmet, JSON-LD, Sitemap |
+### `npm run build`
 
-## 📱 Main Sections
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/icons/web-dev.png" width="30"><br><strong>Home</strong></td>
-      <td>Introduction, featured projects, skills overview</td>
-    </tr>
-    <tr>
-      <td align="center"><img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/icons/site.png" width="30"><br><strong>Projects</strong></td>
-      <td>Filterable project library with interactive cards</td>
-    </tr>
-    <tr>
-      <td align="center"><img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/icons/calendar.png" width="30"><br><strong>Certificates</strong></td>
-      <td>Professional certifications display</td>
-    </tr>
-    <tr>
-      <td align="center"><img src="https://raw.githubusercontent.com/bellaabdelouahab/portfolio/refs/heads/master/public/icons/AI.png" width="30"><br><strong>Resume</strong></td>
-      <td>Multiple resume formats for different roles</td>
-    </tr>
-  </table>
-</div>
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-## 🔍 SEO Features
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-The portfolio implements extensive SEO optimizations:
+### `npm run eject`
 
-- Server-side generated sitemap.xml
-- Structured data (JSON-LD) for rich snippets
-- Optimized meta tags for social sharing
-- Semantic HTML structure
-- Image optimization with lazy loading
-- Proper heading hierarchy
-- XML sitemap with XSL styling for human readability
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-## 📊 Analytics Dashboard
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-The custom visitor tracking system provides:
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-- Visitor geographic data
-- Browser and device statistics
-- Page popularity metrics
-- Visit duration and patterns
-- Return visit detection
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## 🚀 Getting Started
+## Learn More
 
-### Prerequisites
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-- Node.js (v14+)
-- npm or yarn
-- Firebase account (for backend functionality)
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Installation
+### Code Splitting
 
-1. Clone the repository:
-```bash
-git clone https://github.com/bellaabdelouahab/portfolio.git
-cd portfolio
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-2. Install dependencies:
-```bash
-npm install
-```
+### Analyzing the Bundle Size
 
-3. Set up environment variables:
-Create a `.env` file with your Firebase configuration.
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-4. Start the development server:
-```bash
-npm start
-```
+### Making a Progressive Web App
 
-5. Build for production:
-```bash
-npm run build
-```
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-## 🔒 Admin Dashboard
+### Advanced Configuration
 
-The secure admin area allows for:
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-- Adding and editing projects
-- Managing certificates
-- Viewing visitor analytics
-- Organizing featured content
+### Deployment
 
-## 📂 Project Structure
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
