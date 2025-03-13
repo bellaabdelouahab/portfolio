@@ -153,7 +153,7 @@ export default function InternshipProjectsSection() {
             <div className="animatable" key={index}>
               <div className={`gradientLine-start gradientLine-${index * 2}`} />
               <div className="iconContainer">
-                <img src="./icons/calendar.png" alt="Calendar" width="30" />
+                <img src="./icons/calendar.png" alt="Calendar" width="30" height="30" />
               </div>
               <div
                 className={`gradientLine-end gradientLine-${index * 2 + 1}`}
@@ -192,7 +192,7 @@ function InternshipProject({ project }) {
             target="_blank"
             className="internship-project__content__link"
           >
-            <img src="./icons/site.png" alt="Link icon" width="20" />
+            <img src="./icons/site.png" alt="Link icon" width="20" height="20" />
             Link to website for more details
           </a>
         )}

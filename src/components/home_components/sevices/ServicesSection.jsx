@@ -51,7 +51,7 @@ export default function ServicesSection() {
         >
           <div className={styles.cards}>
             <div className={styles.card}>
-              <img src="icons/AI.png" alt="" width={75} />
+              <img src="icons/AI.png" alt="" width="75" height="75"  />
               <h3 className={styles.cardTitle}>AI solutions</h3>
               <p className={styles.cardText}>
                 Leverage my cutting-edge AI solutions to transform your business
@@ -69,7 +69,7 @@ export default function ServicesSection() {
               </button>
             </div>
             <div className={styles.card}>
-              <img src="icons/web-dev.png" alt="" width={75} />
+              <img src="icons/web-dev.png" alt="" width="75" height="75"  />
               <h3 className={styles.cardTitle}>Web Development</h3>
               <p className={styles.cardText}>
                 Embark on your online journey with me. My website development
@@ -87,7 +87,7 @@ export default function ServicesSection() {
               </button>
             </div>
             <div className={styles.card}>
-              <img src="icons/online-learning.png" alt="" width={75} />
+              <img src="icons/online-learning.png" alt="" width="75" height="75"  />
               <h3 className={styles.cardTitle}>Online Learning</h3>
               <p className={styles.cardText}>
                 I offer personalized online tutoring services to help you master
