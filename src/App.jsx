@@ -50,7 +50,6 @@ const Team = React.lazy(() => import("./views/Team"));
 const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 const NotFound = React.lazy(() => import("./views/NotFound"));
 const SiteMap = React.lazy(() => import("./views/SiteMap"));
-const SitemapXmlView = React.lazy(() => import("./views/SitemapXmlView"));
 
 const router = createHashRouter(
   createRoutesFromElements(
@@ -151,14 +150,6 @@ const router = createHashRouter(
         element={
           <Suspense fallback={fallback}>
             <SiteMap />
-          </Suspense>
-        }
-      />
-      <Route
-        path="sitemap.xml"
-        element={
-          <Suspense fallback={fallback}>
-            <SitemapXmlView />
           </Suspense>
         }
       />

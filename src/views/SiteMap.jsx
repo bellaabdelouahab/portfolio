@@ -124,7 +124,7 @@ export default function SiteMap() {
       </div>
 
       <div className="sitemap-xml-link">
-        <a href="/#/sitemap.xml" target="_blank" rel="noopener noreferrer">
+        <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer">
           View XML Sitemap for search engines
         </a>
       </div>
