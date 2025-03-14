@@ -67,17 +67,17 @@ export default function SiteMap() {
 
   return (
     <div className="sitemap-container">
-      <SEO 
-        title="Site Map" 
+      <SEO
+        title="Site Map"
         description="Complete map of Abdelouahab Bella's portfolio website"
         structuredData={sitemapStructuredData}
       />
       <h1>Site Map</h1>
       <p className="sitemap-description">
-        This page provides a complete overview of the website structure.
-        Use it to easily navigate to any section or page.
+        This page provides a complete overview of the website structure. Use it
+        to easily navigate to any section or page.
       </p>
-      
+
       <div className="sitemap-grid">
         {siteStructure.pages.map((page, index) => (
           <div key={index} className="sitemap-section">
@@ -85,14 +85,18 @@ export default function SiteMap() {
               <Link to={page.url}>{page.title}</Link>
             </h2>
             {page.description && <p>{page.description}</p>}
-            
+
             {page.sections && (
               <div className="sitemap-subsections">
                 <h3>Sections:</h3>
                 <ul className="section-list">
                   {page.sections.map((section, idx) => (
                     <li key={idx}>
-                      <Link to={`${page.url}#${section.toLowerCase().replace(/\s+/g, '-')}`}>
+                      <Link
+                        to={`${page.url}#${section
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                      >
                         {section}
                       </Link>
                     </li>
@@ -100,7 +104,7 @@ export default function SiteMap() {
                 </ul>
               </div>
             )}
-            
+
             {page.children && page.children.length > 0 && (
               <div className="sitemap-children">
                 <h3>{page.title === "Projects" ? "Projects:" : "Items:"}</h3>
@@ -108,12 +112,18 @@ export default function SiteMap() {
                   {page.children.slice(0, 10).map((child, idx) => (
                     <li key={idx}>
                       <Link to={child.url}>{child.title}</Link>
-                      {child.description && <span className="item-description">{child.description}</span>}
+                      {child.description && (
+                        <span className="item-description">
+                          {child.description}
+                        </span>
+                      )}
                     </li>
                   ))}
                   {page.children.length > 10 && (
                     <li className="more-items">
-                      <Link to={page.url}>...and {page.children.length - 10} more</Link>
+                      <Link to={page.url}>
+                        ...and {page.children.length - 10} more
+                      </Link>
                     </li>
                   )}
                 </ul>
@@ -124,7 +134,11 @@ export default function SiteMap() {
       </div>
 
       <div className="sitemap-xml-link">
-        <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer">
+        <a
+          href="/sitemaps/sitemap-index.xml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View XML Sitemap for search engines
         </a>
       </div>

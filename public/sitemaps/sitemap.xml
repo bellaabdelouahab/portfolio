@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated on Fri, 14 Mar 2025 04:08:13 GMT -->
+<!DOCTYPE urlset [
+  <!ENTITY amp "&#38;">
+]>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://abdelouahab.xyz/#/</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/" />
+    <image:image>
+      <image:loc>https://abdelouahab.xyz/logo.jpg</image:loc>
+      <image:title>Best Software Engineer and Data Scientist Portfolio 2025</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+      <image:title>Featured Portfolio Projects 2025 | Software &amp; Data Science</image:title>
+    <image:image>
+      <image:loc>https://abdelouahab.xyz/images/projects-cover.jpg</image:loc>
+      <image:title>Featured Portfolio Projects 2025 | Software &amp; Data Science</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/certificates</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/certificates" />
+    <image:image>
+      <image:loc>https://abdelouahab.xyz/yassine-pic.png</image:loc>
+      <image:title>Professional Certifications | Top Developer Portfolio</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/resume</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/resume" />
+    <image:image>
+      <image:loc>https://abdelouahab.xyz/resume.png</image:loc>
+      <image:title>Software Engineer Resume 2025 | Professional CV</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/my-team</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/my-team" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/music</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/music" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/reports</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/reports" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/site-map</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/site-map" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/Self-Driving-Cars-Using-Double-Deep-Q-learning-Network</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/Self-Driving-Cars-Using-Double-Deep-Q-learning-Network" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/ICAMAI-2024-%7C-Conference-Website</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/ICAMAI-2024-%7C-Conference-Website" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/NidInnovation-Website</loc>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/NidInnovation-Website" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/FastX%3A-Revolutionizing-Parcel-Delivery-Operations</loc>
+    <lastmod>2024-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/FastX%3A-Revolutionizing-Parcel-Delivery-Operations" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/Courier-Delivery-System</loc>
+    <lastmod>2024-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/Courier-Delivery-System" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/Smart-maint-Website</loc>
+    <lastmod>2024-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/Smart-maint-Website" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/Moroccan-Traffic-Sign-Detection-</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/Moroccan-Traffic-Sign-Detection-" />
+  </url>
+  <url>
+    <loc>https://abdelouahab.xyz/#/projects/Neural-Fusion-Studio</loc>
+    <lastmod>2025-03-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdelouahab.xyz/#/projects/Neural-Fusion-Studio" />
+  </url>
+</urlset>
