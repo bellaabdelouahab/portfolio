@@ -103,8 +103,6 @@ export default function InternshipProjectsSection() {
     setDisplayCount(projects.length);
   };
 
-
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -141,19 +139,24 @@ export default function InternshipProjectsSection() {
       <div className="experience">
         <div className="home-sections-title">
           <span>04. </span>
-          Professional Experience
+          <h2>Professional Experience</h2>
         </div>
       </div>
       <div className="internship-projects-section__projects">
         {projects.slice(0, displayCount).map((project, index) => (
-          <InternshipProject key={index} project={project} />
+          <InternshipProject key={index} project={project} index={index} />
         ))}
         <div className="lineAnimation">
           {projects.slice(0, displayCount).map((_, index) => (
             <div className="animatable" key={index}>
               <div className={`gradientLine-start gradientLine-${index * 2}`} />
               <div className="iconContainer">
-                <img src="./icons/calendar.png" alt="Calendar" width="30" height="30" />
+                <img 
+                  src="./icons/calendar.png" 
+                  alt="Professional experience timeline marker" 
+                  width="30" 
+                  height="30" 
+                />
               </div>
               <div
                 className={`gradientLine-end gradientLine-${index * 2 + 1}`}
@@ -164,8 +167,8 @@ export default function InternshipProjectsSection() {
 
         {displayCount < projects.length ? (
           <div className="show-more-button">
-            <button onClick={handleShowMore}>
-              Show More ({projects.length - displayCount})
+            <button onClick={handleShowMore} aria-label="Show more professional experience entries">
+              View More Experience ({projects.length - displayCount})
             </button>
           </div>
         ) : (
@@ -190,10 +193,17 @@ function InternshipProject({ project }) {
           <a
             href={project.link}
             target="_blank"
+            rel="noopener noreferrer"
             className="internship-project__content__link"
+            aria-label={`Visit ${project.title} project website`}
           >
-            <img src="./icons/site.png" alt="Link icon" width="20" height="20" />
-            Link to website for more details
+            <img
+              src="./icons/site.png"
+              alt="External website link"
+              width="20"
+              height="20"
+            />
+            Visit project website for detailed portfolio showcase
           </a>
         )}
         <ul className="internship-project__content__list">

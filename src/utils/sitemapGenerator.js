@@ -11,27 +11,69 @@ export const generateSitemapXML = async () => {
     const projectsSnap = await getDocs(projectsRef);
     const projects = projectsSnap.docs.map(doc => ({
       id: doc.id,
-      title: doc.data().title
+      title: doc.data().title,
+      description: doc.data().description?.substring(0, 100) + '...',
+      url: `/projects/${doc.data().title.replace(/\s/g, '-')}`
     }));
-
+    
     // Base URL for the site
     const baseUrl = 'https://abdelouahab.xyz';
     
-    // Static routes
+    // Static routes with enhanced descriptions and priorities
     const staticRoutes = [
-      { url: '/', priority: '1.0', changefreq: 'weekly' },
-      { url: '/projects', priority: '0.9', changefreq: 'weekly' },
-      { url: '/certificates', priority: '0.8', changefreq: 'monthly' },
-      { url: '/resume', priority: '0.8', changefreq: 'monthly' },
-      { url: '/my-team', priority: '0.7', changefreq: 'monthly' },
-      { url: '/music', priority: '0.7', changefreq: 'monthly' },
-      { url: '/reports', priority: '0.6', changefreq: 'monthly' },
-      { url: '/site-map', priority: '0.5', changefreq: 'monthly' },
+      { 
+        url: '/', 
+        priority: '1.0', 
+        changefreq: 'weekly',
+        title: 'Best Software Engineer & Data Scientist Portfolio 2025'
+      },
+      { 
+        url: '/projects', 
+        priority: '0.9', 
+        changefreq: 'weekly',
+        title: 'Featured Portfolio Projects 2025 | Software & Data Science'
+      },
+      { 
+        url: '/certificates', 
+        priority: '0.8', 
+        changefreq: 'monthly',
+        title: 'Professional Certifications | Top Developer Portfolio'
+      },
+      { 
+        url: '/resume', 
+        priority: '0.8', 
+        changefreq: 'monthly',
+        title: 'Software Engineer Resume 2025 | Professional CV'
+      },
+      { 
+        url: '/my-team', 
+        priority: '0.7', 
+        changefreq: 'monthly',
+        title: 'Development Team | Collaborative Projects Portfolio'
+      },
+      { 
+        url: '/music', 
+        priority: '0.7', 
+        changefreq: 'monthly',
+        title: 'Music & Podcast Recommendations | Developer Lifestyle'
+      },
+      { 
+        url: '/reports', 
+        priority: '0.6', 
+        changefreq: 'monthly',
+        title: 'Technical Reports & Case Studies | Software Engineer Portfolio'
+      },
+      { 
+        url: '/site-map', 
+        priority: '0.5', 
+        changefreq: 'monthly',
+        title: 'Portfolio Site Map | Navigation Guide'
+      },
     ];
     
     // Create XML
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
     
     // Add static routes
     staticRoutes.forEach(route => {
@@ -39,15 +81,19 @@ export const generateSitemapXML = async () => {
       xml += `    <loc>${baseUrl}/#${route.url}</loc>\n`;
       xml += `    <changefreq>${route.changefreq}</changefreq>\n`;
       xml += `    <priority>${route.priority}</priority>\n`;
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#' + route.url + '" />\n';
       xml += '  </url>\n';
     });
     
-    // Add project routes
+    // Add project routes with enhanced SEO
     projects.forEach(project => {
+      if (!project.title) return;
+      
       xml += '  <url>\n';
       xml += `    <loc>${baseUrl}/#/projects/${encodeURIComponent(project.title.replace(/\s/g, '-'))}</loc>\n`;
       xml += '    <changefreq>monthly</changefreq>\n';
       xml += '    <priority>0.7</priority>\n';
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#/projects/' + encodeURIComponent(project.title.replace(/\s/g, '-')) + '" />\n';
       xml += '  </url>\n';
     });
     
@@ -56,7 +102,7 @@ export const generateSitemapXML = async () => {
     return xml;
   } catch (error) {
     console.error('Error generating sitemap:', error);
-    return '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>';
+    throw error;
   }
 };
 

@@ -2,5 +2,13 @@
 User-agent: *
 Allow: /
 
+# Crawl-delay for specific bots to prevent rate limiting
+User-agent: Googlebot
+Crawl-delay: 1
+
+User-agent: Bingbot
+Crawl-delay: 1
+
 # Sitemap
+Sitemap: https://abdelouahab.xyz/sitemap.xml
 Sitemap: https://abdelouahab.xyz/sitemaps/sitemap.xml
