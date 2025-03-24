@@ -13,88 +13,317 @@
   margin-top: 50px;
   font-size: 3.5rem;
   font-weight: 700;
-  color: #d0d5db;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
-/* table design dark theme */
-.table-dark {
+
+/* Cards Container - improved grid */
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Card styling - enhanced darker theme */
+.report-card {
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+}
+
+.report-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(72, 187, 120, 0.1);
+  border: 1px solid rgba(72, 187, 120, 0.15);
+}
+
+/* Card cover image container - improved with white border */
+.card-cover-container {
+  height: 210px;
+  width: 147px;
+  overflow: hidden;
+  position: relative;
+  margin: 20px auto 0;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  transform: perspective(800px) rotateY(0deg);
+  transition: all 0.5s ease;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.report-card:hover .card-cover-container {
+  box-shadow: 0 8px 25px rgba(72, 187, 120, 0.2);
+  border: 2px solid rgba(72, 187, 120, 0.2);
+}
+
+.report-cover {
   width: 100%;
-  color: rgb(194, 189, 189);
-  font-size: 1.2rem;
-  font-weight: 400;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
-.table-dark th,
-.table-dark td,
-.table-dark thead th {
-  padding: 2.5rem;
-  border-color: #454d55;
+
+.report-card:hover .report-cover {
+  transform: scale(1.08);
+}
+
+/* Card content - pure dark theme */
+.card-content {
+  padding: 16px 18px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 10px;
+  background: rgba(10, 15, 20, 0.6);
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   text-align: center;
-  border-bottom: 5px solid #262926;
-  background-color: #343a40;
-}
-.table-dark.table-bordered {
-  border: 0;
-}
-.table-dark.table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-/* hovring */
-.table-dark.table-hover tbody tr:hover {
-  color: #fff;
+  height: 2.6rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.02em;
 }
 
-.table-hover tbody tr:hover {
-  color: #212529;
-  background-color: rgba(0, 0, 0, 0.075);
+/* Date formatting - using white with reduced opacity */
+.report-date {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  display: block;
+  text-align: center;
 }
 
-.btn-donload {
-  background-color: #343a40;
-  color: #fff;
-  border: 1px solid #343a40;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  font-weight: 400;
+.report-created {
+  display: block;
+  font-style: italic;
+  font-size: 0.7rem;
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Description styling - light gray for better readability */
+.report-description {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15px;
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 0 3px;
+}
+
+/* Card footer - darker theme */
+.card-footer {
+  padding: 5px 15px 20px 15px;
+  display: flex;
+  justify-content: center;
+  background: rgba(10, 15, 20, 0.7);
+}
+
+/* Download button - green gradient */
+.btn-download {
+  background: linear-gradient(135deg, #48bb78, #2f855a);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   display: inline-block;
   text-decoration: none;
   text-align: center;
   width: 100%;
-  max-width: 200px;
+  max-width: 160px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  box-shadow: 0 4px 12px rgba(47, 133, 90, 0.3);
   position: relative;
   overflow: hidden;
   z-index: 1;
   outline: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.btn-donload:hover {
-  /* background-color: #fff; */
-  color: #dfdfdf;
-  border: 1px solid #343a40;
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+
+.btn-download:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(47, 133, 90, 0.4), 0 0 10px rgba(72, 187, 120, 0.4);
+  letter-spacing: 1.1px;
 }
-.btn-donload:before {
+
+.btn-download:before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 0%;
-  background-color: rgba(3, 102, 214, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
   z-index: -1;
   transition: all 0.4s ease-in-out;
 }
-.btn-donload:hover:before {
+
+.btn-download:hover:before {
   height: 180%;
 }
-.btn-donload:hover:after {
-  width: 10px;
-  height: 10px;
+
+.btn-download:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 8px rgba(47, 133, 90, 0.4);
 }
-.btn-donload:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
+/* Badge for new items - subtle green */
+.report-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #48bb78, #276749);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+  letter-spacing: 0.5px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(72, 187, 120, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+  }
+}
+
+/* Empty state - darker theme */
+.no-reports {
+  text-align: center;
+  padding: 60px 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.3rem;
+  background: rgba(10, 15, 20, 0.7);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Add subtle green border glow on hover */
+.report-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, transparent, rgba(72, 187, 120, 0));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  transition: background 0.5s ease;
+}
+
+.report-card:hover::after {
+  background: linear-gradient(135deg, rgba(72, 187, 120, 0.4), rgba(47, 133, 90, 0.2), rgba(72, 187, 120, 0.1));
+}
+
+/* Custom scrollbar for the page with green accent */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0f14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #48bb78, #2f855a);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #38a169, #276749);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .reports-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  
+  .heading-section {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .reports-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+  }
+  
+  .card-cover-container {
+    height: 185px;
+    width: 130px;
+  }
+  
+  .heading-section {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .reports-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  
+  .card-cover-container {
+    height: 170px;
+    width: 119px;
+  }
+  
+  .card-title {
+    font-size: 0.95rem;
+  }
+  
+  .btn-download {
+    padding: 7px 12px;
+    font-size: 0.8rem;
+    max-width: 140px;
+  }
 }
