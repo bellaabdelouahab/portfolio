@@ -46,6 +46,30 @@
     overflow-y: auto;
 }
 
+/* More modern approach to minimal scrollbars */
+* {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(80, 80, 80, 0.2) transparent; /* Firefox */
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80, 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(80, 80, 80, 0.3);
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 /* User profile styling */
 .user-profile {
     display: flex;
