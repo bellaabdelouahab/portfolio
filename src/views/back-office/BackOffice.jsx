@@ -13,9 +13,9 @@ const tabs = [
   { id: 0, label: "Project", component: <ProjectForm /> },
   { id: 1, label: "Arrange Projects", component: <ArrangeProjects /> },
   { id: 2, label: "Certificate", component: <CertificatesForm /> },
-  { id: 4, label: "Report", component: <ReportForm /> },
-  { id: 5, label: "Clients", component: <Clients /> },
-  { id: 6, label: "Visitor Stats", component: <VisitorStats /> },
+  { id: 3, label: "Report", component: <ReportForm /> },
+  { id: 4, label: "Clients", component: <Clients /> },
+  { id: 5, label: "Visitor Stats", component: <VisitorStats /> },
 ];
 
 export default function FillDB() {
