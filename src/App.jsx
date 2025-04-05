@@ -1,5 +1,5 @@
 import {
-  createBrowserRouter,
+  createHashRouter,
   RouterProvider,
   Route,
   createRoutesFromElements,
@@ -51,7 +51,7 @@ const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 const NotFound = React.lazy(() => import("./views/NotFound"));
 const SiteMap = React.lazy(() => import("./views/SiteMap"));
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route
       path="/"
@@ -70,7 +70,6 @@ const router = createBrowserRouter(
         }
         loader={getHighlightedProjects}
       />
-      {/* Rest of the routes remain unchanged */}
       <Route
         path="projects"
         element={
