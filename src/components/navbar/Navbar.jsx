@@ -148,7 +148,7 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            {getNavLink("/reports", "Reports", faFlag)}
+            {getNavLink("/reports", "Reports", faFlag, true)}
           </li>
           <li>
             {getNavLink("/articles", "Articles", faNewspaper, true)}
