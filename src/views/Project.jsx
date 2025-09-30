@@ -188,9 +188,9 @@ export default function Project() {
         structuredData={generateProjectStructuredData()}
       />
       <ProjectOverView project={project} />
+      <Carousel carouselImages={project.carouselImages} />
       <ProjectTools tools={project.tools} />
       <ProjectDataSources dataSources={project.dataSources} />
-      <Carousel carouselImages={project.carouselImages} />
       <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
     </section>

@@ -1,7 +1,7 @@
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import "../assets/css/projects.css";
+import "../assets/css/projects.scss";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import SEO from "../components/common/SEO";
@@ -148,7 +148,7 @@ export default function Projects() {
               }
               
               const description = project.description;
-              let truncatedDescription = description.slice(0, 250); // Increased limit slightly
+              let truncatedDescription = description.slice(0, 150); // Increased limit slightly
               const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
               truncatedDescription = truncatedDescription.slice(
                 0,
