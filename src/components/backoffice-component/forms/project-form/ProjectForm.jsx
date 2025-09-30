@@ -145,26 +145,18 @@ export default function ProjectForm() {
       const basePath = githubDetails.baseImagePath + newProjectId;
       const carouselPath = `${basePath}/carousel`;
 
-      // Create arrays to track all commits
-      const commitPromises = [];
-
-      // Commit main image
+      // Commit main image (sequential)
       if (mainImage) {
-        const timestamp = Date.now();
         const mainImagePath = `${basePath}/${mainImageName}`;
-
         setCommitStatus(`Committing main image: ${mainImageName}`);
-
-        const mainImagePromise = commitFileToGithub(
+        await commitFileToGithub(
           mainImage,
           mainImagePath,
           `Add project main image: ${mainImageName}`
         );
-
-        commitPromises.push(mainImagePromise);
       }
 
-      // Commit carousel images
+      // Commit carousel images (sequential)
       for (let i = 0; i < carouselImages.length; i++) {
         const carouselItem = carouselImages[i];
         if (carouselItem.img && carouselItem.img[0]) {
@@ -172,23 +164,16 @@ export default function ProjectForm() {
           const carouselImagePath = `${carouselPath}/${carouselImageName}`;
 
           setCommitStatus(
-            `Committing carousel image ${i + 1}/${
-              carouselImages.length
-            }: ${carouselImageName}`
+            `Committing carousel image ${i + 1}/${carouselImages.length}: ${carouselImageName}`
           );
 
-          const carouselPromise = commitFileToGithub(
+          await commitFileToGithub(
             carouselItem.img[0],
             carouselImagePath,
             `Add project carousel image: ${carouselImageName}`
           );
-
-          commitPromises.push(carouselPromise);
         }
       }
-
-      // Wait for all commits to complete
-      await Promise.all(commitPromises);
 
       setCommitStatus("All images successfully committed to GitHub!");
       setTimeout(() => {

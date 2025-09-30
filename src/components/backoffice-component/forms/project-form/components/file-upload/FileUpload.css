@@ -115,6 +115,8 @@
   max-height: 300px;
   object-fit: contain;
   border-radius: 5px;
+  width: 100%;
+  height: auto;
 }
 
 .file-remove-button {
