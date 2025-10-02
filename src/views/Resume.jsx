@@ -13,15 +13,6 @@ const resumes = [
     downloadUrl: `images/resumes/Bella_Abdelouahab-Software-Engineer.pdf`,
   },
   {
-    id: 2,
-    title: "Data Scientist Resume",
-    description:
-      "Resume focused on data analysis, machine learning, and statistical modeling experience.",
-    image: `./images/resumes/bella-DS.png`,
-    bgimages: [],
-    downloadUrl: `images/resumes/Bella_Abdelouahab-Data-Scientist.pdf`,
-  },
-  {
     id: 3,
     title: "Data Analyst Resume",
     description:
@@ -50,7 +41,7 @@ export default function Resume() {
 
   return (
     <section className="resume-section">
-      <SEO 
+      <SEO
         title="Resume"
         description="Professional resume of Abdelouahab Bella - Data Scientist & Software Engineer with experience in web development and machine learning."
         keywords="Resume, CV, Abdelouahab Bella, Data Scientist, Software Engineer, Career, Experience, Skills"

@@ -19,10 +19,11 @@
 
 .resume-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 44px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
+    gap: 15vw;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .resume-card {
@@ -32,6 +33,7 @@
     position: relative;
     background: #3e3e3e;
     transition: transform 0.2s, box-shadow 0.2s;
+    width: 35rem;
 }
 
 .resume-card:hover {
@@ -76,10 +78,7 @@
     transform: translateX(calc(15% + 12px)) scale(0.95); 
     opacity: 0.9; 
 }
-.image-stack img:nth-child(5) { 
-    transform: translateX(0) scale(1); 
-    opacity: 1; 
-}
+
 
 .resume-preview img {
     width: 55%;
