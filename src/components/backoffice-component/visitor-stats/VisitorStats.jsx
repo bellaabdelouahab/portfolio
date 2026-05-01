@@ -104,9 +104,13 @@ export default function VisitorStats() {
           
           // Check if new visitor today
           if (visitorData.timestamp) {
-            const visitDate = typeof visitorData.timestamp === 'string' 
-              ? new Date(visitorData.timestamp) 
-              : visitorData.timestamp.toDate ? visitorData.timestamp.toDate() : new Date();
+              const visitDate = typeof visitorData.timestamp === 'string' 
+                ? new Date(visitorData.timestamp) 
+                : visitorData.timestamp.toDate 
+                  ? visitorData.timestamp.toDate()
+                  : visitorData.timestamp._seconds
+                    ? new Date(visitorData.timestamp._seconds * 1000)
+                    : new Date();
             
             const visitDateMidnight = new Date(visitDate);
             visitDateMidnight.setHours(0, 0, 0, 0);
@@ -283,7 +287,11 @@ export default function VisitorStats() {
     try {
       const date = typeof timestamp === 'string' 
         ? new Date(timestamp) 
-        : timestamp.toDate ? timestamp.toDate() : new Date();
+        : timestamp.toDate 
+          ? timestamp.toDate()
+          : timestamp._seconds
+            ? new Date(timestamp._seconds * 1000)
+            : new Date();
       
       return date.toLocaleString('en-US', {
         month: 'short',
