@@ -38,8 +38,8 @@ export default function Home() {
     "mainEntity": {
       "@type": "Person",
       "name": "Abdelouahab Bella",
-      "jobTitle": "Data Scientist & Software Engineer",
-      "description": "Accomplished data scientist with extensive experience in data science, computer systems engineering, and software development.",
+      "jobTitle": "Data Analyst & Software Engineer",
+      "description": "Accomplished Data Analyst with extensive experience in data science, computer systems engineering, and software development.",
       "url": "https://abdelouahab.xyz",
       "sameAs": [
         "https://github.com/bellaabdelouahab",
@@ -56,20 +56,20 @@ export default function Home() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Home"
-        description="Portfolio of Abdelouahab Bella, a Data Scientist & Software Engineer with expertise in web development and machine learning"
+        description="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development and machine learning"
         keywords="Abdelouahab Bella, Data Science, Software Engineering, Portfolio, Projects, Machine Learning, Web Development"
         structuredData={homeStructuredData}
       />
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
       <AboutMeSection />
-      <GithubProgressSection />
       <InternshipProjectsSection />
       <Collaborations />
       <HappyClientsSection />
-      <ServicesSection/>
+      <ServicesSection />
+      <GithubProgressSection />
       <GetInTouchSection />
     </>
   );

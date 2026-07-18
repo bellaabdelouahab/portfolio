@@ -9,10 +9,10 @@ export default function GetInTouchSection() {
           Get in Touch
         </div>
         <p className="get-in-touch-content">
-          I am actively seeking new career opportunities and my inbox is open
-          for potential job offers. Feel free to reach out with any relevant job
-          opportunities or to connect for potential future collaborations. I
-          look forward to hearing from you!
+          I'm currently taking on freelance and consulting projects as an
+          independent auto-entrepreneur. If you need help with digital adoption,
+          data analytics, or web development, my inbox is open. Let's talk about
+          how I can help your business grow.
         </p>
         <div className="get-in-touch-btn">
           <a href="mailto:">

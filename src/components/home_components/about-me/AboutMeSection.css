@@ -64,7 +64,7 @@
   color: #aeaeae;
 }
 .about-skills-list > ul > li::before {
-  content: "▹";
+  content: "✓";
   position: absolute;
   left: 0px;
   color: green;

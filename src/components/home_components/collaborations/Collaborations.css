@@ -1,5 +1,5 @@
 .collaborations {
-  background-color: #212121;
+  background-color: #1e1e1e;
   padding: 2rem 0;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .scroller__inner img {
-  height: 150px;
+  height: 180px;
 }
 
 .scroller[data-animated="true"] {

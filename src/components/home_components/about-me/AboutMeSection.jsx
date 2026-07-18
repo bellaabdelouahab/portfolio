@@ -11,33 +11,31 @@ export default function AboutMeSection() {
         <div className="about-content">
           <div className="about-content-text">
             <p>
-              I am Bella Abdelouahab, an accomplished data scientist with ten
-              months of extensive experience. My educational foundation
-              encompasses robust training in decision-making, data science,
-              computer systems engineering, and software development. Proficient
-              in both web development and machine learning, I am deeply
-              passionate about my profession. I actively pursue new challenges
-              to enhance my skills and expand my expertise.
-              <br />
-              In addition to my technical proficiency, I excel as a communicator
-              and thrive in collaborative team environments, dedicated to
-              achieving shared objectives.
+              I am Abdelouahab Bella, a Digital Adoption Consultant and Data
+              Analytics Specialist with hands-on experience delivering WalkMe
+              implementations across enterprise platforms including SAP Ariba,
+              S/4HANA, Salesforce, ServiceNow, and Oracle. I turn user behavior
+              data into adoption KPIs, ROI models, and executive-ready
+              dashboards, backed by a technical foundation in Python, SQL, and
+              ETL pipeline design.
+              <br />I hold a Master's in Big Data and Business Intelligence and
+              enjoy working across the full analytics stack, from raw data to
+              stakeholder-facing insight, while collaborating closely with
+              cross-functional and multinational teams.
             </p>
             <span className="about-content-skills_title">Skills:</span>
             <div className="about-skills-list">
               <ul>
-                <li>Python(advanced), Java(advanced), C, C++</li>
-                <li>Machine learning/deep learning</li>
-                <li>Oracle SQL/PLSQL</li>
-                <li>MongoDB</li>
-                <li>Back-end (Django-Node-SpringBoot)</li>
-                <li>Front-end (ReactJS, NextJs, ViewJs)</li>
-                {/* disktop apps skills */}
-                <li>JavaFX & Swing</li>
-                <li>Tkinter & Pyglet</li>
-
-                <li>Microsoft Power BI</li>
-                <li>Data warehousing</li>
+                <li>
+                  WalkMe (SmartTips, SmartWalkThrus, Insights, Segmentation)
+                </li>
+                <li>SQL (Advanced), Python (Pandas, scripting)</li>
+                <li>Power BI, GA4, Google Search Console, Microsoft Clarity</li>
+                <li>User Behavior & Funnel Analytics</li>
+                <li>Back-end (Django, FastAPI)</li>
+                <li>Docker, GitLab CI/CD, PostgreSQL, Linux</li>
+                <li>REST APIs</li>
+                <li>Stakeholder Communication & Change Management</li>
               </ul>
             </div>
           </div>

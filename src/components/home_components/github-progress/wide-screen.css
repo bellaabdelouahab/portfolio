@@ -1,3 +1,9 @@
+.github-progress-section {
+  padding-bottom: 5.3rem;
+  width: 100%;
+  position: relative;
+}
+
 @media screen and (max-width: 4000px) {
   .github-progress-section {
     height: auto;
@@ -14,18 +20,12 @@
     margin-bottom: 2vh;
     font-family: var(--font-family);
   }
-  .github-progress-section__hr {
-    height: 0.5px;
-    width: 95%;
-    border-width: 0;
-    color: #6a6666;
-    background-color: #6a6666;
-  }
+
   .github-progress-section__img {
     height: 25vw;
     width: 90%;
     margin: 0 auto;
-    margin-top: 4vh;
+    margin-top: 0vh;
     border-radius: 5px;
     position: relative;
   }

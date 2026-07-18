@@ -58,7 +58,7 @@ export default function IntroductionSection() {
         </div>
         <h2 className="home-introduction-section__subtitle">
           {" "}
-          ⟫⟫ a Data Scientist & Software Engineer
+          ⟫⟫ a Data Analyst & Software Engineer
         </h2>
         <a
           className="home-introduction-section__button"

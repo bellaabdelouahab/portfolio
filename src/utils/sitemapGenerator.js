@@ -25,7 +25,7 @@ export const generateSitemapXML = async () => {
         url: '/', 
         priority: '1.0', 
         changefreq: 'weekly',
-        title: 'Best Software Engineer & Data Scientist Portfolio 2025'
+        title: 'Best Software Engineer & Data Analyst Portfolio 2025'
       },
       { 
         url: '/projects', 

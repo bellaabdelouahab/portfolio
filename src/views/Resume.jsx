@@ -28,7 +28,7 @@ export default function Resume() {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Abdelouahab Bella",
-    "jobTitle": "Data Scientist & Software Engineer",
+    "jobTitle": "Data Analyst & Software Engineer",
     "url": "https://abdelouahab.xyz/#/resume",
     "workLocation": {
       "@type": "Place",
@@ -43,7 +43,7 @@ export default function Resume() {
     <section className="resume-section">
       <SEO
         title="Resume"
-        description="Professional resume of Abdelouahab Bella - Data Scientist & Software Engineer with experience in web development and machine learning."
+        description="Professional resume of Abdelouahab Bella - Data Analyst & Software Engineer with experience in web development and machine learning."
         keywords="Resume, CV, Abdelouahab Bella, Data Scientist, Software Engineer, Career, Experience, Skills"
         structuredData={resumeStructuredData}
       />

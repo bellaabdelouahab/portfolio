@@ -101,7 +101,7 @@ async function generateSitemapXML() {
         priority: '1.0', 
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Best Software Engineer & Data Scientist Portfolio 2025',
+        title: 'Best Software Engineer & Data Analyst Portfolio 2025',
         image: `${baseUrl}/logo.jpg`
       },
       { 

@@ -6,7 +6,6 @@ export default function GithubProgressSection() {
           <span>03. </span>
           Github Progress
         </h2>
-        <hr className="github-progress-section__hr" />
         <div className="github-progress-section__img" />
       </section>
     );
