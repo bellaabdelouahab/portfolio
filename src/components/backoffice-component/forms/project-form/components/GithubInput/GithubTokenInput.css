@@ -1,0 +1,14 @@
+.github-token-input-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.github-token-input-row .form__input { flex: 1; }
+.github-token-change {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.85rem;
+}

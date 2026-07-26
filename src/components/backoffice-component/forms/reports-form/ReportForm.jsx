@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import * as pdfjsLib from "pdfjs-dist";
 import "./ReportForm.css";
@@ -285,72 +285,72 @@ export default function ReportForm() {
 
   // Function to commit a file to GitHub
   const commitFileToGithub = async (file, filePath, commitMessage) => {
-    if (!file || !githubDetails.token) {
+    if (!file || !githubDetails.token)
       throw new Error("Missing file or GitHub token");
-    }
+    const base64Content = await getBase64(file);
 
+    let fileSha = null;
     try {
-      // Convert file to base64
-      const base64Content = await getBase64(file);
+      const checkResponse = await fetch(
+        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
+        {
+          headers: {
+            Authorization: `token ${githubDetails.token}`,
+            Accept: "application/vnd.github.v3+json",
+          },
+        },
+      );
+      if (checkResponse.status === 200)
+        fileSha = (await checkResponse.json()).sha;
+    } catch (_) {}
 
-      // Check if file already exists to get its SHA
-      let fileSha = null;
-      try {
-        const checkResponse = await fetch(
-          `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
-          {
-            headers: {
-              Authorization: `token ${githubDetails.token}`,
-              Accept: "application/vnd.github.v3+json",
-            },
-          }
-        );
+    const commitData = {
+      message: commitMessage,
+      content: base64Content,
+      branch: githubDetails.branch,
+    };
+    if (fileSha) commitData.sha = fileSha;
 
-        if (checkResponse.status === 200) {
-          const fileData = await checkResponse.json();
-          fileSha = fileData.sha;
-        }
-      } catch (error) {
-        // File doesn't exist, which is fine for creating new files
-        console.log(`File does not exist yet: ${filePath}`);
-      }
+    const response = await fetch(
+      `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${githubDetails.token}`,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(commitData),
+      },
+    );
+    const responseData = await response.json();
+    if (response.status !== 200 && response.status !== 201) {
+      throw new Error(`GitHub API Error: ${responseData.message}`);
+    }
+    return { path: filePath, sha: responseData.content.sha };
+  };
 
-      // Prepare commit payload
-      const commitData = {
-        message: commitMessage,
-        content: base64Content,
-        branch: githubDetails.branch,
-      };
-
-      // If we're updating an existing file, include the SHA
-      if (fileSha) {
-        commitData.sha = fileSha;
-      }
-
-      // Make the commit
-      const response = await fetch(
+  // New: rollback helper
+  const deleteFileFromGithub = async (filePath, sha, commitMessage) => {
+    try {
+      await fetch(
         `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
         {
-          method: "PUT",
+          method: "DELETE",
           headers: {
             Authorization: `token ${githubDetails.token}`,
             Accept: "application/vnd.github.v3+json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(commitData),
-        }
+          body: JSON.stringify({
+            message: commitMessage,
+            sha,
+            branch: githubDetails.branch,
+          }),
+        },
       );
-
-      const responseData = await response.json();
-
-      if (response.status === 200 || response.status === 201) {
-        return responseData;
-      } else {
-        throw new Error(`GitHub API Error: ${responseData.message}`);
-      }
-    } catch (error) {
-      console.error("Error committing to GitHub:", error);
-      throw error;
+    } catch (err) {
+      console.error(`Rollback failed for ${filePath}:`, err);
     }
   };
 

@@ -66,19 +66,30 @@ export default function CodeSampleForm({ codeSamples, setCodeSamples, setPopupWi
   return (
     <div className="popup-container">
       <div className="code-sample-form popup">
-        <button 
-          type="button" 
-          className="close-button" 
+        <button
+          type="button"
+          className="close-button"
           onClick={() => setPopupWindow(null)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
-        
+        {codeSamples.length > 0 && (
+          <ul className="popup-item-list">
+            {codeSamples.map((item, i) => (
+              <li key={i}>
+                <span>{item.title}</span>
+                <button type="button" onClick={() => handleRemove(i)}>
+                  ✕
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
         <h2 className="form-title">
           <FontAwesomeIcon icon={faCode} className="title-icon" />
           Add Code Sample
         </h2>
-        
+
         <div className="form-group">
           <label htmlFor="codeSampleTitle">Sample Title</label>
           <input
@@ -90,11 +101,11 @@ export default function CodeSampleForm({ codeSamples, setCodeSamples, setPopupWi
             placeholder="e.g., 'Authentication Function', 'API Request Handler'"
           />
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="language">Programming Language</label>
           <div className="select-wrapper">
-            <select 
+            <select
               id="language"
               className="form-control"
               value={language}
@@ -107,14 +118,18 @@ export default function CodeSampleForm({ codeSamples, setCodeSamples, setPopupWi
                 <>
                   <option value="">Select a language</option>
                   {scopes.map((scope, index) => (
-                    <option key={index} value={scope}>{scope.replace(/^source\./, '').replace(/\b\w/g, l => l.toUpperCase())}</option>
+                    <option key={index} value={scope}>
+                      {scope
+                        .replace(/^source\./, "")
+                        .replace(/\b\w/g, (l) => l.toUpperCase())}
+                    </option>
                   ))}
                 </>
               )}
             </select>
           </div>
         </div>
-        
+
         <div className="form-group">
           <label htmlFor="code">Code</label>
           <textarea
@@ -131,22 +146,18 @@ export default function CodeSampleForm({ codeSamples, setCodeSamples, setPopupWi
             <span>Use proper indentation for better readability</span>
           </div>
         </div>
-        
+
         {error && <div className="form-error">{error}</div>}
-        
+
         <div className="form-actions">
-          <button 
-            type="button" 
-            className="cancel-btn" 
+          <button
+            type="button"
+            className="cancel-btn"
             onClick={() => setPopupWindow(null)}
           >
             Cancel
           </button>
-          <button 
-            type="button" 
-            className="submit-btn" 
-            onClick={handleSubmit}
-          >
+          <button type="button" className="submit-btn" onClick={handleSubmit}>
             Add Code Sample
           </button>
         </div>

@@ -434,7 +434,7 @@ export default function VisitorStats() {
   }
 
   return (
-    <div className="visitor-stats">
+    <div className="visitor-stats" style={{margin: "0 auto", overflowY: "auto",overflowX: "hidden"}}>
       <h2><span>Visitor</span> Statistics</h2>
       <div className="filters">
         <div>

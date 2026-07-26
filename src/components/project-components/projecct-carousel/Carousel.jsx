@@ -1,92 +1,107 @@
-
-import { useEffect, useState } from 'react';
-import './carousel-wide-screen.css';
+import { useState, useEffect, useCallback } from "react";
+import "./Carousel.css";
 
 export default function Carousel({ carouselImages }) {
-  const [currentPic, setCurrentPic] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrev = useCallback(() => {
+    if (!carouselImages?.length) return;
+    setCurrentIndex((prev) =>
+      prev === 0 ? carouselImages.length - 1 : prev - 1,
+    );
+  }, [carouselImages]);
+
+  const goToNext = useCallback(() => {
+    if (!carouselImages?.length) return;
+    setCurrentIndex((prev) =>
+      prev === carouselImages.length - 1 ? 0 : prev + 1,
+    );
+  }, [carouselImages]);
 
   useEffect(() => {
-    if (!carouselImages || carouselImages.length === 0) return ;
-    const bigImage = document.querySelector('.big-image');
-    const picPreviews = document.querySelectorAll('.pic-preview');
-    const overlay = document.querySelector('.overlay');
-    const carouselNavLeft = document.querySelector('.carousel-nav-left');
-    const carouselNavRight = document.querySelector('.carousel-nav-right');
-
-    const pics = [...picPreviews];
-
-    carouselNavLeft.addEventListener('click', () => {
-      const newImageIndex = currentPic === 0 ? carouselImages.length - 1 : currentPic - 1;
-      console.log(newImageIndex);
-      setCurrentPic(newImageIndex);
-      changePic(newImageIndex);
-    });
-
-    carouselNavRight.addEventListener('click', () => {
-      const newImageIndex = currentPic === carouselImages.length - 1 ? 0 : currentPic + 1;
-      setCurrentPic(newImageIndex);
-      changePic(newImageIndex);
-    });
-    
-    function changePic(currentPic) {
-      console.log("currentPic", carouselImages[currentPic]);
-      bigImage.style.background = `url(${carouselImages[currentPic].img}) no-repeat center center / contain` ;
-      overlay.innerHTML = `
-      <div class="overlay-content">
-      <p class="overlay-content__description">${carouselImages[currentPic].title}</p>
-      </div>
-      `;
-      pics.forEach((pic, index) => {
-      pic.classList.toggle('active', index === currentPic);
-      });
-    }
-    
-    changePic(currentPic);
-    
-    picPreviews.forEach((pic, index) => {
-      pic.addEventListener('click', () => {
-        setCurrentPic(index);
-      });
-    });
-
-    return () => {
-      picPreviews.forEach((pic, index) => {
-        pic.removeEventListener('click', () => {
-          setCurrentPic(index);
-        });
-      });
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") goToPrev();
+      if (e.key === "ArrowRight") goToNext();
     };
-  }, [currentPic,carouselImages]);
-  
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [goToPrev, goToNext]);
+
   if (!carouselImages || carouselImages.length === 0) return null;
 
+  const current = carouselImages[currentIndex];
+
   return (
-    <div className="carousel-container">
-      <div className="big-image">
-        <div className="overlay">
-        </div>
-      </div>
-      <div className='carousel-preview-container'>
-        <img className="carousel-nav-left" src="../icons/left-arrow.png" alt="Not Loaded" />
-        <div className="carousel-preview">
-          {carouselImages.map((elem, index) => (
-            <img
-              key={index}
-              className={`pic-preview ${index === currentPic ? 'active' : ''}`}
-              src={`${elem.img}`}
-              alt="Not Loaded"
-              onClick={() => setCurrentPic(index)}
+    <div className="carousel">
+      <div className="carousel__stage">
+        <button
+          type="button"
+          className="carousel__nav carousel__nav--prev"
+          onClick={goToPrev}
+          aria-label="Previous image"
+        >
+          <ChevronIcon direction="left" />
+        </button>
+
+        <div className="carousel__frame">
+          {carouselImages.map((img, index) => (
+            <div
+              key={img._id ?? index}
+              className={`carousel__slide ${index === currentIndex ? "carousel__slide--active" : ""}`}
+              style={{ backgroundImage: `url(${img.img})` }}
             />
           ))}
-          {/* <img key={0} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img key={1} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img key={2} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img key={3} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img key={4} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" />
-          <img key={5} className="pic-preview" src="https://via.placeholder.com/100" alt="Picture Not Loaded" /> */}
+          {current?.title && (
+            <div className="carousel__caption">
+              <p>{current.title}</p>
+            </div>
+          )}
+          <div className="carousel__counter">
+            {currentIndex + 1} / {carouselImages.length}
+          </div>
         </div>
-        <img className="carousel-nav-right" src="../icons/left-arrow.png" alt="Not Loaded" style={{ transform: 'rotate(180deg)' }} />
+
+        <button
+          type="button"
+          className="carousel__nav carousel__nav--next"
+          onClick={goToNext}
+          aria-label="Next image"
+        >
+          <ChevronIcon direction="right" />
+        </button>
+      </div>
+
+      <div className="carousel__thumbs">
+        {carouselImages.map((img, index) => (
+          <button
+            type="button"
+            key={img._id ?? index}
+            className={`carousel__thumb ${index === currentIndex ? "carousel__thumb--active" : ""}`}
+            onClick={() => setCurrentIndex(index)}
+            aria-label={`Go to image ${index + 1}`}
+          >
+            <img src={img.img} alt={img.title || `Preview ${index + 1}`} />
+          </button>
+        ))}
       </div>
     </div>
+  );
+}
+
+function ChevronIcon({ direction }) {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ transform: direction === "right" ? "rotate(180deg)" : "none" }}
+    >
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
   );
 }

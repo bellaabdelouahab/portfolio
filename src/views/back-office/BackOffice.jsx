@@ -1,28 +1,34 @@
 import { useEffect, useState } from "react";
 import ProjectForm from "components/backoffice-component/forms/project-form/ProjectForm";
-import ReportForm from "components/backoffice-component/forms/ReportForm";
+import ReportForm from "components/backoffice-component/forms/reports-form/ReportForm";
 import "./filldb.css";
 import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
-import ArrangeProjects from "components/backoffice-component/forms/arrange-projects-form/ArragneProjects";
+import ManageProjects from "components/backoffice-component/forms/manage-projects-form/ManageProjects";
 import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
 import Clients from "components/backoffice-component/forms/clients-form/Clients";
 import VisitorStats from "components/backoffice-component/visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-const tabs = [
-  { id: 0, label: "Project", component: <ProjectForm /> },
-  { id: 1, label: "Arrange Projects", component: <ArrangeProjects /> },
-  { id: 2, label: "Certificate", component: <CertificatesForm /> },
-  { id: 3, label: "Report", component: <ReportForm /> },
-  { id: 4, label: "Clients", component: <Clients /> },
-  { id: 5, label: "Visitor Stats", component: <VisitorStats /> },
-];
-
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [activeTab, setActiveTab] = useState(0);
   const [user, setUser] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [editingProject, setEditingProject] = useState(null); // ✅ inside the component
+
+  const handleEditProject = (project) => {
+    setEditingProject(project);
+    setActiveTab(0);
+  };
+
+  const tabs = [ // ✅ also inside the component now, since it uses editingProject
+    { id: 0, label: "Project", component: <ProjectForm initialProject={editingProject} onDoneEditing={() => setEditingProject(null)} /> },
+    { id: 1, label: "Manage Projects", component: <ManageProjects onEditProject={handleEditProject} /> },
+    { id: 2, label: "Certificate", component: <CertificatesForm /> },
+    { id: 3, label: "Report", component: <ReportForm /> },
+    { id: 4, label: "Clients", component: <Clients /> },
+    { id: 5, label: "Visitor Stats", component: <VisitorStats /> },
+  ]
 
   // Handle authentication state
   useEffect(() => {
@@ -110,9 +116,9 @@ export default function FillDB() {
           <div className="sidebar">
             {user && (
               <div className="user-profile">
-                <img 
-                  src={user.photoURL} 
-                  alt={user.displayName} 
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName}
                   className="user-avatar"
                   onError={(e) => {
                     e.target.onerror = null;
@@ -122,7 +128,7 @@ export default function FillDB() {
                 <span className="user-name">{user.displayName}</span>
               </div>
             )}
-            
+
             <div className="nav-buttons">
               {tabs.map((tab) => (
                 <button
@@ -134,13 +140,16 @@ export default function FillDB() {
                 </button>
               ))}
             </div>
-            
-            <button className="filldb-nav__btn logout-btn" onClick={handleLogout}>
+
+            <button
+              className="filldb-nav__btn logout-btn"
+              onClick={handleLogout}
+            >
               Logout
             </button>
           </div>
-          
-          <div className="main-content">
+
+          <div className="main-content" style={{  overflowY: "hidden" }}>
             {tabs.map((tab) => activeTab === tab.id && tab.component)}
           </div>
         </div>

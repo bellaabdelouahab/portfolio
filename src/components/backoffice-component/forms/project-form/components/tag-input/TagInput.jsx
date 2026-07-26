@@ -1,89 +1,186 @@
-import { useState, useRef, useEffect } from 'react';
-import './TagInput.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faTags } from '@fortawesome/free-solid-svg-icons';
+import { useRef, useState } from "react";
+import "./TagInput.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faTags } from "@fortawesome/free-solid-svg-icons";
 
-const TagInput = ({ tags, setTags, label }) => {
-  const [inputValue, setInputValue] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
+const CATEGORY_COLORS = {
+  status: "#3b82f6",
+  priority: "#f59e0b",
+  department: "#10b981",
+  default: "#6366f1",
+};
+
+const TagInput = ({
+  tags,
+  setTags,
+  label = "Tags",
+  maxTags = 8,
+  maxTagLength = 20,
+}) => {
+  const [value, setValue] = useState("");
+  const [warning, setWarning] = useState("");
+  const [dragIndex, setDragIndex] = useState(null);
+  const [over, setOver] = useState(null); // { type: 'gap' | 'merge', index }
+  const SEP = /[,;./&]+/;
   const inputRef = useRef(null);
+  const warnTimer = useRef(null);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
+  const flash = (msg) => {
+    setWarning(msg);
+    clearTimeout(warnTimer.current);
+    warnTimer.current = setTimeout(() => setWarning(""), 2500);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ',') {
+  const parseCategory = (tag) => {
+    const [cat, ...rest] = tag.split(":");
+    if (!rest.length) return { text: tag };
+    return {
+      cat,
+      text: rest.join(":").trim(),
+      color: CATEGORY_COLORS[cat.toLowerCase()] || CATEGORY_COLORS.default,
+    };
+  };
+
+  const addTags = (raw) => {
+    const incoming = raw
+      .map((t) => t.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+    const next = [...tags];
+    for (const t of incoming) {
+      if (next.length >= maxTags) return flash(`Max ${maxTags} tags`);
+      if (next.some((x) => x.toLowerCase() === t.toLowerCase())) continue;
+      next.push(t);
+    }
+    setTags(next);
+  };
+
+  const commit = () => {
+    if (value.trim()) addTags([value]);
+    setValue("");
+  };
+
+  const removeAt = (i) => setTags(tags.filter((_, idx) => idx !== i));
+
+  const onKeyDown = (e) => {
+    if (["Enter", ",", ";", ".", "/", "&"].includes(e.key)) {
       e.preventDefault();
-      addTag();
-    } else if (e.key === 'Backspace' && inputValue === '' && tags.length > 0) {
-      // Remove the last tag when backspace is pressed in an empty input
-      removeTag(tags.length - 1);
+      commit();
+    } else if (e.key === "Backspace" && !value && tags.length) {
+      removeAt(tags.length - 1);
     }
   };
 
-  const addTag = () => {
-    const trimmedInput = inputValue.trim();
-    if (trimmedInput && !tags.includes(trimmedInput)) {
-      setTags([...tags, trimmedInput]);
-      setInputValue('');
+  const onPaste = (e) => {
+    const text = e.clipboardData?.getData("text") || "";
+    if (SEP.test(text)) {
+      e.preventDefault();
+      addTags(text.split(SEP));
     }
+    // no delimiter found: let it paste into the input as one draft tag
   };
 
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove));
+  const reset = () => {
+    setDragIndex(null);
+    setOver(null);
   };
 
-  const handleContainerClick = () => {
-    inputRef.current.focus();
+  // dropped in the gap between chips -> reorder
+  const dropInGap = (gapIndex) => {
+    if (dragIndex === null) return reset();
+    const next = [...tags];
+    const [moved] = next.splice(dragIndex, 1);
+    const insertAt = gapIndex > dragIndex ? gapIndex - 1 : gapIndex;
+    next.splice(insertAt, 0, moved);
+    setTags(next);
+    reset();
+  };
+
+  // dropped directly on a chip -> merge the two tags into one, space-joined
+  const dropOnChip = (targetIndex) => {
+    if (dragIndex === null || dragIndex === targetIndex) return reset();
+    const next = [...tags];
+    const dragged = next[dragIndex];
+    next.splice(dragIndex, 1);
+    const at = dragIndex < targetIndex ? targetIndex - 1 : targetIndex;
+    next[at] = `${next[at]} ${dragged}`.trim();
+    setTags(next);
+    reset();
   };
 
   return (
-    <div 
-      className={`tag-input-container ${isFocused ? 'focused' : ''}`} 
-      onClick={handleContainerClick}
-    >
-      <div className="tag-input-icon">
-        <FontAwesomeIcon icon={faTags} />
-      </div>
-      
-      <div className="tag-input-wrapper">
-        
-        <div className="tag-input-field">
-          {tags.map((tag, index) => (
-            <div key={index} className="tag">
-              <span className="tag-text">{tag}</span>
-              <span 
-                className="tag-close" 
-                onClick={(e) => {
+    <div className="tag-input" onClick={() => inputRef.current?.focus()}>
+
+      <div className="ti-field">
+        <span className="ti-tag-label">
+          <FontAwesomeIcon icon={faTags} /> {label}
+        </span>
+        {tags.map((tag, i) => {
+          const { cat, text, color } = parseCategory(tag);
+          return (
+            <span key={tag + i} style={{ display: "contents" }}>
+              <span
+                className={`ti-gap ${over?.type === "gap" && over.index === i ? "active" : ""}`}
+                onDragOver={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
-                  removeTag(index);
+                  setOver({ type: "gap", index: i });
                 }}
+                onDrop={(e) => {
+                  e.stopPropagation();
+                  dropInGap(i);
+                }}
+              />
+              <span
+                className={`ti-chip ${over?.type === "merge" && over.index === i ? "merge" : ""}`}
+                style={cat ? { "--c": color } : undefined}
+                draggable
+                onDragStart={() => setDragIndex(i)}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setOver({ type: "merge", index: i });
+                }}
+                onDragLeave={() => setOver(null)}
+                onDrop={() => dropOnChip(i)}
               >
-                <FontAwesomeIcon icon={faTimesCircle} />
+                {cat && <b>{cat}</b>}
+                {text}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeAt(i);
+                  }}
+                  aria-label={`Remove ${text}`}
+                >
+                  <FontAwesomeIcon icon={faTimes} />
+                </button>
               </span>
-            </div>
-          ))}
-          
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => {
-              setIsFocused(false);
-              if (inputValue) addTag();
+            </span>
+          );
+        })}
+        {tags.length > 0 && (
+          <span
+            className={`ti-gap ${over?.type === "gap" && over.index === tags.length ? "active" : ""}`}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setOver({ type: "gap", index: tags.length });
             }}
-            className="tag-input"
-            placeholder={tags.length > 0 ? "" : "Type and press Enter to add tags"}
+            onDrop={() => dropInGap(tags.length)}
           />
-        </div>
-      </div>
-      
-      <div className="tag-input-helper">
-        Press Enter or comma to add
+        )}
+        <input
+          ref={inputRef}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={onKeyDown}
+          onPaste={onPaste}
+          onBlur={commit}
+          maxLength={maxTagLength}
+          disabled={tags.length >= maxTags}
+          placeholder={tags.length ? "" : "Type and press Enter"}
+        />
+        <span className="ti-count">
+          {tags.length}/{maxTags}
+        </span>
       </div>
     </div>
   );
