@@ -20,15 +20,16 @@ export function ProjectCard({ project }) {
     <div
       className="home-projects-section__projects__project"
       style={{
-        border: highlighted === "star" ? "4px solid #c39a3b" : "none",
+        border:
+          highlighted === "star"
+            ? "4px solid #c39a3b"
+            : "1px solid oklch(1 0 0 / 10%)",
       }}
     >
       <div
         className="home-projects-section__projects__project__img"
         style={{
-          backgroundImage: imageLoaded
-            ? `url(${image})`
-            : "none",
+          backgroundImage: imageLoaded ? `url(${image})` : "none",
           backgroundSize: "100.5% 100%",
         }}
       >

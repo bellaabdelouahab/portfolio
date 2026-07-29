@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "./form-components.css";
 
 /* ---------- Text / Date / etc input ---------- */
@@ -87,24 +87,47 @@ const TextareaComponent = ({
 // not the only way in.
 const FileInputComponent = ({
   name,
+  className = "form__input",
   label = "Upload cover image",
   hint = "PNG or JPG, 16:9 aspect ratio recommended",
   accept = "image/png,image/jpeg",
   required = true,
-  value, // File | null, controlled by parent
-  onChange, // (File | null) => void
+  value, // optional: File | null, controlled by parent
+  onChange, // optional: (File | null) => void
+  existingImageUrl, // optional: URL of the current/existing image, for Preview + diffing
 }) => {
   const [dragging, setDragging] = useState(false);
+  const [internalFile, setInternalFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [showLightbox, setShowLightbox] = useState(false);
   const inputRef = useRef(null);
 
-  const setFile = (file) => onChange?.(file || null);
+  const isControlled = value !== undefined;
+  const file = isControlled ? value : internalFile;
+
+  const setFile = (f) => {
+    if (!isControlled) setInternalFile(f);
+    onChange?.(f || null);
+  };
+
+  useEffect(() => {
+    if (!file) {
+      setPreviewUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
 
   const onDrop = (e) => {
     e.preventDefault();
     setDragging(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) setFile(file);
+    const droppedFile = e.dataTransfer.files?.[0];
+    if (droppedFile) setFile(droppedFile);
   };
+
+  const displayPreview = previewUrl || existingImageUrl;
 
   return (
     <div className="input-flow">
@@ -113,7 +136,7 @@ const FileInputComponent = ({
         {required && <span className="form__required">*</span>}
       </label>
       <div
-        className={`file-drop ${dragging ? "dragging" : ""} ${value ? "has-file" : ""}`}
+        className={`file-drop ${dragging ? "dragging" : ""} ${file ? "has-file" : ""}`}
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => {
           e.preventDefault();
@@ -128,16 +151,35 @@ const FileInputComponent = ({
           id={name}
           name={name}
           accept={accept}
-          required={required && !value}
+          required={required && !file && !existingImageUrl}
           onChange={(e) => setFile(e.target.files?.[0])}
           className="file-drop__native"
         />
         <div className="file-drop__icon">⬆</div>
         <div className="file-drop__text">
-          <strong>{value ? value.name : label}</strong>
-          {!value && <span>{hint}</span>}
+          <strong>{file ? file.name : label}</strong>
+          {!file && <span>{hint}</span>}
+          {file && (
+            <span className="file-drop__changed-badge">
+              ✓ New file selected — will replace current on save
+            </span>
+          )}
         </div>
-        {value && (
+
+        {displayPreview && (
+          <button
+            type="button"
+            className="file-drop__preview-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowLightbox(true);
+            }}
+          >
+            Preview
+          </button>
+        )}
+
+        {file && (
           <button
             type="button"
             className="file-drop__clear"
@@ -152,6 +194,27 @@ const FileInputComponent = ({
           </button>
         )}
       </div>
+
+      {showLightbox && displayPreview && (
+        <div
+          className="lightbox-overlay"
+          onClick={() => setShowLightbox(false)}
+        >
+          <img
+            src={displayPreview}
+            alt="Preview"
+            className="lightbox-image"
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            type="button"
+            className="lightbox-close"
+            onClick={() => setShowLightbox(false)}
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -217,41 +280,6 @@ const ProjectDataComponent = ({
           ) : null}
         </div>
       </div>
-
-      {/* If items are added, show them below the card */}
-      {hasItems && (
-        <ul
-          className="code-samples h-list"
-          style={{ marginTop: "0.5rem", padding: 0 }}
-        >
-          {items.map((item, index) => (
-            <li
-              key={item.id ?? `${item.title}-${index}`}
-              className="tab tabSelected"
-              style={{
-                display: "inline-flex",
-                marginRight: "5px",
-                marginBottom: "5px",
-              }}
-            >
-              <button
-                type="button"
-                className="btn title"
-                onClick={() => setPopupWindow(formComponent)}
-              >
-                {item.title || `Item ${index + 1}`}
-              </button>
-              <button
-                type="button"
-                className="btn closeTab"
-                onClick={(e) => handleItemClose(e, index)}
-              >
-                ✕
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 };

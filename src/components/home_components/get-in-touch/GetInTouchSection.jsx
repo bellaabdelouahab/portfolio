@@ -2,7 +2,11 @@ export default function GetInTouchSection() {
     return (
       <div
         className="get-in-touch hidden-area"
-        style={{ backgroundColor: "#1e1e1e" }}
+        style={{
+          background:
+            "linear-gradient(to bottom, #0A0A0A, transparent 30px),#171717",
+          paddingTop: "30px",
+        }}
       >
         <div className="home-sections-title">
           <span>08. </span>

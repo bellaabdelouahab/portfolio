@@ -1,8 +1,14 @@
 .home-about-section {
-  height: max-content;
+  position: relative;
   width: 100%;
-  background: #1e1e1e;
+  padding: 30px 0;
+  height: max-content;
+  background:
+    linear-gradient(to bottom, #0A0A0A, transparent 30px),
+    #171717;
+  padding-top: 30px;
 }
+
 .about-content {
   width: 80%;
   margin: auto;

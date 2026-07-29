@@ -3,6 +3,7 @@ import "./AboutMeSection.css";
 export default function AboutMeSection() {
   return (
     <section className="home-about-section">
+      <div className="kra"></div>
       <div className="hidden-area">
         <div className="home-sections-title">
           <span>02. </span>

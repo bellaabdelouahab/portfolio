@@ -1,0 +1,113 @@
+.popup-body-split {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.popup-form-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.popup-list-col {
+  width: 260px;
+  flex-shrink: 0;
+  max-height: 480px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-right: 0.25rem;
+}
+
+.popup-list-col::-webkit-scrollbar { width: 6px; }
+.popup-list-col::-webkit-scrollbar-thumb { background: #4b6cb7; border-radius: 10px; }
+
+.popup-list-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 0.4rem;
+}
+
+.popup-list-empty {
+  color: #777;
+  font-size: 0.85rem;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.popup-list-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.popup-list-item:hover {
+  border-color: #4b6cb7;
+  background: rgba(75, 108, 183, 0.1);
+}
+
+.popup-list-item--active {
+  border-color: #4b6cb7;
+  background: rgba(75, 108, 183, 0.15);
+}
+
+.popup-list-item__thumb {
+  width: 40px; height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #1a1a1a;
+}
+
+.popup-list-item__thumb--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 0.7rem;
+}
+
+.popup-list-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.popup-list-item__title {
+  font-size: 0.85rem;
+  color: #eee;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popup-list-item__meta {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.popup-list-item__delete {
+  background: none;
+  border: none;
+  color: #e57373;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.popup-list-item__delete:hover { background: rgba(220, 53, 69, 0.2); }
+
+@media (max-width: 640px) {
+  .popup-body-split { flex-direction: column; }
+  .popup-list-col { width: 100%; max-height: 200px; }
+}

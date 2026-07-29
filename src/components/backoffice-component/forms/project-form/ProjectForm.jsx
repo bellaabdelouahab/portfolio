@@ -27,22 +27,22 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
 
   const [popupWindow, setPopupWindow] = useState(null);
   const [codeSamples, setCodeSamples] = useState([]);
-  const [carouselSamples, setCarouselSamples] = useState([]); // new/changed carousel files only
+  const [carouselItems, setCarouselItems] = useState([]); // unified: {id, title, file, existingPath}
+  const [removedCarouselPaths, setRemovedCarouselPaths] = useState([]); // site-relative paths deleted by user
   const [techs, setTechs] = useState([]);
   const [resources, setResources] = useState([]);
   const [dataSources, setDataSources] = useState([]);
   const [tags, setTags] = useState([]);
   const [submitButtonText, setSubmitButtonText] = useState("Submit Project");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [githubTokenReady, setGithubTokenReady] = useState(localStorage.getItem("githubToken") ? true : false);
+  const [githubTokenReady, setGithubTokenReady] = useState(
+    localStorage.getItem("githubToken") ? true : false,
+  );
 
   const [commitStatus, setCommitStatus] = useState("");
   const [isCommitting, setIsCommitting] = useState(false);
 
-  // Existing image state (edit mode)
-  const [existingImage, setExistingImage] = useState(null); // current main image URL
-  const [existingCarouselImages, setExistingCarouselImages] = useState([]); // [{_id, img, title}]
-  const [carouselToDelete, setCarouselToDelete] = useState([]); // existing carousel entries user removed
+  const [existingImage, setExistingImage] = useState(null);
 
   const githubDetails = {
     owner: "bellaabdelouahab",
@@ -63,9 +63,19 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
     setTechs(initialProject.tools?.techs || []);
     setResources(initialProject.tools?.resources || []);
     setExistingImage(initialProject.image || null);
-    setExistingCarouselImages(initialProject.carouselImages || []);
-    setCarouselSamples([]); // reset — only newly added carousel items live here
-    setCarouselToDelete([]);
+    setCarouselItems(
+      (initialProject.carouselImages || []).map((img) => ({
+        id:
+          img._id ||
+          (crypto.randomUUID
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random()}`),
+        title: img.title,
+        file: null,
+        existingPath: img.img,
+      })),
+    );
+    setRemovedCarouselPaths([]);
     setSubmitButtonText("Save Changes");
   }, [initialProject]);
 
@@ -123,8 +133,32 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
     return { path: filePath, sha: responseData.content.sha };
   };
 
-  const deleteFileFromGithub = async (filePath, sha, commitMessage) => {
+  // shaHint optional — if omitted, the sha is fetched from GitHub before deleting.
+  const deleteFileFromGithub = async (
+    filePath,
+    commitMessage,
+    shaHint = null,
+  ) => {
     try {
+      let sha = shaHint;
+      if (!sha) {
+        const getRes = await fetch(
+          `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
+          {
+            headers: {
+              Authorization: `token ${githubDetails.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          },
+        );
+        if (getRes.status !== 200) {
+          console.warn(
+            `Could not find ${filePath} to delete (maybe already gone)`,
+          );
+          return;
+        }
+        sha = (await getRes.json()).sha;
+      }
       const res = await fetch(
         `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
         {
@@ -141,54 +175,50 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
           }),
         },
       );
-      if (!res.ok) console.error(`Rollback/delete failed for ${filePath}`);
+      if (!res.ok) console.error(`Delete failed for ${filePath}`);
     } catch (err) {
-      console.error(`Rollback/delete failed for ${filePath}:`, err);
+      console.error(`Delete failed for ${filePath}:`, err);
     }
   };
 
   const commitProjectImages = async (
     mainImage,
     mainImageName,
-    carouselImages,
-    carouselImageNames,
+    carouselUploadPlan,
     projectId,
   ) => {
     setIsCommitting(true);
     setCommitStatus("Committing images to GitHub...");
     const basePath = githubDetails.baseImagePath + projectId;
     const carouselPath = `${basePath}/carousel`;
-    const committed = [];
+    const committed = []; // {path, sha, forMain?, itemId?}
 
     try {
       if (mainImage) {
         const mainImagePath = `${basePath}/${mainImageName}`;
         setCommitStatus(`Committing main image: ${mainImageName}`);
-        committed.push(
-          await commitFileToGithub(
-            mainImage,
-            mainImagePath,
-            `Add project main image: ${mainImageName}`,
-          ),
+        const result = await commitFileToGithub(
+          mainImage,
+          mainImagePath,
+          `Add project main image: ${mainImageName}`,
         );
+        committed.push({ ...result, forMain: true });
       }
-      for (let i = 0; i < carouselImages.length; i++) {
-        const item = carouselImages[i];
-        if (item.img && item.img[0]) {
-          const name = carouselImageNames[i];
-          const path = `${carouselPath}/${name}`;
-          setCommitStatus(
-            `Committing carousel image ${i + 1}/${carouselImages.length}`,
-          );
-          committed.push(
-            await commitFileToGithub(
-              item.img[0],
-              path,
-              `Add project carousel image: ${name}`,
-            ),
-          );
-        }
+
+      for (let i = 0; i < carouselUploadPlan.length; i++) {
+        const item = carouselUploadPlan[i];
+        const path = `${carouselPath}/${item.newName}`;
+        setCommitStatus(
+          `Committing carousel image ${i + 1}/${carouselUploadPlan.length}`,
+        );
+        const result = await commitFileToGithub(
+          item.file,
+          path,
+          `Add project carousel image: ${item.newName}`,
+        );
+        committed.push({ ...result, itemId: item.id });
       }
+
       setCommitStatus("All images committed!");
       setTimeout(() => {
         setCommitStatus("");
@@ -200,8 +230,8 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       for (const file of committed) {
         await deleteFileFromGithub(
           file.path,
-          file.sha,
           `Rollback: ${file.path}`,
+          file.sha,
         );
       }
       setIsCommitting(false);
@@ -212,14 +242,13 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
   const resetFormState = (e) => {
     e.target.reset();
     setCodeSamples([]);
-    setCarouselSamples([]);
+    setCarouselItems([]);
+    setRemovedCarouselPaths([]);
     setTechs([]);
     setResources([]);
     setDataSources([]);
     setTags([]);
     setExistingImage(null);
-    setExistingCarouselImages([]);
-    setCarouselToDelete([]);
     setSubmitButtonText("Submit Project");
     setIsSubmitting(false);
   };
@@ -247,9 +276,58 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         return;
       }
 
+      // Validate all carousel items needing upload are webp
+      const uploadCandidates = carouselItems.filter((item) => item.file);
+      for (const item of uploadCandidates) {
+        if (item.file.type !== "image/webp") {
+          alert(
+            `Only .webp images are accepted for carousel image "${item.title}".`,
+          );
+          setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
       const projectId = isEditMode
         ? initialProject.id
         : uuidv4().replace(/-/g, "").substring(0, 24);
+      const timestamp = Date.now();
+
+      const uploadPlan = uploadCandidates.map((item, idx) => ({
+        ...item,
+        newName: `${timestamp}-${idx}.webp`,
+      }));
+
+      const hasNewMainImage = mainImage && mainImage.size > 0;
+      const mainImageName = hasNewMainImage ? `${timestamp}.webp` : null;
+
+      // STEP 1 — Commit NEW/changed images to GitHub first. Nothing else touched yet.
+      setSubmitButtonText("Committing images...");
+      const imageResult = await commitProjectImages(
+        hasNewMainImage ? mainImage : null,
+        mainImageName,
+        uploadPlan,
+        projectId,
+      );
+      if (!imageResult.success) {
+        setSubmitButtonText("Error: GitHub commit failed — please try again");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Build final carouselImages array using committed paths for uploaded items,
+      // and existing paths for untouched items.
+      const finalCarouselImages = carouselItems.map((item) => {
+        if (item.file) {
+          const committedEntry = imageResult.committed.find(
+            (c) => c.itemId === item.id,
+          );
+          const sitePath = committedEntry.path.replace(/^public/, "");
+          return { _id: item.id, img: sitePath, title: item.title };
+        }
+        return { _id: item.id, img: item.existingPath, title: item.title };
+      });
 
       const projectData = {
         _id: projectId,
@@ -282,7 +360,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
             description: r.description,
           })),
         },
-        carouselImages: [...existingCarouselImages], // start with what's kept from before
+        carouselImages: finalCarouselImages,
         createdAt: isEditMode
           ? initialProject.createdAt
           : new Date().toISOString(),
@@ -290,72 +368,10 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         __v: isEditMode ? initialProject.__v : 0,
       };
 
-      const timestamp = Date.now();
-      const hasNewMainImage = mainImage && mainImage.size > 0;
-      let mainImageName = null;
       if (hasNewMainImage) {
-        mainImageName = `${timestamp}.webp`;
         projectData.image = `/images/projects/${projectId}/${mainImageName}`;
       } else if (isEditMode) {
-        projectData.image = existingImage; // keep old one untouched
-      }
-
-      let carouselImageNames = [];
-      for (let i = 0; i < carouselSamples.length; i++) {
-        const item = carouselSamples[i];
-        if (item.img && item.img[0]) {
-          if (item.img[0].type !== "image/webp") {
-            alert(
-              `Only .webp images are accepted for carousel image ${i + 1}.`,
-            );
-            setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
-            setIsSubmitting(false);
-            return;
-          }
-          const carouselImageName = `${timestamp}-${i}.webp`;
-          carouselImageNames.push(carouselImageName);
-          projectData.carouselImages.push({
-            _id: `${projectId}${i}c-new`,
-            img: `/images/projects/${projectId}/carousel/${carouselImageName}`,
-            title: item.title,
-          });
-        }
-      }
-
-      // STEP 1 — Commit any NEW images to GitHub first
-      setSubmitButtonText("Committing images...");
-      const imageResult = await commitProjectImages(
-        hasNewMainImage ? mainImage : null,
-        mainImageName,
-        carouselSamples,
-        carouselImageNames,
-        projectId,
-      );
-      if (!imageResult.success) {
-        setSubmitButtonText("Error: GitHub commit failed — please try again");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // STEP 1b — delete GitHub assets for removed carousel items / replaced main image
-      try {
-        if (hasNewMainImage && existingImage) {
-          // best-effort: old main image left in place unless you want it removed —
-          // uncomment below to delete the old path once you confirm the old filename format.
-        }
-        for (const removed of carouselToDelete) {
-          // removed.img is a site-relative path like /images/projects/{id}/carousel/xyz.webp
-          const repoPath = `public${removed.img}`;
-          if (removed._ghSha) {
-            await deleteFileFromGithub(
-              repoPath,
-              removed._ghSha,
-              `Remove carousel image: ${repoPath}`,
-            );
-          }
-        }
-      } catch (cleanupErr) {
-        console.error("Non-blocking cleanup error:", cleanupErr);
+        projectData.image = existingImage;
       }
 
       // STEP 2 — Firestore write (create or update)
@@ -376,13 +392,34 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         for (const file of imageResult.committed) {
           await deleteFileFromGithub(
             file.path,
-            file.sha,
             `Rollback: ${file.path}`,
+            file.sha,
           );
         }
         setSubmitButtonText("Error: Save failed — please try again");
         setIsSubmitting(false);
         return;
+      }
+
+      // STEP 3 — Firestore succeeded. NOW clean up removed/replaced GitHub assets.
+      // Best-effort: failures here don't affect the saved project, just leave orphaned files.
+      try {
+        for (const path of removedCarouselPaths) {
+          await deleteFileFromGithub(
+            `public${path}`,
+            `Remove carousel image: ${path}`,
+          );
+        }
+        for (const item of carouselItems) {
+          if (item.file && item.existingPath) {
+            await deleteFileFromGithub(
+              `public${item.existingPath}`,
+              `Replace carousel image: ${item.existingPath}`,
+            );
+          }
+        }
+      } catch (cleanupErr) {
+        console.error("Non-blocking cleanup error:", cleanupErr);
       }
 
       setSubmitButtonText(isEditMode ? "Saved!" : "Successfully Submitted!");
@@ -412,12 +449,10 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       );
   }, [isEditMode, isSubmitting]);
 
-  const handleRemoveExistingCarouselItem = (index) => {
-    const item = existingCarouselImages[index];
-    setCarouselToDelete([...carouselToDelete, item]);
-    setExistingCarouselImages(
-      existingCarouselImages.filter((_, i) => i !== index),
-    );
+  const handleCarouselItemRemoved = (item) => {
+    if (item.existingPath) {
+      setRemovedCarouselPaths((prev) => [...prev, item.existingPath]);
+    }
   };
 
   const forms = [
@@ -427,8 +462,9 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       setPopupWindow={setPopupWindow}
     />,
     <CarouselForm
-      carouselSamples={carouselSamples}
-      setCarouselSamples={setCarouselSamples}
+      carouselItems={carouselItems}
+      setCarouselItems={setCarouselItems}
+      onItemRemoved={handleCarouselItemRemoved}
       setPopupWindow={setPopupWindow}
     />,
     <TechsForm
@@ -519,78 +555,14 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       />
 
       <div style={{ marginBottom: "2rem", marginTop: "1rem" }}>
-        {existingImage && (
-          <div style={{ marginBottom: "0.75rem" }}>
-            <img
-              src={existingImage}
-              alt="Current cover"
-              style={{
-                maxWidth: "220px",
-                borderRadius: "8px",
-                display: "block",
-              }}
-            />
-            <span className="form__hint">
-              Current cover image — upload a new .webp to replace it
-            </span>
-          </div>
-        )}
         <FileInputComponent
           name="image"
           label={existingImage ? "Replace cover image" : "Upload cover image"}
           hint="PNG or JPG, 16:9 aspect ratio recommended"
           required={!isEditMode}
+          existingImageUrl={existingImage}
         />
       </div>
-
-      {existingCarouselImages.length > 0 && (
-        <div style={{ marginBottom: "1.5rem" }}>
-          <span className="form__hint">
-            Existing carousel images (remove to delete on save):
-          </span>
-          <div
-            style={{
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-              marginTop: "0.5rem",
-            }}
-          >
-            {existingCarouselImages.map((img, i) => (
-              <div key={img._id || i} style={{ position: "relative" }}>
-                <img
-                  src={img.img}
-                  alt={img.title}
-                  style={{
-                    width: "90px",
-                    height: "90px",
-                    objectFit: "cover",
-                    borderRadius: "6px",
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveExistingCarouselItem(i)}
-                  style={{
-                    position: "absolute",
-                    top: "-6px",
-                    right: "-6px",
-                    background: "#dc3545",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "50%",
-                    width: "20px",
-                    height: "20px",
-                    cursor: "pointer",
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div
         style={{
@@ -640,8 +612,8 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
           setPopupWindow={setPopupWindow}
         />
         <ProjectDataComponent
-          items={carouselSamples}
-          setItems={setCarouselSamples}
+          items={carouselItems}
+          setItems={setCarouselItems}
           title="Carousels"
           description="Image sets for screenshots or demos"
           icon={
@@ -744,13 +716,11 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         description="Featured projects appear first on your profile"
         defaultChecked={initialProject?.highlighted === "star"}
       />
-
+      <TagInput tags={tags} setTags={setTags} />
       <GithubTokenInput
         githubDetails={githubDetails}
         onVerified={() => setGithubTokenReady(true)}
       />
-
-      <TagInput tags={tags} setTags={setTags} />
 
       <button
         type="submit"

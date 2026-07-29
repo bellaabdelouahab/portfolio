@@ -1,6 +1,9 @@
 .collaborations {
-  background-color: #1e1e1e;
   padding: 2rem 0;
+    background:
+  linear-gradient(to bottom, #0A0A0A, transparent 30px),
+    #171717;
+  padding-top: 30px;
 }
 
 .scroller {
@@ -16,7 +19,9 @@
 }
 
 .scroller__inner img {
-  height: 180px;
+  height: 195px;
+  background: #80808066;
+  border-radius: 100px;
 }
 
 .scroller[data-animated="true"] {

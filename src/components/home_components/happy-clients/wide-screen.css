@@ -3,6 +3,10 @@
     box-sizing: border-box;
     color: #cfcfcf; /* Light gray for text */
     height: auto;
+        background:
+    linear-gradient(to bottom, #171717, transparent 30px),
+    #0A0A0A;
+    padding-top: 30px;
 }
 
 .happy-clients-content {

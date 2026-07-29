@@ -1,8 +1,11 @@
+.root > header {
+  border-right:.5px solid oklch(1 0 0 / 10%)
+}
 @media screen and (max-width: 4000px) {
   .root > header {
     height: 100%;
-    width: 20%;
-    background: #191919;
+    width: 240px;
+    background: #171717;
     position: relative;
   }
   .navbar {

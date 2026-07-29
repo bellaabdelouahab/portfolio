@@ -2,8 +2,10 @@
   position: relative;
   width: 100%;
   height: auto;
-  background-color: #1e1e1e;
-  padding-bottom: 5.3rem;
+    background:
+    linear-gradient(to bottom, #0A0A0A, transparent 30px),
+    #171717;
+  padding-top: 30px;
 }
 
 // Container for the services cards and forms

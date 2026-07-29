@@ -1,8 +1,10 @@
 .preview-image {
   max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: 5px;
+  max-height: 260px;
   width: 100%;
   height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #14171f;
+  display: block;
 }
