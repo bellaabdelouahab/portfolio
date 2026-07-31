@@ -1,33 +1,105 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import "./internship_projects.wide.css";
 
-const PROJECTS = [
+const PROFESSIONAL_EXP = [
   {
-    title: "S-maint Website [Smart Maintenance]",
+    title: "Digital ROI Auditor (Freelance)",
     description:
-      "Smart Maintenance is a Moroccan company that offers a wide range of services in the field of maintenance. The website is a platform that provides information about the company and its services, and it also allows users to contact the company for more information or to request a service. The website features a blog, services, staff management, and digital resources management.",
-    link: "https://s-maint.com",
-    image: "./internshipes/smart-maint.jpg",
-    startDate: "Add start date",
-    endDate: "Add end date",
+      "Operating as an independent consultant providing free digital audits for Moroccan businesses while building a portfolio of proven case studies and measurable results. Leveraging web analytics and user behavior data to identify conversion bottlenecks, improve local search visibility, and maximize digital ROI through actionable recommendations.",
+    link: "",
+    image: "./pro_exp/digital-roi-auditor.png",
+    startDate: "Apr 2026",
+    endDate: "Present",
     technologies: [
-      "Angular",
-      "Spring Boot",
-      "Mongodb",
-      "Docker",
-      "Nginx",
-      "Plausible",
-      "SendGrid",
+      "Microsoft Clarity",
+      "Google Analytics 4",
+      "Google Search Console",
+      "SEO",
+      "Web Analytics",
+      "Data Analysis",
     ],
   },
   {
-    title: "NidInnovation Website",
+    title: "Digital Adoption Consultant [eVia Services]",
     description:
-      "Nid Innovation is a Moroccan company that offers a wide range of services in the field of innovation. The website is a platform that provides information about the company and its services, and it also allows users to contact the company for more information or to request a service.",
-    link: "https://nidinnovation.com",
-    image: "./internshipes/nidinnovation.png",
-    startDate: "Add start date",
-    endDate: "Add end date",
+      "Delivered enterprise-scale WalkMe implementations across SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow, and Oracle platforms. Designed adoption analytics dashboards, ROI models, and user behavior tracking solutions while coordinating multinational stakeholders throughout the software development lifecycle.",
+    link: "",
+    image: "./pro_exp/evia-services.png",
+    startDate: "Nov 2025",
+    endDate: "Present",
+    technologies: [
+      "WalkMe",
+      "SAP Ariba",
+      "SAP S/4HANA",
+      "Salesforce",
+      "ServiceNow",
+      "Oracle",
+      "SQL",
+      "Analytics",
+    ],
+  },
+  {
+    title: "Python Developer & Automation Engineer (Freelance)",
+    description:
+      "Providing freelance Python development and automation engineering services specializing in backend systems, ETL workflow automation, CI/CD pipelines, scalable API development, and data migration solutions for client projects.",
+    link: "",
+    image: "./pro_exp/python_dev_automation.png",
+    startDate: "Sep 2025",
+    endDate: "Apr 2026",
+    technologies: [
+      "Python",
+      "FastAPI",
+      "Django",
+      "PostgreSQL",
+      "Docker",
+      "GitHub",
+      "CI/CD",
+    ],
+  },
+  {
+    title: "Data Engineer & BI Architect [COPAG]",
+    description:
+      "Contributed to an enterprise-scale data migration project transferring 100M+ records from legacy systems to a modern data platform. Developed Python ETL automation scripts with robust validation and logging mechanisms while assisting in CI/CD pipeline implementation and executive-level analytics delivery.",
+    link: "",
+    image: "./pro_exp/copag.png",
+    startDate: "Jun 2025",
+    endDate: "Sep 2025",
+    technologies: [
+      "Python",
+      "Pandas",
+      "SQL",
+      "Power BI",
+      "Ansible",
+      "GitLab CI/CD",
+      "Linux",
+    ],
+  },
+  {
+    title: "Backend Developer & Web Analyst [Smart Maint]",
+    description:
+      "Developed and deployed a SaaS platform serving 50+ users using Django and FastAPI. Designed automated CI/CD pipelines enabling zero-downtime deployments, implemented infrastructure monitoring solutions, and optimized SEO performance to achieve first-page search rankings for target keywords.",
+    link: "",
+    image: "./pro_exp/smart-maint.jpg",
+    startDate: "Mar 2024",
+    endDate: "Jan 2025",
+    technologies: [
+      "Django",
+      "FastAPI",
+      "Docker",
+      "GitLab CI/CD",
+      "PostgreSQL",
+      "Linux",
+      "SEO",
+    ],
+  },
+  {
+    title: "Full Stack Engineer [NidInnovation]",
+    description:
+      "Developed and delivered a modern company website and digital platform showcasing NidInnovation's services and offerings while implementing scalable full-stack architecture and responsive user experiences.",
+    link: "",
+    image: "./pro_exp/nidinnovation.png",
+    startDate: "Apr 2024",
+    endDate: "Jun 2024",
     technologies: [
       "React",
       "PHP",
@@ -39,32 +111,24 @@ const PROJECTS = [
     ],
   },
   {
-    title: "E-khsab: A Connected Cow Monitoring System [Agri4.0]",
+    title: "Smart Parking System [AGRI 4.0]",
     description:
-      "Development of e-services to monitor in real-time the health status and well-being of cows, plan artificial inseminations, enhance herd reproduction, and implement a heat detection system within a core group of breeders, extended to a larger number of breeders on a national scale.",
-    link: "https://poledigital.ma/projets/projets-elevage-4-0/e-khsab",
-    image: "./internshipes/agri4.0.png",
-    startDate: "Add start date",
-    endDate: "Add end date",
-    technologies: [
-      "Spring Boot",
-      "JHipster",
-      "React",
-      "PostgreSQL",
-      "RabbitMQ",
-      "WebSockets",
-      "Arduino",
-    ],
+      "Developed a production-grade computer vision solution for a government-funded smart parking initiative, achieving 99% real-time parking spot detection accuracy and contributing to securing follow-on investor funding through advanced image processing techniques.",
+    link: "",
+    image: "./pro_exp/agri4.0.png",
+    startDate: "Apr 2023",
+    endDate: "Jun 2023",
+    technologies: ["Python", "OpenCV", "FastAPI", "Computer Vision", "Linux"],
   },
   {
     title:
       "CRJEA Website : Reference Center for Young Entrepreneurs [UM6P & CRJEA]",
     description:
-      "The CRJEA is a reference center that offers tailored support to young project holders or newly created companies and cooperatives in the field of agriculture. The website is a platform that provides a full tracking system for the projects and the project holders.",
-    link: "http://crjea-rsk.com",
-    image: "./internshipes/crjea.jpg",
-    startDate: "Add start date",
-    endDate: "Add end date",
+      "Developed a multi-administrator platform providing project and beneficiary management capabilities for young entrepreneurs and agricultural cooperatives. Integrated REST APIs and implemented client-facing features enabling seamless data exchange and user management.",
+    link: "",
+    image: "./pro_exp/um6p_crjea.png",
+    startDate: "Aug 2022",
+    endDate: "Jan 2023",
     technologies: [
       "Django",
       "React",
@@ -75,30 +139,50 @@ const PROJECTS = [
     ],
   },
   {
-    title:
-      "Desktop application for managing package sending for special clients",
+    title: "E-Khsab: A Connected Cow Monitoring System [AGRI 4.0]",
     description:
-      "During this internship, I created a desktop application using JavaFX as a UI library and Oracle as a database. The application is used to manage the sending of packages for special clients (lawyers, journalists, writers), so they no longer need to wait in lines. It is used daily by post office employees.",
-    image: "./internshipes/1200px-GBAM_LOGO.png",
-    startDate: "Add start date",
-    endDate: "Add end date",
-    technologies: ["JavaFX", "Oracle - Cloud", "XML", "CSS", "Python", "SMTP"],
+      "Developed IoT-powered livestock analytics solutions for real-time cattle monitoring, artificial insemination planning, and heat detection. The platform automated breeding and health monitoring workflows, reducing manual intervention while enabling predictive analytics capabilities across multiple breeding sites.",
+    link: "",
+    image: "./pro_exp/agri4.0.png",
+    startDate: "Oct 2021",
+    endDate: "Dec 2021",
+    technologies: [
+      "Spring Boot",
+      "JHipster",
+      "React",
+      "PostgreSQL",
+      "RabbitMQ",
+      "WebSockets",
+      "Arduino",
+    ],
   },
-  {
-    title: "A Web Site For Envelope Database Management",
-    description:
-      "During this internship, I worked on a website for managing the envelope database. Workflow: a customer brings a package or envelope to the post office, the employee registers it and scans its code, and the system automatically generates a tracking number, printed on a receipt for the customer.",
-    image: "./internshipes/PosteMaroc.jpg",
-    startDate: "Add start date",
-    endDate: "Add end date",
-    technologies: ["HTML", "CSS", "JavaScript", "Flask"],
-  },
+  // {
+  //   title:
+  //     "Desktop Application for Managing Package Sending for Special Clients",
+  //   description:
+  //     "Developed a JavaFX desktop application used by postal employees to manage package delivery services for special clients, including lawyers, journalists, and writers. The system streamlined package registration processes and significantly reduced customer waiting times.",
+  //   link: "",
+  //   image: "",
+  //   startDate: "Add start date",
+  //   endDate: "Add end date",
+  //   technologies: ["JavaFX", "Oracle Cloud", "XML", "CSS", "Python", "SMTP"],
+  // },
+  // {
+  //   title: "Envelope Database Management System",
+  //   description:
+  //     "Developed a web-based platform for managing postal envelope and package registrations. The system automated tracking number generation and receipt printing workflows, improving operational efficiency for postal service employees and customers.",
+  //   link: "",
+  //   image: "",
+  //   startDate: "Add start date",
+  //   endDate: "Add end date",
+  //   technologies: ["HTML", "CSS", "JavaScript", "Flask"],
+  // },
 ];
 
 const MOBILE_BREAKPOINT = 900;
 
 export default function InternshipProjectsSection() {
-  const [displayCount, setDisplayCount] = useState(3);
+  const [displayCount, setDisplayCount] = useState(4);
   const [pathState, setPathState] = useState({ d: "", points: [] });
   const [isMobile, setIsMobile] = useState(false);
   const [maxVisibleIndex, setMaxVisibleIndex] = useState(-1);
@@ -112,7 +196,7 @@ export default function InternshipProjectsSection() {
   const prevTotalLengthRef = useRef(0);
   const animFrameRef = useRef(null);
 
-  const handleShowMore = () => setDisplayCount(PROJECTS.length);
+  const handleShowMore = () => setDisplayCount(PROFESSIONAL_EXP.length);
 
   useEffect(() => {
     const checkMobile = () =>
@@ -315,7 +399,7 @@ export default function InternshipProjectsSection() {
           </svg>
         )}
 
-        {PROJECTS.slice(0, displayCount).map((project, index) => {
+        {PROFESSIONAL_EXP.slice(0, displayCount).map((project, index) => {
           const align = isMobile ? "left" : index % 2 === 0 ? "left" : "right";
           return (
             <ProjectRow
@@ -330,13 +414,13 @@ export default function InternshipProjectsSection() {
         })}
       </div>
 
-      {displayCount < PROJECTS.length && (
+      {displayCount < PROFESSIONAL_EXP.length && (
         <div className="show-more-button">
           <button
             onClick={handleShowMore}
             aria-label="Show more professional experience entries"
           >
-            View More Experience ({PROJECTS.length - displayCount})
+            View More Experience ({PROFESSIONAL_EXP.length - displayCount})
           </button>
         </div>
       )}
@@ -348,11 +432,11 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
   const marker = (
     <div className="timeline-marker-col">
       <span className="timeline-date timeline-date--start">
-        {project.startDate}
+        {project.endDate}
       </span>
       <span className={`timeline-marker-dot timeline-marker-dot--${align}`} />
       <span className="timeline-date timeline-date--end">
-        {project.endDate}
+        {project.startDate}
       </span>
     </div>
   );
