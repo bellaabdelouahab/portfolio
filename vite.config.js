@@ -56,6 +56,6 @@ export default defineConfig(({ mode }) => {
         esbuild: {
             jsxInject: `import React from 'react';`,
         },
-        base: "",
+        base: "/",
     };
 });
