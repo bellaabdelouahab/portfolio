@@ -35,6 +35,14 @@ try {
 }
 
 const db = getFirestore();
+let usedFallback = false;
+
+function slugifyTitle(title) {
+  return title
+    .replace(/[:|]/g, '')
+    .replace(/\s+/g, '-')
+    .trim();
+}
 
 /**
  * Format current date as YYYY-MM-DD for sitemap
@@ -117,7 +125,7 @@ async function generateSitemapXML() {
         priority: '1.0', 
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Best Software Engineer & Data Analyst Portfolio 2027',
+        title: 'Best Software Engineer & Data Analyst Portfolio',
         image: `${baseUrl}/logo.jpg`
       },
       { 
@@ -125,7 +133,7 @@ async function generateSitemapXML() {
         priority: '0.9', 
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Featured Portfolio Projects 2027 | Software & Data Science',
+        title: 'Featured Portfolio Projects | Software & Data Science',
         image: `${baseUrl}/images/projects-cover.jpg`
       },
       { 
@@ -141,7 +149,7 @@ async function generateSitemapXML() {
         priority: '0.8', 
         changefreq: 'monthly',
         lastmod: currentDate,
-        title: 'Software Engineer Resume 2027 | Professional CV',
+        title: 'Software Engineer Resume | Professional CV',
         image: `${baseUrl}/resume.png`
       },
       { 
@@ -184,11 +192,11 @@ async function generateSitemapXML() {
     // Add static routes
     staticRoutes.forEach(route => {
       xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}/#${route.url}</loc>\n`;
+      xml += `    <loc>${baseUrl}${route.url}</loc>\n`;
       xml += `    <lastmod>${route.lastmod}</lastmod>\n`;
       xml += `    <changefreq>${route.changefreq}</changefreq>\n`;
       xml += `    <priority>${route.priority}</priority>\n`;
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#' + route.url + '" />\n';
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + route.url + '" />\n';
       
       // Add image information if available
       if (route.image) {
@@ -205,15 +213,15 @@ async function generateSitemapXML() {
     projects.forEach(project => {
       if (!project.title) return;
       
-      const projectUrl = `/projects/${encodeURIComponent(project.title.replace(/\s/g, '-'))}`;
+      const projectUrl = `/projects/${encodeURIComponent(slugifyTitle(project.title))}`;
       const lastmod = safeFormatDate(project.updatedAt, currentDate);
       
       xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}/#${projectUrl}</loc>\n`;
+      xml += `    <loc>${baseUrl}${projectUrl}</loc>\n`;
       xml += `    <lastmod>${lastmod}</lastmod>\n`;
       xml += '    <changefreq>monthly</changefreq>\n';
       xml += '    <priority>0.7</priority>\n';
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#' + projectUrl + '" />\n';
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + projectUrl + '" />\n';
       
       // Add image information if available
       if (project.image) {
@@ -232,6 +240,7 @@ async function generateSitemapXML() {
     return xml;
   } catch (error) {
     console.error('Error generating sitemap:', error);
+    usedFallback = true;
     // Return a minimal valid sitemap in case of error
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${normalizedSiteUrl}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
   }
@@ -243,34 +252,15 @@ async function generateSitemapXML() {
 async function writeSitemapToFile() {
   try {
     const sitemapContent = await generateSitemapXML();
-    const outputDir = path.join(__dirname, '..', 'public', 'sitemaps');
-    const outputPath = path.join(outputDir, 'sitemap.xml');
-    
-    // Ensure directory exists
-    ensureDirectoryExists(outputDir);
-    
-    // Write sitemap.xml
-    fs.writeFileSync(outputPath, sitemapContent);
-    console.log(`Sitemap generated successfully at: ${outputPath}`);
-    
-    // Create a copy at the root level for better discoverability
     const rootSitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
+
     fs.writeFileSync(rootSitemapPath, sitemapContent);
-    console.log(`Sitemap also copied to: ${rootSitemapPath}`);
-    
-    // Generate a sitemap index file that includes both locations
-    const sitemapIndex = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-                         '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-                         '  <sitemap>\n' +
-                         `    <loc>${normalizedSiteUrl}/sitemap.xml</loc>\n` +
-                         `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n` +
-                         '  </sitemap>\n' +
-                         '</sitemapindex>';
-    
-    const indexPath = path.join(outputDir, 'sitemap-index.xml');
-    fs.writeFileSync(indexPath, sitemapIndex);
-    console.log(`Sitemap index generated at: ${indexPath}`);
-    
+    console.log(`Sitemap generated successfully at: ${rootSitemapPath}`);
+
+    if (usedFallback) {
+      throw new Error('Sitemap generation used fallback data because Firestore failed.');
+    }
+
     return true;
   } catch (error) {
     console.error('Error writing sitemap file:', error);
@@ -280,7 +270,12 @@ async function writeSitemapToFile() {
 
 // Execute the function
 writeSitemapToFile()
-  .then(() => {
+  .then((success) => {
+    if (!success) {
+      console.error('Sitemap generation failed');
+      process.exit(1);
+    }
+
     console.log('Sitemap generation process complete');
     process.exit(0);
   })
