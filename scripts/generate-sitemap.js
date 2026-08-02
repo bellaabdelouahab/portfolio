@@ -245,8 +245,10 @@ async function generateSitemapXML() {
 async function writeSitemapToFile() {
   try {
     const sitemapContent = await generateSitemapXML();
-    const rootSitemapPath = path.join(__dirname, '..', 'public', 'sitemap.xml');
+    const rootSitemapDir = path.join(__dirname, '..', 'public', 'sitemaps');
+    const rootSitemapPath = path.join(rootSitemapDir, 'sitemap.xml');
 
+    fs.mkdirSync(rootSitemapDir, { recursive: true });
     fs.writeFileSync(rootSitemapPath, sitemapContent);
     console.log(`Sitemap generated successfully at: ${rootSitemapPath}`);
 
