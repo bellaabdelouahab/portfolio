@@ -2,34 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="/logo.jpg" />
-    <link rel="stylesheet" media="screen" href="/fedora.css" />
     <title>Abdelouahab Bella | Data Analyst & Software Engineer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development."
-    />
-    <meta name="author" content="Abdelouahab Bella" />
-    <meta name="robots" content="index, follow" />
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-
-    <link rel="manifest" href="/manifest.json" />
-    
-    <!-- Preload critical resources -->
-    <link rel="preload" href="/logo.jpg" as="image" />
-    <link rel="preconnect" href="https://api.ipify.org" crossorigin />
-    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+    <meta name="robots" content="noindex, follow" />
   </head>
-  <body class="revamped_lecture_player">
-    <noscript>You need to enable JavaScript to run this app. This website showcases the portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer.</noscript>
-    <div id="root" class="root">
-      
-    </div>
-
+  <body>
+    <script>
+      var segmentCount = 0; // 0 = custom domain served from root
+      var l = window.location;
+      l.replace(
+        l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+        l.pathname.split("/").slice(0, 1 + segmentCount).join("/") +
+        "/?/" +
+        l.pathname.slice(1).split("/").slice(segmentCount).join("/").replace(/&/g, "~and~") +
+        (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+        l.hash
+      );
+    </script>
   </body>
-  <script type="module" src="/src/index.jsx"></script>
-  <script type="module" defer src="/script.js"></script>
-  
 </html>
