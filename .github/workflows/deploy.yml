@@ -3,7 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master
+  schedule:
+    - cron: '0 3 * * *'
 
 jobs:
   build-and-deploy:
@@ -14,21 +16,35 @@ jobs:
       - name: Install Dependencies
         run: npm install
       
-      - name: Build
+      - name: Write Environment Variables to .env.production
+        run: |
+          cat <<EOF > .env.production
+          VITE_SITE_URL=${{ vars.SITE_URL }}
+          VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          EOF
+
+      - name: Write Firebase service account
         env:
-          BACKEND_API: ${{ secrets.BACKEND_API }}
-          BACKEND_UPLOADS_API: ${{ secrets.BACKEND_UPLOADS_API }}
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          FIREBASE_SERVICE_ACCOUNT_B64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_B64 }}
+        run: |
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT_B64" ]; then
+            echo "$FIREBASE_SERVICE_ACCOUNT_B64" | base64 -d > /tmp/serviceAccountKey.json
+            echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/serviceAccountKey.json" >> $GITHUB_ENV
+          fi
+
+      - name: Generate sitemap
+        run: node scripts/generate-sitemap.js
+
+      - name: Build
         run: npm run build
-      
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: gh-pages
-          folder: dist
+          folder: build
