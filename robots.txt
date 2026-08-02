@@ -10,4 +10,4 @@ User-agent: Bingbot
 Crawl-delay: 1
 
 # Sitemap
-Sitemap: https://abdelouahab.xyz/#/site-map
+Sitemap: /sitemap.xml
