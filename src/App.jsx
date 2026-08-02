@@ -1,5 +1,5 @@
 import {
-  createHashRouter,
+  createBrowserRouter,
   RouterProvider,
   Route,
   createRoutesFromElements,
@@ -51,7 +51,7 @@ const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
 const NotFound = React.lazy(() => import("./views/NotFound"));
 const SiteMap = React.lazy(() => import("./views/SiteMap"));
 
-const router = createHashRouter(
+const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
@@ -161,8 +161,8 @@ const router = createHashRouter(
           </Suspense>
         }
       />
-    </Route>
-  )
+    </Route>,
+  ),
 );
 
 function App() {

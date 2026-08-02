@@ -18,7 +18,6 @@
     "firebase-admin": "^13.1.0",
     "hast-util-to-html": "^8.0.4",
     "pdfjs-dist": "^3.11.174",
-    "portfolio": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.6",

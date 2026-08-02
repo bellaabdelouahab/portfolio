@@ -25,13 +25,13 @@ export const generateSitemapXML = async () => {
         url: '/', 
         priority: '1.0', 
         changefreq: 'weekly',
-        title: 'Best Software Engineer & Data Analyst Portfolio 2025'
+        title: 'Best Software Engineer & Data Analyst Portfolio 2027'
       },
       { 
         url: '/projects', 
         priority: '0.9', 
         changefreq: 'weekly',
-        title: 'Featured Portfolio Projects 2025 | Software & Data Science'
+        title: 'Featured Portfolio Projects 2027 | Software & Data Science'
       },
       { 
         url: '/certificates', 
@@ -43,7 +43,7 @@ export const generateSitemapXML = async () => {
         url: '/resume', 
         priority: '0.8', 
         changefreq: 'monthly',
-        title: 'Software Engineer Resume 2025 | Professional CV'
+        title: 'Software Engineer Resume 2027 | Professional CV'
       },
       { 
         url: '/my-team', 

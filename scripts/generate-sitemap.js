@@ -101,7 +101,7 @@ async function generateSitemapXML() {
         priority: '1.0', 
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Best Software Engineer & Data Analyst Portfolio 2025',
+        title: 'Best Software Engineer & Data Analyst Portfolio 2027',
         image: `${baseUrl}/logo.jpg`
       },
       { 
@@ -109,7 +109,7 @@ async function generateSitemapXML() {
         priority: '0.9', 
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Featured Portfolio Projects 2025 | Software & Data Science',
+        title: 'Featured Portfolio Projects 2027 | Software & Data Science',
         image: `${baseUrl}/images/projects-cover.jpg`
       },
       { 
@@ -125,7 +125,7 @@ async function generateSitemapXML() {
         priority: '0.8', 
         changefreq: 'monthly',
         lastmod: currentDate,
-        title: 'Software Engineer Resume 2025 | Professional CV',
+        title: 'Software Engineer Resume 2027 | Professional CV',
         image: `${baseUrl}/resume.png`
       },
       { 

@@ -12,15 +12,15 @@ export default function SEO({
   // Format the page title
   const pageTitle = title
     ? `${title} | Abdelouahab Bella Portfolio`
-    : "Abdelouahab Bella | Data Analyst & Software Engineer Portfolio 2025";
+    : "Abdelouahab Bella | Data Analyst & Software Engineer Portfolio 2027";
 
   const pageDescription =
     description ||
-    "portfolio of Abdelouahab Bella, Data Analyst and Software Engineer. Featuring best projects in web development, machine learning, and innovative software solutions for 2025.";
+    "portfolio of Abdelouahab Bella, Data Analyst and Software Engineer. Featuring best projects in web development, machine learning, and innovative software solutions for 2027.";
 
   const pageKeywords =
     keywords ||
-    "Abdelouahab Bella, Best Portfolio 2025, Data Analyst Portfolio, Software Engineer Portfolio, Web Development Projects, Machine Learning Portfolio, Top Software Engineer, React Portfolio, Professional Developer Website";
+    "Abdelouahab Bella, Best Portfolio 2027, Data Analyst Portfolio, Software Engineer Portfolio, Web Development Projects, Machine Learning Portfolio, Top Software Engineer, React Portfolio, Professional Developer Website";
 
   // Get current URL or use provided one
   const pageUrl =
