@@ -5,6 +5,7 @@ import "../assets/css/projects.scss";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import SEO from "../components/common/SEO";
+import { getAbsoluteUrl } from "../utils/siteConfig";
 
 export default function Projects() {
   const projects = useLoaderData();
@@ -27,8 +28,10 @@ export default function Projects() {
         "item": {
           "@type": "SoftwareSourceCode",
           "name": project.title,
-          "description": project.description.substring(0, 160),
-          "url": `https://abdelouahab.xyz/#/projects/${project.title.replace(/\s/g, "-")}`,
+          "description": typeof project.description === "string" && project.description.trim()
+            ? project.description.trim().substring(0, 160)
+            : "Project details from Abdelouahab Bella's portfolio.",
+          "url": getAbsoluteUrl(`/projects/${project.title.replace(/\s/g, "-")}`),
           "codeRepository": project.githubLink
         }
       }))

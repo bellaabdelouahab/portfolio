@@ -12,6 +12,7 @@ import Collaborations from "../components/home_components/collaborations/Collabo
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import SEO from "../components/common/SEO";
+import { getAbsoluteUrl } from "../utils/siteConfig";
 
 export default function Home() {
   const projectHighlight = useLoaderData();
@@ -40,7 +41,7 @@ export default function Home() {
       "name": "Abdelouahab Bella",
       "jobTitle": "Data Analyst & Software Engineer",
       "description": "Accomplished Data Analyst with extensive experience in data science, computer systems engineering, and software development.",
-      "url": "https://abdelouahab.xyz",
+      "url": getAbsoluteUrl("/"),
       "sameAs": [
         "https://github.com/bellaabdelouahab",
         "https://linkedin.com/in/abdelouahab-bella"

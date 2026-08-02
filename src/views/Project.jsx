@@ -11,6 +11,7 @@ import ProjectTools from "components/project-components/project-tools/ProjectToo
 import ProjectDataSources from "components/project-components/project-datasource/ProjectDataSources";
 import SEO from "../components/common/SEO";
 import Skeleton from "react-loading-skeleton";
+import { getAbsoluteUrl } from "../utils/siteConfig";
 
 export default function Project() {
   const location = useLocation();
@@ -133,15 +134,19 @@ export default function Project() {
   // Generate structured data for SEO
   const generateProjectStructuredData = () => {
     if (!project) return null;
-    
+
+    const projectDescription = typeof project.description === "string" && project.description.trim()
+      ? project.description.trim()
+      : "Project details from Abdelouahab Bella's portfolio.";
+
     return {
       "@context": "https://schema.org",
       "@type": "SoftwareSourceCode",
-      "name": project.title,
-      "description": project.description,
-      "datePublished": project.startDate,
-      "programmingLanguage": project.tools?.techs?.map(tech => tech.title).join(", "),
-      "codeRepository": project.githubLink,
+      "name": project.title || "Portfolio Project",
+      "description": projectDescription,
+      "datePublished": project.startDate || null,
+      "programmingLanguage": project.tools?.techs?.map(tech => tech?.title).filter(Boolean).join(", ") || null,
+      "codeRepository": project.githubLink || null,
       "author": {
         "@type": "Person",
         "name": "Abdelouahab Bella"
@@ -177,13 +182,24 @@ export default function Project() {
     );
   }
 
+  const projectDescription = typeof project.description === "string" && project.description.trim()
+    ? project.description.trim()
+    : "Project details from Abdelouahab Bella's portfolio.";
+
+  const projectKeywords = [
+    project.title,
+    "project",
+    "portfolio",
+    ...(project.tools?.techs?.map(tech => tech?.title).filter(Boolean) || []),
+  ].filter(Boolean).join(", ");
+
   return (
     <section className="project-page">
       <SEO 
-        title={project.title}
-        description={project.description.substring(0, 160)}
-        keywords={`${project.title}, project, portfolio, ${project.tools?.techs?.map(tech => tech.title).join(", ")}`}
-        image={project.image}
+        title={project.title || "Portfolio Project"}
+        description={projectDescription.substring(0, 160)}
+        keywords={projectKeywords}
+        image={project.image || getAbsoluteUrl("/logo.jpg")}
         type="article"
         structuredData={generateProjectStructuredData()}
       />

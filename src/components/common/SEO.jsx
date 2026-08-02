@@ -1,33 +1,40 @@
 import { Helmet } from "react-helmet";
+import { getAbsoluteUrl } from "../../utils/siteConfig";
 
 export default function SEO({
   title,
   description,
-  image = "https://abdelouahab.xyz/logo.jpg",
+  image,
   url,
   keywords,
   type = "website",
   structuredData = null,
+  noIndex = false,
+  noindex = false,
 }) {
+  const resolvedImage = image || getAbsoluteUrl("/logo.jpg");
+
   // Format the page title
   const pageTitle = title
     ? `${title} | Abdelouahab Bella Portfolio`
-    : "Abdelouahab Bella | Data Analyst & Software Engineer Portfolio 2027";
+    : "Abdelouahab Bella | Data Analyst & Software Engineer Portfolio";
 
   const pageDescription =
     description ||
-    "portfolio of Abdelouahab Bella, Data Analyst and Software Engineer. Featuring best projects in web development, machine learning, and innovative software solutions for 2027.";
+    "Portfolio of Abdelouahab Bella, Data Analyst and Software Engineer. Featuring projects in web development, machine learning, and modern software solutions.";
 
   const pageKeywords =
     keywords ||
-    "Abdelouahab Bella, Best Portfolio 2027, Data Analyst Portfolio, Software Engineer Portfolio, Web Development Projects, Machine Learning Portfolio, Top Software Engineer, React Portfolio, Professional Developer Website";
+    "Abdelouahab Bella, Data Analyst Portfolio, Software Engineer Portfolio, Web Development Projects, Machine Learning Portfolio, Top Software Engineer, React Portfolio, Professional Developer Website";
+
+  const shouldNoIndex = Boolean(noIndex || noindex);
 
   // Get current URL or use provided one
   const pageUrl =
     url ||
     (typeof window !== "undefined"
       ? window.location.href
-      : "https://abdelouahab.xyz");
+      : getAbsoluteUrl("/"));
 
   // Default structured data for the portfolio
   const defaultStructuredData = {
@@ -36,11 +43,11 @@ export default function SEO({
     name: pageTitle,
     description: pageDescription,
     url: pageUrl,
-    image: image,
+    image: resolvedImage,
     mainEntity: {
       "@type": "Person",
       name: "Abdelouahab Bella",
-      url: "https://abdelouahab.xyz",
+      url: getAbsoluteUrl("/"),
       jobTitle: "Data Analyst & Software Engineer",
       knowsAbout: [
         "Data Science",
@@ -64,7 +71,7 @@ export default function SEO({
       {/* Open Graph Meta Tags (for social media) */}
       <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={pageDescription} />
-      <meta property="og:image" content={image} />
+      <meta property="og:image" content={resolvedImage} />
       <meta property="og:url" content={pageUrl} />
       <meta property="og:type" content={type} />
 
@@ -72,10 +79,13 @@ export default function SEO({
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={pageDescription} />
-      <meta name="twitter:image" content={image} />
+      <meta name="twitter:image" content={resolvedImage} />
 
       {/* Additional SEO Meta Tags */}
-      <meta name="robots" content="index, follow, max-image-preview:large" />
+      <meta
+        name="robots"
+        content={shouldNoIndex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+      />
       <meta name="author" content="Abdelouahab Bella" />
       <meta
         name="copyright"

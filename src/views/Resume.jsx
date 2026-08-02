@@ -1,5 +1,6 @@
 import "../assets/css/resume.css";
 import SEO from "../components/common/SEO";
+import { getAbsoluteUrl } from "../utils/siteConfig";
 
 const resumes = [
   {
@@ -29,7 +30,7 @@ export default function Resume() {
     "@type": "Person",
     "name": "Abdelouahab Bella",
     "jobTitle": "Data Analyst & Software Engineer",
-    "url": "https://abdelouahab.xyz/#/resume",
+    "url": getAbsoluteUrl("/resume"),
     "workLocation": {
       "@type": "Place",
       "address": {

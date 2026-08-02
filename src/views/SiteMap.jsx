@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getSiteStructure } from "../utils/sitemapGenerator";
 import "../assets/css/sitemap.css";
 import SEO from "../components/common/SEO";
+import { getAbsoluteUrl } from "../utils/siteConfig";
 
 export default function SiteMap() {
   const [siteStructure, setSiteStructure] = useState(null);
@@ -30,11 +31,11 @@ export default function SiteMap() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Abdelouahab Bella Portfolio",
-    "url": "https://abdelouahab.xyz",
+    "url": getAbsoluteUrl("/"),
     "description": "Complete sitemap of Abdelouahab Bella's portfolio website",
     "potentialAction": {
       "@type": "ViewAction",
-      "target": "https://abdelouahab.xyz/#/site-map"
+      "target": getAbsoluteUrl("/site-map")
     }
   };
 
@@ -93,7 +94,7 @@ export default function SiteMap() {
                   {page.sections.map((section, idx) => (
                     <li key={idx}>
                       <Link
-                        to={`${page.url}#${section
+                        to={`${page.url}/${section
                           .toLowerCase()
                           .replace(/\s+/g, "-")}`}
                       >
@@ -133,15 +134,6 @@ export default function SiteMap() {
         ))}
       </div>
 
-      <div className="sitemap-xml-link">
-        <a
-          href="/sitemap/sitemap-index.xml"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View XML Sitemap for search engines
-        </a>
-      </div>
     </div>
   );
 }

@@ -1,18 +1,34 @@
 const fs = require('fs');
 const path = require('path');
-const { initializeApp, cert } = require('firebase-admin/app');
+const dotenv = require('dotenv');
+const { initializeApp, cert, applicationDefault } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
+
+dotenv.config({ path: path.join(__dirname, '..', '.env.production') });
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+
+const siteUrl = process.env.VITE_SITE_URL || process.env.SITE_URL || 'https://abdelouahab.xyz';
+const normalizedSiteUrl = siteUrl.replace(/\/+$/, '');
 
 // Initialize Firebase Admin
 try {
-  // Try to load from environment variable first
-  const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT 
-    ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-    : require('../portfolio-d0eff-firebase-adminsdk-m2qoy-aeb5920ad6.json');
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    initializeApp({
+      credential: applicationDefault()
+    });
+  } else {
+    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT
+      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+      : null;
 
-  initializeApp({
-    credential: cert(serviceAccount)
-  });
+    if (!serviceAccount) {
+      throw new Error('No Firebase credentials available. Provide FIREBASE_SERVICE_ACCOUNT or GOOGLE_APPLICATION_CREDENTIALS.');
+    }
+
+    initializeApp({
+      credential: cert(serviceAccount)
+    });
+  }
 } catch (error) {
   console.error('Firebase initialization error:', error);
   process.exit(1);
@@ -92,7 +108,7 @@ async function generateSitemapXML() {
     console.log(`Found ${projects.length} projects to include in sitemap`);
 
     // Base URL for the site
-    const baseUrl = 'https://abdelouahab.xyz';
+    const baseUrl = normalizedSiteUrl;
     
     // Static routes with enhanced descriptions and priorities
     const staticRoutes = [
@@ -217,7 +233,7 @@ async function generateSitemapXML() {
   } catch (error) {
     console.error('Error generating sitemap:', error);
     // Return a minimal valid sitemap in case of error
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>https://abdelouahab.xyz</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>';
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${normalizedSiteUrl}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
   }
 }
 
@@ -246,7 +262,7 @@ async function writeSitemapToFile() {
     const sitemapIndex = '<?xml version="1.0" encoding="UTF-8"?>\n' +
                          '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
                          '  <sitemap>\n' +
-                         '    <loc>https://abdelouahab.xyz/sitemap.xml</loc>\n' +
+                         `    <loc>${normalizedSiteUrl}/sitemap.xml</loc>\n` +
                          `    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>\n` +
                          '  </sitemap>\n' +
                          '</sitemapindex>';

@@ -1,5 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
+import { getAbsoluteUrl } from './siteConfig';
 
 /**
  * Generate XML sitemap content for the portfolio
@@ -17,7 +18,7 @@ export const generateSitemapXML = async () => {
     }));
     
     // Base URL for the site
-    const baseUrl = 'https://abdelouahab.xyz';
+    const baseUrl = getAbsoluteUrl('/');
     
     // Static routes with enhanced descriptions and priorities
     const staticRoutes = [
@@ -133,7 +134,7 @@ export const getSiteStructure = async () => {
     // Site structure
     return {
       name: 'Abdelouahab Bella Portfolio',
-      baseUrl: 'https://abdelouahab.xyz',
+      baseUrl: getAbsoluteUrl('/'),
       pages: [
         {
           title: 'Home',

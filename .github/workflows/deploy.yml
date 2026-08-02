@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+  schedule:
+    - cron: '0 3 * * *'
 
 jobs:
   build-and-deploy:
@@ -17,6 +19,7 @@ jobs:
       - name: Write Environment Variables to .env.production
         run: |
           cat <<EOF > .env.production
+          VITE_SITE_URL=${{ vars.SITE_URL }}
           VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}
@@ -25,6 +28,18 @@ jobs:
           VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
           EOF
+
+      - name: Write Firebase service account
+        env:
+          FIREBASE_SERVICE_ACCOUNT_B64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_B64 }}
+        run: |
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT_B64" ]; then
+            echo "$FIREBASE_SERVICE_ACCOUNT_B64" | base64 -d > /tmp/serviceAccountKey.json
+            echo "GOOGLE_APPLICATION_CREDENTIALS=/tmp/serviceAccountKey.json" >> $GITHUB_ENV
+          fi
+
+      - name: Generate sitemap
+        run: node scripts/generate-sitemap.js
 
       - name: Build
         run: npm run build

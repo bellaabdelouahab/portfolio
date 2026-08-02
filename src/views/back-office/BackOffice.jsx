@@ -8,6 +8,7 @@ import CertificatesForm from "components/backoffice-component/forms/certificates
 import Clients from "components/backoffice-component/forms/clients-form/Clients";
 import VisitorStats from "components/backoffice-component/visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import SEO from "../../components/common/SEO";
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -109,6 +110,7 @@ export default function FillDB() {
 
   return (
     <>
+      <SEO noindex />
       {!authenticated ? (
         <LoginPage setAuthenticated={setAuthenticated} />
       ) : (
