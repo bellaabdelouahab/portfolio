@@ -37,6 +37,20 @@ try {
 const db = getFirestore();
 let usedFallback = false;
 
+/**
+ * Escape special characters so generated text can never break the XML,
+ * regardless of what a title/caption contains (hand-typed or from Firestore).
+ */
+function escapeXml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 function slugifyTitle(title) {
   return title
     .replace(/[:|]/g, '')
@@ -57,7 +71,6 @@ function getCurrentDate() {
  */
 function safeFormatDate(dateValue, fallbackDate) {
   try {
-    // Check if we have a valid date
     if (dateValue && !isNaN(new Date(dateValue).getTime())) {
       return new Date(dateValue).toISOString().split('T')[0];
     }
@@ -69,29 +82,16 @@ function safeFormatDate(dateValue, fallbackDate) {
 }
 
 /**
- * Ensure the directory exists
- */
-function ensureDirectoryExists(dirPath) {
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
-    console.log(`Created directory: ${dirPath}`);
-  }
-}
-
-/**
  * Generate sitemap.xml content with enhanced SEO metadata
  */
 async function generateSitemapXML() {
   try {
     console.log('Fetching projects for sitemap...');
-    // Fetch all projects to include in sitemap
     const projectsSnapshot = await db.collection('projects').get();
     const currentDate = getCurrentDate();
-    
+
     const projects = projectsSnapshot.docs.map(doc => {
       let updatedAt;
-      
-      // Safely handle date from updatedAt field
       try {
         if (doc.data().updatedAt) {
           updatedAt = doc.data().updatedAt;
@@ -104,7 +104,7 @@ async function generateSitemapXML() {
         console.warn(`Date conversion error for project ${doc.id}:`, err.message);
         updatedAt = new Date();
       }
-      
+
       return {
         id: doc.id,
         title: doc.data().title || 'Untitled Project',
@@ -112,142 +112,135 @@ async function generateSitemapXML() {
         image: doc.data().thumbnail || doc.data().images?.[0] || null
       };
     });
-    
+
     console.log(`Found ${projects.length} projects to include in sitemap`);
 
-    // Base URL for the site
     const baseUrl = normalizedSiteUrl;
-    
-    // Static routes with enhanced descriptions and priorities
+
     const staticRoutes = [
-      { 
-        url: '/', 
-        priority: '1.0', 
+      {
+        url: '/',
+        priority: '1.0',
         changefreq: 'weekly',
         lastmod: currentDate,
         title: 'Best Software Engineer & Data Analyst Portfolio',
         image: `${baseUrl}/logo.jpg`
       },
-      { 
-        url: '/projects', 
-        priority: '0.9', 
+      {
+        url: '/projects',
+        priority: '0.9',
         changefreq: 'weekly',
         lastmod: currentDate,
         title: 'Featured Portfolio Projects | Software & Data Science',
         image: `${baseUrl}/images/projects-cover.jpg`
       },
-      { 
-        url: '/certificates', 
-        priority: '0.8', 
+      {
+        url: '/certificates',
+        priority: '0.8',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Professional Certifications | Top Developer Portfolio',
         image: `${baseUrl}/yassine-pic.png`
       },
-      { 
-        url: '/resume', 
-        priority: '0.8', 
+      {
+        url: '/resume',
+        priority: '0.8',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Software Engineer Resume | Professional CV',
         image: `${baseUrl}/resume.png`
       },
-      { 
-        url: '/my-team', 
-        priority: '0.7', 
+      {
+        url: '/my-team',
+        priority: '0.7',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Development Team | Collaborative Projects Portfolio'
       },
-      { 
-        url: '/music', 
-        priority: '0.7', 
+      {
+        url: '/music',
+        priority: '0.7',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Music & Podcast Recommendations | Developer Lifestyle'
       },
-      { 
-        url: '/reports', 
-        priority: '0.6', 
+      {
+        url: '/reports',
+        priority: '0.6',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Technical Reports & Case Studies | Software Engineer Portfolio'
       },
-      { 
-        url: '/site-map', 
-        priority: '0.5', 
+      {
+        url: '/site-map',
+        priority: '0.5',
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Portfolio Site Map | Navigation Guide'
       },
     ];
-    
-    // Create XML with image extensions for Google Image Sitemap
+
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<!-- Generated on ' + new Date().toUTCString() + ' -->\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
     xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml"\n';
     xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
-    
-    // Add static routes
+
     staticRoutes.forEach(route => {
       xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}${route.url}</loc>\n`;
+      xml += `    <loc>${escapeXml(baseUrl + route.url)}</loc>\n`;
       xml += `    <lastmod>${route.lastmod}</lastmod>\n`;
       xml += `    <changefreq>${route.changefreq}</changefreq>\n`;
       xml += `    <priority>${route.priority}</priority>\n`;
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + route.url + '" />\n';
-      
-      // Add image information if available
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + escapeXml(baseUrl + route.url) + '" />\n';
+
       if (route.image) {
         xml += '    <image:image>\n';
-        xml += `      <image:loc>${route.image}</image:loc>\n`;
-        xml += `      <image:title>${route.title}</image:title>\n`;
+        xml += `      <image:loc>${escapeXml(route.image)}</image:loc>\n`;
+        xml += `      <image:title>${escapeXml(route.title)}</image:title>\n`;
         xml += '    </image:image>\n';
       }
-      
+
       xml += '  </url>\n';
     });
-    
-    // Add project routes with enhanced SEO
+
     projects.forEach(project => {
       if (!project.title) return;
-      
+
       const projectUrl = `/projects/${encodeURIComponent(slugifyTitle(project.title))}`;
       const lastmod = safeFormatDate(project.updatedAt, currentDate);
-      
+
       xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}${projectUrl}</loc>\n`;
+      xml += `    <loc>${escapeXml(baseUrl + projectUrl)}</loc>\n`;
       xml += `    <lastmod>${lastmod}</lastmod>\n`;
       xml += '    <changefreq>monthly</changefreq>\n';
       xml += '    <priority>0.7</priority>\n';
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + projectUrl + '" />\n';
-      
-      // Add image information if available
+      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + escapeXml(baseUrl + projectUrl) + '" />\n';
+
       if (project.image) {
+        const imageUrl = `${baseUrl}/${project.image.startsWith('/') ? project.image.substring(1) : project.image}`;
         xml += '    <image:image>\n';
-        xml += `      <image:loc>${baseUrl}/${project.image.startsWith('/') ? project.image.substring(1) : project.image}</image:loc>\n`;
-        xml += `      <image:title>${project.title}</image:title>\n`;
-        xml += `      <image:caption>Portfolio project: ${project.title}</image:caption>\n`;
+        xml += `      <image:loc>${escapeXml(imageUrl)}</image:loc>\n`;
+        xml += `      <image:title>${escapeXml(project.title)}</image:title>\n`;
+        xml += `      <image:caption>Portfolio project: ${escapeXml(project.title)}</image:caption>\n`;
         xml += '    </image:image>\n';
       }
-      
+
       xml += '  </url>\n';
     });
-    
+
     xml += '</urlset>';
-    
+
     return xml;
   } catch (error) {
     console.error('Error generating sitemap:', error);
     usedFallback = true;
-    // Return a minimal valid sitemap in case of error
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${normalizedSiteUrl}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${escapeXml(normalizedSiteUrl)}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
   }
 }
 
 /**
- * Write sitemap to file and create a sitemap index if needed
+ * Write sitemap to file
  */
 async function writeSitemapToFile() {
   try {
@@ -268,14 +261,12 @@ async function writeSitemapToFile() {
   }
 }
 
-// Execute the function
 writeSitemapToFile()
   .then((success) => {
     if (!success) {
       console.error('Sitemap generation failed');
       process.exit(1);
     }
-
     console.log('Sitemap generation process complete');
     process.exit(0);
   })
