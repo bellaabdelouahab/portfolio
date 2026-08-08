@@ -1,0 +1,79 @@
+/**
+ * Base + shell styles, pruned from public/fedora.css.
+ *
+ * BACKGROUND
+ * fedora.css was a 120 KB minified stylesheet <link>-ed from index.html, i.e.
+ * outside the build: no bundling, no content hash, no cache busting, and
+ * render-blocking on every page. It came from an unrelated e-commerce/CMS
+ * product — most of it targets .block__upsell / .ql-* classes that appear
+ * nowhere in this codebase.
+ *
+ * Buried in it, however, was genuinely load-bearing application CSS: the CSS
+ * reset, the 62.5% root font-size, the whole navbar, and the .root/.main app
+ * shell. Deleting the file would have collapsed the layout.
+ *
+ * These 36 rules are the subset that actually matches elements on the 19 real
+ * routes, determined by running every selector in the original sheet through
+ * the browser's own selector engine, then verified by diffing computed styles
+ * across all routes at two viewports. Rules are copied VERBATIM and in their
+ * original order so the cascade resolves identically.
+ *
+ * KNOWN QUIRK
+ * Several declarations reference custom properties — --brand_primary,
+ * --brand_text, --brand_secondary, --brand_navbar_text, --font_family — that
+ * were never defined anywhere in the original sheet either. An invalid var()
+ * computes to unset, so those properties inherit. That behaviour is load-bearing
+ * as-is; the visible navbar colours come from components/navbar/wide-screen.css.
+ *
+ * FUTURE
+ * This file is a staging post, not a destination. The .navbar*, .hamburger,
+ * .header*, .menu-trigger rules belong with the Navbar component, and .root /
+ * .main belong with the app shell. Move them when those components are touched.
+ */
+
+/* ---- CSS reset (Eric Meyer style) ---- */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+body{line-height:1}
+ol,ul{list-style:none}
+
+/* ---- Navbar (belongs with the Navbar component eventually) ---- */
+.hamburger{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;background-color:transparent;padding:2px}
+.hamburger span,.hamburger:after,.hamburger:before{width:20px;height:2px;border-radius:2px;background-color:#fff;-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease;display:block}
+.hamburger:after,.hamburger:before{content:''}
+.hamburger span,.hamburger:after{margin-top:3px}
+.header{top:0;z-index:5}
+.header-sticky{position:-webkit-sticky;position:sticky}
+.navbar{background-color:var(--brand_primary);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:0 20px;-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease}
+.menu-trigger,.navbar__menu__list{font-size:1.4rem;line-height:2rem;font-weight:400}
+.navbar__menu__list{border-radius:4px;background-color:#fff;border:1px solid #dbdbdb;box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);margin-top:4px}
+.navbar__menu__list li{min-width:200px}
+.navbar__menu__list a{padding:8px;display:block}
+.navbar__menu__list a:hover{text-decoration:underline}
+.navbar__menu__list a,.navbar__menu__list button{color:var(--brand_text)}
+.navbar__header,.navbar__menu__list,.menu-trigger{display:-webkit-box;display:-ms-flexbox;display:flex}
+.navbar__menu{position:relative}
+.navbar__menu__list{position:absolute;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;right:0;z-index:5}
+@media only screen and (min-width: 768px){.hamburger,.navbar__current-user{display:none}}
+@media only screen and (min-width: 768px){.navbar__header,.navbar__menu,.navbar__menu__list,.menu-trigger{-webkit-box-align:center;-ms-flex-align:center;align-items:center}}
+@media only screen and (min-width: 768px){.navbar__menu{display:-webkit-box;display:-ms-flexbox;display:flex}}
+@media only screen and (min-width: 768px){.navbar__menu__list{position:static;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-ms-flex-direction:row;flex-direction:row;border-radius:0;background-color:transparent;border:0;box-shadow:none;margin-top:0}}
+@media only screen and (min-width: 768px){.navbar__menu__list.hidden{display:-webkit-box;display:-ms-flexbox;display:flex}}
+@media only screen and (min-width: 768px){.navbar__menu__list li{min-width:0;position:relative}}
+@media only screen and (min-width: 768px){.menu-trigger,.navbar__menu__list>li>a{padding:0;margin-left:16px}}
+@media only screen and (min-width: 768px){.navbar__menu__list button,.navbar__menu__list>li>a{-webkit-transition:color 0.2s ease;transition:color 0.2s ease;color:var(--brand_navbar_text)}}
+
+/* ---- Root sizing. The 62.5% is a 10px root; every rem in the codebase
+        is calibrated against it. Changing it rescales the entire site. ---- */
+html{box-sizing:border-box;font-family:sans-serif;font-size:62.5%}
+*,*:before,*:after{box-sizing:inherit}
+
+/* ---- App shell (belongs with Root.jsx eventually) ---- */
+.root{font-family:var(--font_family);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;height:100vh;color:var(--brand_text)}
+.main{-webkit-box-flex:1;-ms-flex:1;flex:1;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}
+
+/* ---- Element defaults ---- */
+a{text-decoration:none;color:var(--brand_secondary)}
+img{display:block}
+button{cursor:pointer;font-family:var(--font_family)}
+.hidden,.hide{display:none}
