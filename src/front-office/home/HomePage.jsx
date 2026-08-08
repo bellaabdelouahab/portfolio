@@ -112,7 +112,12 @@ export const getHighlightedProjects = async () => {
   const snapshot = await getDocs(colRef);
   const data = snapshot.docs
     .map((doc) => ({ _id: doc.id, ...doc.data() }))
-    .filter((project) => project.showInOverview === true);
+    .filter((project) => project.showInOverview === true)
+    // The back office writes overviewOrder when you drag the featured projects
+    // into position (ManageProjects). Without this sort that ordering was never
+    // applied here, so the arrangement had no effect and Firestore's own
+    // unspecified document order won. Same comparator ManageProjects uses.
+    .sort((a, b) => (a.overviewOrder ?? 0) - (b.overviewOrder ?? 0));
   return data;
 };
 
