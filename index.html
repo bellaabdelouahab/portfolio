@@ -1,47 +1,800 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <base href="/" />
-    <meta charset="utf-8" />
-    <link rel="icon" href="/logo.jpg" />
-    <link rel="stylesheet" media="screen" href="/fedora.css" />
-    <title>Abdelouahab Bella | Data Analyst & Software Engineer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development."
-    />
-    <meta name="author" content="Abdelouahab Bella" />
-    <meta name="robots" content="index, follow" />
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    <link rel="manifest" href="/manifest.json" />
+<!DOCTYPE html><html lang="en"><head>
+    <base href="/">
+    <meta charset="utf-8">
+    <style type="text/css">:root, :host {
+  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Solid";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Regular";
+  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Light";
+  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Thin";
+  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
+  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+}
 
-    <link rel="preload" href="/logo.jpg" as="image" />
-    <link rel="preconnect" href="https://api.ipify.org" crossorigin />
-    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+svg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {
+  overflow: visible;
+  box-sizing: content-box;
+}
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
-    <meta property="og:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
-    <meta property="og:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta property="og:image" content="/logo.jpg" />
-    <meta property="og:site_name" content="Abdelouahab Bella Portfolio" />
+.svg-inline--fa {
+  display: var(--fa-display, inline-block);
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-2xs {
+  vertical-align: 0.1em;
+}
+.svg-inline--fa.fa-xs {
+  vertical-align: 0em;
+}
+.svg-inline--fa.fa-sm {
+  vertical-align: -0.0714285705em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.2em;
+}
+.svg-inline--fa.fa-xl {
+  vertical-align: -0.25em;
+}
+.svg-inline--fa.fa-2xl {
+  vertical-align: -0.3125em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: var(--fa-pull-margin, 0.3em);
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: var(--fa-pull-margin, 0.3em);
+  width: auto;
+}
+.svg-inline--fa.fa-li {
+  width: var(--fa-li-width, 2em);
+  top: 0.25em;
+}
+.svg-inline--fa.fa-fw {
+  width: var(--fa-fw-width, 1.25em);
+}
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
-    <meta name="twitter:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta name="twitter:image" content="/logo.jpg" />
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
-    <link rel="canonical" href="/" />
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: var(--fa-counter-background-color, #ff253a);
+  border-radius: var(--fa-counter-border-radius, 1em);
+  box-sizing: border-box;
+  color: var(--fa-inverse, #fff);
+  line-height: var(--fa-counter-line-height, 1);
+  max-width: var(--fa-counter-max-width, 5em);
+  min-width: var(--fa-counter-min-width, 1.5em);
+  overflow: hidden;
+  padding: var(--fa-counter-padding, 0.25em 0.5em);
+  right: var(--fa-right, 0);
+  text-overflow: ellipsis;
+  top: var(--fa-top, 0);
+  -webkit-transform: scale(var(--fa-counter-scale, 0.25));
+          transform: scale(var(--fa-counter-scale, 0.25));
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: var(--fa-bottom, 0);
+  right: var(--fa-right, 0);
+  top: auto;
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: var(--fa-bottom, 0);
+  left: var(--fa-left, 0);
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  top: var(--fa-top, 0);
+  right: var(--fa-right, 0);
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: var(--fa-left, 0);
+  right: auto;
+  top: var(--fa-top, 0);
+  -webkit-transform: scale(var(--fa-layers-scale, 0.25));
+          transform: scale(var(--fa-layers-scale, 0.25));
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-2xs {
+  font-size: 0.625em;
+  line-height: 0.1em;
+  vertical-align: 0.225em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+  line-height: 0.0833333337em;
+  vertical-align: 0.125em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+  line-height: 0.0714285718em;
+  vertical-align: 0.0535714295em;
+}
+
+.fa-lg {
+  font-size: 1.25em;
+  line-height: 0.05em;
+  vertical-align: -0.075em;
+}
+
+.fa-xl {
+  font-size: 1.5em;
+  line-height: 0.0416666682em;
+  vertical-align: -0.125em;
+}
+
+.fa-2xl {
+  font-size: 2em;
+  line-height: 0.03125em;
+  vertical-align: -0.1875em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: var(--fa-li-margin, 2.5em);
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: calc(var(--fa-li-width, 2em) * -1);
+  position: absolute;
+  text-align: center;
+  width: var(--fa-li-width, 2em);
+  line-height: inherit;
+}
+
+.fa-border {
+  border-color: var(--fa-border-color, #eee);
+  border-radius: var(--fa-border-radius, 0.1em);
+  border-style: var(--fa-border-style, solid);
+  border-width: var(--fa-border-width, 0.08em);
+  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);
+}
+
+.fa-pull-left {
+  float: left;
+  margin-right: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-pull-right {
+  float: right;
+  margin-left: var(--fa-pull-margin, 0.3em);
+}
+
+.fa-beat {
+  -webkit-animation-name: fa-beat;
+          animation-name: fa-beat;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
+          animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-bounce {
+  -webkit-animation-name: fa-bounce;
+          animation-name: fa-bounce;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));
+}
+
+.fa-fade {
+  -webkit-animation-name: fa-fade;
+          animation-name: fa-fade;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-beat-fade {
+  -webkit-animation-name: fa-beat-fade;
+          animation-name: fa-beat-fade;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+          animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));
+}
+
+.fa-flip {
+  -webkit-animation-name: fa-flip;
+          animation-name: fa-flip;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, ease-in-out);
+          animation-timing-function: var(--fa-animation-timing, ease-in-out);
+}
+
+.fa-shake {
+  -webkit-animation-name: fa-shake;
+          animation-name: fa-shake;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
+          animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin {
+  -webkit-animation-name: fa-spin;
+          animation-name: fa-spin;
+  -webkit-animation-delay: var(--fa-animation-delay, 0s);
+          animation-delay: var(--fa-animation-delay, 0s);
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 2s);
+          animation-duration: var(--fa-animation-duration, 2s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, linear);
+          animation-timing-function: var(--fa-animation-timing, linear);
+}
+
+.fa-spin-reverse {
+  --fa-animation-direction: reverse;
+}
+
+.fa-pulse,
+.fa-spin-pulse {
+  -webkit-animation-name: fa-spin;
+          animation-name: fa-spin;
+  -webkit-animation-direction: var(--fa-animation-direction, normal);
+          animation-direction: var(--fa-animation-direction, normal);
+  -webkit-animation-duration: var(--fa-animation-duration, 1s);
+          animation-duration: var(--fa-animation-duration, 1s);
+  -webkit-animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+          animation-iteration-count: var(--fa-animation-iteration-count, infinite);
+  -webkit-animation-timing-function: var(--fa-animation-timing, steps(8));
+          animation-timing-function: var(--fa-animation-timing, steps(8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fa-beat,
+.fa-bounce,
+.fa-fade,
+.fa-beat-fade,
+.fa-flip,
+.fa-pulse,
+.fa-shake,
+.fa-spin,
+.fa-spin-pulse {
+    -webkit-animation-delay: -1ms;
+            animation-delay: -1ms;
+    -webkit-animation-duration: 1ms;
+            animation-duration: 1ms;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+    -webkit-transition-delay: 0s;
+            transition-delay: 0s;
+    -webkit-transition-duration: 0s;
+            transition-duration: 0s;
+  }
+}
+@-webkit-keyframes fa-beat {
+  0%, 90% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  45% {
+    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
+            transform: scale(var(--fa-beat-scale, 1.25));
+  }
+}
+@keyframes fa-beat {
+  0%, 90% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  45% {
+    -webkit-transform: scale(var(--fa-beat-scale, 1.25));
+            transform: scale(var(--fa-beat-scale, 1.25));
+  }
+}
+@-webkit-keyframes fa-bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+  }
+  30% {
+    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+  }
+  50% {
+    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+  }
+  57% {
+    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+  }
+  64% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+@keyframes fa-bounce {
+  0% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  10% {
+    -webkit-transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+            transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);
+  }
+  30% {
+    -webkit-transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+            transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));
+  }
+  50% {
+    -webkit-transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+            transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);
+  }
+  57% {
+    -webkit-transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+            transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
+  }
+  64% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translateY(0);
+            transform: scale(1, 1) translateY(0);
+  }
+}
+@-webkit-keyframes fa-fade {
+  50% {
+    opacity: var(--fa-fade-opacity, 0.4);
+  }
+}
+@keyframes fa-fade {
+  50% {
+    opacity: var(--fa-fade-opacity, 0.4);
+  }
+}
+@-webkit-keyframes fa-beat-fade {
+  0%, 100% {
+    opacity: var(--fa-beat-fade-opacity, 0.4);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
+            transform: scale(var(--fa-beat-fade-scale, 1.125));
+  }
+}
+@keyframes fa-beat-fade {
+  0%, 100% {
+    opacity: var(--fa-beat-fade-opacity, 0.4);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    -webkit-transform: scale(var(--fa-beat-fade-scale, 1.125));
+            transform: scale(var(--fa-beat-fade-scale, 1.125));
+  }
+}
+@-webkit-keyframes fa-flip {
+  50% {
+    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+  }
+}
+@keyframes fa-flip {
+  50% {
+    -webkit-transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+            transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));
+  }
+}
+@-webkit-keyframes fa-shake {
+  0% {
+    -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+  }
+  4% {
+    -webkit-transform: rotate(15deg);
+            transform: rotate(15deg);
+  }
+  8%, 24% {
+    -webkit-transform: rotate(-18deg);
+            transform: rotate(-18deg);
+  }
+  12%, 28% {
+    -webkit-transform: rotate(18deg);
+            transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-22deg);
+            transform: rotate(-22deg);
+  }
+  20% {
+    -webkit-transform: rotate(22deg);
+            transform: rotate(22deg);
+  }
+  32% {
+    -webkit-transform: rotate(-12deg);
+            transform: rotate(-12deg);
+  }
+  36% {
+    -webkit-transform: rotate(12deg);
+            transform: rotate(12deg);
+  }
+  40%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+@keyframes fa-shake {
+  0% {
+    -webkit-transform: rotate(-15deg);
+            transform: rotate(-15deg);
+  }
+  4% {
+    -webkit-transform: rotate(15deg);
+            transform: rotate(15deg);
+  }
+  8%, 24% {
+    -webkit-transform: rotate(-18deg);
+            transform: rotate(-18deg);
+  }
+  12%, 28% {
+    -webkit-transform: rotate(18deg);
+            transform: rotate(18deg);
+  }
+  16% {
+    -webkit-transform: rotate(-22deg);
+            transform: rotate(-22deg);
+  }
+  20% {
+    -webkit-transform: rotate(22deg);
+            transform: rotate(22deg);
+  }
+  32% {
+    -webkit-transform: rotate(-12deg);
+            transform: rotate(-12deg);
+  }
+  36% {
+    -webkit-transform: rotate(12deg);
+            transform: rotate(12deg);
+  }
+  40%, 100% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both,
+.fa-flip-horizontal.fa-flip-vertical {
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+.fa-rotate-by {
+  -webkit-transform: rotate(var(--fa-rotate-angle, none));
+          transform: rotate(var(--fa-rotate-angle, none));
+}
+
+.fa-stack {
+  display: inline-block;
+  vertical-align: middle;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: var(--fa-stack-z-index, auto);
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: var(--fa-inverse, #fff);
+}
+
+.sr-only,
+.fa-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.sr-only-focusable:not(:focus),
+.fa-sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse,
+.fa-duotone.fa-inverse {
+  color: var(--fa-inverse, #fff);
+}</style><link rel="icon" href="/logo.jpg">
+    <link rel="stylesheet" media="screen" href="/fedora.css">
+    <title>Home | Abdelouahab Bella Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development, machine learning and software development.">
+    <meta name="author" content="Abdelouahab Bella">
+    <meta name="robots" content="index, follow">
+    <link rel="sitemap" type="application/xml" href="https://abdelouahab.xyz/sitemaps/sitemap.xml">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="preload" href="/logo.jpg" as="image">
+    <link rel="preconnect" href="https://api.ipify.org" crossorigin="">
+    <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin="">
+
+    <!-- og:url and canonical are intentionally NOT set here. Every route renders
+         components/common/SEO.jsx, which owns them via Helmet. Declaring them
+         statically too produced two conflicting canonicals per page (both this
+         "/" value and the route's own), which Google discards. -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Abdelouahab Bella | Data Analyst &amp; Software Engineer">
+    <meta property="og:description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development, machine learning and software development.">
+    <meta property="og:image" content="https://abdelouahab.xyz/logo.jpg">
+    <meta property="og:site_name" content="Abdelouahab Bella Portfolio">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Abdelouahab Bella | Data Analyst &amp; Software Engineer">
+    <meta name="twitter:description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development, machine learning and software development.">
+    <meta name="twitter:image" content="https://abdelouahab.xyz/logo.jpg">
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Abdelouahab Bella",
-      "url": "",
-      "image": "/logo.jpg",
+      "url": "https://abdelouahab.xyz",
+      "image": "https://abdelouahab.xyz/logo.jpg",
       "jobTitle": "Data Analyst & Digital Adoption Consultant",
       "worksFor": { "@type": "Organization", "name": "eVia Services" },
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "ENSA Khouribga" },
@@ -71,12 +824,29 @@
         }
       })(window.location);
     </script>
-    <script type="module" crossorigin src="/assets/index-QiTmciGD.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-C3K_LQWa.css">
-  </head>
-  <body class="revamped_lecture_player">
-    <noscript>You need to enable JavaScript to run this app. This website showcases the portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer.</noscript>
-    <div id="root" class="root"></div>
-  </body>
-  <script type="module" defer src="/script.js"></script>
-</html>
+    <script type="module" crossorigin="" src="/assets/index-BRoAaFja.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/assets/index-EH25_Xtp.css">
+  <link rel="modulepreload" as="script" crossorigin="" href="/assets/Root-C4XTsBVs.js"><link rel="modulepreload" as="script" crossorigin="" href="/assets/index-DfoqugjM.js"><link rel="modulepreload" as="script" crossorigin="" href="/assets/index-CCCGttQa.js"><link rel="stylesheet" crossorigin="" href="/assets/Root-D_h1mc1s.css"><link rel="icon" href="/logo.jpg" data-react-helmet="true"><link rel="canonical" href="https://abdelouahab.xyz/" data-react-helmet="true"><meta charset="utf-8" data-react-helmet="true"><meta name="viewport" content="width=device-width, initial-scale=1" data-react-helmet="true"><meta name="theme-color" content="#000000" data-react-helmet="true"><meta name="description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development and machine learning" data-react-helmet="true"><meta name="keywords" content="Abdelouahab Bella, Data Science, Software Engineering, Portfolio, Projects, Machine Learning, Web Development" data-react-helmet="true"><meta property="og:title" content="Home | Abdelouahab Bella Portfolio" data-react-helmet="true"><meta property="og:description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development and machine learning" data-react-helmet="true"><meta property="og:image" content="https://abdelouahab.xyz/logo.jpg" data-react-helmet="true"><meta property="og:url" content="https://abdelouahab.xyz/" data-react-helmet="true"><meta property="og:type" content="website" data-react-helmet="true"><meta name="twitter:card" content="summary_large_image" data-react-helmet="true"><meta name="twitter:title" content="Home | Abdelouahab Bella Portfolio" data-react-helmet="true"><meta name="twitter:description" content="Portfolio of Abdelouahab Bella, a Data Analyst &amp; Software Engineer with expertise in web development and machine learning" data-react-helmet="true"><meta name="twitter:image" content="https://abdelouahab.xyz/logo.jpg" data-react-helmet="true"><meta name="robots" content="index, follow, max-image-preview:large" data-react-helmet="true"><meta name="author" content="Abdelouahab Bella" data-react-helmet="true"><meta name="copyright" content="© 2026 Abdelouahab Bella" data-react-helmet="true"><script type="application/ld+json" data-react-helmet="true">{"@context":"https://schema.org","@type":"ProfilePage","mainEntity":{"@type":"Person","name":"Abdelouahab Bella","jobTitle":"Data Analyst & Software Engineer","description":"Accomplished Data Analyst with extensive experience in data science, computer systems engineering, and software development.","url":"https://abdelouahab.xyz/","sameAs":["https://github.com/bellaabdelouahab","https://linkedin.com/in/abdelouahab-bella"],"knowsAbout":["Data Science","Machine Learning","Web Development","Software Engineering"]}}</script><script type="application/ld+json" data-react-helmet="true">{"@context":"https://schema.org","@type":"Service","serviceType":"Digital Adoption Consulting","provider":{"@type":"Person","name":"Abdelouahab Bella"},"areaServed":["Agadir","Morocco"],"description":"WalkMe implementation and digital adoption consulting for enterprise platforms including SAP Ariba, Salesforce, ServiceNow, and Oracle."}</script><script type="application/ld+json" data-react-helmet="true">{"@context":"https://schema.org","@type":"Service","serviceType":"Data Analytics & Power BI Dashboards","provider":{"@type":"Person","name":"Abdelouahab Bella"},"areaServed":["Agadir","Morocco"],"description":"Power BI dashboard development, GA4 analytics, and enterprise data analytics consulting for actionable business insights."}</script><script type="application/ld+json" data-react-helmet="true">{"@context":"https://schema.org","@type":"Service","serviceType":"Full-Stack Web Development","provider":{"@type":"Person","name":"Abdelouahab Bella"},"areaServed":["Agadir","Morocco"],"description":"Custom web application development with React front-end, Django/FastAPI back-end, REST APIs, and SEO optimization."}</script><script type="application/ld+json" data-react-helmet="true">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do you provide services in Agadir?","acceptedAnswer":{"@type":"Answer","text":"Yes, I provide digital adoption, web development, and analytics services in Agadir for enterprise teams and small businesses."}},{"@type":"Question","name":"Can I get an SEO audit for my website?","acceptedAnswer":{"@type":"Answer","text":"Yes, I offer SEO audits and technical website reviews with actionable recommendations for better visibility and faster performance."}},{"@type":"Question","name":"Are you a web developer?","acceptedAnswer":{"@type":"Answer","text":"Yes, I am a web developer building React front ends, Django/FastAPI back ends, REST APIs, and SEO-friendly web applications."}},{"@type":"Question","name":"Do you offer WalkMe consulting in Morocco?","acceptedAnswer":{"@type":"Answer","text":"Yes, I offer WalkMe consulting across Morocco, including SmartTips, SmartWalkThrus, Insights, and adoption analytics for enterprise tools."}},{"@type":"Question","name":"Can you do remote digital adoption consulting worldwide?","acceptedAnswer":{"@type":"Answer","text":"Yes, I work remotely with clients worldwide to deliver digital adoption consulting, onboarding automation, and analytics support."}},{"@type":"Question","name":"Are you a Power BI expert in Agadir?","acceptedAnswer":{"@type":"Answer","text":"Yes, I am a Power BI expert in Agadir, creating dashboards, integrating GA4, and delivering SQL-powered analytics for local and international clients."}},{"@type":"Question","name":"Do you work as a data analyst freelancer in Morocco?","acceptedAnswer":{"@type":"Answer","text":"Yes, I work as a data analyst freelancer in Morocco, specializing in dashboards, user behavior metrics, and executive reporting."}},{"@type":"Question","name":"Can you implement WalkMe for SAP Ariba?","acceptedAnswer":{"@type":"Answer","text":"Yes, I can implement WalkMe for SAP Ariba and related enterprise systems to improve adoption, reduce support tickets, and measure success."}}]}</script></head>
+  <body class="revamped_lecture_player" style="overflow: auto;">
+    <noscript>
+      <strong>JavaScript is required to run the full app.</strong>
+      <p>This website showcases the portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer.</p>
+      <p>Abdelouahab Bella is a Digital Adoption Consultant and Data Analyst based in Agadir, Morocco.</p>
+      <p>Services include WalkMe implementation and digital adoption consulting, Power BI dashboards and data analytics, and full-stack web development.</p>
+      <p>Contact: https://abdelouahab.xyz</p>
+    </noscript>
+
+    
+
+    <div id="root" class="root"><header id="header" class="header header-sticky"><nav class="navbar at-top" id="navbar" role="navigation"><a aria-current="page" class="navbar__logolink active" href="/"></a><div class="navbar__menu"><button for="f-toggle" tabindex="0" id="hamburger" class="hamburger" aria-label="Toggle navigation"><span></span></button><ul class="navbar__menu__list menu hidden" id="hamburger-menu" role="menu" aria-describedby="hamburger" tabindex="0" aria-hidden="true"><li><a aria-current="page" class="active" href="/" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="house" class="svg-inline--fa fa-house " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"></path></svg>Home</a><br><br><br><br></li><hr><br><li><a class="" href="/projects" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="list-check" class="svg-inline--fa fa-list-check " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M152.1 38.2c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 113C-2.3 103.6-2.3 88.4 7 79s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zm0 160c9.9 8.9 10.7 24 1.8 33.9l-72 80c-4.4 4.9-10.6 7.8-17.2 7.9s-12.9-2.4-17.6-7L7 273c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l22.1 22.1 55.1-61.2c8.9-9.9 24-10.7 33.9-1.8zM224 96c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zm0 160c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H256c-17.7 0-32-14.3-32-32zM160 416c0-17.7 14.3-32 32-32H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H192c-17.7 0-32-14.3-32-32zM48 368a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>All Projects</a></li><li><a class="" href="/certificates" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="certificate" class="svg-inline--fa fa-certificate " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M211 7.3C205 1 196-1.4 187.6 .8s-14.9 8.9-17.1 17.3L154.7 80.6l-62-17.5c-8.4-2.4-17.4 0-23.5 6.1s-8.5 15.1-6.1 23.5l17.5 62L18.1 170.6c-8.4 2.1-15 8.7-17.3 17.1S1 205 7.3 211l46.2 45L7.3 301C1 307-1.4 316 .8 324.4s8.9 14.9 17.3 17.1l62.5 15.8-17.5 62c-2.4 8.4 0 17.4 6.1 23.5s15.1 8.5 23.5 6.1l62-17.5 15.8 62.5c2.1 8.4 8.7 15 17.1 17.3s17.3-.2 23.4-6.4l45-46.2 45 46.2c6.1 6.2 15 8.7 23.4 6.4s14.9-8.9 17.1-17.3l15.8-62.5 62 17.5c8.4 2.4 17.4 0 23.5-6.1s8.5-15.1 6.1-23.5l-17.5-62 62.5-15.8c8.4-2.1 15-8.7 17.3-17.1s-.2-17.4-6.4-23.4l-46.2-45 46.2-45c6.2-6.1 8.7-15 6.4-23.4s-8.9-14.9-17.3-17.1l-62.5-15.8 17.5-62c2.4-8.4 0-17.4-6.1-23.5s-15.1-8.5-23.5-6.1l-62 17.5L341.4 18.1c-2.1-8.4-8.7-15-17.1-17.3S307 1 301 7.3L256 53.5 211 7.3z"></path></svg>Certificates</a></li><br><hr><br><li><a class="" href="/resume" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-lines" class="svg-inline--fa fa-file-lines " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"></path></svg>Resume</a></li><li><a class="" href="/my-team" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="flask-vial" class="svg-inline--fa fa-flask-vial " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M175 389.4c-9.8 16-15 34.3-15 53.1c-10 3.5-20.8 5.5-32 5.5c-53 0-96-43-96-96V64C14.3 64 0 49.7 0 32S14.3 0 32 0H96h64 64c17.7 0 32 14.3 32 32s-14.3 32-32 32V309.9l-49 79.6zM96 64v96h64V64H96zM352 0H480h32c17.7 0 32 14.3 32 32s-14.3 32-32 32V214.9L629.7 406.2c6.7 10.9 10.3 23.5 10.3 36.4c0 38.3-31.1 69.4-69.4 69.4H261.4c-38.3 0-69.4-31.1-69.4-69.4c0-12.8 3.6-25.4 10.3-36.4L320 214.9V64c-17.7 0-32-14.3-32-32s14.3-32 32-32h32zm32 64V224c0 5.9-1.6 11.7-4.7 16.8L330.5 320h171l-48.8-79.2c-3.1-5-4.7-10.8-4.7-16.8V64H384z"></path></svg>Team</a></li><li><a class="" href="/music" style="pointer-events: auto;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="flag" class="svg-inline--fa fa-flag " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"></path></svg>Music Picks</a></li><br><hr><br><li><a class="" href="/reports" style="pointer-events: none;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="flag" class="svg-inline--fa fa-flag " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32V64 368 480c0 17.7 14.3 32 32 32s32-14.3 32-32V352l64.3-16.1c41.1-10.3 84.6-5.5 122.5 13.4c44.2 22.1 95.5 24.8 141.7 7.4l34.7-13c12.5-4.7 20.8-16.6 20.8-30V66.1c0-23-24.2-38-44.8-27.7l-9.6 4.8c-46.3 23.2-100.8 23.2-147.1 0c-35.1-17.6-75.4-22-113.5-12.5L64 48V32z"></path></svg>Reports<span class="beta-badge" style="margin-left: 5px; font-size: 0.6em; padding: 2px 4px; background: rgb(255, 204, 0); color: rgb(51, 51, 51); border-radius: 3px;">BETA</span></a></li><li><a class="" href="/articles" style="pointer-events: none;"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="newspaper" class="svg-inline--fa fa-newspaper " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M96 96c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H80c-44.2 0-80-35.8-80-80V128c0-17.7 14.3-32 32-32s32 14.3 32 32V400c0 8.8 7.2 16 16 16s16-7.2 16-16V96zm64 24v80c0 13.3 10.7 24 24 24H296c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24H184c-13.3 0-24 10.7-24 24zm208-8c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16h48c8.8 0 16-7.2 16-16s-7.2-16-16-16H384c-8.8 0-16 7.2-16 16zM160 304c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16zm0 96c0 8.8 7.2 16 16 16H432c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z"></path></svg>Articles<span class="beta-badge" style="margin-left: 5px; font-size: 0.6em; padding: 2px 4px; background: rgb(255, 204, 0); color: rgb(51, 51, 51); border-radius: 3px;">BETA</span></a></li><br><hr></ul></div><span class="navbar__footer"><a href="https://github.com/your-username/your-repo" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" class="svg-inline--fa fa-github fa-2x " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a><p>‟Made with hard work and Discipline, not Love ^_~‟</p></span></nav></header><main class="main"><section class="home-introduction-section"><div class="home-introduction-section__title"><h1 class="animated-intro-text" data-value="Hi, I'm Abdelouahab">Hi, I'm Abdelouahab</h1></div><h2 class="home-introduction-section__subtitle"> ⟫⟫ a Data Analyst &amp; Software Engineer</h2><a class="home-introduction-section__button" target="_blank" rel="noopener noreferrer" href="https://github.com/bellaabdelouahab">Buy Me A Coffee <span>&gt;</span> </a><div class="home-introduction-section__img" style="background-image: url(&quot;./code.png&quot;);"></div></section><section class="home-projects-section hidden-area visible"><h2 class="home-projects-section__title">❤️ Projects Highlights</h2><hr class="home-projects-section__hr"><div class="home-projects-section__projects"><div class="home-projects-section__projects__project" style="border: 4px solid rgb(195, 154, 59);"><div class="home-projects-section__projects__project__img" style="background-image: url(&quot;/images/projects/675ccfa57bf5152b9df0f21e/1734135717223.png&quot;); background-size: 100.5% 100%;"></div><h3 class="home-projects-section__projects__project__title">Self Driving Cars Using DDQN</h3><p class="home-projects-section__projects__project__description">A Tensorflow implementation of Double-DQN Agent for the end of study project in self driving car...</p><div class="home-projects-section__projects__project__buttons"><a class="home-projects-section__projects__project__buttons__view" target="_blank" rel="noopener noreferrer" href="https://github.com/bellaabdelouahab/Double-Deep-Q-learning-Network-For-Self-Driving-Cars">View Project</a><a class="home-projects-section__projects__project__buttons__sponsor" rel="noopener noreferrer" target="_blank" href="https://github.com/bellaabdelouahab/">1$/Sponsor</a></div></div><div class="home-projects-section__projects__project" style="border: 1px solid oklch(1 0 0 / 0.1);"><div class="home-projects-section__projects__project__img" style="background-image: url(&quot;/images/projects/b234caeef34946ffa1fa55a9/1759234926972.webp&quot;); background-size: 100.5% 100%;"></div><h3 class="home-projects-section__projects__project__title">Copag Sales Dashboard</h3><p class="home-projects-section__projects__project__description">As a Data Analyst, I developed a Power BI dashboard to consolidate and monitor sales operations across multiple Moroccan cities. I also performed data engineering and cleaning to integrate legacy data into the new database...</p><div class="home-projects-section__projects__project__buttons"><a class="home-projects-section__projects__project__buttons__view" target="_blank" rel="noopener noreferrer" href="https://abdelouahab.xyz/#/projects/Copag-Sales-Dashboard">View Project</a></div></div><div class="home-projects-section__projects__project" style="border: 1px solid oklch(1 0 0 / 0.1);"><div class="home-projects-section__projects__project__img" style="background-image: url(&quot;/images/projects/d22331128a194ed8b96f1e50/1785003591645.webp&quot;); background-size: 100.5% 100%;"></div><h3 class="home-projects-section__projects__project__title">Digital Adoption on Concur</h3><p class="home-projects-section__projects__project__description">Implemented WalkMe and data analytics skills to boost SAP Concur onboarding, cost efficiency, and process quality. Delivered 100% seamless onboarding, 11% fewer support tickets, and 10% gains in rail/economy bookings within 90 days. Designed in-app...</p><div class="home-projects-section__projects__project__buttons"><a class="home-projects-section__projects__project__buttons__view" target="_blank" rel="noopener noreferrer" href="https://Abdelouahab.xyz/#/projects/Digital-Adoption-on-Concur">View Project</a></div></div></div></section><section class="home-about-section"><div class="kra"></div><div class="hidden-area"><div class="home-sections-title"><span>02. </span>About Me</div><div class="about-content"><div class="about-content-text"><p>Abdelouahab Bella is a Digital Adoption Consultant and Data Analytics Specialist based in Agadir, Morocco, delivering WalkMe implementations across SAP Ariba, S/4HANA, Salesforce, ServiceNow, and Oracle for enterprise clients.</p><p>He turns user behavior data into adoption KPIs, ROI models, and executive-ready dashboards, backed by a technical foundation in Python, SQL, and ETL pipeline design. He holds a Master's in Big Data and Business Intelligence and works across the full analytics stack — from raw data to stakeholder-facing insight — while collaborating closely with cross-functional and multinational teams.</p><span class="about-content-skills_title">Skills:</span><div class="about-skills-list"><ul><li>WalkMe (SmartTips, SmartWalkThrus, Insights, Segmentation)</li><li>SQL (Advanced), Python (Pandas, scripting)</li><li>Power BI, GA4, Google Search Console, Microsoft Clarity</li><li>User Behavior &amp; Funnel Analytics</li><li>Back-end (Django, FastAPI)</li><li>Docker, GitLab CI/CD, PostgreSQL, Linux</li><li>REST APIs</li><li>Stakeholder Communication &amp; Change Management</li></ul></div></div><div class="about-content-image"><div id="about-content-img_flow" style="background-image: url(&quot;./Personal Picture.jpg&quot;);"></div></div></div></div></section><section class="internship-projects-section"><div class="experience"><div class="home-sections-title"><span>04. </span><h2>Professional Experience</h2></div></div><div class="timeline timeline--mobile"><div class="timeline-row timeline-row--mobile"><div class="timeline-marker-col"><span class="timeline-date timeline-date--start">Present</span><span class="timeline-marker-dot timeline-marker-dot--left"></span><span class="timeline-date timeline-date--end">Apr 2026</span></div><div class="timeline-card-inner " data-index="0"><div class="timeline-card__panel"><div class="timeline-card__img"><img src="./pro_exp/digital-roi-auditor.png" alt="Digital ROI Auditor (Freelance)" loading="lazy"></div><div class="timeline-card__content"><h3>Digital ROI Auditor (Freelance)</h3><p>Abdelouahab Bella operates as an independent Digital ROI Auditor, providing free digital audits for Moroccan businesses while building a portfolio of proven case studies and measurable results. He leverages web analytics and user behavior data to identify conversion bottlenecks, improve local search visibility, and maximize digital ROI through actionable recommendations.</p><ul class="timeline-card__tech"><li>Microsoft Clarity</li><li>Google Analytics 4</li><li>Google Search Console</li><li>SEO</li><li>Web Analytics</li><li>Data Analysis</li></ul></div></div></div></div><div class="timeline-row timeline-row--mobile"><div class="timeline-marker-col"><span class="timeline-date timeline-date--start">Present</span><span class="timeline-marker-dot timeline-marker-dot--left"></span><span class="timeline-date timeline-date--end">Nov 2025</span></div><div class="timeline-card-inner " data-index="1"><div class="timeline-card__panel"><div class="timeline-card__img"><img src="./pro_exp/evia-services.png" alt="Digital Adoption Consultant [eVia Services]" loading="lazy"></div><div class="timeline-card__content"><h3>Digital Adoption Consultant [eVia Services]</h3><p>Abdelouahab Bella delivered enterprise-scale WalkMe implementations across SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow, and Oracle platforms. He designed adoption analytics dashboards, ROI models, and user behavior tracking solutions while coordinating multinational stakeholders throughout the software development lifecycle.</p><ul class="timeline-card__tech"><li>WalkMe</li><li>SAP Ariba</li><li>SAP S/4HANA</li><li>Salesforce</li><li>ServiceNow</li><li>Oracle</li><li>SQL</li><li>Analytics</li></ul></div></div></div></div><div class="timeline-row timeline-row--mobile"><div class="timeline-marker-col"><span class="timeline-date timeline-date--start">Apr 2026</span><span class="timeline-marker-dot timeline-marker-dot--left"></span><span class="timeline-date timeline-date--end">Sep 2025</span></div><div class="timeline-card-inner " data-index="2"><div class="timeline-card__panel"><div class="timeline-card__img"><img src="./pro_exp/python_dev_automation.png" alt="Python Developer &amp; Automation Engineer (Freelance)" loading="lazy"></div><div class="timeline-card__content"><h3>Python Developer &amp; Automation Engineer (Freelance)</h3><p>Providing freelance Python development and automation engineering services specializing in backend systems, ETL workflow automation, CI/CD pipelines, scalable API development, and data migration solutions for client projects.</p><ul class="timeline-card__tech"><li>Python</li><li>FastAPI</li><li>Django</li><li>PostgreSQL</li><li>Docker</li><li>GitHub</li><li>CI/CD</li></ul></div></div></div></div><div class="timeline-row timeline-row--mobile"><div class="timeline-marker-col"><span class="timeline-date timeline-date--start">Sep 2025</span><span class="timeline-marker-dot timeline-marker-dot--left"></span><span class="timeline-date timeline-date--end">Jun 2025</span></div><div class="timeline-card-inner " data-index="3"><div class="timeline-card__panel"><div class="timeline-card__img"><img src="./pro_exp/copag.png" alt="Data Engineer &amp; BI Architect [COPAG]" loading="lazy"></div><div class="timeline-card__content"><h3>Data Engineer &amp; BI Architect [COPAG]</h3><p>Contributed to an enterprise-scale data migration project transferring 100M+ records from legacy systems to a modern data platform. Developed Python ETL automation scripts with robust validation and logging mechanisms while assisting in CI/CD pipeline implementation and executive-level analytics delivery.</p><ul class="timeline-card__tech"><li>Python</li><li>Pandas</li><li>SQL</li><li>Power BI</li><li>Ansible</li><li>GitLab CI/CD</li><li>Linux</li></ul></div></div></div></div></div><div class="show-more-button"><button aria-label="Show more professional experience entries">View More Experience (5)</button></div></section><div class="collaborations hidden-area"><div class="home-sections-title"><span>05. </span>Collaborations</div><div class="scroller" data-direction="right" data-speed="fast" data-animated="true"><div class="scroller__inner"><img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150"><img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150"><img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150"><img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150"><img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150"><img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150"><img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150"><img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150"><img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150"><img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150"><img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150"><img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150"><img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150"><img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150"><img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150" aria-hidden="true"><img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150" aria-hidden="true"><img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150" aria-hidden="true"><img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150" aria-hidden="true"><img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150" aria-hidden="true"><img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150" aria-hidden="true"><img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150" aria-hidden="true"><img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150" aria-hidden="true"><img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150" aria-hidden="true"><img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150" aria-hidden="true"><img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150" aria-hidden="true"><img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150" aria-hidden="true"><img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150" aria-hidden="true"><img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150" aria-hidden="true"></div></div></div><div class="happy-clients-section hidden-area"><div class="home-sections-title"><span>06. </span>What My Clients Say</div><div class="happy-clients-content"><div class="happy-clients-card"><img class="client-pic" src="/images/clients/66509875ab9dc1a3c5e82471.webp" alt="client"><img class="quotes-pic" src="./icons/quotes.png" alt="quotes"><h3>Badr Bouslama</h3><p>He knows How To listen  and he knows his limits</p><div class="client-profession"><p>Innovation Alchemist</p><p>UM6P</p></div></div><div class="happy-clients-card"><img class="client-pic" src="/images/clients/66509b03ab9dc1a3c5e8248b.png" alt="client"><img class="quotes-pic" src="./icons/quotes.png" alt="quotes"><h3>Zniber Chaoqui</h3><p>Thank you for working with us, it was a great experience.</p><div class="client-profession"><p>IT development manager</p><p>Post Maroc</p></div></div><div class="add-testimonial-container"><button class="add-testimonial-btn">Share Your Experience</button></div></div></div><div class="_servicesSection_1io58_1"><div class="home-sections-title"><span>07. </span>Services</div><div class="_servicesContainer_1io58_9"><div class="_cardsWrapper_1io58_16 "><div class="_cards_1io58_16"><div class="_card_1io58_16"><img src="icons/AI.png" alt="" width="75" height="75"><h3 class="_cardTitle_1io58_50">AI solutions</h3><p class="_cardText_1io58_56">Abdelouahab Bella delivers AI solutions including chatbots, predictive analytics, and automation to transform business operations and generate actionable insights. His expertise spans enterprise-grade AI integration, helping organizations stay ahead in today's data-centric environment.</p><button class="_cardButton_1io58_63">Learn More</button></div><div class="_card_1io58_16"><img src="icons/web-dev.png" alt="" width="75" height="75"><h3 class="_cardTitle_1io58_50">Web Development</h3><p class="_cardText_1io58_56">Abdelouahab Bella has built 100+ websites blending creativity and functionality to deliver visually stunning, high-performance web applications. Specializing in both front-end and back-end development, he guarantees seamless performance and intuitive user interfaces for your digital success.</p><button class="_cardButton_1io58_63">Hire Me</button></div><div class="_card_1io58_16"><img src="icons/online-learning.png" alt="" width="75" height="75"><h3 class="_cardTitle_1io58_50">Online Learning</h3><p class="_cardText_1io58_56">Abdelouahab Bella offers personalized online tutoring to help you master programming languages and frameworks. Whether you're a beginner or an experienced coder, he provides tailored lessons to suit your learning style and help you achieve your goals.</p><button class="_cardButton_1io58_63">Contact Me</button></div></div></div><div class="_formWrapper_1io58_81 "><div class="_formContent_1io58_95"><div class="_formHeader_1io58_120"><button class="_backButton_1io58_128">← Back to Services</button><h2>AI Solutions</h2></div><form><div class="_formGroup_1io58_147"><label>Name</label><input type="text" name="name" required="" value=""></div><div class="_formGroup_1io58_147"><label>Email</label><input type="email" name="email" required="" value=""></div><div class="_formGroup_1io58_147"><label>Company/Organization</label><input type="text" name="company" required=""></div><div class="_formGroup_1io58_147"><label>Project Description</label><textarea name="projectDescription" required=""></textarea></div><div class="_formGroup_1io58_147"><label>Budget Range</label><select name="budget" required=""><option value="">Select Budget</option><option value="&lt; $250">Less than $250</option><option value="$250 - $1,000">$250 - $1,000</option><option value="$1,000 - $2,500">$1,000 - $2,500</option><option value="&gt; $2,500">More than $2,500</option></select></div><div class="_formGroup_1io58_147"><label>Timeline Expectations</label><select name="timeline" required=""><option value="">Select Timeline</option><option value="&lt; 1 month">Less than 1 month</option><option value="1-3 months">1-3 months</option><option value="3-6 months">3-6 months</option><option value="&gt; 6 months">More than 6 months</option></select></div><button type="submit" class="_submitButton_1io58_178">Submit Request</button></form></div></div><div class="_formWrapper_1io58_81 "><div class="_formContent_1io58_95"><div class="_formHeader_1io58_120"><button class="_backButton_1io58_128">← Back to Services</button><h2>Web Development</h2></div><form><div class="_formGroup_1io58_147"><label>Name</label><input type="text" name="name" required="" value=""></div><div class="_formGroup_1io58_147"><label>Email</label><input type="email" name="email" required="" value=""></div><div class="_formGroup_1io58_147"><label>Project Type</label><select name="projectType" required=""><option value="">Select Project Type</option><option value="E-commerce">E-commerce</option><option value="Portfolio">Portfolio</option><option value="Blog">Blog</option><option value="Corporate">Corporate Website</option><option value="Other">Other</option></select></div><div class="_formGroup_1io58_147"><label>Features Needed</label><textarea name="features" placeholder="Describe the features you need..." required=""></textarea></div><div class="_formGroup_1io58_147"><label>Budget Range</label><select name="budget" required=""><option value="">Select Budget</option><option value="&lt; $1,000">Less than $1,000</option><option value="$1,000 - $3,000">$1,000 - $3,000</option><option value="$3,000 - $5,000">$3,000 - $5,000</option><option value="&gt; $5,000">More than $5,000</option></select></div><div class="_formGroup_1io58_147"><label>Timeline Expectations</label><select name="timeline" required=""><option value="">Select Timeline</option><option value="&lt; 2 weeks">Less than 2 weeks</option><option value="2-4 weeks">2-4 weeks</option><option value="1-2 months">1-2 months</option><option value="&gt; 2 months">More than 2 months</option></select></div><button type="submit" class="_submitButton_1io58_178">Submit Request</button></form></div></div><div class="_formWrapper_1io58_81 "><div class="_formContent_1io58_95"><div class="_formHeader_1io58_120"><button class="_backButton_1io58_128">← Back to Services</button><h2>Online Learning</h2></div><form><div class="_formGroup_1io58_147"><label>Name</label><input type="text" name="name" required="" value=""></div><div class="_formGroup_1io58_147"><label>Email</label><input type="email" name="email" required="" value=""></div><div class="_formGroup_1io58_147"><label>Technology Interested In</label><select name="technology" required=""><option value="">Select Technology</option><option value="JavaScript">JavaScript</option><option value="Python">Python</option><option value="React">React</option><option value="Node.js">Node.js</option><option value="Other">Other</option></select></div><div class="_formGroup_1io58_147"><label>Current Skill Level</label><select name="skillLevel" required=""><option value="">Select Skill Level</option><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></div><div class="_formGroup_1io58_147"><label>Learning Goals</label><textarea name="learningGoals" placeholder="What do you want to achieve?" required=""></textarea></div><div class="_formGroup_1io58_147"><label>Preferred Schedule</label><textarea name="schedule" placeholder="What days/times work best for you?" required=""></textarea></div><button type="submit" class="_submitButton_1io58_178">Submit Request</button></form></div></div></div></div><section class="github-progress-section hidden-area"><h2 class="home-sections-title"><span>03. </span>Github Progress</h2><div class="github-progress-section__img"></div></section><div class="get-in-touch hidden-area" style="background: linear-gradient(rgb(10, 10, 10), transparent 30px), rgb(23, 23, 23); padding-top: 30px;"><div class="home-sections-title"><span>08. </span>Get in Touch</div><p class="get-in-touch-content">Abdelouahab Bella is currently taking on freelance and consulting projects as an independent auto-entrepreneur in Agadir, Morocco. If you need help with digital adoption, data analytics, or web development, his inbox is open — let's talk about how he can help your business grow.</p><div class="get-in-touch-btn"><a href="mailto:"><button style="margin-bottom: 5rem;">Get in Touch</button></a></div></div><section class="faq-section hidden-area"><div class="home-sections-title"><span>09. </span>Frequently Asked Questions</div><div class="faq-container"><div class="faq-item"><button class="faq-question open" aria-expanded="true" aria-controls="faq-answer-q1"><span>Do you provide services in Agadir?</span><span class="faq-toggle" aria-hidden="true">−</span></button><div id="faq-answer-q1" class="faq-answer open" aria-hidden="false"><p>Yes, I provide digital adoption, web development, and analytics services in Agadir for enterprise teams and small businesses.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q2"><span>Can I get an SEO audit for my website?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q2" class="faq-answer " aria-hidden="true"><p>Yes, I offer SEO audits and technical website reviews with actionable recommendations for better visibility and faster performance.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q3"><span>Are you a web developer?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q3" class="faq-answer " aria-hidden="true"><p>Yes, I am a web developer building React front ends, Django/FastAPI back ends, REST APIs, and SEO-friendly web applications.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q4"><span>Do you offer WalkMe consulting in Morocco?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q4" class="faq-answer " aria-hidden="true"><p>Yes, I offer WalkMe consulting across Morocco, including SmartTips, SmartWalkThrus, Insights, and adoption analytics for enterprise tools.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q5"><span>Can you do remote digital adoption consulting worldwide?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q5" class="faq-answer " aria-hidden="true"><p>Yes, I work remotely with clients worldwide to deliver digital adoption consulting, onboarding automation, and analytics support.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q6"><span>Are you a Power BI expert in Agadir?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q6" class="faq-answer " aria-hidden="true"><p>Yes, I am a Power BI expert in Agadir, creating dashboards, integrating GA4, and delivering SQL-powered analytics for local and international clients.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q7"><span>Do you work as a data analyst freelancer in Morocco?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q7" class="faq-answer " aria-hidden="true"><p>Yes, I work as a data analyst freelancer in Morocco, specializing in dashboards, user behavior metrics, and executive reporting.</p></div></div><div class="faq-item"><button class="faq-question " aria-expanded="false" aria-controls="faq-answer-q8"><span>Can you implement WalkMe for SAP Ariba?</span><span class="faq-toggle" aria-hidden="true">+</span></button><div id="faq-answer-q8" class="faq-answer " aria-hidden="true"><p>Yes, I can implement WalkMe for SAP Ariba and related enterprise systems to improve adoption, reduce support tickets, and measure success.</p></div></div></div></section></main></div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var staticCopy = document.getElementById("static-seo-copy");
+      if (staticCopy) {
+        staticCopy.remove();
+      }
+    });
+  </script>
+  <script type="module" defer="" src="/script.js"></script>
+</body></html>
