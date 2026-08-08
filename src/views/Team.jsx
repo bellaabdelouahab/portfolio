@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import Draggable from "react-draggable";
 import "./Team.scss";
+import SEO from "../components/common/SEO";
 
 const teamMembers = [
   {
@@ -102,6 +103,11 @@ const Team = () => {
 
   return (
     <div className="team-container" ref={containerRef}>
+      <SEO
+        title="My Team"
+        description="The collaborators and development team Abdelouahab Bella works with on software engineering and data analytics projects."
+        keywords="Abdelouahab Bella team, development collaborators, software engineering team Morocco"
+      />
       {teamMembers.map((member, index) => (
         <Draggable
           key={index}

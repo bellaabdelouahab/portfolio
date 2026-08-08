@@ -13,10 +13,11 @@ export default function GetInTouchSection() {
           Get in Touch
         </div>
         <p className="get-in-touch-content">
-          I'm currently taking on freelance and consulting projects as an
-          independent auto-entrepreneur. If you need help with digital adoption,
-          data analytics, or web development, my inbox is open. Let's talk about
-          how I can help your business grow.
+          Abdelouahab Bella is currently taking on freelance and consulting
+          projects as an independent auto-entrepreneur in Agadir, Morocco. If
+          you need help with digital adoption, data analytics, or web
+          development, his inbox is open — let's talk about how he can help
+          your business grow.
         </p>
         <div className="get-in-touch-btn">
           <a href="mailto:">

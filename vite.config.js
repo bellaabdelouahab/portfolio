@@ -32,7 +32,13 @@ export default defineConfig(({ mode }) => {
         build: {
             outDir: 'build',
         },
-        plugins: [react()],
+        // Prerendering runs as a separate post-build step (scripts/prerender.js).
+        // The old vite-plugin-prerender/jsdom setup silently produced nothing:
+        // jsdom snapshotted before the lazy chunks and Firestore reads resolved,
+        // so every deploy shipped an empty <div id="root">.
+        plugins: [
+            react(),
+        ],
         resolve: {
             alias: {
                 'components': '/src/components',

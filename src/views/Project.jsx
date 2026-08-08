@@ -12,6 +12,7 @@ import ProjectDataSources from "components/project-components/project-datasource
 import SEO from "../components/common/SEO";
 import Skeleton from "react-loading-skeleton";
 import { getAbsoluteUrl } from "../utils/siteConfig";
+import { slugifyProjectTitle } from "../utils/projectSlug";
 
 export default function Project() {
   const location = useLocation();
@@ -71,13 +72,27 @@ export default function Project() {
         }
         
         // Fetch from Firebase anyway (to ensure data is fresh and available)
-        // First try to find the project by its formatted title in the URL
+        // Fast path: slugs that are just the title with spaces swapped for dashes.
         const projectTitle = title.replace(/-/g, " ");
-        
+
         const projectsRef = collection(db, "projects");
         const q = query(projectsRef, where("title", "==", projectTitle));
-        const querySnapshot = await getDocs(q);
-        
+        let querySnapshot = await getDocs(q);
+
+        // The slug is lossy: slugifyProjectTitle() strips ":" and "|" and collapses
+        // whitespace, so a title like "FastX: Revolutionizing Parcel Delivery" can
+        // never be recovered by swapping dashes back to spaces. Fall back to
+        // comparing slugs, which is exact in the direction that actually matters.
+        if (querySnapshot.empty) {
+          const allProjects = await getDocs(projectsRef);
+          const match = allProjects.docs.find(
+            (d) => slugifyProjectTitle(d.data().title) === title
+          );
+          if (match) {
+            querySnapshot = { empty: false, docs: [match] };
+          }
+        }
+
         if (!querySnapshot.empty) {
           // Found project by title
           const projectData = {
@@ -86,7 +101,7 @@ export default function Project() {
           };
           setProject(projectData);
           setLoading(false);
-        } 
+        }
         else if (location.state) {
           // We already set the project from state, so we're good
         }

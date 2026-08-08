@@ -14,34 +14,35 @@
     />
     <meta name="author" content="Abdelouahab Bella" />
     <meta name="robots" content="index, follow" />
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="sitemap" type="application/xml" href="https://abdelouahab.xyz/sitemaps/sitemap.xml" />
     <link rel="manifest" href="/manifest.json" />
 
     <link rel="preload" href="/logo.jpg" as="image" />
     <link rel="preconnect" href="https://api.ipify.org" crossorigin />
     <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 
+    <!-- og:url and canonical are intentionally NOT set here. Every route renders
+         components/common/SEO.jsx, which owns them via Helmet. Declaring them
+         statically too produced two conflicting canonicals per page (both this
+         "/" value and the route's own), which Google discards. -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="%VITE_SITE_URL%/" />
     <meta property="og:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
     <meta property="og:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta property="og:image" content="%VITE_SITE_URL%/logo.jpg" />
+    <meta property="og:image" content="https://abdelouahab.xyz/logo.jpg" />
     <meta property="og:site_name" content="Abdelouahab Bella Portfolio" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
     <meta name="twitter:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta name="twitter:image" content="%VITE_SITE_URL%/logo.jpg" />
-
-    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <meta name="twitter:image" content="https://abdelouahab.xyz/logo.jpg" />
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Abdelouahab Bella",
-      "url": "%VITE_SITE_URL%",
-      "image": "%VITE_SITE_URL%/logo.jpg",
+      "url": "https://abdelouahab.xyz",
+      "image": "https://abdelouahab.xyz/logo.jpg",
       "jobTitle": "Data Analyst & Digital Adoption Consultant",
       "worksFor": { "@type": "Organization", "name": "eVia Services" },
       "alumniOf": { "@type": "CollegeOrUniversity", "name": "ENSA Khouribga" },
@@ -73,9 +74,35 @@
     </script>
   </head>
   <body class="revamped_lecture_player">
-    <noscript>You need to enable JavaScript to run this app. This website showcases the portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer.</noscript>
+    <noscript>
+      <strong>JavaScript is required to run the full app.</strong>
+      <p>This website showcases the portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer.</p>
+      <p>Abdelouahab Bella is a Digital Adoption Consultant and Data Analyst based in Agadir, Morocco.</p>
+      <p>Services include WalkMe implementation and digital adoption consulting, Power BI dashboards and data analytics, and full-stack web development.</p>
+      <p>Contact: https://abdelouahab.xyz</p>
+    </noscript>
+
+    <div id="static-seo-copy">
+      <h1>About Abdelouahab Bella</h1>
+      <p>Abdelouahab Bella is a Digital Adoption Consultant and Data Analyst in Agadir, Morocco, delivering WalkMe implementation, Power BI dashboards, and custom web development.</p>
+      <h2>Services</h2>
+      <p>Digital Adoption Consulting: WalkMe implementations and adoption analytics for SAP Ariba, Salesforce, ServiceNow, and Oracle.</p>
+      <p>Data Analytics: Power BI dashboards, GA4 integration, and business intelligence reporting.</p>
+      <p>Web Development: React front-ends, Django/FastAPI back-ends, REST APIs, and SEO-optimized websites.</p>
+      <h2>Contact</h2>
+      <p>https://abdelouahab.xyz</p>
+    </div>
+
     <div id="root" class="root"></div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var staticCopy = document.getElementById("static-seo-copy");
+      if (staticCopy) {
+        staticCopy.remove();
+      }
+    });
+  </script>
   <script type="module" src="/src/index.jsx"></script>
   <script type="module" defer src="/script.js"></script>
 </html>
