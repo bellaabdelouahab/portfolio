@@ -4,7 +4,7 @@
     width: 100%;
     background:
         #17171788
-        url("/src/assets/images/home-section-bg1.jpg");
+        url("assets/images/home-section-bg1.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

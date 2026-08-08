@@ -49,7 +49,7 @@
   font-weight: 700;
 }
 .download {
-  background: url(../images/download.png) no-repeat;
+  background: url("assets/images/download.png") no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;
@@ -59,7 +59,7 @@
   border-radius: 4px;
 }
 .newtab {
-  background: url(../images/newtab.png) no-repeat;
+  background: url("assets/images/newtab.png") no-repeat;
   background-size: 100%;
   width: 28px;
   height: 28px;

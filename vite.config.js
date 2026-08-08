@@ -40,6 +40,12 @@ export default defineConfig(({ mode }) => {
             react(),
         ],
         resolve: {
+            // NOTE for CSS authors: always reference bundled images through the
+            // 'assets' alias, e.g. url("assets/images/foo.png"). Relative paths
+            // like url(../images/foo.png) resolve against the stylesheet's own
+            // location, so they break silently the moment the file is moved.
+            // Files under public/ are the exception — reference those from the
+            // site root, e.g. url("/preloader.png").
             alias: {
                 'components': '/src/components',
                 'views': '/src/views',

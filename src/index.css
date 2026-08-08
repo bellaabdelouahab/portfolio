@@ -46,7 +46,10 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("preloader.png");
+  /* Root-relative: this lives in public/, and a bare "preloader.png" resolves
+     against the bundled stylesheet's own URL (/assets/...) rather than the site
+     root, which 404'd and produced a build-time "didn't resolve" warning. */
+  background-image: url("/preloader.png");
   background-size: auto 50%;
   background-repeat: no-repeat;
   background-position: center;
