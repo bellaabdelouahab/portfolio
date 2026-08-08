@@ -1,15 +1,15 @@
 import { useState, useRef } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { db } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
-import "./Clients.css";
+import "./CertificatesForm.css";
 
-export default function Clients() {
+export default function CertificatesForm() {
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    profession: "",
-    company: ""
+    certificateTitle: "",
+    issuer: "",
+    link: "",
+    downloadPath: "",
   });
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -27,7 +27,7 @@ export default function Clients() {
     owner: "bellaabdelouahab",
     repo: "portfolio",
     branch: "master", // Note: using master branch as per the repo URL
-    baseImagePath: "public/images/clients/",
+    baseImagePath: "public/images/certificates/",
     token: localStorage.getItem("githubToken") || "" // Get token from localStorage if available
   };
 
@@ -72,11 +72,11 @@ export default function Clients() {
   const validate = () => {
     const newErrors = {};
     
-    if (!formData.name.trim()) newErrors.name = "Client name is required";
-    if (!formData.description.trim()) newErrors.description = "Description is required";
-    if (!formData.profession.trim()) newErrors.profession = "Profession is required";
-    if (!formData.company.trim()) newErrors.company = "Company name is required";
-    if (!imageFile) newErrors.image = "Client image is required";
+    if (!formData.certificateTitle.trim()) newErrors.certificateTitle = "Title is required";
+    if (!formData.issuer.trim()) newErrors.issuer = "Issuer is required";
+    if (!formData.link.trim()) newErrors.link = "Link is required";
+    if (!formData.downloadPath.trim()) newErrors.downloadPath = "Download path is required";
+    if (!imageFile) newErrors.image = "Certificate image is required";
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -192,23 +192,24 @@ export default function Clients() {
         githubDetails.token = token;
       }
       
-      // Generate a unique ID for the client
-      const clientId = uuidv4().replace(/-/g, "").substring(0, 24);
+      // Generate a unique ID for the certificate
+      const certificateId = uuidv4().replace(/-/g, "").substring(0, 24);
       
       // Set up file paths according to the repository structure
+      const timestamp = Date.now();
       const imageExtension = imageFile.name.split('.').pop();
-      const imageName = `${clientId}.${imageExtension}`;
+      const imageName = `${certificateId}.${imageExtension}`;
       const imagePath = `${githubDetails.baseImagePath}${imageName}`;
       
       // Start committing to GitHub
       setIsCommitting(true);
-      setCommitStatus("Committing client image to GitHub...");
+      setCommitStatus("Committing certificate image to GitHub...");
       
       try {
         await commitFileToGithub(
           imageFile,
           imagePath,
-          `Add client image: ${formData.name}`
+          `Add certificate image: ${formData.certificateTitle}`
         );
         
         setCommitStatus("Image successfully committed to GitHub!");
@@ -217,26 +218,27 @@ export default function Clients() {
         throw error;
       }
       
-      // Create client document in Firestore
-      const clientData = {
-        _id: clientId,
-        name: formData.name,
-        description: formData.description,
-        profession: formData.profession,
-        company: formData.company,
-        image: `/images/clients/${imageName}`,
+      // Create certificate document in Firestore
+      const certificateData = {
+        _id: certificateId,
+        certificateTitle: formData.certificateTitle,
+        issuer: formData.issuer,
+        link: formData.link,
+        downloadPath: formData.downloadPath,
+        image: `/images/certificates/${imageName}`,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
+        __v: 0,
       };
       
-      await addDoc(collection(db, "clients"), clientData);
+      await addDoc(collection(db, "certificates"), certificateData);
       
       // Reset form
       setFormData({
-        name: "",
-        description: "",
-        profession: "",
-        company: ""
+        certificateTitle: "",
+        issuer: "",
+        link: "",
+        downloadPath: "",
       });
       setImageFile(null);
       setImagePreview(null);
@@ -244,7 +246,7 @@ export default function Clients() {
       
       setMessage({
         type: "success",
-        text: "Client added successfully!",
+        text: "Certificate added successfully!",
       });
       
       // Clear commit status after a delay
@@ -259,10 +261,10 @@ export default function Clients() {
       }, 5000);
       
     } catch (error) {
-      console.error("Error adding client:", error);
+      console.error("Error adding certificate:", error);
       setMessage({
         type: "error",
-        text: `Error adding client: ${error.message}`,
+        text: `Error adding certificate: ${error.message}`,
       });
       setIsCommitting(false);
     } finally {
@@ -275,98 +277,117 @@ export default function Clients() {
   };
 
   return (
-    <div className="clients-form-container">
-      <div className="client-form-header">
-        <h1 className="client-form-title">Add New Client</h1>
-        <p className="client-form-subtitle">
-          Add clients and testimonials to showcase your professional connections
+    <div className="certificates-form-container">
+      <div className="certificate-form-header">
+        <h1 className="certificate-form-title">Add New Certificate</h1>
+        <p className="certificate-form-subtitle">
+          Add your professional certificates and achievements to showcase your
+          expertise
         </p>
       </div>
 
       {message.text && (
-        <div className={`client-message ${message.type}`}>
+        <div className={`certificate-message ${message.type}`}>
           {message.text}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="client-form">
-        <div className="client-form-grid">
-          <div className="client-form-fields">
-            <div className="client-form-group">
-              <label htmlFor="name">Client Name*</label>
+      <form onSubmit={handleSubmit} className="certificate-form">
+        <div className="certificate-form-grid">
+          <div className="certificate-form-fields">
+            <div className="certificate-form-group">
+              <label htmlFor="title">Certificate Title*</label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="title"
+                name="certificateTitle"
+                value={formData.certificateTitle}
                 onChange={handleChange}
-                className={errors.name ? "error" : ""}
-                placeholder="e.g., John Smith"
+                className={errors.certificateTitle ? "error" : ""}
+                placeholder="e.g., AWS Certified Solutions Architect"
               />
-              {errors.name && <div className="error-text">{errors.name}</div>}
+              {errors.certificateTitle && (
+                <div className="error-text">{errors.certificateTitle}</div>
+              )}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="profession">Client Profession*</label>
+            <div className="certificate-form-group">
+              <label htmlFor="issuer">Issuing Organization*</label>
               <input
                 type="text"
-                id="profession"
-                name="profession"
-                value={formData.profession}
+                id="issuer"
+                name="issuer"
+                value={formData.issuer}
                 onChange={handleChange}
-                className={errors.profession ? "error" : ""}
-                placeholder="e.g., Marketing Director"
+                className={errors.issuer ? "error" : ""}
+                placeholder="e.g., Amazon Web Services"
               />
-              {errors.profession && <div className="error-text">{errors.profession}</div>}
+              {errors.issuer && (
+                <div className="error-text">{errors.issuer}</div>
+              )}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="company">Company/Organization*</label>
+            <div className="certificate-form-group">
+              <label htmlFor="link">Certificate Link*</label>
               <input
                 type="text"
-                id="company"
-                name="company"
-                value={formData.company}
+                id="link"
+                name="link"
+                value={formData.link}
                 onChange={handleChange}
-                className={errors.company ? "error" : ""}
-                placeholder="e.g., Acme Inc."
+                className={errors.link ? "error" : ""}
+                placeholder="https://verify.example.com/cert/123"
               />
-              {errors.company && <div className="error-text">{errors.company}</div>}
+              {errors.link && <div className="error-text">{errors.link}</div>}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="description">Client Testimonial/Description*</label>
-              <textarea
-                id="description"
-                name="description"
-                value={formData.description}
+            <div className="certificate-form-group">
+              <label htmlFor="downloadPath">Download Link*</label>
+              <input
+                type="text"
+                id="downloadPath"
+                name="downloadPath"
+                value={formData.downloadPath}
                 onChange={handleChange}
-                className={errors.description ? "error" : ""}
-                placeholder="What they said about your work..."
-                rows={5}
+                className={errors.downloadPath ? "error" : ""}
+                placeholder="https://example.com/download/certificate.pdf"
               />
-              {errors.description && <div className="error-text">{errors.description}</div>}
+              {errors.downloadPath && (
+                <div className="error-text">{errors.downloadPath}</div>
+              )}
             </div>
           </div>
 
-          <div className="client-image-upload">
-            <div 
-              className={`client-image-preview ${errors.image ? 'error-border' : ''} ${imagePreview ? 'has-image' : ''}`}
+          <div className="certificate-image-upload">
+            <div
+              className={`certificate-image-preview ${
+                errors.image ? "error-border" : ""
+              } ${imagePreview ? "has-image" : ""}`}
               onClick={triggerFileInput}
             >
               {imagePreview ? (
-                <img src={imagePreview} alt="Client preview" />
+                <img src={imagePreview} alt="Certificate preview" />
               ) : (
                 <div className="upload-placeholder">
                   <div className="upload-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="48"
+                      height="48"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                       <polyline points="17 8 12 3 7 8"></polyline>
                       <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
                   </div>
-                  <p>Click to upload client photo</p>
-                  <span>Square image recommended (1:1)</span>
+                  <p>Click to upload certificate image</p>
+                  <span>PNG, JPG or WEBP (Max 5MB)</span>
                 </div>
               )}
               <input
@@ -374,17 +395,17 @@ export default function Clients() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
               />
             </div>
             {errors.image && <div className="error-text">{errors.image}</div>}
           </div>
         </div>
 
-        <div className="client-form-actions">
-          <button 
-            type="submit" 
-            className="client-submit-button"
+        <div className="certificate-form-actions">
+          <button
+            type="submit"
+            className="certificate-submit-button"
             disabled={loading || isCommitting}
           >
             {loading || isCommitting ? (
@@ -393,22 +414,26 @@ export default function Clients() {
                 <span>{isCommitting ? "Committing..." : "Uploading..."}</span>
               </>
             ) : (
-              'Add Client'
+              "Add Certificate"
             )}
           </button>
         </div>
-        
+
         {/* GitHub commit status message */}
         {(isCommitting || commitStatus) && (
-          <div className={`commit-status ${
-            commitStatus.includes("Error") 
-              ? "error" 
-              : commitStatus.includes("success") 
-                ? "success" 
+          <div
+            className={`commit-status ${
+              commitStatus.includes("Error")
+                ? "error"
+                : commitStatus.includes("success")
+                ? "success"
                 : "info"
-          }`}>
+            }`}
+          >
             {commitStatus}
-            {isCommitting && !commitStatus.includes("success") && <div className="spinner"></div>}
+            {isCommitting && !commitStatus.includes("success") && (
+              <div className="spinner"></div>
+            )}
           </div>
         )}
       </form>

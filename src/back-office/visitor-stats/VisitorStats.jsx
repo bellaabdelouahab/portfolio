@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { collection, query, orderBy, limit, getDocs, where, startAfter } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../firebase";
 import "./VisitorStats.css";
 
 export default function VisitorStats() {

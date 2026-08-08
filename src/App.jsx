@@ -47,7 +47,7 @@ const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
 const Reports = React.lazy(() => import("./views/Reports"));
 const Articles = React.lazy(() => import("./views/Articles"));
 const Team = React.lazy(() => import("./views/Team"));
-const BackOffice = React.lazy(() => import("./views/back-office/BackOffice"));
+const BackOffice = React.lazy(() => import("./back-office/BackOfficePage"));
 const NotFound = React.lazy(() => import("./views/NotFound"));
 const SiteMap = React.lazy(() => import("./views/SiteMap"));
 

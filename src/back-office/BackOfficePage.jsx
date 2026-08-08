@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import ProjectForm from "components/backoffice-component/forms/project-form/ProjectForm";
-import ReportForm from "components/backoffice-component/forms/reports-form/ReportForm";
-import "./filldb.css";
-import LoginPage from "../../components/backoffice-component/login-page/LoginPage";
-import ManageProjects from "components/backoffice-component/forms/manage-projects-form/ManageProjects";
-import CertificatesForm from "components/backoffice-component/forms/certificates-form/CertificatesForm";
-import Clients from "components/backoffice-component/forms/clients-form/Clients";
-import VisitorStats from "components/backoffice-component/visitor-stats/VisitorStats";
+import ProjectForm from "./forms/project-form/ProjectForm";
+import ReportForm from "./forms/reports-form/ReportForm";
+import "./BackOfficePage.css";
+import LoginPage from "./login-page/LoginPage";
+import ManageProjects from "./forms/manage-projects-form/ManageProjects";
+import CertificatesForm from "./forms/certificates-form/CertificatesForm";
+import Clients from "./forms/clients-form/Clients";
+import VisitorStats from "./visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import SEO from "../../components/common/SEO";
+import SEO from "../components/common/SEO";
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);

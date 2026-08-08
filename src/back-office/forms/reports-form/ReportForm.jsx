@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { db } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import * as pdfjsLib from "pdfjs-dist";
 import "./ReportForm.css";
