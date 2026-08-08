@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 import { Suspense, useEffect } from "react";
 
-import { getHighlightedProjects } from "./views/Home";
-import { getProjects } from "./views/Projects";
+import { getHighlightedProjects } from "./front-office/home/HomePage";
+import { getProjects } from "./front-office/projects/ProjectsPage";
 import { getAllCertificates } from "./utils/firebaseQueries";
-import { getReports } from "./views/Reports";
+import { getReports } from "./front-office/reports/ReportsPage";
 import { trackVisitor } from "./utils/visitorTracking";
 
 // Define a fallback UI for loading state
@@ -37,19 +37,19 @@ const fallback = (
 );
 
 // Import components lazily
-const Root = React.lazy(() => import("./views/Root"));
-const Home = React.lazy(() => import("./views/Home"));
-const Projects = React.lazy(() => import("./views/Projects"));
-const Project = React.lazy(() => import("./views/Project"));
-const Certificates = React.lazy(() => import("./views/Certificates"));
-const Resume = React.lazy(() => import("./views/Resume"));
-const MusicPicks = React.lazy(() => import("./views/music-picks/MusicPicks"));
-const Reports = React.lazy(() => import("./views/Reports"));
-const Articles = React.lazy(() => import("./views/Articles"));
-const Team = React.lazy(() => import("./views/Team"));
+const Root = React.lazy(() => import("./front-office/layout/Root"));
+const Home = React.lazy(() => import("./front-office/home/HomePage"));
+const Projects = React.lazy(() => import("./front-office/projects/ProjectsPage"));
+const Project = React.lazy(() => import("./front-office/projects/ProjectPage"));
+const Certificates = React.lazy(() => import("./front-office/certificates/CertificatesPage"));
+const Resume = React.lazy(() => import("./front-office/resume/ResumePage"));
+const MusicPicks = React.lazy(() => import("./front-office/music/MusicPage"));
+const Reports = React.lazy(() => import("./front-office/reports/ReportsPage"));
+const Articles = React.lazy(() => import("./front-office/articles/ArticlesPage"));
+const Team = React.lazy(() => import("./front-office/team/TeamPage"));
 const BackOffice = React.lazy(() => import("./back-office/BackOfficePage"));
-const NotFound = React.lazy(() => import("./views/NotFound"));
-const SiteMap = React.lazy(() => import("./views/SiteMap"));
+const NotFound = React.lazy(() => import("./front-office/not-found/NotFoundPage"));
+const SiteMap = React.lazy(() => import("./front-office/sitemap/SiteMapPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(

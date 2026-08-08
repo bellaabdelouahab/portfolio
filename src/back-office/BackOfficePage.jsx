@@ -8,7 +8,7 @@ import CertificatesForm from "./forms/certificates-form/CertificatesForm";
 import Clients from "./forms/clients-form/Clients";
 import VisitorStats from "./visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-import SEO from "../components/common/SEO";
+import SEO from "../shared/ui/SEO";
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
