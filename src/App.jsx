@@ -166,8 +166,10 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  // Track visitor when app loads
+  // Track visitor when app loads. Skipped during the build-time prerender pass
+  // (scripts/prerender.js), which would otherwise log a fake visit per route.
   useEffect(() => {
+    if (typeof window !== "undefined" && window.__PRERENDER__) return;
     trackVisitor();
   }, []);
 

@@ -51,6 +51,8 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
+// Keep identical to slugifyProjectTitle() in src/utils/projectSlug.js, which
+// resolves these slugs back to a project at runtime.
 function slugifyTitle(title) {
   return title
     .replace(/[:|]/g, '')
@@ -172,6 +174,13 @@ async function generateSitemapXML() {
         title: 'Technical Reports & Case Studies | Software Engineer Portfolio'
       },
       {
+        url: '/articles',
+        priority: '0.5',
+        changefreq: 'monthly',
+        lastmod: currentDate,
+        title: 'Articles & Technical Writing | Software Engineer Portfolio'
+      },
+      {
         url: '/site-map',
         priority: '0.5',
         changefreq: 'monthly',
@@ -180,6 +189,10 @@ async function generateSitemapXML() {
       },
     ];
 
+    // Every URL emitted below is also handed to the prerenderer, so the set of
+    // statically generated pages can never drift from the set we advertise.
+    const routes = [];
+
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<!-- Generated on ' + new Date().toUTCString() + ' -->\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
@@ -187,6 +200,7 @@ async function generateSitemapXML() {
     xml += '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n';
 
     staticRoutes.forEach(route => {
+      routes.push(route.url);
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(baseUrl + route.url)}</loc>\n`;
       xml += `    <lastmod>${route.lastmod}</lastmod>\n`;
@@ -209,6 +223,7 @@ async function generateSitemapXML() {
 
       const projectUrl = `/projects/${encodeURIComponent(slugifyTitle(project.title))}`;
       const lastmod = safeFormatDate(project.updatedAt, currentDate);
+      routes.push(projectUrl);
 
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(baseUrl + projectUrl)}</loc>\n`;
@@ -231,11 +246,14 @@ async function generateSitemapXML() {
 
     xml += '</urlset>';
 
-    return xml;
+    return { xml, routes };
   } catch (error) {
     console.error('Error generating sitemap:', error);
     usedFallback = true;
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${escapeXml(normalizedSiteUrl)}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
+    return {
+      xml: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${escapeXml(normalizedSiteUrl)}</loc>\n    <priority>1.0</priority>\n  </url>\n</urlset>`,
+      routes: ['/'],
+    };
   }
 }
 
@@ -244,13 +262,18 @@ async function generateSitemapXML() {
  */
 async function writeSitemapToFile() {
   try {
-    const sitemapContent = await generateSitemapXML();
+    const { xml: sitemapContent, routes } = await generateSitemapXML();
     const rootSitemapDir = path.join(__dirname, '..', 'public', 'sitemaps');
     const rootSitemapPath = path.join(rootSitemapDir, 'sitemap.xml');
 
     fs.mkdirSync(rootSitemapDir, { recursive: true });
     fs.writeFileSync(rootSitemapPath, sitemapContent);
     console.log(`Sitemap generated successfully at: ${rootSitemapPath}`);
+
+    // Consumed by scripts/prerender.js. Not published to the site.
+    const routesManifestPath = path.join(__dirname, '..', 'prerender-routes.json');
+    fs.writeFileSync(routesManifestPath, JSON.stringify(routes, null, 2));
+    console.log(`Wrote ${routes.length} prerender routes to: ${routesManifestPath}`);
 
     if (usedFallback) {
       throw new Error('Sitemap generation used fallback data because Firestore failed.');

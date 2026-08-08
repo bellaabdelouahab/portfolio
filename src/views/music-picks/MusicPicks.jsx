@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles from "./MusicPicks.module.css";
+import SEO from "../../components/common/SEO";
 
 export default function MusicPicks() {
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
@@ -94,6 +95,11 @@ export default function MusicPicks() {
 
   return (
     <div className={styles.MusicPicks}>
+      <SEO
+        title="Music & Podcast Picks"
+        description="Music and podcast recommendations from Abdelouahab Bella — what a data analyst and software engineer listens to while building."
+        keywords="Abdelouahab Bella music picks, developer podcasts, programming playlist"
+      />
       <img
         src="music/bg-music.png"
         style={{

@@ -9,6 +9,7 @@ export default function SEO({
   keywords,
   type = "website",
   structuredData = null,
+  serviceSchemaBlocks = [],
   noIndex = false,
   noindex = false,
 }) {
@@ -29,11 +30,14 @@ export default function SEO({
 
   const shouldNoIndex = Boolean(noIndex || noindex);
 
-  // Get current URL or use provided one
+  // Always build the canonical from the configured site URL + the current path.
+  // window.location.href must not be used: during the build-time prerender pass
+  // it is a localhost address, which would bake localhost canonicals into every
+  // deployed page. It also drags query strings into the canonical.
   const pageUrl =
     url ||
     (typeof window !== "undefined"
-      ? window.location.href
+      ? getAbsoluteUrl(window.location.pathname)
       : getAbsoluteUrl("/"));
 
   // Default structured data for the portfolio
@@ -96,6 +100,13 @@ export default function SEO({
       <script type="application/ld+json">
         {JSON.stringify(finalStructuredData)}
       </script>
+
+      {/* Service Schema Blocks */}
+      {serviceSchemaBlocks.map((block, idx) => (
+        <script key={idx} type="application/ld+json">
+          {JSON.stringify(block)}
+        </script>
+      ))}
 
       {/* Canonical URL to prevent duplicate content issues */}
       <link rel="canonical" href={pageUrl} />

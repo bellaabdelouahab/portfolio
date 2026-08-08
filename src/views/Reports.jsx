@@ -3,6 +3,7 @@ import { useLoaderData } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from 'react';
+import SEO from '../components/common/SEO';
 
 // Helper function to format dates
 const formatDate = (dateString) => {
@@ -88,6 +89,11 @@ export default function Reports() {
 
     return (
         <section style={{ background: 'transparent', minHeight: '100vh', paddingBottom: '40px' }}>
+            <SEO
+                title="Reports"
+                description="Technical reports, case studies, and academic documents authored by Abdelouahab Bella across data engineering, machine learning, and optimization."
+                keywords="Abdelouahab Bella reports, technical case studies, data engineering reports, machine learning papers"
+            />
             <div className="container1">
                 <h2 className="heading-section">
                     <span style={{ color: '#48bb78' }}>Reports</span> & Documents

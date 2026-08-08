@@ -1,6 +1,7 @@
 import "assets/css/certification.css";
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import SEO from "../components/common/SEO";
 
 export default function Certificates() {
   const basePath = process.env.VITE_BASE_URL || "";
@@ -18,6 +19,11 @@ export default function Certificates() {
 
   return (
     <>
+      <SEO
+        title="Certificates"
+        description="Professional certifications and badges earned by Abdelouahab Bella in data analytics, machine learning, cloud platforms, and software engineering."
+        keywords="Abdelouahab Bella certifications, data analyst certificates, machine learning certification, professional badges"
+      />
       <div className="certifications-header">
         <div className="count">Over {count} Badges & Certifications</div>
       </div>
