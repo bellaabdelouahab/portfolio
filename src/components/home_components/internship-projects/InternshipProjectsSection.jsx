@@ -5,7 +5,7 @@ const PROFESSIONAL_EXP = [
   {
     title: "Digital ROI Auditor (Freelance)",
     description:
-      "Operating as an independent consultant providing free digital audits for Moroccan businesses while building a portfolio of proven case studies and measurable results. Leveraging web analytics and user behavior data to identify conversion bottlenecks, improve local search visibility, and maximize digital ROI through actionable recommendations.",
+      "Abdelouahab Bella operates as an independent Digital ROI Auditor, providing free digital audits for Moroccan businesses while building a portfolio of proven case studies and measurable results. He leverages web analytics and user behavior data to identify conversion bottlenecks, improve local search visibility, and maximize digital ROI through actionable recommendations.",
     link: "",
     image: "./pro_exp/digital-roi-auditor.png",
     startDate: "Apr 2026",
@@ -22,7 +22,7 @@ const PROFESSIONAL_EXP = [
   {
     title: "Digital Adoption Consultant [eVia Services]",
     description:
-      "Delivered enterprise-scale WalkMe implementations across SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow, and Oracle platforms. Designed adoption analytics dashboards, ROI models, and user behavior tracking solutions while coordinating multinational stakeholders throughout the software development lifecycle.",
+      "Abdelouahab Bella delivered enterprise-scale WalkMe implementations across SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow, and Oracle platforms. He designed adoption analytics dashboards, ROI models, and user behavior tracking solutions while coordinating multinational stakeholders throughout the software development lifecycle.",
     link: "",
     image: "./pro_exp/evia-services.png",
     startDate: "Nov 2025",

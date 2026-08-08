@@ -12,17 +12,19 @@ export default function AboutMeSection() {
         <div className="about-content">
           <div className="about-content-text">
             <p>
-              I am Abdelouahab Bella, a Digital Adoption Consultant and Data
-              Analytics Specialist with hands-on experience delivering WalkMe
-              implementations across enterprise platforms including SAP Ariba,
-              S/4HANA, Salesforce, ServiceNow, and Oracle. I turn user behavior
-              data into adoption KPIs, ROI models, and executive-ready
-              dashboards, backed by a technical foundation in Python, SQL, and
-              ETL pipeline design.
-              <br />I hold a Master's in Big Data and Business Intelligence and
-              enjoy working across the full analytics stack, from raw data to
-              stakeholder-facing insight, while collaborating closely with
-              cross-functional and multinational teams.
+              Abdelouahab Bella is a Digital Adoption Consultant and Data
+              Analytics Specialist based in Agadir, Morocco, delivering WalkMe
+              implementations across SAP Ariba, S/4HANA, Salesforce, ServiceNow,
+              and Oracle for enterprise clients.
+            </p>
+            <p>
+              He turns user behavior data into adoption KPIs, ROI models, and
+              executive-ready dashboards, backed by a technical foundation in
+              Python, SQL, and ETL pipeline design. He holds a Master's in Big
+              Data and Business Intelligence and works across the full analytics
+              stack — from raw data to stakeholder-facing insight — while
+              collaborating closely with cross-functional and multinational
+              teams.
             </p>
             <span className="about-content-skills_title">Skills:</span>
             <div className="about-skills-list">

@@ -9,6 +9,7 @@ import HappyClientsSection from "../components/home_components/happy-clients/Hap
 import { useLoaderData } from "react-router-dom";
 import ServicesSection from "../components/home_components/sevices/ServicesSection";
 import Collaborations from "../components/home_components/collaborations/Collaborations";
+import FAQSection from "../components/home_components/faq/FAQSection";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import SEO from "../components/common/SEO";
@@ -55,6 +56,34 @@ export default function Home() {
     }
   };
 
+  // Service schema blocks — one per distinct offering
+  const serviceSchemaBlocks = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Digital Adoption Consulting",
+      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
+      "areaServed": ["Agadir", "Morocco"],
+      "description": "WalkMe implementation and digital adoption consulting for enterprise platforms including SAP Ariba, Salesforce, ServiceNow, and Oracle.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Data Analytics & Power BI Dashboards",
+      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
+      "areaServed": ["Agadir", "Morocco"],
+      "description": "Power BI dashboard development, GA4 analytics, and enterprise data analytics consulting for actionable business insights.",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Full-Stack Web Development",
+      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
+      "areaServed": ["Agadir", "Morocco"],
+      "description": "Custom web application development with React front-end, Django/FastAPI back-end, REST APIs, and SEO optimization.",
+    },
+  ];
+
   return (
     <>
       <SEO
@@ -62,6 +91,7 @@ export default function Home() {
         description="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development and machine learning"
         keywords="Abdelouahab Bella, Data Science, Software Engineering, Portfolio, Projects, Machine Learning, Web Development"
         structuredData={homeStructuredData}
+        serviceSchemaBlocks={serviceSchemaBlocks}
       />
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />
@@ -72,6 +102,7 @@ export default function Home() {
       <ServicesSection />
       <GithubProgressSection />
       <GetInTouchSection />
+      <FAQSection />
     </>
   );
 }
