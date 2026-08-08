@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
+import { getAbsoluteUrl } from "../lib/siteConfig";
 
 export default function SEO({
   title,

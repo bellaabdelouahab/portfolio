@@ -8,9 +8,9 @@ import { Suspense, useEffect } from "react";
 
 import { getHighlightedProjects } from "./front-office/home/HomePage";
 import { getProjects } from "./front-office/projects/ProjectsPage";
-import { getAllCertificates } from "./utils/firebaseQueries";
+import { getAllCertificates } from "./shared/lib/firebaseQueries";
 import { getReports } from "./front-office/reports/ReportsPage";
-import { trackVisitor } from "./utils/visitorTracking";
+import { trackVisitor } from "./shared/lib/visitorTracking";
 
 // Define a fallback UI for loading state
 const fallback = (

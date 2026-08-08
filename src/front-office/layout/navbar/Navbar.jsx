@@ -13,7 +13,7 @@ import {
   faSitemap
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { auth } from "../../../firebase";
+import { auth } from "../../../shared/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function Navbar() {

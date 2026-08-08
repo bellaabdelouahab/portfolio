@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { db } from "../../../../shared/lib/firebase";
 import styles from "./ServicesSection.module.scss";
 import { servicesContent } from "../../homeContent";
 

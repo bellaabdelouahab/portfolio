@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getSiteStructure } from "../../utils/sitemapGenerator";
+import { getSiteStructure } from "../../shared/lib/sitemapGenerator";
 import "./SiteMapPage.css";
 import SEO from "../../shared/ui/SEO";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
 export default function SiteMap() {
   const [siteStructure, setSiteStructure] = useState(null);

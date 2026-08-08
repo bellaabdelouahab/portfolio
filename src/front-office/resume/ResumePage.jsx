@@ -1,6 +1,6 @@
 import "./ResumePage.css";
 import SEO from "../../shared/ui/SEO";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
 const resumes = [
   {

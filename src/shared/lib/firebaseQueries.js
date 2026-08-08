@@ -1,5 +1,5 @@
 import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "./firebase";
 
 // New function to fetch all certificates at once
 export async function getAllCertificates() {

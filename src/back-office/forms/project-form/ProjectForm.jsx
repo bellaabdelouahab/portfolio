@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import explode from "../../../assets/js/codesamples.js";
+import explode from "../../../shared/assets/js/codesamples.js";
 import "./codesample.css";
 import "./ProjectForm.css";
 import CarouselForm from "./components/caousel-form/CarouselForm";
@@ -10,7 +10,7 @@ import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
 import TagInput from "./components/tag-input/TagInput";
 
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 
 import {

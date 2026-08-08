@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import "./CertificatesForm.css";
 

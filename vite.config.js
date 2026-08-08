@@ -47,8 +47,7 @@ export default defineConfig(({ mode }) => {
             // Files under public/ are the exception — reference those from the
             // site root, e.g. url("/preloader.png").
             alias: {
-                'assets': '/src/assets',
-                'utils': '/src/utils',
+                'assets': '/src/shared/assets',
                 'shared': '/src/shared',
                 'front-office': '/src/front-office',
                 'back-office': '/src/back-office',

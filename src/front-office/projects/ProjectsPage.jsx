@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "./ProjectsPage.scss";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../shared/lib/firebase";
 import SEO from "../../shared/ui/SEO";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
 export default function Projects() {
   const projects = useLoaderData();

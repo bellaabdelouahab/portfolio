@@ -1,7 +1,7 @@
 import './ReportsPage.css';
 import { useLoaderData } from 'react-router-dom';
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../shared/lib/firebase";
 import { useEffect, useState } from 'react';
 import SEO from '../../shared/ui/SEO';
 

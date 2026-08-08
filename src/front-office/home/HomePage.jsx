@@ -11,9 +11,9 @@ import ServicesSection from "./sections/services/ServicesSection";
 import Collaborations from "./sections/collaborations/Collaborations";
 import FAQSection from "./sections/faq/FAQSection";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../shared/lib/firebase";
 import SEO from "../../shared/ui/SEO";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
 export default function Home() {
   const projectHighlight = useLoaderData();

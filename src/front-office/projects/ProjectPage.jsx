@@ -1,7 +1,7 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../shared/lib/firebase";
 import "./ProjectPage.css";
 import CodeSamples from "./components/code-samples/CodeSamples";
 import Carousel from "./components/carousel/Carousel";
@@ -11,8 +11,8 @@ import ProjectTools from "./components/tools/ProjectTools";
 import ProjectDataSources from "./components/datasource/ProjectDataSources";
 import SEO from "../../shared/ui/SEO";
 import Skeleton from "react-loading-skeleton";
-import { getAbsoluteUrl } from "../../utils/siteConfig";
-import { slugifyProjectTitle } from "../../utils/projectSlug";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
+import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
 
 export default function Project() {
   const location = useLocation();
