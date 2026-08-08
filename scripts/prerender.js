@@ -158,10 +158,26 @@ async function renderRoute(browser, port, route) {
         // react-loading-skeleton placeholders (project + music views).
         if (root.querySelector('.react-loading-skeleton')) return false;
         // Views that announce their own pending state via Helmet.
+        if (root.querySelector('.loading-indicator, .loading')) return false;
         if (/^Loading\b/.test(document.title)) return false;
-        return root.innerText.trim().length > 0;
+        if (root.innerText.trim().length === 0) return false;
+
+        // The checks above only rule out loading states we thought to name, and
+        // a section that has not started rendering looks exactly like one that
+        // has finished. Sections fed by their own Firestore read (Projects
+        // Highlights, Happy Clients, Collaborations) commit well after the shell
+        // does, so require the DOM to hold still AND a minimum dwell before
+        // capturing. Without this the home page intermittently prerendered with
+        // an empty Projects Highlights section — invisible in the build log, and
+        // shipped to crawlers.
+        const key = `${root.querySelectorAll('*').length}:${root.innerHTML.length}`;
+        const s = (window.__prerenderStability =
+          window.__prerenderStability || { key: '', n: 0, t0: Date.now() });
+        if (s.key === key) s.n++;
+        else { s.key = key; s.n = 0; }
+        return s.n >= 6 && Date.now() - s.t0 >= 5000;
       },
-      { timeout: RENDER_TIMEOUT_MS }
+      { polling: 300, timeout: RENDER_TIMEOUT_MS }
     );
 
     await new Promise((r) => setTimeout(r, SETTLE_MS));
