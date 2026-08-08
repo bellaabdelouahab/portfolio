@@ -1,114 +1,14 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase';
 import { getAbsoluteUrl } from './siteConfig';
+import { slugifyProjectTitle } from './projectSlug';
 
 /**
- * Generate XML sitemap content for the portfolio
- */
-export const generateSitemapXML = async () => {
-  try {
-    // Fetch all projects to include in sitemap
-    const projectsRef = collection(db, "projects");
-    const projectsSnap = await getDocs(projectsRef);
-    const projects = projectsSnap.docs.map(doc => ({
-      id: doc.id,
-      title: doc.data().title,
-      description: doc.data().description?.substring(0, 100) + '...',
-      url: `/projects/${doc.data().title.replace(/\s/g, '-')}`
-    }));
-    
-    // Base URL for the site
-    const baseUrl = getAbsoluteUrl('/');
-    
-    // Static routes with enhanced descriptions and priorities
-    const staticRoutes = [
-      { 
-        url: '/', 
-        priority: '1.0', 
-        changefreq: 'weekly',
-        title: 'Best Software Engineer & Data Analyst Portfolio 2027'
-      },
-      { 
-        url: '/projects', 
-        priority: '0.9', 
-        changefreq: 'weekly',
-        title: 'Featured Portfolio Projects 2027 | Software & Data Science'
-      },
-      { 
-        url: '/certificates', 
-        priority: '0.8', 
-        changefreq: 'monthly',
-        title: 'Professional Certifications | Top Developer Portfolio'
-      },
-      { 
-        url: '/resume', 
-        priority: '0.8', 
-        changefreq: 'monthly',
-        title: 'Software Engineer Resume 2027 | Professional CV'
-      },
-      { 
-        url: '/my-team', 
-        priority: '0.7', 
-        changefreq: 'monthly',
-        title: 'Development Team | Collaborative Projects Portfolio'
-      },
-      { 
-        url: '/music', 
-        priority: '0.7', 
-        changefreq: 'monthly',
-        title: 'Music & Podcast Recommendations | Developer Lifestyle'
-      },
-      { 
-        url: '/reports', 
-        priority: '0.6', 
-        changefreq: 'monthly',
-        title: 'Technical Reports & Case Studies | Software Engineer Portfolio'
-      },
-      { 
-        url: '/site-map', 
-        priority: '0.5', 
-        changefreq: 'monthly',
-        title: 'Portfolio Site Map | Navigation Guide'
-      },
-    ];
-    
-    // Create XML
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
-    
-    // Add static routes
-    staticRoutes.forEach(route => {
-      xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}/#${route.url}</loc>\n`;
-      xml += `    <changefreq>${route.changefreq}</changefreq>\n`;
-      xml += `    <priority>${route.priority}</priority>\n`;
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#' + route.url + '" />\n';
-      xml += '  </url>\n';
-    });
-    
-    // Add project routes with enhanced SEO
-    projects.forEach(project => {
-      if (!project.title) return;
-      
-      xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}/#/projects/${encodeURIComponent(project.title.replace(/\s/g, '-'))}</loc>\n`;
-      xml += '    <changefreq>monthly</changefreq>\n';
-      xml += '    <priority>0.7</priority>\n';
-      xml += '    <xhtml:link rel="alternate" hreflang="en" href="' + baseUrl + '/#/projects/' + encodeURIComponent(project.title.replace(/\s/g, '-')) + '" />\n';
-      xml += '  </url>\n';
-    });
-    
-    xml += '</urlset>';
-    
-    return xml;
-  } catch (error) {
-    console.error('Error generating sitemap:', error);
-    throw error;
-  }
-};
-
-/**
- * Get the portfolio structure as a JavaScript object
+ * Builds the data behind the human-facing /site-map page.
+ *
+ * Note this is NOT the XML sitemap pipeline. The sitemap submitted to search
+ * engines is generated at build time by scripts/generate-sitemap.js, straight
+ * from Firestore via the Admin SDK.
  */
 export const getSiteStructure = async () => {
   try {
@@ -119,9 +19,9 @@ export const getSiteStructure = async () => {
       id: doc.id,
       title: doc.data().title,
       description: doc.data().description?.substring(0, 100) + '...',
-      url: `/projects/${doc.data().title.replace(/\s/g, '-')}`
+      url: `/projects/${slugifyProjectTitle(doc.data().title)}`
     }));
-    
+
     // Get certificates
     const certificatesRef = collection(db, "certificates");
     const certificatesSnap = await getDocs(certificatesRef);

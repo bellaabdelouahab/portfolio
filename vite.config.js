@@ -57,7 +57,7 @@ export default defineConfig(({ mode }) => {
             port: 3000,
         },
         optimizeDeps: {
-            include: ['axios', 'react-router-dom'],
+            include: ['react-router-dom'],
         },
         esbuild: {
             jsxInject: `import React from 'react';`,
