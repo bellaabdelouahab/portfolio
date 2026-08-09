@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import "./wide-screen.css"
-import "./small-screen.css"
+import "./IntroductionSection.css"
+import "./IntroductionSection.mobile.css"
 import Skeleton from "react-loading-skeleton";
 
 export default function IntroductionSection() {

@@ -1,7 +1,7 @@
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
-import "./ProjectsPage.scss";
+import "./ProjectListPage.scss";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../shared/lib/firebase";
 import SEO from "../../shared/ui/SEO";
@@ -232,5 +232,8 @@ export const getProjects = async () => {
   const colRef = collection(db, "projects");
   const snapshot = await getDocs(colRef);
   const data = snapshot.docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
-  return data;
+  // Firestore returns documents in unspecified order, so without this the list
+  // could differ between visits. Newest work first is also the right order for a
+  // portfolio; startDate is present on every project document.
+  return data.sort((a, b) => new Date(b.startDate ?? 0) - new Date(a.startDate ?? 0));
 };

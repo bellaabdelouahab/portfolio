@@ -2,6 +2,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from './firebase';
 import { getAbsoluteUrl } from './siteConfig';
 import { slugifyProjectTitle } from './projectSlug';
+import { byNewest } from './dates';
 
 /**
  * Builds the data behind the human-facing /site-map page.
@@ -15,21 +16,30 @@ export const getSiteStructure = async () => {
     // Fetch all projects
     const projectsRef = collection(db, "projects");
     const projectsSnap = await getDocs(projectsRef);
-    const projects = projectsSnap.docs.map(doc => ({
-      id: doc.id,
-      title: doc.data().title,
-      description: doc.data().description?.substring(0, 100) + '...',
-      url: `/projects/${slugifyProjectTitle(doc.data().title)}`
-    }));
+    // Sorted for the same reason as the projects list: Firestore's document
+    // order is unspecified, so the site map would otherwise reshuffle itself
+    // between visits. Newest first, matching /projects.
+    const projects = projectsSnap.docs
+      .map(doc => ({
+        id: doc.id,
+        title: doc.data().title,
+        startDate: doc.data().startDate,
+        description: doc.data().description?.substring(0, 100) + '...',
+        url: `/projects/${slugifyProjectTitle(doc.data().title)}`
+      }))
+      .sort((a, b) => new Date(b.startDate ?? 0) - new Date(a.startDate ?? 0));
 
     // Get certificates
     const certificatesRef = collection(db, "certificates");
     const certificatesSnap = await getDocs(certificatesRef);
-    const certificates = certificatesSnap.docs.map(doc => ({
-      id: doc.id,
-      title: doc.data().title || 'Certificate',
-      url: '/certificates' // All certificates on one page
-    }));
+    const certificates = certificatesSnap.docs
+      .map(doc => ({
+        id: doc.id,
+        title: doc.data().title || 'Certificate',
+        createdAt: doc.data().createdAt,
+        url: '/certificates' // All certificates on one page
+      }))
+      .sort(byNewest('createdAt'));
 
     // Site structure
     return {

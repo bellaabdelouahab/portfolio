@@ -1,4 +1,4 @@
-import "./wide-screen.css"
+import "./ProjectsSection.css"
 import { ProjectCard } from "../../../projects/components/ProjectCard";
 
 export default function ProjectsSection({ projectHighlight }) {

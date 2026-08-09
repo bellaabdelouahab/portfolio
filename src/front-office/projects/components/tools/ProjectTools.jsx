@@ -1,6 +1,6 @@
-import ResourcesUsed from "./resources_used/ResourcesUsed";
-import TechnologesUsed from "./technologies/TechnologesUsed";
-import "./project_tools.css"; 
+import ResourcesUsed from "./resources/ResourcesUsed";
+import TechnologesUsed from "./technologies/TechnologiesUsed";
+import "./ProjectTools.css"; 
 
 export default function ProjectTools({ tools }) {
   if (!tools) return null;

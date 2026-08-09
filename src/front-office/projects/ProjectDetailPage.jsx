@@ -2,7 +2,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../shared/lib/firebase";
-import "./ProjectPage.css";
+import "./ProjectDetailPage.css";
 import CodeSamples from "./components/code-samples/CodeSamples";
 import Carousel from "./components/carousel/Carousel";
 import Collaborators from "./components/collaborators/Collaborators";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./wide-screen.css";
+import "./HappyClientsSection.css";
 import Modal from "../../../../shared/ui/Modal";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../shared/lib/firebase";

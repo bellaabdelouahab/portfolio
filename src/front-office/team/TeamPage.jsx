@@ -11,8 +11,10 @@ const teamMembers = [
       x: window.innerWidth * 0.5 - 420,
       y: window.innerHeight * 0.1 - 80,
     },
-    image:
-      "https://github.com/bellaabdelouahab/portfolio/blob/master/public/Personal%20Picture.jpg?raw=true",
+    // Served from our own public/ rather than fetched from github.com: the
+    // remote copy is the same file, but going out to GitHub for it added a
+    // third-party round trip and broke whenever that host was unreachable.
+    image: "/profile-photo.jpg",
   },
   {
     name: "Yassir Loukilia",

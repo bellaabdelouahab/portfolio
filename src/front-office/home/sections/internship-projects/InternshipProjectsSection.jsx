@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import "./internship_projects.wide.css";
+import "./InternshipProjectsSection.css";
 
 const PROFESSIONAL_EXP = [
   {

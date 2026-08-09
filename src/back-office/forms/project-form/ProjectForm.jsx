@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import explode from "../../../shared/assets/js/codesamples.js";
 import "./codesample.css";
 import "./ProjectForm.css";
-import CarouselForm from "./components/caousel-form/CarouselForm";
+import CarouselForm from "./components/carousel-form/CarouselForm";
 import CodeSampleForm from "./components/code-sample-form/CodeSampleForm";
 import TechsForm from "./components/techs-form/TechsForm";
 import ResourcesForm from "./components/resources_form/ResourceForm";

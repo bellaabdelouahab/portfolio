@@ -4,23 +4,21 @@
 }
 
 
-@media screen and (max-width: 4000px) {
-  
-  .navbar__menu__list > li > a.active::after {
-    /* background: rgb(38, 43, 69);
-    border-radius: 5px; */
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 5px;
-    height: 100%;
-    background: #d91706a3;
-    
-
-  }
 
 
+.navbar__menu__list > li > a.active::after {
+/* background: rgb(38, 43, 69);
+border-radius: 5px; */
+content: "";
+position: absolute;
+left: 0;
+top: 0;
+width: 5px;
+height: 100%;
+background: #d91706a3;
+
+
+}
 
 
 
@@ -28,76 +26,73 @@
 
 
 
- .home-sections-title{
-    font-size: large;
-    font-weight: 600;
-    letter-spacing: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    height: min-content;
-    margin-left: 2vw;
-    color: white;
-    padding: 4vh 0;
-  }
-  .home-sections-title > span{
-    color: #2ac17f;
-    margin-right: 5px;
-    padding-right: 10px;
-  }
-  .home-sections-title > hr{
-    width: 20vw;
-    background: #233554;
-    opacity: 0.5;
-    padding-left: 10px;
-  }
 
 
-  .get-in-touch-content{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    margin: auto;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #aeaeae;
-    line-height: 2rem;
-    text-align:center;
-    letter-spacing: 2px;
-  }
-  .get-in-touch-btn{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    margin-top: 5vh;
-  }
-  .get-in-touch-btn > a > button{
-    text-decoration: none;
-    color: rgb(46, 45, 45);
-    background: #2ac17f;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    transition: all 0.5s ease;
-    border: 1px solid #2ac17f;
-    outline: none;
-    cursor: pointer;
-  }
-  /* .get-in-touch-btn > a > button{
-    background: transparent;
-  } */
-  .get-in-touch-btn > a > button:hover{
-    background: #1e1e1e;
-    color: #2ac17f;
-
-  }
+.home-sections-title{
+font-size: large;
+font-weight: 600;
+letter-spacing: 4px;
+display: flex;
+align-items: center;
+justify-content: center;
+width: fit-content;
+height: min-content;
+margin-left: 2vw;
+color: white;
+padding: 4vh 0;
+}
+.home-sections-title > span{
+color: #2ac17f;
+margin-right: 5px;
+padding-right: 10px;
+}
+.home-sections-title > hr{
+width: 20vw;
+background: #233554;
+opacity: 0.5;
+padding-left: 10px;
+}
 
 
-
+.get-in-touch-content{
+display: flex;
+align-items: center;
+justify-content: center;
+width: 90%;
+margin: auto;
+font-size: 1.5rem;
+font-weight: 700;
+color: #aeaeae;
+line-height: 2rem;
+text-align:center;
+letter-spacing: 2px;
+}
+.get-in-touch-btn{
+display: flex;
+align-items: center;
+justify-content: center;
+margin: auto;
+margin-top: 5vh;
+}
+.get-in-touch-btn > a > button{
+text-decoration: none;
+color: rgb(46, 45, 45);
+background: #2ac17f;
+padding: 10px 20px;
+border-radius: 5px;
+font-size: 1.2rem;
+font-weight: 700;
+letter-spacing: 2px;
+transition: all 0.5s ease;
+border: 1px solid #2ac17f;
+outline: none;
+cursor: pointer;
+}
+/* .get-in-touch-btn > a > button{
+background: transparent;
+} */
+.get-in-touch-btn > a > button:hover{
+background: #1e1e1e;
+color: #2ac17f;
 
 }

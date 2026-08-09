@@ -1,4 +1,4 @@
-import "./wide-screen.css"
+import "./Collaborators.css"
 
 export default function Collaborators({ collaborators }) {
     if (!collaborators || collaborators.length === 0) return null

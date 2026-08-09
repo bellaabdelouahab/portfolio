@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import IntroductionSection from "./sections/introduction/IntroductionSection";
-import ProjectsSection from "./sections/projects/ProjectsSection";
+import ProjectsSection from "./sections/featured-projects/ProjectsSection";
 import GithubProgressSection from "./sections/github-progress/GithubProgressSection";
 import InternshipProjectsSection from "./sections/internship-projects/InternshipProjectsSection";
 import AboutMeSection from "./sections/about-me/AboutMeSection";

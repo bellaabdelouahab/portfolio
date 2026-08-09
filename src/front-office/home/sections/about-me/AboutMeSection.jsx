@@ -45,7 +45,7 @@ export default function AboutMeSection() {
           <div className="about-content-image">
             <div
               id="about-content-img_flow"
-              style={{ backgroundImage: "url('./Personal Picture.jpg')" }}
+              style={{ backgroundImage: "url('/profile-photo.jpg')" }}
             />
           </div>
         </div>

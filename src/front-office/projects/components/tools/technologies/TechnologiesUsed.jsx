@@ -1,4 +1,4 @@
-import "./technologes_used.css"
+import "./TechnologiesUsed.css"
 export default function TechnologesUsed({technologes}) {
     return (
         <div className="project__technologes">

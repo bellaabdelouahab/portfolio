@@ -1,4 +1,4 @@
-import "./wide-screen.css";
+import "./Navbar.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

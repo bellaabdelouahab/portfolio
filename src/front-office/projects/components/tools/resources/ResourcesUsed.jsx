@@ -1,4 +1,4 @@
-import "./resources_used.css";
+import "./ResourcesUsed.css";
 export default function ResourcesUsed({ resources }) {
   return (
     <div className="project__resources">

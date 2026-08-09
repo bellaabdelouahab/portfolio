@@ -1,4 +1,4 @@
-import "./wide-screen.css"
+import "./GithubProgressSection.css"
 export default function GithubProgressSection() {
     return (
       <section className="github-progress-section hidden-area">

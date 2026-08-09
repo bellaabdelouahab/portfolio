@@ -7,7 +7,7 @@ import {
 import { Suspense, useEffect } from "react";
 
 import { getHighlightedProjects } from "./front-office/home/HomePage";
-import { getProjects } from "./front-office/projects/ProjectsPage";
+import { getProjects } from "./front-office/projects/ProjectListPage";
 import { getAllCertificates } from "./shared/lib/firebaseQueries";
 import { getReports } from "./front-office/reports/ReportsPage";
 import { trackVisitor } from "./shared/lib/visitorTracking";
@@ -39,8 +39,8 @@ const fallback = (
 // Import components lazily
 const Root = React.lazy(() => import("./front-office/layout/Root"));
 const Home = React.lazy(() => import("./front-office/home/HomePage"));
-const Projects = React.lazy(() => import("./front-office/projects/ProjectsPage"));
-const Project = React.lazy(() => import("./front-office/projects/ProjectPage"));
+const Projects = React.lazy(() => import("./front-office/projects/ProjectListPage"));
+const Project = React.lazy(() => import("./front-office/projects/ProjectDetailPage"));
 const Certificates = React.lazy(() => import("./front-office/certificates/CertificatesPage"));
 const Resume = React.lazy(() => import("./front-office/resume/ResumePage"));
 const MusicPicks = React.lazy(() => import("./front-office/music/MusicPage"));
