@@ -1,12 +1,17 @@
 /**
  * Tailwind entry point + design system.
  *
- * STAGED ON PURPOSE. `@import "tailwindcss"` would pull in theme + preflight +
- * utilities at once, and preflight is an aggressive reset that collides with
- * legacy-base.css (both define box-sizing, body, heading and list resets). So
- * for now we take theme and utilities only: utilities become available and
- * nothing that already renders changes. Preflight is enabled as its own verified
- * step, once the overlapping rules have been removed from legacy-base.css.
+ * PREFLIGHT IS REQUIRED, not optional polish.
+ * legacy-base.css carried an Eric Meyer reset — div, span, h1..h6, p, ul, li,
+ * section { margin: 0; padding: 0 } — and it was UNLAYERED. Unlayered CSS beats
+ * any cascade layer, so it outranked every Tailwind margin and padding utility:
+ * `ml-[3vw]` on a div did nothing at all, while the same utility on a <button>
+ * worked, because button is not in the reset's selector list. Utilities that work
+ * on some elements and silently fail on others is worse than none.
+ *
+ * Preflight replaces that reset and lives in @layer base, which utilities outrank,
+ * so spacing utilities behave. The duplicated rules were removed from
+ * legacy-base.css when this was enabled.
  *
  * ON LAYERING THE OLD CSS — tried, measured, rejected.
  * Unlayered CSS beats layered CSS regardless of source order or specificity, so
@@ -39,6 +44,7 @@
 @layer legacy, theme, base, components, utilities;
 
 @import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme {

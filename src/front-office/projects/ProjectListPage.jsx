@@ -7,6 +7,25 @@ import { db } from "../../shared/lib/firebase";
 import SEO from "../../shared/ui/SEO";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
+/** One filter pill. Extracted so every chip is guaranteed to look identical. */
+function FilterChip({ active, onClick, children }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={[
+        "cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-200",
+        active
+          ? "border-success bg-success/15 text-success"
+          : "border-line bg-surface text-ink hover:border-success/40 hover:text-ink-strong",
+      ].join(" ")}
+    >
+      {children}
+    </button>
+  );
+}
+
 export default function Projects() {
   const projects = useLoaderData();
   const Navigate = useNavigate();
@@ -38,51 +57,27 @@ export default function Projects() {
     }
   };
 
-  // Generate a list of unique tags from all projects
-  const allTags = projects.reduce((acc, project) => {
-    const projectTags = project.tags || [];
-    projectTags.forEach((tag) => {
-      if (!acc[tag]) {
-        acc[tag] = 1;
-      } else {
-        acc[tag] += 1;
-      }
+  // Tag counts across all projects, most-used first. The back office calls these
+  // "tags", so the UI does too rather than inventing a second word for them.
+  const tagCounts = projects.reduce((acc, project) => {
+    (project.tags || []).forEach((tag) => {
+      acc[tag] = (acc[tag] || 0) + 1;
     });
     return acc;
   }, {});
 
-  // Convert tags object to array of objects for filtering
-  const filters = [{ All: -1 }];
-  Object.entries(allTags).forEach(([tag, count]) => {
-    filters.push({ [tag]: count });
-  });
+  const rankedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
-  const handleFilterClick = (e) => {
-    // Only filter if we clicked on a filter element
-    if (!e.target.dataset.tag) return;
-    
-    const filterValue = e.target.dataset.tag;
-    setFilter(filterValue);
-    // Hide filters panel after selection
-    const filtersElem = document.querySelector(".filters");
-    const filterElement = document.querySelector(".filter");
-    filtersElem.classList.add("hidden");
-    filterElement.innerHTML = filterValue + " ▼";
+  // Only the tags that actually group things are worth a permanent chip; a tag
+  // used once is a filter that hides everything but one card. The rest stay
+  // reachable through the dropdown.
+  const PRIMARY_TAG_COUNT = 6;
+  const primaryTags = rankedTags.filter(([, n]) => n > 1).slice(0, PRIMARY_TAG_COUNT);
+  const overflowTags = rankedTags.filter(([tag]) => !primaryTags.some(([t]) => t === tag));
+
+  const selectFilter = (tag) => {
+    setFilter(tag);
     setShowFilter(false);
-  };
-
-  const handleFilterShow = (e) => {
-    const filterElement = document.querySelector(".filter");
-    const filtersElem = document.querySelector(".filters");
-    if (!showFilter) {
-      filtersElem.classList.remove("hidden");
-      filterElement.innerHTML = filter + " ▶";
-      setShowFilter(true);
-    } else {
-      filtersElem.classList.add("hidden");
-      filterElement.innerHTML = filter + " ▼";
-      setShowFilter(false);
-    }
   };
 
   useEffect(() => {
@@ -97,13 +92,6 @@ export default function Projects() {
       }
     };
     
-    // Add click handler for filter options
-    const filtersContainer = document.querySelector(".filters");
-    filtersContainer?.addEventListener("click", handleFilterClick);
-    
-    return () => {
-      filtersContainer?.removeEventListener("click", handleFilterClick);
-    };
   }, []);
 
   const handleImageLoad = (projectId) => {
@@ -121,27 +109,63 @@ export default function Projects() {
       <section className="projects-section">
         <div className="projects-header">
           <h1 className="projects-section__title">Projects Library</h1>
-          <div className="projects-section__filters">
-            <label onClick={handleFilterShow}>
-              Category: <span className="filter">{filter} ▼</span>{" "}
-            </label>
-          </div>
-        </div>
-        <div className="filters-container">
-          <div className="filters hidden">
-            {filters.map((filter, index) =>
-              Object.entries(filter).map(([tag, count]) => (
-                <div key={index} className="filter-element" data-tag={tag}>
-                  {tag} {count !== -1 ? "(" + count + ")" : ""}
-                </div>
-              ))
-            )}
-          </div>
         </div>
 
         <h2 className="projects-section__subtitle">
           Get Access To All My Public Projects
         </h2>
+
+        {/* Filter bar. The common tags are visible as chips rather than hidden
+            behind a dropdown — a filter nobody can see is a filter nobody uses,
+            and the tags double as a summary of what the work actually covers.
+            The dropdown now sits beside them and holds only the long tail. */}
+        <div className="mx-auto mb-6 flex w-[90%] flex-wrap items-center gap-2">
+          <FilterChip active={filter === "All"} onClick={() => selectFilter("All")}>
+            All <span className="opacity-60">({projects.length})</span>
+          </FilterChip>
+
+          {primaryTags.map(([tag, count]) => (
+            <FilterChip key={tag} active={filter === tag} onClick={() => selectFilter(tag)}>
+              {tag} <span className="opacity-60">({count})</span>
+            </FilterChip>
+          ))}
+
+          {overflowTags.length > 0 && (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowFilter((open) => !open)}
+                aria-expanded={showFilter}
+                className="cursor-pointer rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink transition-colors duration-200 hover:border-success/40 hover:text-ink-strong"
+              >
+                More tags <span aria-hidden="true">{showFilter ? "▲" : "▼"}</span>
+              </button>
+
+              {showFilter && (
+                /* Opaque background and a border on purpose: the old panel was
+                   translucent over the cards behind it and became unreadable. */
+                <div className="absolute left-0 top-full z-50 mt-2 max-h-72 w-64 overflow-y-auto rounded-lg border border-line bg-surface p-2 shadow-lg">
+                  {overflowTags.map(([tag, count]) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      onClick={() => selectFilter(tag)}
+                      className={[
+                        "flex w-full cursor-pointer items-center justify-between rounded-md px-3 py-2 text-left text-sm transition-colors duration-150",
+                        filter === tag
+                          ? "bg-success/15 text-success"
+                          : "text-ink hover:bg-surface-raised hover:text-ink-strong",
+                      ].join(" ")}
+                    >
+                      <span>{tag}</span>
+                      <span className="opacity-60">{count}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
         <div id="cards">
           {projects &&
             projects.map((project, index) => {

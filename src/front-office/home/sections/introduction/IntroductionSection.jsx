@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import "./IntroductionSection.css"
 import "./IntroductionSection.mobile.css"
 import Skeleton from "react-loading-skeleton";
+import CodeCard from "./CodeCard";
 
 export default function IntroductionSection() {
 
@@ -69,10 +70,13 @@ export default function IntroductionSection() {
           Buy Me A Coffee <span>{">"}</span>{" "}
         </a>
 
-        <div
-          className="home-introduction-section__img"
-          style={{ backgroundImage: "url(./code.png)" }}
-        />
+        {/* ml-[3vw] matches the title's left edge — the section's children use
+            hand-picked vw margins (title 3vw, button 5vw) and are not aligned with
+            each other, so the snippet anchors to the dominant edge. mt-12 gives it
+            room to read as its own element rather than crowding the call to action. */}
+        <div className="mb-16 mt-12 ml-[3vw] mr-[3vw]">
+          <CodeCard />
+        </div>
       </section>
     );
 }
