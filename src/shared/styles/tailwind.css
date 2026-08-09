@@ -1,0 +1,47 @@
+/**
+ * Tailwind entry point.
+ *
+ * STAGED ON PURPOSE. `@import "tailwindcss"` would pull in theme + preflight +
+ * utilities at once, and preflight is an aggressive reset that collides with
+ * legacy-base.css (both define box-sizing, body, heading and list resets). So
+ * for now we take theme and utilities only: utilities become available and
+ * nothing that already renders changes. Preflight gets enabled as its own
+ * verified step, once the overlapping rules have been removed from
+ * legacy-base.css.
+ *
+ * LAYER ORDER MATTERS MORE THAN IT LOOKS. Unlayered CSS beats layered CSS no
+ * matter the source order or specificity, and every existing stylesheet here is
+ * unlayered — so without doing anything, `class="p-4"` would LOSE to
+ * `.about-content { padding: 30px }`. `legacy` is declared first below so the
+ * old stylesheets can be imported into it and utilities can win. Until that
+ * migration happens the declaration is harmless.
+ */
+
+@layer legacy, theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/**
+ * Design tokens. Tailwind v4 is configured in CSS rather than a JS file, so the
+ * scale lives next to the styles that use it.
+ *
+ * NOTE ON SIZING: the site currently sets html { font-size: 62.5% } (a 10px
+ * root) in legacy-base.css, and every existing rem value is calibrated to it.
+ * Tailwind's spacing scale assumes a 16px root, so today `p-4` renders 10px
+ * rather than its documented 16px. Moving to a 16px root is a separate step;
+ * until then, treat Tailwind spacing numbers as 62.5% of what the docs say.
+ */
+@theme {
+  /* Colours sampled from the existing design rather than invented, so utilities
+     and the remaining hand-written CSS agree. */
+  --color-page: #252525;
+  --color-ink: #bbbbbb;
+  --color-ink-strong: #ffffff;
+  --color-accent: #d91b42;
+  --color-accent-soft: #79d558;
+  --color-surface: #2e2e2e;
+  --color-line: #3a3a3a;
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}

@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import fs from 'fs';
 
 let env = dotenv.config().parsed || process.env;
@@ -38,6 +39,7 @@ export default defineConfig(({ mode }) => {
         // so every deploy shipped an empty <div id="root">.
         plugins: [
             react(),
+            tailwindcss(),
         ],
         resolve: {
             // NOTE for CSS authors: always reference bundled images through the
