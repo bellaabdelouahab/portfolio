@@ -202,7 +202,7 @@ export default function ManageProjects({ onEditProject }) {
   /* ---------- Loading skeleton ---------- */
 if (loading) {
   return (
-    <div className="arrange-projects-form filldb-form">
+    <div className="arrange-projects-form mx-auto mt-6 flex w-full max-w-3xl flex-col items-center rounded-lg border border-line bg-surface p-6 shadow-md">
       <div className="skeleton-wrap">
         <div className="skeleton-highlighted-row">
           {[0, 1, 2].map((i) => (
@@ -220,7 +220,7 @@ if (loading) {
 }
 
   return (
-    <div className="arrange-projects-form filldb-form">
+    <div className="arrange-projects-form mx-auto mt-6 flex w-full max-w-3xl flex-col items-center rounded-lg border border-line bg-surface p-6 shadow-md">
       <div className="highlighted-projects">
         {selectedProjects.map((project, index) => (
           <div

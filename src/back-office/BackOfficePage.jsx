@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ProjectForm from "./forms/project-form/ProjectForm";
 import ReportForm from "./forms/reports-form/ReportForm";
-import "./BackOfficePage.css";
 import LoginPage from "./login-page/LoginPage";
 import ManageProjects from "./forms/manage-projects-form/ManageProjects";
 import CertificatesForm from "./forms/certificates-form/CertificatesForm";
@@ -115,44 +114,66 @@ export default function FillDB() {
       {!authenticated ? (
         <LoginPage setAuthenticated={setAuthenticated} />
       ) : (
-        <div className="filldb-container">
-          <div className="sidebar">
+        /* Nav on the left, next to the content it controls. It used to be on the
+           right via flex-direction: row-reverse, which put an admin nav on one
+           side and the public site nav on the other, with the form squeezed
+           between two unrelated navigation systems. */
+        <div className="flex min-h-screen flex-col bg-page md:flex-row">
+          <aside className="flex shrink-0 flex-col gap-6 border-b border-line bg-surface p-4 md:sticky md:top-0 md:h-screen md:w-64 md:border-b-0 md:border-r">
             {user && (
-              <div className="user-profile">
+              <div className="flex items-center gap-3">
                 <img
-                  src={user.photoURL}
-                  alt={user.displayName}
-                  className="user-avatar"
+                  src={user.photoURL || avatarPlaceholder}
+                  alt=""
+                  className="size-10 shrink-0 rounded-full object-cover"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = avatarPlaceholder;
                   }}
                 />
-                <span className="user-name">{user.displayName}</span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-ink-strong">
+                    {user.displayName}
+                  </p>
+                  <p className="text-xs text-ink-muted">Signed in</p>
+                </div>
               </div>
             )}
 
-            <div className="nav-buttons">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  className={`filldb-nav__btn ${activeTab === tab.id ? "active" : ""}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            <nav className="flex flex-1 flex-col gap-1" aria-label="Admin sections">
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={[
+                      "cursor-pointer rounded-md px-3 py-2 text-left text-sm transition-colors duration-150",
+                      isActive
+                        ? "bg-success/15 font-medium text-success"
+                        : "text-ink hover:bg-surface-raised hover:text-ink-strong",
+                    ].join(" ")}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </nav>
 
+            {/* Visually quiet: signing out is not the goal of this screen, and a
+                red block in the corner pulls the eye every time you look here. */}
             <button
-              className="filldb-nav__btn logout-btn"
+              type="button"
               onClick={handleLogout}
+              className="cursor-pointer rounded-md border border-line px-3 py-2 text-sm text-ink-muted transition-colors duration-150 hover:border-danger/50 hover:text-danger"
             >
-              Logout
+              Log out
             </button>
-          </div>
+          </aside>
 
-          <div className="main-content" style={{  overflowY: "hidden" }}>
+          <div className="min-w-0 flex-1 overflow-y-auto p-4 md:p-8">
             {tabs.map((tab) => activeTab === tab.id && tab.component)}
           </div>
         </div>

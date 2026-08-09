@@ -1,11 +1,25 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import PageSkeleton from "../../shared/ui/PageSkeleton";
+
+/** Routes whose content is long-form rather than a card grid. */
+const ARTICLE_ROUTES = ["/resume", "/articles", "/projects/", "/my-team", "/site-map"];
 
 export default function Root() {
   // State for theme color
   const [themeColor, setThemeColor] = useState("#000000");
+
+  // createBrowserRouter keeps rendering the CURRENT route until the next route's
+  // loader resolves. Without reading that state the UI simply freezes on the old
+  // page and then jumps. navigation.location is the route being navigated TO.
+  const navigation = useNavigation();
+  const isNavigating = navigation.state === "loading";
+  const target = navigation.location?.pathname ?? "";
+  const skeletonVariant = ARTICLE_ROUTES.some((r) => target.startsWith(r))
+    ? "article"
+    : "cards";
 
   const resetScroll = () => {
     document.getElementsByClassName("main")[0].scrollTop = 0;
@@ -43,7 +57,7 @@ export default function Root() {
       </header>
         
       <main className="main">
-        <Outlet />
+        {isNavigating ? <PageSkeleton variant={skeletonVariant} /> : <Outlet />}
       </main>
     </>
   );

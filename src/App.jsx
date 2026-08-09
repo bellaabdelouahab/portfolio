@@ -53,6 +53,20 @@ const SiteMap = React.lazy(() => import("./front-office/sitemap/SiteMapPage"));
 
 const router = createBrowserRouter(
   createRoutesFromElements(
+    <>
+      {/* The admin area sits OUTSIDE the site layout on purpose. Nested inside it,
+          /fill-db rendered the public navigation and the admin navigation side by
+          side — roughly 500px of two unrelated nav systems before any form. It
+          also has nothing to say to a visitor, so the marketing shell is noise. */}
+      <Route
+        path="/fill-db"
+        element={
+          <Suspense fallback={fallback}>
+            <BackOffice />
+          </Suspense>
+        }
+      />
+
     <Route
       path="/"
       element={
@@ -138,14 +152,6 @@ const router = createBrowserRouter(
         }
       />
       <Route
-        path="fill-db"
-        element={
-          <Suspense fallback={fallback}>
-            <BackOffice />
-          </Suspense>
-        }
-      />
-      <Route
         path="site-map"
         element={
           <Suspense fallback={fallback}>
@@ -161,7 +167,8 @@ const router = createBrowserRouter(
           </Suspense>
         }
       />
-    </Route>,
+    </Route>
+    </>,
   ),
 );
 
