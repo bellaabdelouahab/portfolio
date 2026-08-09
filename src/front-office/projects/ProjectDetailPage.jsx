@@ -14,6 +14,19 @@ import Skeleton from "react-loading-skeleton";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
 
+/**
+ * The `project-page` class is NOT decorative — the starfield effect below does
+ * `document.querySelector(".project-page")` to find its mount point, so it has
+ * to stay on every one of the three returns. The utilities carry the styling;
+ * `relative` in particular is what the absolutely-positioned .stars-container
+ * is measured against.
+ *
+ * Shared as a constant because loading / error / loaded all render the same
+ * shell and a drifted copy would silently break the starfield on that branch.
+ */
+const PAGE_SHELL =
+  "project-page relative flex w-full flex-col items-center bg-[#1a1c1f]";
+
 export default function Project() {
   const location = useLocation();
   const { title } = useParams();
@@ -171,10 +184,13 @@ export default function Project() {
 
   if (loading) {
     return (
-      <section className="project-page">
+      <section className={PAGE_SHELL}>
         <SEO title="Loading Project" description="Loading project details..." />
-        <div className="project-loading">
-          <h2><Skeleton width={300} /></h2>
+        {/* The skeletons used to sit in an unstyled div inside a centering flex
+            column, so they collapsed to their own intrinsic widths. Constraining
+            the block is what makes them read as a page rather than a stack. */}
+        <div className="w-full max-w-4xl px-[6vw] py-[6vh]">
+          <h2 className="mb-4"><Skeleton width={300} /></h2>
           <Skeleton height={200} />
           <Skeleton count={5} />
         </div>
@@ -184,12 +200,16 @@ export default function Project() {
 
   if (error) {
     return (
-      <section className="project-page">
+      <section className={PAGE_SHELL}>
         <SEO title="Project Not Found" description="The requested project could not be found." />
-        <div className="project-error">
-          <h2>Project Not Found</h2>
-          <p>{error}</p>
-          <button onClick={() => navigate('/projects')} className="back-to-projects">
+        <div className="w-full max-w-2xl px-[6vw] py-[10vh] text-center">
+          <h2 className="text-2xl font-bold text-ink-strong">Project Not Found</h2>
+          <p className="mt-3 text-sm leading-relaxed text-ink-muted">{error}</p>
+          <button
+            type="button"
+            onClick={() => navigate("/projects")}
+            className="mt-6 cursor-pointer rounded-full border border-[#2db811]/20 bg-[#2db811]/15 px-4 py-2 text-xs font-medium text-ink-strong transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:border-[#2db811] hover:bg-[#2db811] hover:text-[#0e1710]"
+          >
             Back to Projects
           </button>
         </div>
@@ -209,8 +229,8 @@ export default function Project() {
   ].filter(Boolean).join(", ");
 
   return (
-    <section className="project-page">
-      <SEO 
+    <section className={PAGE_SHELL}>
+      <SEO
         title={project.title || "Portfolio Project"}
         description={projectDescription.substring(0, 160)}
         keywords={projectKeywords}

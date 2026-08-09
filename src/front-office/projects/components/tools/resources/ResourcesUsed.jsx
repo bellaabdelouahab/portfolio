@@ -1,12 +1,24 @@
-import "./ResourcesUsed.css";
 export default function ResourcesUsed({ resources }) {
   return (
-    <div className="project__resources">
-      <h2 className="project__resources__title">Resources...</h2>
-      <ul className="project__resources__list">
+    <div className="flex w-full flex-col bg-page">
+      {/* The old rule had `float: left` here, which flex containers ignore on
+          their items — it never did anything and is not carried over. */}
+      <h2 className="mt-10 mb-5 ml-2.5 p-2.5 text-xl font-bold text-[#00ff0088]">
+        Resources...
+      </h2>
+      {/* my-auto + h-full are both kept from the original: ProjectTools is a row
+          flex container, so these two columns stretch to equal heights and the
+          auto margins actually have space to distribute. */}
+      <ul className="mx-auto my-auto mb-10 h-full w-[95%] bg-surface-raised p-[30px] shadow-[rgba(45,184,17,0.685)_2.4px_2.4px_3.2px]">
         {resources.map((resource, index) => (
-          <li key={index} className="project__resources__item">
-            {resource.title} <span>{resource.description}</span>
+          <li
+            key={index}
+            className="group flex flex-row items-center gap-12 border-[5px] border-t-0 border-page p-4 text-base leading-relaxed font-normal text-ink first:border-t-[5px] hover:bg-[#4c4c4c]"
+          >
+            {resource.title}
+            <span className="opacity-0 transition-opacity duration-300 ease-standard group-hover:opacity-100">
+              {resource.description}
+            </span>
           </li>
         ))}
       </ul>
