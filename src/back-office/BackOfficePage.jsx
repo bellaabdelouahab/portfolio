@@ -114,66 +114,77 @@ export default function FillDB() {
       {!authenticated ? (
         <LoginPage setAuthenticated={setAuthenticated} />
       ) : (
-        /* Nav on the left, next to the content it controls. It used to be on the
-           right via flex-direction: row-reverse, which put an admin nav on one
-           side and the public site nav on the other, with the form squeezed
-           between two unrelated navigation systems. */
-        <div className="flex min-h-screen flex-col bg-page md:flex-row">
-          <aside className="flex shrink-0 flex-col gap-6 border-b border-line bg-surface p-4 md:sticky md:top-0 md:h-screen md:w-64 md:border-b-0 md:border-r">
-            {user && (
-              <div className="flex items-center gap-3">
-                <img
-                  src={user.photoURL || avatarPlaceholder}
-                  alt=""
-                  className="size-10 shrink-0 rounded-full object-cover"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = avatarPlaceholder;
-                  }}
-                />
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-medium text-ink-strong">
-                    {user.displayName}
-                  </p>
-                  <p className="text-xs text-ink-muted">Signed in</p>
+        /* Two sidebars is the intended layout: the public navbar (a 240px rail on
+           the left, see Navbar.css) stays reachable so you can jump to a live page
+           while editing, and the admin nav sits on the right. Hence row-reverse —
+           it keeps nav-before-content in the DOM for screen readers while placing
+           this rail opposite the public one.
+
+           min-h-full, not min-h-screen: this renders inside `.main`, which is
+           already the scroll container at viewport-height-minus-navbar. A screen
+           unit here would overflow by exactly the navbar's height. */
+        <div className="flex min-h-full flex-col bg-page md:flex-row-reverse">
+          {/* The rail stretches to full height for the background; the sticky
+              behaviour lives on the inner div. Putting `sticky` on the aside
+              itself would need `self-start`, which cancels the flex stretch and
+              leaves the panel floating short of the fold. */}
+          <aside className="shrink-0 border-b border-line bg-surface md:w-64 md:border-b-0 md:border-l">
+            <div className="flex flex-col gap-6 p-4 md:sticky md:top-0 md:max-h-screen md:overflow-y-auto">
+              {user && (
+                <div className="flex items-center gap-3">
+                  <img
+                    src={user.photoURL || avatarPlaceholder}
+                    alt=""
+                    className="size-10 shrink-0 rounded-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = avatarPlaceholder;
+                    }}
+                  />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-ink-strong">
+                      {user.displayName}
+                    </p>
+                    <p className="text-xs text-ink-muted">Signed in</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <nav className="flex flex-1 flex-col gap-1" aria-label="Admin sections">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    type="button"
-                    onClick={() => setActiveTab(tab.id)}
-                    aria-current={isActive ? "page" : undefined}
-                    className={[
-                      "cursor-pointer rounded-md px-3 py-2 text-left text-sm transition-colors duration-150",
-                      isActive
-                        ? "bg-success/15 font-medium text-success"
-                        : "text-ink hover:bg-surface-raised hover:text-ink-strong",
-                    ].join(" ")}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </nav>
+              <nav className="flex flex-1 flex-col gap-1" aria-label="Admin sections">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveTab(tab.id)}
+                      aria-current={isActive ? "page" : undefined}
+                      className={[
+                        "cursor-pointer rounded-md px-3 py-2 text-left text-sm transition-colors duration-150",
+                        isActive
+                          ? "bg-success/15 font-medium text-success"
+                          : "text-ink hover:bg-surface-raised hover:text-ink-strong",
+                      ].join(" ")}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </nav>
 
-            {/* Visually quiet: signing out is not the goal of this screen, and a
-                red block in the corner pulls the eye every time you look here. */}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="cursor-pointer rounded-md border border-line px-3 py-2 text-sm text-ink-muted transition-colors duration-150 hover:border-danger/50 hover:text-danger"
-            >
-              Log out
-            </button>
+              {/* Visually quiet: signing out is not the goal of this screen, and a
+                  red block in the corner pulls the eye every time you look here. */}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="cursor-pointer rounded-md border border-line px-3 py-2 text-sm text-ink-muted transition-colors duration-150 hover:border-danger/50 hover:text-danger"
+              >
+                Log out
+              </button>
+            </div>
           </aside>
 
-          <div className="min-w-0 flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="min-w-0 flex-1 p-4 md:p-8">
             {tabs.map((tab) => activeTab === tab.id && tab.component)}
           </div>
         </div>
