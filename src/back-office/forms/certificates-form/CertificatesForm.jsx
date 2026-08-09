@@ -2,7 +2,16 @@ import { useState, useRef } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import "./CertificatesForm.css";
+
+/* Four identical field groups in this form, so the input recipe is named once.
+   `error` is a separate string rather than a variant baked in here — Tailwind
+   needs the danger border to come after the resting one to win the cascade. */
+const FIELD = "flex flex-col gap-1.5";
+const LABEL = "text-xs font-medium leading-normal text-ink";
+const INPUT =
+  "w-full rounded-md border border-line bg-page/60 px-4 py-3 text-sm text-ink-strong outline-none transition-colors duration-200 ease-standard placeholder:text-ink-muted focus:border-success focus:ring-2 focus:ring-success/25";
+const INPUT_ERROR = "border-danger bg-danger/5";
+const ERROR_TEXT = "mt-0.5 text-xs leading-normal text-danger";
 
 export default function CertificatesForm() {
   const [formData, setFormData] = useState({
@@ -277,99 +286,121 @@ export default function CertificatesForm() {
   };
 
   return (
-    <div className="certificates-form-container">
-      <div className="certificate-form-header">
-        <h1 className="certificate-form-title">Add New Certificate</h1>
-        <p className="certificate-form-subtitle">
+    <div className="mx-auto mt-6 w-full max-w-4xl rounded-md border border-line bg-surface p-5 shadow-md">
+      <div className="mb-5 text-center">
+        <h1 className="mb-1.5 text-xl leading-tight text-ink-strong">
+          Add New Certificate
+        </h1>
+        <p className="text-xs leading-relaxed text-ink-muted">
           Add your professional certificates and achievements to showcase your
           expertise
         </p>
       </div>
 
       {message.text && (
-        <div className={`certificate-message ${message.type}`}>
+        <div
+          className={[
+            "mb-5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
+            message.type === "success"
+              ? "border-success/40 bg-success/15 text-success"
+              : message.type === "error"
+                ? "border-danger/40 bg-danger/15 text-danger"
+                : "border-line bg-surface-raised text-ink",
+          ].join(" ")}
+        >
           {message.text}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="certificate-form">
-        <div className="certificate-form-grid">
-          <div className="certificate-form-fields">
-            <div className="certificate-form-group">
-              <label htmlFor="title">Certificate Title*</label>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {/* Desktop-first source said "one column below 768"; mobile-first that is
+            the base, with the two-column split arriving at md. */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="flex flex-col gap-3">
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="title">Certificate Title*</label>
               <input
                 type="text"
                 id="title"
                 name="certificateTitle"
                 value={formData.certificateTitle}
                 onChange={handleChange}
-                className={errors.certificateTitle ? "error" : ""}
+                className={`${INPUT} ${errors.certificateTitle ? INPUT_ERROR : ""}`}
                 placeholder="e.g., AWS Certified Solutions Architect"
               />
               {errors.certificateTitle && (
-                <div className="error-text">{errors.certificateTitle}</div>
+                <div className={ERROR_TEXT}>{errors.certificateTitle}</div>
               )}
             </div>
 
-            <div className="certificate-form-group">
-              <label htmlFor="issuer">Issuing Organization*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="issuer">Issuing Organization*</label>
               <input
                 type="text"
                 id="issuer"
                 name="issuer"
                 value={formData.issuer}
                 onChange={handleChange}
-                className={errors.issuer ? "error" : ""}
+                className={`${INPUT} ${errors.issuer ? INPUT_ERROR : ""}`}
                 placeholder="e.g., Amazon Web Services"
               />
               {errors.issuer && (
-                <div className="error-text">{errors.issuer}</div>
+                <div className={ERROR_TEXT}>{errors.issuer}</div>
               )}
             </div>
 
-            <div className="certificate-form-group">
-              <label htmlFor="link">Certificate Link*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="link">Certificate Link*</label>
               <input
                 type="text"
                 id="link"
                 name="link"
                 value={formData.link}
                 onChange={handleChange}
-                className={errors.link ? "error" : ""}
+                className={`${INPUT} ${errors.link ? INPUT_ERROR : ""}`}
                 placeholder="https://verify.example.com/cert/123"
               />
-              {errors.link && <div className="error-text">{errors.link}</div>}
+              {errors.link && <div className={ERROR_TEXT}>{errors.link}</div>}
             </div>
 
-            <div className="certificate-form-group">
-              <label htmlFor="downloadPath">Download Link*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="downloadPath">Download Link*</label>
               <input
                 type="text"
                 id="downloadPath"
                 name="downloadPath"
                 value={formData.downloadPath}
                 onChange={handleChange}
-                className={errors.downloadPath ? "error" : ""}
+                className={`${INPUT} ${errors.downloadPath ? INPUT_ERROR : ""}`}
                 placeholder="https://example.com/download/certificate.pdf"
               />
               {errors.downloadPath && (
-                <div className="error-text">{errors.downloadPath}</div>
+                <div className={ERROR_TEXT}>{errors.downloadPath}</div>
               )}
             </div>
           </div>
 
-          <div className="certificate-image-upload">
+          <div className="flex flex-col gap-1.5">
             <div
-              className={`certificate-image-preview ${
-                errors.image ? "error-border" : ""
-              } ${imagePreview ? "has-image" : ""}`}
+              className={[
+                "flex aspect-video h-full w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-dashed transition-colors duration-200 ease-standard hover:border-success hover:bg-success/5",
+                errors.image
+                  ? "border-danger"
+                  : imagePreview
+                    ? "border-solid border-success"
+                    : "border-line",
+              ].join(" ")}
               onClick={triggerFileInput}
             >
               {imagePreview ? (
-                <img src={imagePreview} alt="Certificate preview" />
+                <img
+                  src={imagePreview}
+                  alt="Certificate preview"
+                  className="h-full w-full object-contain"
+                />
               ) : (
-                <div className="upload-placeholder">
-                  <div className="upload-icon">
+                <div className="flex flex-col items-center justify-center gap-2 p-5 text-center">
+                  <div className="text-ink-muted">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="48"
@@ -386,8 +417,12 @@ export default function CertificatesForm() {
                       <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
                   </div>
-                  <p>Click to upload certificate image</p>
-                  <span>PNG, JPG or WEBP (Max 5MB)</span>
+                  <p className="font-medium leading-normal text-ink-strong">
+                    Click to upload certificate image
+                  </p>
+                  <span className="text-xs leading-normal text-ink-muted">
+                    PNG, JPG or WEBP (Max 5MB)
+                  </span>
                 </div>
               )}
               <input
@@ -398,19 +433,21 @@ export default function CertificatesForm() {
                 style={{ display: "none" }}
               />
             </div>
-            {errors.image && <div className="error-text">{errors.image}</div>}
+            {errors.image && <div className={ERROR_TEXT}>{errors.image}</div>}
           </div>
         </div>
 
-        <div className="certificate-form-actions">
+        <div className="flex justify-center">
           <button
             type="submit"
-            className="certificate-submit-button"
+            className="flex min-w-45 cursor-pointer items-center justify-center gap-2.5 rounded-md bg-success px-8 py-3 text-sm font-medium text-page transition-colors duration-200 ease-standard hover:bg-success/90 disabled:cursor-not-allowed disabled:opacity-70"
             disabled={loading || isCommitting}
           >
             {loading || isCommitting ? (
               <>
-                <div className="spinner"></div>
+                {/* Tailwind's animate-spin replaces the hand-rolled @keyframes
+                    spin the three form stylesheets each duplicated. */}
+                <div className="size-5 animate-spin rounded-full border-[3px] border-page/30 border-t-page" />
                 <span>{isCommitting ? "Committing..." : "Uploading..."}</span>
               </>
             ) : (
@@ -422,17 +459,18 @@ export default function CertificatesForm() {
         {/* GitHub commit status message */}
         {(isCommitting || commitStatus) && (
           <div
-            className={`commit-status ${
+            className={[
+              "mt-2.5 flex items-center justify-center gap-2.5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
               commitStatus.includes("Error")
-                ? "error"
+                ? "border-danger/30 bg-danger/10 text-danger"
                 : commitStatus.includes("success")
-                ? "success"
-                : "info"
-            }`}
+                  ? "border-success/30 bg-success/10 text-success"
+                  : "border-line bg-surface-raised text-ink",
+            ].join(" ")}
           >
             {commitStatus}
             {isCommitting && !commitStatus.includes("success") && (
-              <div className="spinner"></div>
+              <div className="size-5 shrink-0 animate-spin rounded-full border-[3px] border-ink-muted/30 border-t-ink" />
             )}
           </div>
         )}

@@ -8,7 +8,17 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 
-import "./ManageProjects.css";
+/* Shared between the loading skeleton and the real grid so the two can never
+   drift out of alignment — a skeleton at a different column width is worse than
+   no skeleton at all. */
+const PANEL = "w-full rounded-md border border-line bg-surface-raised p-2.5";
+const FEATURED_ROW = "grid w-full grid-cols-3 gap-2.5";
+const PROJECT_GRID = "grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2.5";
+
+/* Cards: the featured slots and the pickable grid differ only in alignment and
+   the minimum height a drop target needs. */
+const CARD =
+  "flex flex-col rounded-md border border-line bg-surface p-2 text-center transition duration-200 ease-standard hover:border-success/60 hover:shadow-md";
 
 const githubDetails = {
   owner: "bellaabdelouahab",
@@ -202,16 +212,18 @@ export default function ManageProjects({ onEditProject }) {
   /* ---------- Loading skeleton ---------- */
 if (loading) {
   return (
-    <div className="arrange-projects-form mx-auto mt-6 flex w-full max-w-3xl flex-col items-center rounded-lg border border-line bg-surface p-6 shadow-md">
-      <div className="skeleton-wrap">
-        <div className="skeleton-highlighted-row">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="skeleton-card" />
-          ))}
-        </div>
-        <div className="skeleton-grid-row">
+    <div className="mx-auto mt-6 flex w-full max-w-4xl flex-col items-center gap-5 rounded-md border border-line bg-surface p-4 text-ink shadow-md">
+      {/* These four classes had no rules at all before — the skeleton rendered as
+          invisible zero-height divs. They now mirror the real layout. */}
+      <div className={`${FEATURED_ROW} ${PANEL}`}>
+        {[0, 1, 2].map((i) => (
+          <div key={i} className="h-40 animate-pulse rounded-md bg-surface" />
+        ))}
+      </div>
+      <div className={PANEL}>
+        <div className={PROJECT_GRID}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="skeleton-card" />
+            <div key={i} className="h-40 animate-pulse rounded-md bg-surface" />
           ))}
         </div>
       </div>
@@ -220,12 +232,12 @@ if (loading) {
 }
 
   return (
-    <div className="arrange-projects-form mx-auto mt-6 flex w-full max-w-3xl flex-col items-center rounded-lg border border-line bg-surface p-6 shadow-md">
-      <div className="highlighted-projects">
+    <div className="mx-auto mt-6 flex w-full max-w-4xl flex-col items-center gap-5 rounded-md border border-line bg-surface p-4 text-ink shadow-md">
+      <div className={`${FEATURED_ROW} ${PANEL}`}>
         {selectedProjects.map((project, index) => (
           <div
             key={project.id}
-            className="highlighted-project"
+            className={`${CARD} min-h-40 cursor-grab items-center hover:-translate-y-1`}
             draggable
             onDragStart={() => handleDragStart(index)}
             onDragOver={handleDragOver}
@@ -236,61 +248,84 @@ if (loading) {
               <img
                 src={project.image}
                 alt={project.title}
-                className="project-thumb"
+                className="block h-25 w-full rounded-sm object-cover"
               />
             )}
-            <h3>{project.title}</h3>
+            <h3 className="mt-1 line-clamp-2 text-xs leading-snug text-ink-strong">
+              {project.title}
+            </h3>
           </div>
         ))}
         {Array.from({ length: 3 - selectedProjects.length }).map((_, i) => (
           <div
             key={`empty-${i}`}
-            className="highlighted-project highlighted-project--empty"
+            className={`${CARD} min-h-40 cursor-default items-center justify-center border-dashed text-xs leading-normal text-ink-muted hover:border-line hover:shadow-none`}
           >
             <span>Select a project below</span>
           </div>
         ))}
       </div>
 
-      <div className="scrollable-grid">
-        <div className="projects-grid">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className={`project ${selectedProjects.some((p) => p.id === project.id) ? "project--selected" : ""}`}
-              onClick={() => toggleSelect(project)}
-            >
-              {project.image && (
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="project-thumb"
-                />
-              )}
-              <h3>{project.title}</h3>
-              <div className="project-actions">
-                <button
-                  type="button"
-                  className="project-action edit"
-                  onClick={(e) => handleEdit(e, project)}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  className="project-action delete"
-                  onClick={(e) => handleDelete(e, project)}
-                  disabled={deletingId === project.id}
-                >
-                  {deletingId === project.id ? "Deleting..." : "Delete"}
-                </button>
+      {/* Arbitrary variants rather than a leftover stylesheet: ::-webkit-scrollbar
+          has no utility of its own, but it can still be reached from the class. */}
+      <div
+        className={`${PANEL} max-h-120 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-track]:bg-page [&::-webkit-scrollbar]:w-2`}
+      >
+        <div className={PROJECT_GRID}>
+          {projects.map((project) => {
+            const isSelected = selectedProjects.some((p) => p.id === project.id);
+            return (
+              <div
+                key={project.id}
+                className={[
+                  CARD,
+                  "cursor-pointer hover:-translate-y-0.75",
+                  isSelected ? "border-success ring-2 ring-success/40" : "",
+                ].join(" ")}
+                onClick={() => toggleSelect(project)}
+              >
+                {project.image && (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="block h-25 w-full rounded-sm object-cover"
+                  />
+                )}
+                <h3 className="mt-1 line-clamp-2 text-xs leading-snug text-ink-strong">
+                  {project.title}
+                </h3>
+                <div className="mt-1.5 flex gap-1.5">
+                  {/* Edit is the quiet one and delete carries the only colour —
+                      two equally loud buttons 6px apart is how you delete the
+                      wrong project. */}
+                  <button
+                    type="button"
+                    className="flex-1 cursor-pointer rounded-sm border border-line p-1 text-xs font-medium text-ink transition-colors duration-200 hover:bg-surface-raised hover:text-ink-strong"
+                    onClick={(e) => handleEdit(e, project)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 cursor-pointer rounded-sm border border-danger/40 p-1 text-xs font-medium text-danger transition-colors duration-200 hover:bg-danger/15 disabled:cursor-not-allowed disabled:opacity-60"
+                    onClick={(e) => handleDelete(e, project)}
+                    disabled={deletingId === project.id}
+                  >
+                    {deletingId === project.id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      <button className="validate-btn" onClick={handleValidate}>
+      {/* tracking needs the bang: global.css sets button{letter-spacing:1px}
+          unlayered, which outranks any layered utility. */}
+      <button
+        className="w-full max-w-75 cursor-pointer rounded-md bg-success px-5 py-2.5 font-semibold tracking-[0.5px]! text-page transition-colors duration-200 ease-standard hover:bg-success/90"
+        onClick={handleValidate}
+      >
         Validate
       </button>
     </div>

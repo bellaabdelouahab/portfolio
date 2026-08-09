@@ -2,7 +2,13 @@ import { useState, useRef } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import "./Clients.css";
+
+const FIELD = "flex flex-col gap-1.5";
+const LABEL = "text-xs font-medium leading-normal text-ink";
+const INPUT =
+  "w-full rounded-md border border-line bg-page/60 px-4 py-3 text-sm text-ink-strong outline-none transition-colors duration-200 ease-standard placeholder:text-ink-muted focus:border-success focus:ring-2 focus:ring-success/25";
+const INPUT_ERROR = "border-danger bg-danger/5";
+const ERROR_TEXT = "mt-0.5 text-xs leading-normal text-danger";
 
 export default function Clients() {
   const [formData, setFormData] = useState({
@@ -275,98 +281,122 @@ export default function Clients() {
   };
 
   return (
-    <div className="clients-form-container">
-      <div className="client-form-header">
-        <h1 className="client-form-title">Add New Client</h1>
-        <p className="client-form-subtitle">
+    <div className="mx-auto mt-6 w-full max-w-4xl rounded-md border border-line bg-surface p-5 shadow-md">
+      <div className="mb-5 text-center">
+        <h1 className="mb-1.5 text-xl leading-tight text-ink-strong">Add New Client</h1>
+        <p className="text-xs leading-relaxed text-ink-muted">
           Add clients and testimonials to showcase your professional connections
         </p>
       </div>
 
       {message.text && (
-        <div className={`client-message ${message.type}`}>
+        <div
+          className={[
+            "mb-5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
+            message.type === "success"
+              ? "border-success/40 bg-success/15 text-success"
+              : message.type === "error"
+                ? "border-danger/40 bg-danger/15 text-danger"
+                : "border-line bg-surface-raised text-ink",
+          ].join(" ")}
+        >
           {message.text}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="client-form">
-        <div className="client-form-grid">
-          <div className="client-form-fields">
-            <div className="client-form-group">
-              <label htmlFor="name">Client Name*</label>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="flex flex-col gap-3">
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="name">Client Name*</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={errors.name ? "error" : ""}
+                className={`${INPUT} ${errors.name ? INPUT_ERROR : ""}`}
                 placeholder="e.g., John Smith"
               />
-              {errors.name && <div className="error-text">{errors.name}</div>}
+              {errors.name && <div className={ERROR_TEXT}>{errors.name}</div>}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="profession">Client Profession*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="profession">Client Profession*</label>
               <input
                 type="text"
                 id="profession"
                 name="profession"
                 value={formData.profession}
                 onChange={handleChange}
-                className={errors.profession ? "error" : ""}
+                className={`${INPUT} ${errors.profession ? INPUT_ERROR : ""}`}
                 placeholder="e.g., Marketing Director"
               />
-              {errors.profession && <div className="error-text">{errors.profession}</div>}
+              {errors.profession && <div className={ERROR_TEXT}>{errors.profession}</div>}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="company">Company/Organization*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="company">Company/Organization*</label>
               <input
                 type="text"
                 id="company"
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className={errors.company ? "error" : ""}
+                className={`${INPUT} ${errors.company ? INPUT_ERROR : ""}`}
                 placeholder="e.g., Acme Inc."
               />
-              {errors.company && <div className="error-text">{errors.company}</div>}
+              {errors.company && <div className={ERROR_TEXT}>{errors.company}</div>}
             </div>
 
-            <div className="client-form-group">
-              <label htmlFor="description">Client Testimonial/Description*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="description">Client Testimonial/Description*</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className={errors.description ? "error" : ""}
+                className={`${INPUT} min-h-30 resize-y leading-relaxed ${errors.description ? INPUT_ERROR : ""}`}
                 placeholder="What they said about your work..."
                 rows={5}
               />
-              {errors.description && <div className="error-text">{errors.description}</div>}
+              {errors.description && <div className={ERROR_TEXT}>{errors.description}</div>}
             </div>
           </div>
 
-          <div className="client-image-upload">
-            <div 
-              className={`client-image-preview ${errors.image ? 'error-border' : ''} ${imagePreview ? 'has-image' : ''}`}
+          <div className="flex flex-col gap-1.5">
+            <div
+              className={[
+                "flex aspect-square w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-dashed transition-colors duration-200 ease-standard hover:border-success hover:bg-success/5",
+                errors.image
+                  ? "border-danger"
+                  : imagePreview
+                    ? "border-solid border-success"
+                    : "border-line",
+              ].join(" ")}
               onClick={triggerFileInput}
             >
               {imagePreview ? (
-                <img src={imagePreview} alt="Client preview" />
+                <img
+                  src={imagePreview}
+                  alt="Client preview"
+                  className="h-full w-full object-cover"
+                />
               ) : (
-                <div className="upload-placeholder">
-                  <div className="upload-icon">
+                <div className="flex flex-col items-center justify-center gap-2 p-5 text-center">
+                  <div className="text-ink-muted">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                       <polyline points="17 8 12 3 7 8"></polyline>
                       <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
                   </div>
-                  <p>Click to upload client photo</p>
-                  <span>Square image recommended (1:1)</span>
+                  <p className="font-medium leading-normal text-ink-strong">
+                    Click to upload client photo
+                  </p>
+                  <span className="text-xs leading-normal text-ink-muted">
+                    Square image recommended (1:1)
+                  </span>
                 </div>
               )}
               <input
@@ -377,19 +407,19 @@ export default function Clients() {
                 style={{ display: 'none' }}
               />
             </div>
-            {errors.image && <div className="error-text">{errors.image}</div>}
+            {errors.image && <div className={ERROR_TEXT}>{errors.image}</div>}
           </div>
         </div>
 
-        <div className="client-form-actions">
-          <button 
-            type="submit" 
-            className="client-submit-button"
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="flex min-w-45 cursor-pointer items-center justify-center gap-2.5 rounded-md bg-success px-8 py-3 text-sm font-medium text-page transition-colors duration-200 ease-standard hover:bg-success/90 disabled:cursor-not-allowed disabled:opacity-70"
             disabled={loading || isCommitting}
           >
             {loading || isCommitting ? (
               <>
-                <div className="spinner"></div>
+                <div className="size-5 animate-spin rounded-full border-[3px] border-page/30 border-t-page" />
                 <span>{isCommitting ? "Committing..." : "Uploading..."}</span>
               </>
             ) : (
@@ -397,18 +427,23 @@ export default function Clients() {
             )}
           </button>
         </div>
-        
+
         {/* GitHub commit status message */}
         {(isCommitting || commitStatus) && (
-          <div className={`commit-status ${
-            commitStatus.includes("Error") 
-              ? "error" 
-              : commitStatus.includes("success") 
-                ? "success" 
-                : "info"
-          }`}>
+          <div
+            className={[
+              "mt-2.5 flex items-center justify-center gap-2.5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
+              commitStatus.includes("Error")
+                ? "border-danger/30 bg-danger/10 text-danger"
+                : commitStatus.includes("success")
+                  ? "border-success/30 bg-success/10 text-success"
+                  : "border-line bg-surface-raised text-ink",
+            ].join(" ")}
+          >
             {commitStatus}
-            {isCommitting && !commitStatus.includes("success") && <div className="spinner"></div>}
+            {isCommitting && !commitStatus.includes("success") && (
+              <div className="size-5 shrink-0 animate-spin rounded-full border-[3px] border-ink-muted/30 border-t-ink" />
+            )}
           </div>
         )}
       </form>

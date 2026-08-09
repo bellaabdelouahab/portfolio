@@ -1,4 +1,5 @@
-import "./LoginPage.css";
+import "./LoginPage.css"; // only supplies the @keyframes for .login-error-shake
+import loginBackground from "assets/images/login-bg.jpg";
 import { useState, useEffect } from "react";
 import { 
   getAuth, 
@@ -85,23 +86,37 @@ export default function LoginPage({ setAuthenticated }) {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-form">
-        <h1 className="login-title">Admin Access</h1>
-        <p className="login-subtitle">Sign in with your GitHub account to access the admin panel</p>
-        
-        <button 
-          className="github-login-btn" 
+    /* The photo is an imported module rather than a CSS url(): the stylesheet is
+       gone, and going through the bundler keeps the hashed filename correct. */
+    <div
+      className="flex h-screen items-center justify-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: `url(${loginBackground})` }}
+    >
+      <div className="flex w-full max-w-sm flex-col items-center rounded-md bg-black/80 p-5 shadow-lg">
+        <h1 className="mb-2.5 text-xl leading-tight text-ink-strong">Admin Access</h1>
+        <p className="mb-5 text-center leading-relaxed text-ink-muted">
+          Sign in with your GitHub account to access the admin panel
+        </p>
+
+        <button
+          className="flex w-full cursor-pointer items-center justify-center rounded-md bg-surface-raised px-4 py-2.5 text-sm text-ink-strong shadow-none transition duration-200 ease-standard hover:-translate-y-0.5 hover:bg-page hover:shadow-md active:translate-y-0 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-surface disabled:text-ink-muted disabled:shadow-none"
           onClick={handleGitHubLogin}
           disabled={isLoading}
         >
-          <FontAwesomeIcon icon={faGithub} className="github-icon" />
+          <FontAwesomeIcon icon={faGithub} className="mr-2.5 text-sm" />
           {isLoading ? 'Connecting...' : 'Sign in with GitHub'}
         </button>
-        
+
         {error && (
-          <div className={`login-error ${isUnauthorized ? 'unauthorized' : ''}`}>
-            {isUnauthorized && <FontAwesomeIcon icon={faExclamationTriangle} className="error-icon" />}
+          <div
+            className={[
+              "mt-2.5 w-full rounded-md p-2.5 text-center text-xs font-medium leading-normal text-ink-strong",
+              isUnauthorized
+                ? "login-error-shake bg-danger font-bold shadow-lg"
+                : "bg-danger/80",
+            ].join(" ")}
+          >
+            {isUnauthorized && <FontAwesomeIcon icon={faExclamationTriangle} className="mr-2.5 text-xs" />}
             {error}
           </div>
         )}

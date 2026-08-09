@@ -3,7 +3,20 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import * as pdfjsLib from "pdfjs-dist";
-import "./ReportForm.css";
+
+const FIELD = "flex flex-col gap-1.5";
+const LABEL = "w-full text-center text-xs font-medium leading-normal text-ink";
+const INPUT =
+  "w-full rounded-md border border-line bg-page/60 px-4 py-3 text-sm text-ink-strong outline-none transition-colors duration-200 ease-standard placeholder:text-ink-muted focus:border-success focus:ring-2 focus:ring-success/25";
+const INPUT_ERROR = "border-danger bg-danger/5";
+const ERROR_TEXT = "mt-0.5 text-xs leading-normal text-danger";
+const HELP_TEXT = "mt-0.5 text-xs leading-normal text-ink-muted";
+/* Both drop zones share a resting/hover/valid/invalid border story; only the box
+   they occupy differs, so the size lives at the call site. */
+const DROPZONE =
+  "flex cursor-pointer items-center justify-center overflow-hidden rounded-md border-2 border-dashed transition-colors duration-200 ease-standard";
+const SPINNER =
+  "size-5 shrink-0 animate-spin rounded-full border-[3px] border-ink-muted/30 border-t-ink";
 
 // Set the worker source to a reliable CDN with specific version
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
@@ -518,77 +531,98 @@ export default function ReportForm() {
   }, [pdfFile]);
 
   return (
-    <div className="reports-form-container">
-      <div className="report-form-header">
-        <h1 className="report-form-title">Add New Report</h1>
-        <p className="report-form-subtitle">
+    <div className="mx-auto mt-6 w-full max-w-4xl rounded-md border border-line bg-surface p-5 shadow-md">
+      <div className="mb-5 text-center">
+        <h1 className="mb-1.5 text-xl leading-tight text-ink-strong">Add New Report</h1>
+        <p className="text-xs leading-relaxed text-ink-muted">
           Upload documents, reports, and presentations to showcase your work
         </p>
       </div>
 
       {message.text && (
-        <div className={`report-message ${message.type}`}>{message.text}</div>
+        <div
+          className={[
+            "mb-5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
+            message.type === "success"
+              ? "border-success/40 bg-success/15 text-success"
+              : message.type === "error"
+                ? "border-danger/40 bg-danger/15 text-danger"
+                : "border-line bg-surface-raised text-ink",
+          ].join(" ")}
+        >
+          {message.text}
+        </div>
       )}
 
-      <form onSubmit={handleSubmit} className="report-form">
-        <div className="report-form-grid">
-          <div className="report-form-fields">
-            <div className="report-form-group">
-              <label htmlFor="name">Report Name*</label>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="flex flex-col gap-3">
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="name">Report Name*</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={errors.name ? "error" : ""}
+                className={`${INPUT} ${errors.name ? INPUT_ERROR : ""}`}
                 placeholder="e.g., Business Proposal Q1 2024"
               />
-              {errors.name && <div className="error-text">{errors.name}</div>}
+              {errors.name && <div className={ERROR_TEXT}>{errors.name}</div>}
             </div>
 
-            <div className="report-form-group">
-              <label htmlFor="description">Description*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="description">Description*</label>
               <textarea
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                className={errors.description ? "error" : ""}
+                className={`${INPUT} min-h-25 resize-y leading-relaxed ${errors.description ? INPUT_ERROR : ""}`}
                 placeholder="Briefly describe what this report contains..."
                 rows={4}
               />
               {errors.description && (
-                <div className="error-text">{errors.description}</div>
+                <div className={ERROR_TEXT}>{errors.description}</div>
               )}
             </div>
 
-            <div className="report-form-group">
-              <label htmlFor="date">Date*</label>
+            <div className={FIELD}>
+              <label className={LABEL} htmlFor="date">Date*</label>
+              {/* The calendar glyph is a vendor pseudo-element with no utility of
+                  its own; an arbitrary variant reaches it without a stylesheet. */}
               <input
                 type="datetime-local"
                 id="date"
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="date-picker"
+                className={`${INPUT} [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert`}
               />
-              <small className="form-help-text">
+              <small className={HELP_TEXT}>
                 Select the date and time of the report
               </small>
             </div>
 
-            <div className="report-form-group">
-              <label>PDF File*</label>
+            <div className={FIELD}>
+              <label className={LABEL}>PDF File*</label>
               <div
-                className={`report-pdf-selector ${
-                  errors.pdf ? "error-border" : ""
-                } ${pdfFile ? "has-file" : ""}`}
+                className={[
+                  DROPZONE,
+                  "min-h-32.5 w-full p-4",
+                  errors.pdf
+                    ? "border-danger"
+                    : pdfFile
+                      ? "border-solid border-success"
+                      : "border-line hover:border-success hover:bg-success/5",
+                ].join(" ")}
                 onClick={triggerPdfInput}
               >
                 {pdfFile ? (
-                  <div className="selected-file">
-                    <div className="file-icon">
+                  <div className="flex w-full items-center p-2">
+                    {/* file-icon / file-name dropped as class names on purpose:
+                        FileUpload.css (project form) also styles them globally. */}
+                    <div className="mr-4 rounded-md bg-success/10 p-2.5 text-success">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -607,14 +641,18 @@ export default function ReportForm() {
                         <polyline points="10 9 9 9 8 9"></polyline>
                       </svg>
                     </div>
-                    <div className="file-details">
-                      <span className="file-name">{pdfName}</span>
-                      <span className="file-type">PDF Document</span>
+                    <div className="flex min-w-0 grow flex-col">
+                      <span className="mb-1 text-xs font-medium leading-normal break-all text-ink-strong">
+                        {pdfName}
+                      </span>
+                      <span className="text-xs leading-normal text-ink-muted">
+                        PDF Document
+                      </span>
                     </div>
                   </div>
                 ) : (
-                  <div className="upload-placeholder pdf-placeholder">
-                    <div className="upload-icon">
+                  <div className="flex flex-col items-center justify-center gap-2 p-2.5 text-center">
+                    <div className="text-ink-muted">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="48"
@@ -632,8 +670,12 @@ export default function ReportForm() {
                         <path d="M8 15l4 4 4-4"></path>
                       </svg>
                     </div>
-                    <p>Click to upload PDF document</p>
-                    <span>PDF files only (Max 20MB)</span>
+                    <p className="font-medium leading-normal text-ink-strong">
+                      Click to upload PDF document
+                    </p>
+                    <span className="text-xs leading-normal text-ink-muted">
+                      PDF files only (Max 20MB)
+                    </span>
                   </div>
                 )}
                 <input
@@ -644,15 +686,15 @@ export default function ReportForm() {
                   style={{ display: "none" }}
                 />
               </div>
-              {errors.pdf && <div className="error-text">{errors.pdf}</div>}
+              {errors.pdf && <div className={ERROR_TEXT}>{errors.pdf}</div>}
               {loading && !isCommitting && (
-                <div className="processing-message">
-                  <div className="spinner"></div>
+                <div className="mt-2 flex items-center gap-2 text-xs leading-normal text-success">
+                  <div className={SPINNER} />
                   <span>Generating cover image...</span>
                 </div>
               )}
               {!pdfFile && (
-                <div className="form-help-text">
+                <div className={HELP_TEXT}>
                   Upload a report file first, then you can add or generate a
                   cover image
                 </div>
@@ -661,30 +703,44 @@ export default function ReportForm() {
           </div>
 
           {/* Show cover image section only if we can select a cover */}
-          <div className="report-image-upload">
-            <label className="cover-image-label">
+          <div className="flex flex-col items-center gap-1.5">
+            <label className={LABEL}>
               Cover Image*
               {autoCoverGenerated && !manualCoverUpload && (
-                <span className="auto-generated-badge">Auto-generated</span>
+                <span className="ml-1.5 rounded-sm bg-success/15 px-1.5 py-0.5 align-middle text-xs font-medium text-success">
+                  Auto-generated
+                </span>
               )}
             </label>
+            {/* Four states on one box: invalid, auto-generated (locked), filled,
+                and "no PDF yet" (disabled). Order matters — the later string
+                wins, so `disabled` is last. */}
             <div
-              className={`report-image-preview 
-                ${errors.coverImage ? "error-border" : ""} 
-                ${coverImagePreview ? "has-image" : ""} 
-                ${
-                  autoCoverGenerated && !manualCoverUpload
-                    ? "auto-generated"
-                    : ""
-                } 
-                ${!canSelectCover ? "disabled" : ""}`}
+              className={[
+                DROPZONE,
+                "mx-auto h-62.5 w-43.75",
+                errors.coverImage
+                  ? "border-danger"
+                  : autoCoverGenerated && !manualCoverUpload
+                    ? "cursor-default border-solid border-success"
+                    : coverImagePreview
+                      ? "border-solid border-success"
+                      : "border-line hover:border-success hover:bg-success/5",
+                !canSelectCover
+                  ? "cursor-not-allowed border-dashed border-line opacity-70 hover:border-line hover:bg-transparent"
+                  : "",
+              ].join(" ")}
               onClick={triggerCoverImageInput}
             >
               {coverImagePreview ? (
-                <img src={coverImagePreview} alt="Cover preview" />
+                <img
+                  src={coverImagePreview}
+                  alt="Cover preview"
+                  className="h-full w-full object-cover"
+                />
               ) : (
-                <div className="upload-placeholder">
-                  <div className="upload-icon">
+                <div className="flex flex-col items-center justify-center gap-2 p-5 text-center">
+                  <div className={canSelectCover ? "text-ink-muted" : "text-line"}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="48"
@@ -708,12 +764,12 @@ export default function ReportForm() {
                       <polyline points="21 15 16 10 5 21"></polyline>
                     </svg>
                   </div>
-                  <p>
+                  <p className="font-medium leading-normal text-ink-strong">
                     {canSelectCover
                       ? "Click to upload cover image"
                       : "Upload report file first"}
                   </p>
-                  <span>
+                  <span className="text-xs leading-normal text-ink-muted">
                     {canSelectCover
                       ? "PNG, JPG or WEBP (Min: 800x600px)"
                       : "Cover image will be available after report upload"}
@@ -730,14 +786,14 @@ export default function ReportForm() {
               />
             </div>
             {errors.coverImage && (
-              <div className="error-text">{errors.coverImage}</div>
+              <div className={ERROR_TEXT}>{errors.coverImage}</div>
             )}
             {autoCoverGenerated && !manualCoverUpload && (
-              <div className="auto-cover-message">
+              <div className="mt-0.5 w-full text-center text-xs leading-normal text-ink-muted">
                 Cover image automatically generated from PDF.{" "}
                 <button
                   type="button"
-                  className="change-cover-btn"
+                  className="ml-1 cursor-pointer border-none bg-transparent p-0 text-xs text-success underline hover:text-ink-strong"
                   onClick={switchToManualCoverUpload}
                 >
                   Upload manually instead
@@ -747,15 +803,15 @@ export default function ReportForm() {
           </div>
         </div>
 
-        <div className="report-form-actions">
+        <div className="flex justify-center">
           <button
             type="submit"
-            className="report-submit-button"
+            className="flex min-w-45 cursor-pointer items-center justify-center gap-2.5 rounded-md bg-success px-8 py-3 text-sm font-medium text-page transition-colors duration-200 ease-standard hover:bg-success/90 disabled:cursor-not-allowed disabled:opacity-70"
             disabled={loading || isCommitting}
           >
             {loading || isCommitting ? (
               <>
-                <div className="spinner"></div>
+                <div className="size-5 animate-spin rounded-full border-[3px] border-page/30 border-t-page" />
                 <span>{isCommitting ? "Committing..." : "Uploading..."}</span>
               </>
             ) : (
@@ -767,17 +823,18 @@ export default function ReportForm() {
         {/* GitHub commit status message */}
         {(isCommitting || commitStatus) && (
           <div
-            className={`commit-status ${
+            className={[
+              "mt-2.5 flex items-center justify-center gap-2.5 rounded-md border p-2.5 text-center text-xs font-medium leading-normal",
               commitStatus.includes("Error")
-                ? "error"
+                ? "border-danger/30 bg-danger/10 text-danger"
                 : commitStatus.includes("success")
-                ? "success"
-                : "info"
-            }`}
+                  ? "border-success/30 bg-success/10 text-success"
+                  : "border-line bg-surface-raised text-ink",
+            ].join(" ")}
           >
             {commitStatus}
             {isCommitting && !commitStatus.includes("success") && (
-              <div className="spinner"></div>
+              <div className={SPINNER} />
             )}
           </div>
         )}
