@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
-import "./TagInput.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faTags } from "@fortawesome/free-solid-svg-icons";
 
+// A chip's category prefix is painted with the colour for its category, passed
+// down as the `--c` custom property. `default` was indigo, the accent this form
+// no longer uses; it is now the same green as everything else affirmative.
 const CATEGORY_COLORS = {
   status: "#3b82f6",
   priority: "#f59e0b",
   department: "#10b981",
-  default: "#6366f1",
+  default: "#2ac17f",
 };
 
 const TagInput = ({
@@ -108,10 +110,12 @@ const TagInput = ({
   };
 
   return (
-    <div className="tag-input" onClick={() => inputRef.current?.focus()}>
-
-      <div className="ti-field">
-        <span className="ti-tag-label">
+    <div
+      className="w-full rounded-lg border border-line bg-page px-4 py-3.5 transition-colors duration-200 ease-standard focus-within:border-success"
+      onClick={() => inputRef.current?.focus()}
+    >
+      <div className="flex flex-wrap items-center">
+        <span className="mr-5 text-xs leading-relaxed text-ink">
           <FontAwesomeIcon icon={faTags} /> {label}
         </span>
         {tags.map((tag, i) => {
@@ -119,7 +123,10 @@ const TagInput = ({
           return (
             <span key={tag + i} style={{ display: "contents" }}>
               <span
-                className={`ti-gap ${over?.type === "gap" && over.index === i ? "active" : ""}`}
+                className={[
+                  "w-1.5 self-stretch rounded-sm",
+                  over?.type === "gap" && over.index === i ? "bg-success" : "",
+                ].join(" ")}
                 onDragOver={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -130,8 +137,17 @@ const TagInput = ({
                   dropInGap(i);
                 }}
               />
+              {/* amber, not the form's green: this is a transient "drop here to
+                  merge" state, and reusing the affirmative accent would make it
+                  read as a selection rather than a warning. */}
               <span
-                className={`ti-chip ${over?.type === "merge" && over.index === i ? "merge" : ""}`}
+                className={[
+                  "inline-flex cursor-grab items-center gap-1.5 rounded-md px-2.5 py-1.5",
+                  "text-xs leading-relaxed text-ink transition-shadow duration-200 ease-standard",
+                  over?.type === "merge" && over.index === i
+                    ? "bg-amber-950 ring-2 ring-amber-500"
+                    : "bg-surface-raised",
+                ].join(" ")}
                 style={cat ? { "--c": color } : undefined}
                 draggable
                 onDragStart={() => setDragIndex(i)}
@@ -142,9 +158,15 @@ const TagInput = ({
                 onDragLeave={() => setOver(null)}
                 onDrop={() => dropOnChip(i)}
               >
-                {cat && <b>{cat}</b>}
+                {/* `--c` is always set when this renders — the same `cat` guards
+                    both the prefix and the style above — so no fallback colour
+                    is needed. */}
+                {cat && (
+                  <b className="text-(--c) uppercase">{cat}</b>
+                )}
                 {text}
                 <button
+                  className="inline-flex cursor-pointer p-0.5 text-ink-muted transition-colors duration-200 ease-standard hover:text-danger"
                   onClick={(e) => {
                     e.stopPropagation();
                     removeAt(i);
@@ -159,7 +181,12 @@ const TagInput = ({
         })}
         {tags.length > 0 && (
           <span
-            className={`ti-gap ${over?.type === "gap" && over.index === tags.length ? "active" : ""}`}
+            className={[
+              "w-1.5 self-stretch rounded-sm",
+              over?.type === "gap" && over.index === tags.length
+                ? "bg-success"
+                : "",
+            ].join(" ")}
             onDragOver={(e) => {
               e.preventDefault();
               setOver({ type: "gap", index: tags.length });
@@ -168,6 +195,7 @@ const TagInput = ({
           />
         )}
         <input
+          className="min-w-30 flex-1 border-none bg-transparent px-0.5 py-1.5 text-xs text-ink-strong outline-none placeholder:text-ink-muted disabled:opacity-50"
           ref={inputRef}
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -178,7 +206,9 @@ const TagInput = ({
           disabled={tags.length >= maxTags}
           placeholder={tags.length ? "" : "Type and press Enter"}
         />
-        <span className="ti-count">
+        {/* tabular-nums keeps the counter from shifting the input as the tag
+            count crosses a digit-width change. */}
+        <span className="text-xs tabular-nums text-ink-muted">
           {tags.length}/{maxTags}
         </span>
       </div>

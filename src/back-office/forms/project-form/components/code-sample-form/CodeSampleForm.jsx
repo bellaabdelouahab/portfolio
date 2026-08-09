@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import "./CodeSampleForm.css";
-import "../PopupShared.css"; // adjust path to wherever you place it
 import { createStarryNight, common } from "@wooorm/starry-night";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,6 +7,7 @@ import {
   faInfoCircle,
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
+import * as s from "../formStyles";
 
 export default function CodeSampleForm({
   codeSamples,
@@ -90,41 +89,48 @@ export default function CodeSampleForm({
   };
 
   return (
-    <div className="popup-container">
-      <div className="code-sample-form popup" style={{ maxWidth: "960px" }}>
+    <div className={s.popupOverlay}>
+      <div className={`${s.popupPanel} w-full max-w-240`}>
         <button
           type="button"
-          className="close-button"
+          className={s.popupClose}
           onClick={() => setPopupWindow(null)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
 
-        <h2 className="form-title">
-          <FontAwesomeIcon icon={faCode} className="title-icon" />
+        <h2 className={s.popupTitle}>
+          <FontAwesomeIcon icon={faCode} className={s.popupTitleIcon} />
           {editIndex !== null ? "Edit Code Sample" : "Add Code Sample"}
         </h2>
 
-        <div className="popup-body-split">
-          <div className="popup-form-col">
-            <div className="form-group">
-              <label htmlFor="codeSampleTitle">Sample Title</label>
+        <div className={s.bodySplit}>
+          <div className={s.bodyFormCol}>
+            <div className={s.fieldGroup}>
+              <label className={s.fieldLabel} htmlFor="codeSampleTitle">
+                Sample Title
+              </label>
               <input
                 type="text"
                 id="codeSampleTitle"
-                className="form-control"
+                className={s.control}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., 'Authentication Function'"
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="language">Programming Language</label>
-              <div className="select-wrapper">
+            <div className={s.fieldGroup}>
+              <label className={s.fieldLabel} htmlFor="language">
+                Programming Language
+              </label>
+              {/* The caret is a pseudo-element on the wrapper rather than a
+                  background-image on the select, so it inherits the text
+                  colour and never fights the native control's own painting. */}
+              <div className="relative after:pointer-events-none after:absolute after:top-1/2 after:right-4 after:-translate-y-1/2 after:text-xs after:text-ink-muted after:content-['▼']">
                 <select
                   id="language"
-                  className="form-control"
+                  className={`${s.control} appearance-none pr-8`}
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
                   disabled={loading}
@@ -147,66 +153,69 @@ export default function CodeSampleForm({
               </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="code">Code</label>
+            <div className={s.fieldGroup}>
+              <label className={s.fieldLabel} htmlFor="code">
+                Code
+              </label>
               <textarea
                 id="code"
-                className="code-editor"
+                className="min-h-50 w-full resize-y rounded-sm border border-line bg-page p-4 font-mono text-sm leading-relaxed text-ink-strong tab-2 outline-none transition-colors duration-200 ease-standard focus:border-success focus:ring-2 focus:ring-success/25"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="Paste your code snippet here..."
                 rows={10}
                 spellCheck="false"
               />
-              <div className="code-helper">
-                <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+              <div className={s.helperRow}>
+                <FontAwesomeIcon icon={faInfoCircle} className={s.helperIcon} />
                 <span>Use proper indentation for better readability</span>
               </div>
             </div>
 
-            {error && <div className="form-error">{error}</div>}
+            {error && <div className={s.formError}>{error}</div>}
 
-            <div className="form-actions">
+            <div className={s.formActions}>
               {editIndex !== null && (
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className={s.btnGhost}
                   onClick={resetForm}
                 >
                   Cancel Edit
                 </button>
               )}
-              <button type="button" className="submit-btn" onClick={handleSave}>
+              <button type="button" className={s.btnPrimary} onClick={handleSave}>
                 {editIndex !== null ? "Update Code Sample" : "Add Code Sample"}
               </button>
             </div>
           </div>
 
-          <div className="popup-list-col">
-            <div className="popup-list-heading">
-              Added ({codeSamples.length})
-            </div>
+          <div className={s.bodyListCol}>
+            <div className={s.listHeading}>Added ({codeSamples.length})</div>
             {codeSamples.length === 0 && (
-              <div className="popup-list-empty">No code samples yet</div>
+              <div className={s.listEmpty}>No code samples yet</div>
             )}
             {codeSamples.map((item, index) => (
               <div
                 key={index}
-                className={`popup-list-item ${editIndex === index ? "popup-list-item--active" : ""}`}
+                className={[
+                  s.listItem,
+                  editIndex === index ? s.listItemActive : s.listItemIdle,
+                ].join(" ")}
                 onClick={() => handleEditClick(index)}
               >
-                <div className="popup-list-item__thumb popup-list-item__thumb--placeholder">
+                <div className={`${s.listThumb} ${s.listThumbPlaceholder}`}>
                   <FontAwesomeIcon icon={faPen} />
                 </div>
-                <div className="popup-list-item__info">
-                  <div className="popup-list-item__title">{item.title}</div>
-                  <div className="popup-list-item__meta">
+                <div className={s.listItemInfo}>
+                  <div className={s.listItemTitle}>{item.title}</div>
+                  <div className={s.listItemMeta}>
                     {item.language.replace(/^source\./, "")}
                   </div>
                 </div>
                 <button
                   type="button"
-                  className="popup-list-item__delete"
+                  className={s.listItemDelete}
                   onClick={(e) => handleDeleteClick(e, index)}
                 >
                   <FontAwesomeIcon icon={faTimes} />

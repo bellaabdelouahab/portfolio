@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./GithubTokenInput.css";
+import * as s from "../formStyles";
 
 const TEST_FILE_PATH = ".github-token-test";
 
@@ -81,29 +81,32 @@ export default function GithubTokenInput({ githubDetails, onVerified }) {
 
   if (status === "verified") {
     return (
-      <div className="toggle-row">
-        <div className="toggle-row__text">
-          <span className="toggle-row__label">GitHub token connected</span>
-          <span className="toggle-row__desc">
+      <div className={s.toggleRow}>
+        <div>
+          <span className={s.toggleLabel}>GitHub token connected</span>
+          <span className={s.toggleDesc}>
             Verified write access to your portfolio repo
           </span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.46875rem" }}>
+        <div className="flex items-center gap-2">
+          {/* currentColor + text-success rather than a hard-coded #4ade80, so
+              the tick tracks the one accent the form uses. */}
           <svg
             width="16"
             height="16"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#4ade80"
+            stroke="currentColor"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
+            className="text-success"
           >
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <button
             type="button"
-            className="github-token-change"
+            className="cursor-pointer text-xs text-success underline"
             onClick={handleRemove}
           >
             Change
@@ -115,34 +118,38 @@ export default function GithubTokenInput({ githubDetails, onVerified }) {
 
   // missing / verifying / error
   return (
-    <div className="toggle-row github-token-row">
-      <div className="toggle-row__text" style={{ width: "100%" }}>
-        <span className="toggle-row__label">
-          GitHub token required<span className="form__required">*</span>
+    <div className={s.toggleRow}>
+      <div className="w-full">
+        <span className={s.toggleLabel}>
+          GitHub token required<span className={s.requiredMark}>*</span>
         </span>
-        <span className="toggle-row__desc">
+        <span className={s.toggleDesc}>
           Add a token so images can be committed. It's verified before it's
           saved.
         </span>
-        <div className="github-token-input-row">
+        <div className="mt-1 flex gap-2">
           <input
             type="password"
-            className="form__input"
+            className={`${s.fieldInput} flex-1`}
             placeholder="ghp_..."
             value={inputToken}
             onChange={(e) => setInputToken(e.target.value)}
             disabled={status === "verifying"}
           />
+          {/* Was the one blue button on the screen. Same primary as every other
+              affirmative action now, and sized to match the input beside it. */}
           <button
             type="button"
-            className="submit-btn"
+            className={`${s.btnPrimary} px-4 py-2 text-xs`}
             disabled={!inputToken.trim() || status === "verifying"}
             onClick={() => verifyToken(inputToken.trim())}
           >
             {status === "verifying" ? "Verifying..." : "Verify & Save"}
           </button>
         </div>
-        {status === "error" && <span className="form__error">{error}</span>}
+        {status === "error" && (
+          <span className={s.fieldErrorText}>{error}</span>
+        )}
       </div>
     </div>
   );

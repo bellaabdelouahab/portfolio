@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import "./CarouselForm.css";
-import "../PopupShared.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faImage,
@@ -8,6 +6,7 @@ import {
   faPlus,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import * as s from "../formStyles";
 
 export default function CarouselForm({
   carouselItems,
@@ -115,59 +114,73 @@ export default function CarouselForm({
   };
 
   return (
-    <div className="popup-container">
-      <div className="carousel-form popup">
+    <div className={s.popupOverlay}>
+      <div className={`${s.popupPanel} w-full max-w-200`}>
         <button
           type="button"
-          className="close-button"
+          className={s.popupClose}
           onClick={() => setPopupWindow(null)}
         >
           <FontAwesomeIcon icon={faTimes} />
         </button>
 
-        <h2 className="form-title">
+        <h2 className={s.popupTitle}>
           {editId ? "Edit Carousel Image" : "Add Carousel Image"}
         </h2>
 
-        <div className="popup-body-split">
-          <div className="popup-form-col">
-            <div className="form-group">
-              <label htmlFor="carouselTitle">Image Title</label>
+        <div className={s.bodySplit}>
+          <div className={s.bodyFormCol}>
+            <div className={s.fieldGroup}>
+              <label className={s.fieldLabel} htmlFor="carouselTitle">
+                Image Title
+              </label>
               <input
                 type="text"
                 id="carouselTitle"
-                className="carousel-input"
+                className={s.control}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter a descriptive title for this image"
               />
             </div>
 
-            <div className="form-group">
-              <label>Image Upload</label>
+            <div className={s.fieldGroup}>
+              <label className={s.fieldLabel}>Image Upload</label>
+              {/* `drag-over` is added and removed by the drag handlers above via
+                  classList, so it is matched here as an arbitrary variant rather
+                  than lifted into React state — the handlers keep working
+                  untouched. */}
               <div
-                className={`carousel-upload-area ${preview ? "has-preview" : ""}`}
+                className={[
+                  "relative flex min-h-40 w-full items-center justify-center rounded-md border-2 border-dashed border-line",
+                  "bg-page transition-colors duration-200 ease-standard",
+                  "[&.drag-over]:border-success [&.drag-over]:bg-success/10",
+                  preview ? "min-h-70 border-solid border-success/60 p-2.5" : "",
+                ].join(" ")}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
               >
+                {/* Covers the whole drop area so the plain click-to-browse path
+                    works without a separate overlay handler. */}
                 <input
                   type="file"
-                  className="file-input"
+                  className="absolute inset-0 z-1 cursor-pointer opacity-0"
                   accept="image/jpeg,image/jpg,image/png,image/webp"
                   onChange={handleImageChange}
                   id="carouselImage"
                 />
                 {preview ? (
-                  <div className="carousel-preview">
+                  <div className="relative flex h-full w-full items-center justify-center">
                     <img
                       src={preview}
                       alt="Preview"
-                      className="preview-image"
+                      className="block h-auto max-h-65 w-full rounded-md bg-page object-contain"
                     />
+                    {/* z-2 so it sits above the full-bleed file input */}
                     <button
                       type="button"
-                      className="remove-image-btn"
+                      className="absolute top-2.5 right-2.5 z-2 flex size-8 cursor-pointer items-center justify-center rounded-full bg-danger text-white transition-transform duration-200 ease-standard hover:scale-110"
                       onClick={() => {
                         setFile(null);
                         setExistingPath(null);
@@ -177,12 +190,22 @@ export default function CarouselForm({
                     </button>
                   </div>
                 ) : (
-                  <div className="upload-placeholder">
-                    <FontAwesomeIcon icon={faImage} className="upload-icon" />
-                    <div className="upload-text">
-                      <p>Drag & drop image here</p>
-                      <span>or</span>
-                      <label htmlFor="carouselImage" className="browse-btn">
+                  <div className="flex flex-col items-center justify-center gap-2 p-5 text-center">
+                    <FontAwesomeIcon
+                      icon={faImage}
+                      className="text-3xl text-ink-muted"
+                    />
+                    <div className="flex flex-col items-center gap-2">
+                      <p className="leading-relaxed font-medium text-ink">
+                        Drag &amp; drop image here
+                      </p>
+                      <span className="text-xs leading-relaxed text-ink-muted">
+                        or
+                      </span>
+                      <label
+                        htmlFor="carouselImage"
+                        className={`relative z-2 ${s.pickerChip}`}
+                      >
                         <FontAwesomeIcon icon={faPlus} /> Browse files
                       </label>
                     </div>
@@ -190,45 +213,43 @@ export default function CarouselForm({
                 )}
               </div>
               {editId && !file && existingPath && (
-                <div className="image-requirements">
-                  <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+                <div className={s.helperRow}>
+                  <FontAwesomeIcon icon={faInfoCircle} className={s.helperIcon} />
                   <span>
                     Showing existing image — pick a new file above to replace it
                   </span>
                 </div>
               )}
-              <div className="image-requirements">
-                <FontAwesomeIcon icon={faInfoCircle} className="info-icon" />
+              <div className={s.helperRow}>
+                <FontAwesomeIcon icon={faInfoCircle} className={s.helperIcon} />
                 <span>
                   Recommended: JPG, PNG or WebP • Max 5MB • 16:9 aspect ratio
                 </span>
               </div>
             </div>
 
-            {error && <div className="form-error">{error}</div>}
+            {error && <div className={s.formError}>{error}</div>}
 
-            <div className="form-actions">
+            <div className={s.formActions}>
               {editId && (
                 <button
                   type="button"
-                  className="cancel-btn"
+                  className={s.btnGhost}
                   onClick={resetForm}
                 >
                   Cancel Edit
                 </button>
               )}
-              <button type="button" className="submit-btn" onClick={handleSave}>
+              <button type="button" className={s.btnPrimary} onClick={handleSave}>
                 {editId ? "Update Image" : "Add to Carousel"}
               </button>
             </div>
           </div>
 
-          <div className="popup-list-col">
-            <div className="popup-list-heading">
-              Added ({carouselItems.length})
-            </div>
+          <div className={s.bodyListCol}>
+            <div className={s.listHeading}>Added ({carouselItems.length})</div>
             {carouselItems.length === 0 && (
-              <div className="popup-list-empty">No images yet</div>
+              <div className={s.listEmpty}>No images yet</div>
             )}
             {carouselItems.map((item) => (
               <CarouselListItem
@@ -260,27 +281,19 @@ function CarouselListItem({ item, active, onClick, onDelete }) {
 
   return (
     <div
-      className={`popup-list-item ${active ? "popup-list-item--active" : ""}`}
+      className={[s.listItem, active ? s.listItemActive : s.listItemIdle].join(
+        " ",
+      )}
       onClick={onClick}
     >
       {thumbUrl && (
-        <img
-          src={thumbUrl}
-          alt={item.title}
-          className="popup-list-item__thumb"
-        />
+        <img src={thumbUrl} alt={item.title} className={s.listThumb} />
       )}
-      <div className="popup-list-item__info">
-        <div className="popup-list-item__title">{item.title}</div>
-        {item.file && (
-          <div className="popup-list-item__meta">New / changed</div>
-        )}
+      <div className={s.listItemInfo}>
+        <div className={s.listItemTitle}>{item.title}</div>
+        {item.file && <div className={s.listItemMeta}>New / changed</div>}
       </div>
-      <button
-        type="button"
-        className="popup-list-item__delete"
-        onClick={onDelete}
-      >
+      <button type="button" className={s.listItemDelete} onClick={onDelete}>
         <FontAwesomeIcon icon={faTimes} />
       </button>
     </div>

@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-import explode from "../../../shared/assets/js/codesamples.js";
-import "./codesample.css";
-import "./ProjectForm.css";
 import CarouselForm from "./components/carousel-form/CarouselForm";
 import CodeSampleForm from "./components/code-sample-form/CodeSampleForm";
 import TechsForm from "./components/techs-form/TechsForm";
@@ -21,6 +18,7 @@ import {
   TextareaComponent,
 } from "./components/IndexForm";
 import GithubTokenInput from "./components/GithubInput/GithubTokenInput";
+import * as s from "./components/formStyles";
 
 export default function ProjectForm({ initialProject = null, onDoneEditing }) {
   const isEditMode = Boolean(initialProject);
@@ -485,12 +483,18 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
   ];
 
   return (
-    <form onSubmit={handleFormSubmit} className="project-form">
-      <div className="project-form__header">
-        <h1 className="project-form__title">
+    // The panel was a three-stop translucent gradient over the admin
+    // background; flat bg-surface is what the rest of the admin area uses and
+    // reads the same at this size.
+    <form
+      onSubmit={handleFormSubmit}
+      className="mx-auto my-5 max-w-3xl rounded-lg border border-success/30 bg-surface px-6 py-6 text-ink shadow-md md:px-8"
+    >
+      <div className="mb-6 text-center">
+        <h1 className="mb-1 text-3xl leading-snug font-bold text-ink-strong">
           {isEditMode ? "Edit Project" : "Create New Project"}
         </h1>
-        <p className="project-form__subtitle">
+        <p className="text-sm leading-relaxed text-success">
           {isEditMode
             ? "Update the details below, then save."
             : "Add the details, then fill in the sections below."}
@@ -498,16 +502,15 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         {isEditMode && (
           <button
             type="button"
-            className="cancel-btn"
+            className={`${s.btnGhost} mt-1`}
             onClick={() => onDoneEditing?.()}
-            style={{ marginTop: "0.3125rem" }}
           >
             Cancel Edit
           </button>
         )}
       </div>
 
-      <div className="form-row">
+      <div className={s.fieldRow}>
         <InputComponent
           name="title"
           label="Title"
@@ -522,7 +525,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         />
       </div>
 
-      <div className="form-row">
+      <div className={s.fieldRow}>
         <InputComponent
           type="date"
           name="startDate"
@@ -554,7 +557,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         defaultValue={initialProject?.description}
       />
 
-      <div style={{ marginBottom: "1.25rem", marginTop: "0.625rem" }}>
+      <div className="mt-2.5 mb-5">
         <FileInputComponent
           name="image"
           label={existingImage ? "Replace cover image" : "Upload cover image"}
@@ -564,32 +567,16 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         />
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "0.625rem",
-        }}
-      >
-        <span
-          style={{
-            color: "#6b7280",
-            fontSize: "0.46875rem",
-            fontWeight: "700",
-            letterSpacing: "0.05em",
-          }}
-        >
+      {/* Both of these were 7.5–8px on #6b7280 against the panel — under 3:1 and
+          effectively invisible. */}
+      <div className="mb-2.5 flex justify-between">
+        <span className="text-xs font-bold tracking-[0.05em] text-ink-muted">
           PROJECT CONTENT
         </span>
-        <span style={{ color: "#6b7280", fontSize: "0.5rem" }}>
-          Select what to include
-        </span>
+        <span className="text-xs text-ink-muted">Select what to include</span>
       </div>
 
-      <div
-        className="form-row"
-        style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
-      >
+      <div className={`${s.fieldRow} grid-cols-3`}>
         <ProjectDataComponent
           items={codeSamples}
           setItems={setCodeSamples}
@@ -655,10 +642,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         />
       </div>
 
-      <div
-        className="form-row"
-        style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
-      >
+      <div className={`${s.fieldRow} grid-cols-3`}>
         <ProjectDataComponent
           items={resources}
           setItems={setResources}
@@ -705,7 +689,8 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
           formComponent={forms[4]}
           setPopupWindow={setPopupWindow}
         />
-        <div className="spacer"></div>
+        {/* Third grid cell intentionally empty — grid-cols-3 with two items
+            leaves it blank, same as the old unstyled .spacer div did. */}
       </div>
 
       {popupWindow}
@@ -722,10 +707,13 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         onVerified={() => setGithubTokenReady(true)}
       />
 
+      {/* disabled already covers isSubmitting/isCommitting, so the old
+          `.submitting` variant (darker bg, forced opacity) was redundant —
+          disabled:opacity-70 alone reproduces it. */}
       <button
         type="submit"
         disabled={isSubmitting || isCommitting || !githubTokenReady}
-        className={`project-form__submit ${isSubmitting || isCommitting ? "submitting" : ""}`}
+        className="mt-5 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-md bg-success px-2.5 py-2.5 text-xs font-semibold text-page transition-colors duration-200 ease-standard hover:bg-success/85 disabled:cursor-not-allowed disabled:opacity-70"
       >
         <svg
           width="18"
@@ -743,11 +731,23 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       </button>
 
       {(isCommitting || commitStatus) && (
+        // Was a blue "info" state — the same blue this batch removed from the
+        // upload icon and submit button elsewhere, so it's neutral here
+        // instead of reintroducing a fourth accent for a transient message.
         <div
-          className={`commit-status ${commitStatus.includes("Error") ? "error" : commitStatus.includes("success") ? "success" : "info"}`}
+          className={[
+            "mt-4 rounded-md border p-2.5 text-center text-xs leading-relaxed",
+            commitStatus.includes("Error")
+              ? "border-danger/20 bg-danger/10 text-danger"
+              : commitStatus.includes("success")
+                ? "border-success/20 bg-success/10 text-success"
+                : "border-line bg-surface-raised text-ink",
+          ].join(" ")}
         >
           {commitStatus}
-          {isCommitting && <div className="spinner"></div>}
+          {isCommitting && (
+            <span className="ml-2.5 inline-block size-4 animate-spin rounded-full border-2 border-white/30 border-t-white align-middle" />
+          )}
         </div>
       )}
     </form>

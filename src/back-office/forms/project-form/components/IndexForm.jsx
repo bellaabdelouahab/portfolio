@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import "./form-components.css";
+import * as s from "./formStyles";
 
 /* ---------- Text / Date / etc input ---------- */
 // Static top label per screenshot (not floating) — recommended once a form
@@ -7,7 +7,7 @@ import "./form-components.css";
 const InputComponent = ({
   type = "text",
   name,
-  className = "form__input",
+  className = s.fieldInput,
   placeholder = "",
   required = true,
   value,
@@ -17,16 +17,16 @@ const InputComponent = ({
   hint,
   error,
 }) => (
-  <div className="input-flow">
-    <label className="form__label" htmlFor={name}>
+  <div className={s.fieldFlow}>
+    <label className={s.fieldSmallLabel} htmlFor={name}>
       {label}
-      {required && <span className="form__required">*</span>}
+      {required && <span className={s.requiredMark}>*</span>}
     </label>
     <input
       type={type}
       id={name}
       name={name}
-      className={`${className} ${error ? "form__input--error" : ""}`}
+      className={`${className} ${error ? "border-danger" : ""}`}
       placeholder={placeholder}
       required={required}
       value={value}
@@ -36,7 +36,10 @@ const InputComponent = ({
       aria-describedby={error || hint ? `${name}-msg` : undefined}
     />
     {(error || hint) && (
-      <span id={`${name}-msg`} className={error ? "form__error" : "form__hint"}>
+      <span
+        id={`${name}-msg`}
+        className={error ? s.fieldErrorText : s.fieldHint}
+      >
         {error || hint}
       </span>
     )}
@@ -56,15 +59,15 @@ const TextareaComponent = ({
   error,
   rows = 4,
 }) => (
-  <div className="input-flow input-flow--textarea">
-    <label className="form__label" htmlFor={name}>
+  <div className={s.fieldFlow}>
+    <label className={s.fieldSmallLabel} htmlFor={name}>
       {label}
-      {required && <span className="form__required">*</span>}
+      {required && <span className={s.requiredMark}>*</span>}
     </label>
     <textarea
       id={name}
       name={name}
-      className={`form__input ${error ? "form__input--error" : ""}`}
+      className={`${s.fieldInput} ${s.fieldTextarea} ${error ? "border-danger" : ""}`}
       placeholder={placeholder}
       required={required}
       value={value}
@@ -74,7 +77,7 @@ const TextareaComponent = ({
       aria-invalid={!!error}
     />
     {(error || hint) && (
-      <span className={error ? "form__error" : "form__hint"}>
+      <span className={error ? s.fieldErrorText : s.fieldHint}>
         {error || hint}
       </span>
     )}
@@ -87,7 +90,7 @@ const TextareaComponent = ({
 // not the only way in.
 const FileInputComponent = ({
   name,
-  className = "form__input",
+  className = s.fieldInput,
   label = "Upload cover image",
   hint = "PNG or JPG, 16:9 aspect ratio recommended",
   accept = "image/png,image/jpeg",
@@ -130,13 +133,19 @@ const FileInputComponent = ({
   const displayPreview = previewUrl || existingImageUrl;
 
   return (
-    <div className="input-flow">
-      <label className="form__label" htmlFor={name}>
+    <div className={s.fieldFlow}>
+      <label className={s.fieldSmallLabel} htmlFor={name}>
         {label}
-        {required && <span className="form__required">*</span>}
+        {required && <span className={s.requiredMark}>*</span>}
       </label>
       <div
-        className={`file-drop ${dragging ? "dragging" : ""} ${file ? "has-file" : ""}`}
+        className={[
+          "flex w-full cursor-pointer items-center gap-3 rounded-md border-[1.5px] border-dashed p-3",
+          "transition-colors duration-200 ease-standard",
+          dragging || file
+            ? "border-success bg-surface"
+            : "border-line bg-page hover:border-success hover:bg-surface",
+        ].join(" ")}
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => {
           e.preventDefault();
@@ -145,6 +154,10 @@ const FileInputComponent = ({
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
       >
+        {/* sr-only, not hidden: this input carries `required`, and Chrome
+            refuses to submit a form containing a display:none required control
+            ("not focusable"). It also matches the note above — drag-and-drop is
+            a bonus, the native control stays keyboard-reachable. */}
         <input
           ref={inputRef}
           type="file"
@@ -153,14 +166,23 @@ const FileInputComponent = ({
           accept={accept}
           required={required && !file && !existingImageUrl}
           onChange={(e) => setFile(e.target.files?.[0])}
-          className="file-drop__native"
+          className="sr-only"
         />
-        <div className="file-drop__icon">⬆</div>
-        <div className="file-drop__text">
-          <strong>{file ? file.name : label}</strong>
-          {!file && <span>{hint}</span>}
+        {/* Was a violet tile — the third competing accent on this screen. */}
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-md bg-success/15 text-success">
+          ⬆
+        </div>
+        <div>
+          <strong className="mb-0.5 block text-xs leading-snug text-ink-strong">
+            {file ? file.name : label}
+          </strong>
+          {!file && (
+            <span className="text-xs leading-relaxed text-ink-muted">
+              {hint}
+            </span>
+          )}
           {file && (
-            <span className="file-drop__changed-badge">
+            <span className="mt-1 block text-xs leading-relaxed text-success">
               ✓ New file selected — will replace current on save
             </span>
           )}
@@ -169,7 +191,7 @@ const FileInputComponent = ({
         {displayPreview && (
           <button
             type="button"
-            className="file-drop__preview-btn"
+            className="ml-auto shrink-0 cursor-pointer rounded-sm border border-success/60 bg-success/15 px-12 py-3 text-xs text-success transition-colors duration-200 ease-standard hover:bg-success hover:text-page"
             onClick={(e) => {
               e.stopPropagation();
               setShowLightbox(true);
@@ -182,7 +204,7 @@ const FileInputComponent = ({
         {file && (
           <button
             type="button"
-            className="file-drop__clear"
+            className="shrink-0 cursor-pointer rounded-sm border border-line bg-surface-raised px-4 py-3 text-xs text-danger transition-colors duration-200 ease-standard hover:bg-danger hover:text-ink-strong"
             onClick={(e) => {
               e.stopPropagation();
               setFile(null);
@@ -197,18 +219,18 @@ const FileInputComponent = ({
 
       {showLightbox && displayPreview && (
         <div
-          className="lightbox-overlay"
+          className="fixed inset-0 z-2000 flex items-center justify-center bg-black/85 p-5"
           onClick={() => setShowLightbox(false)}
         >
           <img
             src={displayPreview}
             alt="Preview"
-            className="lightbox-image"
+            className="max-h-[90vh] max-w-[90vw] rounded-md object-contain shadow-lg"
             onClick={(e) => e.stopPropagation()}
           />
           <button
             type="button"
-            className="lightbox-close"
+            className="fixed top-4 right-4 flex size-10 cursor-pointer items-center justify-center rounded-full border border-white/20 bg-white/10 text-sm text-ink-strong"
             onClick={() => setShowLightbox(false)}
           >
             ✕
@@ -221,20 +243,24 @@ const FileInputComponent = ({
 
 /* ---------- Toggle switch (binary choice — clearer state change than a checkbox) ---------- */
 const ToggleComponent = ({ name, label, description, checked, onChange }) => (
-  <label className="toggle-row" htmlFor={name}>
-    <div className="toggle-row__text">
-      <span className="toggle-row__label">{label}</span>
-      {description && <span className="toggle-row__desc">{description}</span>}
+  <label className={s.toggleRow} htmlFor={name}>
+    <div>
+      <span className={s.toggleLabel}>{label}</span>
+      {description && <span className={s.toggleDesc}>{description}</span>}
     </div>
-    <span className="toggle-switch">
+    <span className="relative h-6 w-11 shrink-0">
+      {/* `peer` + `sr-only` rather than display:none, so the track and knob are
+          driven by peer-checked:* instead of a sibling combinator in CSS. The
+          input still submits — ProjectForm reads it via FormData. */}
       <input
         type="checkbox"
         id={name}
         name={name}
         checked={checked}
         onChange={onChange}
+        className="peer sr-only"
       />
-      <span className="toggle-switch__track" />
+      <span className="absolute inset-0 rounded-full border border-line bg-surface-raised transition-colors duration-200 ease-standard before:absolute before:top-0.5 before:left-0.5 before:size-4.5 before:rounded-full before:bg-ink-muted before:transition-transform before:duration-200 before:ease-standard before:content-[''] peer-checked:border-success peer-checked:bg-success peer-checked:before:translate-x-5 peer-checked:before:bg-page" />
     </span>
   </label>
 );
@@ -260,21 +286,38 @@ const ProjectDataComponent = ({
   const hasItems = items && items.length > 0;
 
   return (
-    <div className="input-flow" style={{ marginBottom: 0 }}>
+    <div className={s.fieldFlow}>
       <div
-        className={`content-card ${hasItems ? "has-items" : ""}`}
+        className={[
+          "flex w-full cursor-pointer items-center gap-2.5 rounded-md border p-2.5",
+          "transition-colors duration-200 ease-standard",
+          hasItems
+            ? "border-success bg-success/10"
+            : "border-line bg-page hover:border-success/40 hover:bg-surface",
+        ].join(" ")}
         onClick={() => setPopupWindow(formComponent)}
       >
-        <div className="content-card__icon-wrap">{icon}</div>
-        <div className="content-card__text">
-          <h4>{title}</h4>
-          <p>{description}</p>
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-white/5 text-ink">
+          {icon}
         </div>
-        <div className="content-card__checkbox">
+        <div className="flex-1">
+          <h4 className="mb-0.5 text-xs leading-snug font-medium text-ink-strong">
+            {title}
+          </h4>
+          {/* These were 7.5px on #64748b — the descriptions the user called out
+              as unreadable. text-xs is the floor for body copy here. */}
+          <p className="text-xs leading-snug text-ink-muted">{description}</p>
+        </div>
+        {/* 20px rather than 18px so a two-digit count still fits at text-xs. */}
+        <div
+          className={[
+            "flex size-5 items-center justify-center rounded-sm border",
+            "transition-colors duration-200 ease-standard",
+            hasItems ? "border-success bg-success" : "border-line",
+          ].join(" ")}
+        >
           {hasItems ? (
-            <span
-              style={{ fontSize: "0.4375rem", color: "#fff", fontWeight: 600 }}
-            >
+            <span className="text-xs font-semibold text-page">
               {items.length}
             </span>
           ) : null}
