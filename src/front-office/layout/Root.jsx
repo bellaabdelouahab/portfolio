@@ -3,6 +3,7 @@ import Navbar from "./navbar/Navbar";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import PageSkeleton from "../../shared/ui/PageSkeleton";
+import WhatsAppFloatingButton from "../../shared/ui/WhatsAppFloatingButton";
 
 /** Routes whose content is long-form rather than a card grid. */
 const ARTICLE_ROUTES = ["/resume", "/articles", "/projects/", "/my-team", "/site-map"];
@@ -59,6 +60,8 @@ export default function Root() {
       <main className="main">
         {isNavigating ? <PageSkeleton variant={skeletonVariant} /> : <Outlet />}
       </main>
+
+      <WhatsAppFloatingButton />
     </>
   );
 }

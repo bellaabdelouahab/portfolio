@@ -1,3 +1,5 @@
+import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
+
 export default function GetInTouchSection() {
     return (
       <div
@@ -9,7 +11,7 @@ export default function GetInTouchSection() {
         }}
       >
         <div className="home-sections-title">
-          <span>08. </span>
+          <span>09. </span>
           Get in Touch
         </div>
         <p className="get-in-touch-content">
@@ -20,9 +22,10 @@ export default function GetInTouchSection() {
           your business grow.
         </p>
         <div className="get-in-touch-btn">
-          <a href="mailto:">
-            <button style={{ marginBottom: "3.125rem" }}>Get in Touch</button>
-          </a>
+          <ContactCtaButtons
+            className="mb-12.5 justify-center"
+            whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project."
+          />
         </div>
       </div>
     );

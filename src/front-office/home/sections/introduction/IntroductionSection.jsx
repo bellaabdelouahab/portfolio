@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import CodeCard from "./CodeCard";
+import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
 // Imported rather than referenced from CSS: the background now lives on the
 // element as utilities, and only a JS import gets the hashed, cache-busted URL
 // Vite emits for a file under src/shared/assets.
@@ -59,36 +60,50 @@ export default function IntroductionSection() {
         className="relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply"
         style={{ backgroundImage: `url(${heroBackground})` }}
       >
-        {/* The clamp is the original fluid heading size, kept verbatim: the h1
-            inherits it, so the size lives on the wrapper rather than the heading. */}
-        <div className="relative mt-[7vh] ml-[3vw] block font-mono text-[clamp(0.625rem,calc(3vw_+_0.625rem),2.1875rem)] font-bold tracking-[4px] text-ink-strong">
-          <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">
-            Hi, I'm Abdelouahab
-          </h1>
-        </div>
-        {/* tracking is forced: global.css sets `h1..h5 { letter-spacing: 1px }`
-            unlayered, and unlayered rules outrank every utility layer. */}
-        <h2 className="my-[3vh] ml-[3vw] block text-center text-[0.9375rem] font-bold leading-[3vh] tracking-[4px]! text-ink md:text-left md:text-[2rem] md:leading-none">
-          {" "}
-          ⟫⟫ a Data Analyst & Software Engineer
-        </h2>
-        {/* Same forcing here for `a { letter-spacing: 0.5px }`. Text colour is
-            deliberately unset: legacy-base's unlayered `a { color: ... }` would
-            beat a utility anyway, and the anchor is meant to inherit. */}
-        <a
-          className="mx-[5vw] mt-[2vh] mb-[7vh] inline-block w-max rounded-sm bg-[#79d558] py-2.5 pr-5 pl-[50px] align-top text-2xl font-bold tracking-[2px]! md:mt-[7vh]"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/bellaabdelouahab"
-        >
-          Buy Me A Coffee <span className="ml-5">{">"}</span>{" "}
-        </a>
+        {/* Photo last in the DOM (name/heading stays first for SEO and screen
+            readers) but flex-col-reverse puts it on top visually on mobile —
+            a client sees the face before the sales copy, per the user's call
+            that this matters. At md+ it sits beside the text instead, the
+            usual consulting-site "portrait next to pitch" layout. */}
+        <div className="flex flex-col-reverse items-center gap-6 px-[3vw] md:flex-row md:items-center md:justify-between md:gap-12">
+          <div className="w-full">
+            {/* The clamp is the original fluid heading size, kept verbatim: the h1
+                inherits it, so the size lives on the wrapper rather than the heading. */}
+            <div className="relative mt-[7vh] block font-mono text-[clamp(0.625rem,calc(3vw_+_0.625rem),2.1875rem)] font-bold tracking-[4px] text-ink-strong">
+              <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">
+                Hi, I'm Abdelouahab
+              </h1>
+            </div>
+            {/* tracking is forced: global.css sets `h1..h5 { letter-spacing: 1px }`
+                unlayered, and unlayered rules outrank every utility layer. */}
+            <h2 className="my-[3vh] block text-center text-[0.9375rem] font-bold leading-[3vh] tracking-[4px]! text-ink md:text-left md:text-[2rem] md:leading-none">
+              {" "}
+              ⟫⟫ a Data Analyst & Software Engineer
+            </h2>
+            {/* Primary CTA: how a visitor actually starts a conversation. This used
+                to be the only button in the hero, and it was "Buy Me A Coffee" — a
+                tip jar left over from open-source work, not a way to hire the
+                person the rest of the page is trying to sell. Removed rather than
+                demoted, at the user's call. */}
+            <div className="mt-[2vh] mb-[7vh] md:mt-[7vh]">
+              <ContactCtaButtons whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project." />
+            </div>
+          </div>
 
-        {/* ml-[3vw] matches the title's left edge — the section's children use
-            hand-picked vw margins (title 3vw, button 5vw) and are not aligned with
-            each other, so the snippet anchors to the dominant edge. mt-12 gives it
-            room to read as its own element rather than crowding the call to action. */}
-        <div className="mb-16 mt-12 ml-[3vw] mr-[3vw]">
+          <img
+            src="/profile.png"
+            alt="Abdelouahab Bella"
+            width="176"
+            height="176"
+            className="mt-[7vh] size-32 shrink-0 rounded-full border-4 border-success/60 object-cover shadow-lg md:size-44"
+          />
+        </div>
+
+        {/* px-[3vw] matches the row above — the section's children used to use
+            hand-picked, mismatched vw margins (title 3vw, button 5vw); now
+            everything above the snippet shares one gutter. mt-12 gives it room
+            to read as its own element rather than crowding the call to action. */}
+        <div className="mb-16 mt-12 px-[3vw]">
           <CodeCard />
         </div>
       </section>
