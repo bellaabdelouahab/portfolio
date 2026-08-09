@@ -1,20 +1,40 @@
 /**
- * Tailwind entry point.
+ * Tailwind entry point + design system.
  *
  * STAGED ON PURPOSE. `@import "tailwindcss"` would pull in theme + preflight +
  * utilities at once, and preflight is an aggressive reset that collides with
  * legacy-base.css (both define box-sizing, body, heading and list resets). So
  * for now we take theme and utilities only: utilities become available and
- * nothing that already renders changes. Preflight gets enabled as its own
- * verified step, once the overlapping rules have been removed from
- * legacy-base.css.
+ * nothing that already renders changes. Preflight is enabled as its own verified
+ * step, once the overlapping rules have been removed from legacy-base.css.
  *
- * LAYER ORDER MATTERS MORE THAN IT LOOKS. Unlayered CSS beats layered CSS no
- * matter the source order or specificity, and every existing stylesheet here is
- * unlayered — so without doing anything, `class="p-4"` would LOSE to
- * `.about-content { padding: 30px }`. `legacy` is declared first below so the
- * old stylesheets can be imported into it and utilities can win. Until that
- * migration happens the declaration is harmless.
+ * ON LAYERING THE OLD CSS — tried, measured, rejected.
+ * Unlayered CSS beats layered CSS regardless of source order or specificity, so
+ * the obvious move is to wrap the existing stylesheets in a `legacy` layer and
+ * let utilities win. Doing that to the three global stylesheets hid the desktop
+ * navigation on all 20 desktop pages (ul.navbar__menu__list went flex -> none):
+ * the navbar rules live in legacy-base.css but interact with rules in
+ * Navbar.css, and layering one side inverted a cascade the markup depends on.
+ *
+ * It turned out not to be needed. A utility and an old rule only fight when both
+ * target the SAME element, and the conversion deletes a component's stylesheet in
+ * the same commit that adds its utilities — so the pair never coexists. Inherited
+ * properties (body colour, font) do not conflict at all: a utility on a child
+ * beats an inherited value outright.
+ *
+ * ON THE 10px ROOT — the important one.
+ * legacy-base.css sets html { font-size: 62.5% }, i.e. a 10px root, and all 535
+ * rem values in the codebase are calibrated to it. Tailwind's defaults assume a
+ * 16px root, so out of the box `p-4` would render 10px rather than its documented
+ * 16px — every utility silently 62.5% of its stated size.
+ *
+ * The obvious fix is to move to a 16px root and divide every rem by 1.6. That was
+ * tried and reverted: scaling rem values preserves EXPLICIT sizes but not
+ * INHERITED ones, and 1173 elements inherit their size from the root. They would
+ * have jumped 10px -> 16px. Adapting Tailwind to the existing root instead is one
+ * line, changes nothing that already renders, and still makes the utilities match
+ * their documentation. Everything below is therefore expressed in rem against a
+ * 10px root: 1.6rem = 16px.
  */
 
 @layer legacy, theme, base, components, utilities;
@@ -22,26 +42,87 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-/**
- * Design tokens. Tailwind v4 is configured in CSS rather than a JS file, so the
- * scale lives next to the styles that use it.
- *
- * NOTE ON SIZING: the site currently sets html { font-size: 62.5% } (a 10px
- * root) in legacy-base.css, and every existing rem value is calibrated to it.
- * Tailwind's spacing scale assumes a 16px root, so today `p-4` renders 10px
- * rather than its documented 16px. Moving to a 16px root is a separate step;
- * until then, treat Tailwind spacing numbers as 62.5% of what the docs say.
- */
 @theme {
-  /* Colours sampled from the existing design rather than invented, so utilities
-     and the remaining hand-written CSS agree. */
+  /* ---- Spacing -----------------------------------------------------------
+     Tailwind builds its whole spacing scale as calc(--spacing * n). 0.4rem is
+     4px at this root, so p-1 = 4px, p-4 = 16px, p-8 = 32px — exactly what the
+     documentation says. Do not change without changing the root font-size too. */
+  --spacing: 0.4rem;
+
+  /* ---- Colour -------------------------------------------------------------
+     Reduced from the 333 distinct colour values in use. Dark surfaces are the
+     existing palette. Two near-identical greens (#2ac17f, #29b578) collapse to
+     one; #fff and #ffffff were the same colour spelled two ways, 63 uses. */
   --color-page: #252525;
-  --color-ink: #bbbbbb;
-  --color-ink-strong: #ffffff;
-  --color-accent: #d91b42;
-  --color-accent-soft: #79d558;
   --color-surface: #2e2e2e;
+  --color-surface-raised: #383838;
   --color-line: #3a3a3a;
 
+  --color-ink-muted: #888888;
+  --color-ink: #bbbbbb;
+  --color-ink-strong: #ffffff;
+
+  --color-accent: #d91b42;
+  --color-accent-hover: #f02b53;
+  --color-success: #2ac17f;
+  --color-danger: #ff4d4d;
+
+  /* ---- Type ---------------------------------------------------------------
+     Reduced from 62 distinct sizes to a ~1.25 ratio scale. Values like 0.72rem,
+     9.5px and 0.19px letter-spacing were drift, not decisions.
+     Sizes are rem against the 10px root, so 1.6rem = 16px. */
+  --text-xs: 1.2rem;      /* 12px */
+  --text-xs--line-height: 1.6rem;
+  --text-sm: 1.4rem;      /* 14px */
+  --text-sm--line-height: 2rem;
+  --text-base: 1.6rem;    /* 16px */
+  --text-base--line-height: 2.4rem;
+  --text-lg: 1.8rem;      /* 18px */
+  --text-lg--line-height: 2.8rem;
+  --text-xl: 2rem;        /* 20px */
+  --text-xl--line-height: 2.8rem;
+  --text-2xl: 2.4rem;     /* 24px */
+  --text-2xl--line-height: 3.2rem;
+  --text-3xl: 3rem;       /* 30px */
+  --text-3xl--line-height: 3.6rem;
+  --text-4xl: 3.6rem;     /* 36px */
+  --text-4xl--line-height: 4rem;
+  --text-5xl: 4.8rem;     /* 48px */
+  --text-5xl--line-height: 5.2rem;
+
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Radius -------------------------------------------------------------
+     From 25 values. 3/4/5/6px are indistinguishable at a glance, so they become
+     one step; 8/10 become md; 14/15/16 become lg. */
+  --radius-sm: 0.4rem;   /* 4px */
+  --radius-md: 0.8rem;   /* 8px */
+  --radius-lg: 1.6rem;   /* 16px */
+
+  /* ---- Shadow -------------------------------------------------------------
+     From 70 values. Three depths — resting, raised, floating. Beyond three the
+     elevation hierarchy stops being readable. */
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.24);
+  --shadow-md: 0 5px 15px rgb(0 0 0 / 0.20);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.28);
+
+  /* ---- Motion -------------------------------------------------------------
+     One easing and two durations. Mismatched transition timings are a large and
+     rarely-noticed source of a page feeling unpolished. */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+
+  /* ---- Breakpoints --------------------------------------------------------
+     The codebase currently uses ~18 (300, 320, 400, 500, 576, 600, 640, 760,
+     765, 767, 768, 780, 820, 990, 992, 1000, 1024, 1119, 1120). These four are
+     what new work should use; the old ones get folded in as components convert.
+
+     These rem values look wrong next to the 10px root above, and are not. Inside
+     a media query, rem always resolves against the browser's INITIAL font-size
+     (16px) and deliberately ignores any author-set root size — otherwise a page
+     could change which media query matched by restyling itself. So 48rem is
+     768px here, not 480px. Do not "correct" these to match the 0.625 factor. */
+  --breakpoint-sm: 40rem;   /* 640px */
+  --breakpoint-md: 48rem;   /* 768px */
+  --breakpoint-lg: 64rem;   /* 1024px */
+  --breakpoint-xl: 80rem;   /* 1280px */
 }
