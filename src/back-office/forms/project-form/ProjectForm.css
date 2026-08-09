@@ -10,9 +10,9 @@
 ); /* Deep dark background matching the image */
   border: 1px solid #2e752c59;
   border-radius: 12px;
-  padding: 2.5rem 3rem;
+  padding: 1.5625rem 1.875rem;
   max-width: 750px;
-  margin: 2rem auto; /* Centers the form on the page */
+  margin: 1.25rem auto; /* Centers the form on the page */
   box-sizing: border-box;
   color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.781) 0px 5px 15px;
@@ -22,19 +22,19 @@
 /* Header Section */
 .project-form__header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5625rem;
 }
 
 .project-form__title {
   color: #ffffff;
-  font-size: 2.8rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3125rem;
 }
 
 .project-form__subtitle {
   color: #1fd33d; /* Light Indigo */
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   margin: 0;
 }
 
@@ -46,16 +46,16 @@
   background: #6366f1; /* Solid Indigo */
   color: #ffffff;
   border: none;
-  padding: 1rem;
+  padding: 0.625rem;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.625rem;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3125rem;
   cursor: pointer;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
   transition: background 0.2s ease;
 }
 
@@ -72,10 +72,10 @@
 
 /* Commit Status */
 .commit-status {
-  margin-top: 1.5rem;
-  padding: 1rem;
+  margin-top: 0.9375rem;
+  padding: 0.625rem;
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 0.5625rem;
   text-align: center;
 }
 .commit-status.info { background-color: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
@@ -102,15 +102,15 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 1.5rem;
+  padding: 0.9375rem;
 }
 
 .popup-container .popup {
   position: relative;
   max-height: 90vh;
   background: rgba(68, 68, 68, 0.966);
-  padding: 2rem;
+  padding: 1.25rem;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.781) 0px 5px 15px;
-  margin-left: 12rem;
+  margin-left: 7.5rem;
 }

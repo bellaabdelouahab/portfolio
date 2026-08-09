@@ -1,5 +1,5 @@
 .collaborations {
-  padding: 2rem 0;
+  padding: 1.25rem 0;
     background:
   linear-gradient(to bottom, #0A0A0A, transparent 30px),
     #171717;
@@ -12,10 +12,10 @@
 }
 
 .scroller__inner {
-  padding-block: 1rem;
+  padding-block: 0.625rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 5rem;
+  gap: 3.125rem;
 }
 
 .scroller__inner img {
@@ -61,7 +61,7 @@
 
 @keyframes scroll {
   to {
-    transform: translate(calc(-50% - 0.5rem));
+    transform: translate(calc(-50% - 0.3125rem));
   }
 }
 

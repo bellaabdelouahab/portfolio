@@ -45,7 +45,7 @@ ol,ul{list-style:none}
 .header{top:0;z-index:5}
 .header-sticky{position:-webkit-sticky;position:sticky}
 .navbar{background-color:var(--brand_primary);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:0 20px;-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease}
-.menu-trigger,.navbar__menu__list{font-size:1.4rem;line-height:2rem;font-weight:400}
+.menu-trigger,.navbar__menu__list{font-size:0.875rem;line-height:1.25rem;font-weight:400}
 .navbar__menu__list{border-radius:4px;background-color:#fff;border:1px solid #dbdbdb;box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);margin-top:4px}
 .navbar__menu__list li{min-width:200px}
 .navbar__menu__list a{padding:8px;display:block}
@@ -62,10 +62,17 @@ ol,ul{list-style:none}
 @media only screen and (min-width: 768px){.navbar__menu__list li{min-width:0;position:relative}}
 @media only screen and (min-width: 768px){.menu-trigger,.navbar__menu__list>li>a{padding:0;margin-left:16px}}
 @media only screen and (min-width: 768px){.navbar__menu__list button,.navbar__menu__list>li>a{-webkit-transition:color 0.2s ease;transition:color 0.2s ease;color:var(--brand_navbar_text)}}
+/* Root font-size is deliberately the browser default (16px), with no override.
 
-/* ---- Root sizing. The 62.5% is a 10px root; every rem in the codebase
-        is calibrated against it. Changing it rescales the entire site. ---- */
-html{box-sizing:border-box;font-family:sans-serif;font-size:62.5%}
+   It used to be 62.5% — the old trick that makes 1.4rem read as "14px". Removing
+   it meant scaling all 535 existing rem values by 0.625 so explicitly-sized text
+   stayed put. Inherited and em-based sizes did grow, and that was the point:
+   anything inheriting the root was rendering at 10px, which nobody chose.
+
+   Do not reintroduce a root override. Every tool — Tailwind included — assumes
+   16px, so an override means recalibrating each one forever, and it makes every
+   utility quietly render at a different size than its documentation states. */
+html{box-sizing:border-box;font-family:sans-serif}
 *,*:before,*:after{box-sizing:inherit}
 
 /* ---- App shell (belongs with Root.jsx eventually) ---- */

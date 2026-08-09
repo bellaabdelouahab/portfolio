@@ -8,7 +8,7 @@
 
 .login-form {
   background: rgba(0, 0, 0, 0.8);
-  padding: 2rem;
+  padding: 1.25rem;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   display: flex;
@@ -17,15 +17,15 @@
 }
 
 .login-title {
-  font-size: 2rem;
+  font-size: 1.25rem;
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 .login-input {
   width: 100%;
-  padding: 1rem;
-  margin: 0.5rem 0;
+  padding: 0.625rem;
+  margin: 0.3125rem 0;
   border-radius: 5px;
   border: 1px solid #555;
   background: #444;
@@ -35,8 +35,8 @@
 
 .login-submit {
   width: 100%;
-  padding: 1rem;
-  margin-top: 1rem;
+  padding: 0.625rem;
+  margin-top: 0.625rem;
   border-radius: 5px;
   border: none;
   background-color: #28a745;
@@ -50,19 +50,19 @@
 
 .login-subtitle {
   color: #999;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   text-align: center;
 }
 
 .github-login-btn {
   width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
   border-radius: 5px;
   border: none;
   background: #333;
   color: white;
-  font-size: 1rem;
+  font-size: 0.625rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -87,15 +87,15 @@
 
 .github-icon {
   margin-right: 10px;
-  font-size: 1.2rem;
+  font-size: 0.75rem;
 }
 
 .login-error {
   background-color: rgba(220, 53, 69, 0.8);
   color: white;
-  padding: 1rem;
+  padding: 0.625rem;
   border-radius: 5px;
-  margin-top: 1rem;
+  margin-top: 0.625rem;
   text-align: center;
   transition: all 0.3s ease;
   width: 100%;
@@ -104,8 +104,8 @@
 
 .login-error.unauthorized {
   background-color: #d63031;
-  padding: 1.5rem;
-  font-size: 1.1rem;
+  padding: 0.9375rem;
+  font-size: 0.6875rem;
   font-weight: bold;
   box-shadow: 0 5px 15px rgba(214, 48, 49, 0.5);
   animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
@@ -113,7 +113,7 @@
 
 .error-icon {
   margin-right: 10px;
-  font-size: 1.2rem;
+  font-size: 0.75rem;
 }
 
 @keyframes shake {

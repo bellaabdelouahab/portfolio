@@ -273,7 +273,7 @@ const ProjectDataComponent = ({
         <div className="content-card__checkbox">
           {hasItems ? (
             <span
-              style={{ fontSize: "0.7rem", color: "#fff", fontWeight: 600 }}
+              style={{ fontSize: "0.4375rem", color: "#fff", fontWeight: 600 }}
             >
               {items.length}
             </span>

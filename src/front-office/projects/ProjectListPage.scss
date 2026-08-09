@@ -2,7 +2,7 @@
   height: auto;
   width: 100%;
   display: inline-block;
-  padding-bottom:3rem;
+  padding-bottom:1.875rem;
 }
 .projects-header * {
   /* border: 1px solid rgb(188, 233, 29); */
@@ -24,7 +24,7 @@
   letter-spacing: 4px;
   width: 90%;
   font-family: var(--font-family);
-  padding-bottom: 2rem;
+  padding-bottom: 1.25rem;
   width: fit-content;
   display: inline-block;
 }
@@ -32,7 +32,7 @@
   background: #2f2f2f;
   margin-right: 7vw;
   margin-top: 0rem;
-  padding: 1rem 5rem;
+  padding: 0.625rem 3.125rem;
   text-align: center;
   height: fit-content;
   border: 1px solid #82808089;
@@ -46,7 +46,7 @@
   cursor: text;
 }
 .projects-section__filters > label > span {
-  padding-left: 0.5rem;
+  padding-left: 0.3125rem;
   cursor: pointer;
   color: #e8e8e8;
 }
@@ -80,10 +80,10 @@
 .filter-element {
   border: 1px solid #858585aa;
   border-style: dotted;
-  padding: 1.5rem;
+  padding: 0.9375rem;
   height: fit-content;
   color: #e8e8e8;
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 500;
 }
 .filter-element:hover {
@@ -108,22 +108,22 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  row-gap: 2rem;
-  column-gap: 3rem;
+  row-gap: 1.25rem;
+  column-gap: 1.875rem;
   flex-wrap: wrap;
 }
 .card {
   height: auto;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.3125rem;
   min-width: 330px;
   cursor: pointer;
   transition: 0.3s ease-in;
   background-image: radial-gradient(
     circle at center,
-    #20202079 0.1rem,
+    #20202079 0.0625rem,
     transparent 0
   ) !important;
-  background-size: 1rem 1rem;
+  background-size: 0.625rem 0.625rem;
   background-repeat: round;
   /* border: 1px solid #374158; */
   position: relative;
@@ -134,11 +134,11 @@
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
   .projects-section__projects__project__title {
-    min-height: 4.5rem;
+    min-height: 2.8125rem;
     color: rgb(201, 198, 198);
     font-size: 2em;
     font-weight: 700;
-    margin: 1rem;
+    margin: 0.625rem;
     text-align: center;
     font-family: var(--font-family);
     display: flex;
@@ -160,7 +160,7 @@
     font-weight: 200;
     font-size: 14px;
     line-height: 20px;
-    padding: 1rem 1.5rem;
+    padding: 0.625rem 0.9375rem;
     text-align: left;
     text-align-last: left;
     hyphens: auto;
@@ -240,19 +240,19 @@
 
 @media (max-width: 500px) {
   .projects-header {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
     flex-direction: row;
     align-items: center;
     justify-content: center;
   }
   .projects-section__title {
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
     height: fit-content;
     padding: 0;
   }
   .projects-section__filters {
-    padding: 1rem 2rem;
-    font-size: 1rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.625rem;
   }
   .card {
     height: 60vh;

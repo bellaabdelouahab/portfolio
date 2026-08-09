@@ -1,7 +1,7 @@
 .github-token-input-row {
   display: flex;
-  gap: 0.75rem;
-  margin-top: .5rem;
+  gap: 0.46875rem;
+  margin-top: 0.3125rem;
 }
 .github-token-input-row .form__input { flex: 1; }
 .github-token-change {
@@ -10,5 +10,5 @@
   color: var(--accent-primary);
   text-decoration: underline;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.53125rem;
 }

@@ -53,13 +53,13 @@
 
 .happy-clients-card h3 {
     color: #b0afaf; /* Light gray for headings */
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
     margin-top: 10px;
 }
 
 .happy-clients-card  p {
     color: #cfcfcf; /* Light gray for text */
-    font-size: 0.9rem;
+    font-size: 0.5625rem;
     line-height: 1.4;
 }
 .happy-clients-card > p {
@@ -75,7 +75,7 @@
 }
 
 .client-profession p {
-    font-size: 1rem;
+    font-size: 0.625rem;
     padding: 3px 6px;
     border-radius: 5px;
     background-color: #2f2f2f; /* Slightly darker gray for contrast */

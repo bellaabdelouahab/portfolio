@@ -9,6 +9,7 @@ import Clients from "./forms/clients-form/Clients";
 import VisitorStats from "./visitor-stats/VisitorStats";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import SEO from "../shared/ui/SEO";
+import { avatarPlaceholder } from "../shared/lib/placeholders";
 
 export default function FillDB() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -124,7 +125,7 @@ export default function FillDB() {
                   className="user-avatar"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/30";
+                    e.target.src = avatarPlaceholder;
                   }}
                 />
                 <span className="user-name">{user.displayName}</span>

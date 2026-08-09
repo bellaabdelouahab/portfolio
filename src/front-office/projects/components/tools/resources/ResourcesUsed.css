@@ -7,10 +7,10 @@
 }
 
 .project__resources__title {
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-top: 4rem;
-  margin-left: 1rem;
+  margin-top: 2.5rem;
+  margin-left: 0.625rem;
   margin-bottom: 20px;
   color: #00ff0088;
   padding: 10px;
@@ -19,27 +19,27 @@
 
 .project__resources__list {
   list-style-type: none;
-  padding: 3rem 3rem;
+  padding: 1.875rem 1.875rem;
   margin: 0;
   width: 95%;
   height: 100%;
   margin: auto;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
   background: #333333;
   box-shadow: rgba(45, 184, 17, 0.685) 2.4px 2.4px 3.2px;
 }
 
 .project__resources__item {
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 400;
   padding: 15px;
-  border: 0.5rem solid #212121;
+  border: 0.3125rem solid #212121;
   border-top: none;
   color: #bbbbbb;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5rem;
+  gap: 3.125rem;
 }
 /* hover lighter*/
 .project__resources__item:hover {
@@ -54,5 +54,5 @@
 }
 
 .project__resources__item:nth-child(1) {
-  border-top: 0.5rem solid #212121;
+  border-top: 0.3125rem solid #212121;
 }

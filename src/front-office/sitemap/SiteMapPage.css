@@ -1,21 +1,21 @@
 .sitemap-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1.25rem 0.625rem;
   color: #f8f8f8;
 }
 
 .sitemap-container h1 {
   color: #d91b42;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
+  font-size: 1.5625rem;
+  margin-bottom: 0.625rem;
+  padding-bottom: 0.3125rem;
   border-bottom: 2px solid #333;
 }
 
 .sitemap-description {
-  margin-bottom: 2rem;
-  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.6875rem;
   line-height: 1.5;
   color: #aaa;
 }
@@ -23,13 +23,13 @@
 .sitemap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .sitemap-section {
   background-color: #1a1a1a;
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 0.9375rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -41,8 +41,8 @@
 
 .sitemap-section h2 {
   color: #61dafb;
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+  margin-bottom: 0.625rem;
+  font-size: 0.9375rem;
 }
 
 .sitemap-section h2 a {
@@ -57,21 +57,21 @@
 
 .sitemap-section p {
   color: #bbb;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
+  margin-bottom: 0.625rem;
+  font-size: 0.59375rem;
   line-height: 1.4;
 }
 
 .sitemap-subsections, 
 .sitemap-children {
-  margin-top: 1.5rem;
+  margin-top: 0.9375rem;
 }
 
 .sitemap-subsections h3,
 .sitemap-children h3 {
   color: #aaa;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.6875rem;
+  margin-bottom: 0.3125rem;
 }
 
 .section-list,
@@ -83,8 +83,8 @@
 
 .section-list li,
 .children-list li {
-  margin-bottom: 0.5rem;
-  padding-left: 0.5rem;
+  margin-bottom: 0.3125rem;
+  padding-left: 0.3125rem;
   border-left: 2px solid #333;
   transition: border-color 0.2s ease;
 }
@@ -100,7 +100,7 @@
   text-decoration: none;
   transition: color 0.2s ease;
   display: block;
-  padding: 0.3rem 0;
+  padding: 0.1875rem 0;
 }
 
 .section-list li a:hover,
@@ -110,28 +110,28 @@
 
 .item-description {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.53125rem;
   color: #888;
-  margin-top: 0.2rem;
+  margin-top: 0.125rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .more-items {
-  margin-top: 0.5rem;
+  margin-top: 0.3125rem;
   font-style: italic;
 }
 
 .sitemap-xml-link {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
   text-align: center;
 }
 
 .sitemap-xml-link a {
   color: #61dafb;
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 0.3125rem 0.625rem;
   border: 1px solid #61dafb;
   border-radius: 4px;
   transition: all 0.3s ease;
@@ -145,8 +145,8 @@
 .loading-indicator,
 .error-message {
   text-align: center;
-  padding: 2rem;
-  font-size: 1.25rem;
+  padding: 1.25rem;
+  font-size: 0.78125rem;
 }
 
 .error-message {

@@ -500,7 +500,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
             type="button"
             className="cancel-btn"
             onClick={() => onDoneEditing?.()}
-            style={{ marginTop: "0.5rem" }}
+            style={{ marginTop: "0.3125rem" }}
           >
             Cancel Edit
           </button>
@@ -554,7 +554,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         defaultValue={initialProject?.description}
       />
 
-      <div style={{ marginBottom: "2rem", marginTop: "1rem" }}>
+      <div style={{ marginBottom: "1.25rem", marginTop: "0.625rem" }}>
         <FileInputComponent
           name="image"
           label={existingImage ? "Replace cover image" : "Upload cover image"}
@@ -568,20 +568,20 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginBottom: "1rem",
+          marginBottom: "0.625rem",
         }}
       >
         <span
           style={{
             color: "#6b7280",
-            fontSize: "0.75rem",
+            fontSize: "0.46875rem",
             fontWeight: "700",
             letterSpacing: "0.05em",
           }}
         >
           PROJECT CONTENT
         </span>
-        <span style={{ color: "#6b7280", fontSize: "0.8rem" }}>
+        <span style={{ color: "#6b7280", fontSize: "0.5rem" }}>
           Select what to include
         </span>
       </div>

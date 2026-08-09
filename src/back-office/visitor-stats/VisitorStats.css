@@ -32,7 +32,7 @@
 /* ── Page Header ─────────────────────────────────────────────────── */
 .visitor-stats h2 {
   text-align: center;
-  font-size: 2.8rem;
+  font-size: 1.75rem;
   margin-bottom: 40px;
   color: var(--vs-text);
   letter-spacing: -0.03em;
@@ -56,7 +56,7 @@
 }
 
 .filter-label {
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   color: var(--vs-text-dim);
   margin-right: 4px;
   text-transform: uppercase;
@@ -71,7 +71,7 @@
   border: 1px solid var(--vs-border);
   padding: 7px 14px;
   border-radius: var(--vs-radius-sm);
-  font-size: 0.875rem;
+  font-size: 0.54688rem;
   outline: none;
   transition: border-color 0.2s var(--vs-ease), box-shadow 0.2s var(--vs-ease);
   appearance: none;
@@ -149,7 +149,7 @@
 }
 
 .stats-card h3 {
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   font-weight: 500;
   margin-bottom: 14px;
   color: var(--vs-text-muted);
@@ -159,7 +159,7 @@
 }
 
 .stat-number {
-  font-size: 2.6rem;
+  font-size: 1.625rem;
   font-weight: 700;
   color: var(--vs-green);
   letter-spacing: -0.04em;
@@ -172,7 +172,7 @@
 }
 
 .stat-detail {
-  font-size: 0.78rem;
+  font-size: 0.4875rem;
   color: var(--vs-text-dim);
   margin-top: 8px;
 }
@@ -193,7 +193,7 @@
 }
 
 .stats-section h3 {
-  font-size: 0.95rem;
+  font-size: 0.59375rem;
   font-weight: 600;
   margin-bottom: 18px;
   color: var(--vs-text);
@@ -239,7 +239,7 @@
 }
 
 .mini-stat-title {
-  font-size: 0.68rem;
+  font-size: 0.425rem;
   color: var(--vs-text-dim);
   margin-bottom: 8px;
   text-transform: uppercase;
@@ -248,7 +248,7 @@
 }
 
 .mini-stat-value {
-  font-size: 1.4rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--vs-green);
   letter-spacing: -0.02em;
@@ -257,7 +257,7 @@
 
 /* ── Heatmap ─────────────────────────────────────────────────────── */
 .heatmap-label {
-  font-size: 0.7rem;
+  font-size: 0.4375rem;
   color: var(--vs-text-dim);
   text-align: right;
   padding-right: 8px;
@@ -275,7 +275,7 @@
 }
 
 .heatmap-day {
-  font-size: 0.68rem;
+  font-size: 0.425rem;
   text-align: center;
   color: var(--vs-text-dim);
   margin-bottom: 5px;
@@ -290,7 +290,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.85);
   cursor: default;
@@ -317,7 +317,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   color: var(--vs-text-dim);
   font-family: var(--vs-mono);
 }
@@ -365,14 +365,14 @@
 
 .page-path {
   font-family: var(--vs-mono);
-  font-size: 0.82rem;
+  font-size: 0.5125rem;
   color: var(--vs-green);
   font-weight: 400;
 }
 
 .page-count {
   font-weight: 600;
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   font-family: var(--vs-mono);
   color: var(--vs-green);
   background: rgba(72, 187, 120, 0.1);
@@ -403,7 +403,7 @@
 .referrer-domain {
   font-weight: 500;
   color: var(--vs-text);
-  font-size: 0.875rem;
+  font-size: 0.54688rem;
 }
 
 .referrer-count {
@@ -424,13 +424,13 @@
   width: 100%;
   border-collapse: collapse;
   color: var(--vs-text);
-  font-size: 0.82rem;
+  font-size: 0.5125rem;
 }
 
 .visitors-table th {
   background: var(--vs-elevated);
   color: var(--vs-text-dim);
-  font-size: 0.68rem;
+  font-size: 0.425rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -465,7 +465,7 @@
   display: inline-block;
   padding: 2px 8px;
   border-radius: 20px;
-  font-size: 0.68rem;
+  font-size: 0.425rem;
   font-weight: 500;
   margin-left: 6px;
   font-family: var(--vs-mono);
@@ -514,7 +514,7 @@
   border: 1px solid var(--vs-border);
   border-radius: var(--vs-radius-sm);
   padding: 7px 13px;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   font-family: var(--vs-mono);
   cursor: pointer;
   transition: background 0.15s var(--vs-ease), color 0.15s var(--vs-ease), border-color 0.15s var(--vs-ease);
@@ -541,7 +541,7 @@
 
 .page-info {
   color: var(--vs-text-dim);
-  font-size: 0.72rem;
+  font-size: 0.45rem;
   font-family: var(--vs-mono);
 }
 
@@ -551,7 +551,7 @@
   border: 1px solid var(--vs-green-border);
   border-radius: var(--vs-radius-sm);
   padding: 7px 16px;
-  font-size: 0.82rem;
+  font-size: 0.5125rem;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.15s var(--vs-ease), border-color 0.15s var(--vs-ease);
@@ -573,7 +573,7 @@
 .error {
   padding: 60px 20px;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 0.6875rem;
   background: var(--vs-surface);
   border-radius: var(--vs-radius);
   display: flex;
@@ -622,20 +622,20 @@
 /* ── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 992px) {
   .stats-overview { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-  .visitor-stats h2 { font-size: 2.3rem; }
+  .visitor-stats h2 { font-size: 1.4375rem; }
 }
 
 @media (max-width: 768px) {
   .distribution-row { grid-template-columns: 1fr; }
   .stats-section { padding: 18px; }
-  .stat-number { font-size: 2rem; }
+  .stat-number { font-size: 1.25rem; }
   .mini-stats-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
 }
 
 @media (max-width: 576px) {
   .stats-overview { grid-template-columns: 1fr; }
   .filters { flex-direction: column; align-items: flex-start; }
-  .visitor-stats h2 { font-size: 1.8rem; }
+  .visitor-stats h2 { font-size: 1.125rem; }
   .pagination-controls { flex-direction: column; align-items: flex-start; }
   .pagination-buttons { margin-top: 10px; }
 }

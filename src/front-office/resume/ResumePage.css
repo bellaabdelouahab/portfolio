@@ -6,7 +6,7 @@
 
 .resume-section__title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 1.5625rem;
     margin-bottom: 8px;
     color: #ffffff;
 }
@@ -33,7 +33,7 @@
     position: relative;
     background: #3e3e3e;
     transition: transform 0.2s, box-shadow 0.2s;
-    width: 35rem;
+    width: 21.875rem;
 }
 
 .resume-card:hover {
@@ -87,7 +87,7 @@
 }
 
 .resume-title {
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
     margin-bottom: 16px;
     color: #ffffff;
 }
@@ -164,21 +164,21 @@
 
 
 .resume-section__title {
-    font-size: 3rem; /* Increased from 2.5rem to 3rem */
+    font-size: 1.875rem; /* Increased from 1.5625rem to 1.875rem */
 }
 
 .resume-section__subtitle {
-    font-size: 1.5rem; /* Added font-size for subtitle */
+    font-size: 0.9375rem; /* Added font-size for subtitle */
 }
 
 .resume-title {
-    font-size: 2rem; /* Increased from 1.5rem to 2rem */
+    font-size: 1.25rem; /* Increased from 0.9375rem to 1.25rem */
 }
 
 .resume-description {
-    font-size: 1.2rem; /* Added font-size for description */
+    font-size: 0.75rem; /* Added font-size for description */
 }
 
 .resume-download {
-    font-size: 1.1rem; /* Added font-size for download button */
+    font-size: 0.6875rem; /* Added font-size for download button */
 }

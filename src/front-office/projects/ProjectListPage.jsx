@@ -206,7 +206,7 @@ export default function Projects() {
                       }}>
                       <Skeleton
                         height={24}
-                        width={`10rem`}
+                        width={`6.25rem`}
                         style={{
                           marginBottom: "10px",
                           marginTop: "10px",

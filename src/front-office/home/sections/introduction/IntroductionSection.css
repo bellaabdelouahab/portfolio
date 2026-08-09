@@ -19,7 +19,7 @@ letter-spacing: 4px;
 /* text-shadow: 0 0 5px rgba(206, 203, 203, 0.775); */
 margin-top: 7vh;
 margin-left: 3vw;
-font-size: clamp(1rem, 3vw + 1rem, 3.5rem);
+font-size: clamp(0.625rem, 3vw + 0.625rem, 2.1875rem);
 font-family: "Source Code Pro", monospace;
 position: relative;
 display: block;
@@ -79,7 +79,7 @@ transition: all 0.2s ease-in-out;
 /* aling horis */
 margin:auto;
 margin-bottom: 7vh;
-margin-left: 4rem;
+margin-left: 2.5rem;
 }
 .home-introduction-section__img:hover{
 

@@ -12,7 +12,7 @@
 }
 
 .ti-tag-label{
-  margin-right: 2rem;
+  margin-right: 1.25rem;
 }
 
 .ti-count {
@@ -33,7 +33,7 @@
   background: #2a2d3a;
   border-radius: 10px;
   color: #e4e6f5;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   cursor: grab;
   transition: box-shadow 0.15s ease;
 }
@@ -56,7 +56,7 @@
 
 .ti-chip b {
   text-transform: uppercase;
-  font-size: 0.65rem;
+  font-size: 0.40625rem;
   letter-spacing: 0.05em;
   color: var(--c, #6366f1);
 }
@@ -81,7 +81,7 @@
   outline: none;
   background: transparent;
   color: #f4f5fb;
-  font-size: 0.9rem;
+  font-size: 0.5625rem;
   padding: 6px 2px;
 }
 
@@ -95,6 +95,6 @@
 
 .ti-help {
   margin-top: 8px;
-  font-size: 0.75rem;
+  font-size: 0.46875rem;
   color: #6b6f8a;
 }

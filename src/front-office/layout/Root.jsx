@@ -115,7 +115,7 @@ function createSocialLink({ href, src, alt }) {
         className="social-networks__link__img"
         height="20px"
         width="20px"
-        style={{ margin: "0 auto", marginTop: "1rem" }}
+        style={{ margin: "0 auto", marginTop: "0.625rem" }}
       />
     </a>
   );

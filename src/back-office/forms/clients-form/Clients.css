@@ -2,25 +2,25 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.625rem;
   width: 50%;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-top: 3rem;
+  margin-top: 1.875rem;
 }
 
 .add-client-form > .client-profession {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
 }
 
 .client-profession input,
 .client-profession textarea {
   background: transparent;
   color: #f8f8f8;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
+  margin-bottom: 0.3125rem;
+  padding: 0.3125rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -34,7 +34,7 @@ input[type="file"].client-picture-input {
   border: 1px solid #ccc;
   border-radius: 4px;
   height: 30px;
-  margin: 0.5rem auto;
+  margin: 0.3125rem auto;
 }
 input[type="file"].client-picture-input:focus {
   border-color: #2196f3;
@@ -52,7 +52,7 @@ input[type="file"].client-picture-input::before {
   cursor: pointer;
   font-size: 12px;
   font-weight: 700;
-  margin-right: 3rem;
+  margin-right: 1.875rem;
   border-radius: 15px;
 }
 input[type="file"].client-picture-input::-webkit-file-upload-button {
@@ -60,7 +60,7 @@ input[type="file"].client-picture-input::-webkit-file-upload-button {
 }
 
 button[type="submit"] {
-  padding: 0.5rem 1rem;
+  padding: 0.3125rem 0.625rem;
   background-color: #09710b;
   color: #fff;
   border: none;
@@ -76,56 +76,56 @@ button[type="submit"]:hover {
   max-width: 900px;
   margin: 0 auto;
   margin-top: 4vh;
-  padding: 2rem;
+  padding: 1.25rem;
   background-color: #2a2a2a;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .client-form-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   text-align: center;
 }
 
 .client-form-title {
-  font-size: 2rem;
+  font-size: 1.25rem;
   background: linear-gradient(135deg, #4b6cb7, #182848);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3125rem;
 }
 
 .client-form-subtitle {
   color: #aaa;
-  font-size: 1rem;
+  font-size: 0.625rem;
 }
 
 .client-form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .client-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 
 .client-form-fields {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.78125rem;
 }
 
 .client-form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3125rem;
 }
 
 .client-form-group label {
-  font-size: 0.9rem;
+  font-size: 0.5625rem;
   color: #ddd;
   font-weight: 500;
 }
@@ -138,7 +138,7 @@ button[type="submit"]:hover {
   border: 1px solid #555;
   background-color: rgba(40, 40, 40, 0.5);
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.625rem;
   transition: all 0.3s ease;
 }
 
@@ -162,14 +162,14 @@ button[type="submit"]:hover {
 
 .error-text {
   color: #ff4d4d;
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
+  font-size: 0.5rem;
+  margin-top: 0.1875rem;
 }
 
 .client-image-upload {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3125rem;
 }
 
 .client-image-preview {
@@ -210,8 +210,8 @@ button[type="submit"]:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 2rem;
+  gap: 0.46875rem;
+  padding: 1.25rem;
   text-align: center;
 }
 
@@ -227,7 +227,7 @@ button[type="submit"]:hover {
 
 .upload-placeholder span {
   color: #888;
-  font-size: 0.8rem;
+  font-size: 0.5rem;
 }
 
 .client-form-actions {
@@ -243,7 +243,7 @@ button[type="submit"]:hover {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.625rem;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
@@ -264,9 +264,9 @@ button[type="submit"]:hover {
 }
 
 .client-message {
-  padding: 1rem;
+  padding: 0.625rem;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   text-align: center;
   font-weight: 500;
 }
@@ -298,8 +298,8 @@ button[type="submit"]:hover {
 }
 
 .commit-status {
-  margin-top: 1rem;
-  padding: 1rem;
+  margin-top: 0.625rem;
+  padding: 0.625rem;
   border-radius: 8px;
   text-align: center;
   font-weight: 500;
@@ -333,6 +333,6 @@ button[type="submit"]:hover {
   }
   
   .clients-form-container {
-    padding: 1.5rem;
+    padding: 0.9375rem;
   }
 }

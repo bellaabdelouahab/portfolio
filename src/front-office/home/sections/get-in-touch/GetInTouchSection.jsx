@@ -21,7 +21,7 @@ export default function GetInTouchSection() {
         </p>
         <div className="get-in-touch-btn">
           <a href="mailto:">
-            <button style={{ marginBottom: "5rem" }}>Get in Touch</button>
+            <button style={{ marginBottom: "3.125rem" }}>Get in Touch</button>
           </a>
         </div>
       </div>

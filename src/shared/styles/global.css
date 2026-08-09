@@ -104,21 +104,21 @@ p {
 }
 .social-networks {
   position: absolute;
-  width: 3rem;
+  width: 1.875rem;
   height: 155px;
   background: #282c35;
   z-index: 100;
   /* move it to the right */
   right: 0;
   top: calc(50% - 77.5px);
-  margin-right: 1rem;
-  border-radius: 1rem 0 0 1rem;
+  margin-right: 0.625rem;
+  border-radius: 0.625rem 0 0 0.625rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 @media screen and (max-width: 990px) {
   .main {
-    margin-top: 7rem;
+    margin-top: 4.375rem;
     width: 100%;
     height: auto;
   }

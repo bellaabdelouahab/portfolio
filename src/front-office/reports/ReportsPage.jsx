@@ -4,6 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../shared/lib/firebase";
 import { useEffect, useState } from 'react';
 import SEO from '../../shared/ui/SEO';
+import { coverPlaceholder } from '../../shared/lib/placeholders';
 
 // Helper function to format dates
 const formatDate = (dateString) => {
@@ -62,7 +63,7 @@ export default function Reports() {
     const [loadingComplete, setLoadingComplete] = useState(false);
     
     // Placeholder image if cover image is missing
-    const placeholderImage = "https://via.placeholder.com/175x250/121820/ffffff?text=No+Cover";
+    const placeholderImage = coverPlaceholder;
 
     // Sort reports by date (newest first)
     const sortedReports = [...reports].sort((a, b) => {

@@ -24,15 +24,15 @@
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.9375rem;
+  margin-bottom: 0.9375rem;
   width: 100%;
 }
 
 .input-flow {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3125rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -41,7 +41,7 @@
    Inputs, Textarea & Labels
    ========================================================================== */
 .form__label {
-  font-size: 1.1rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   color: var(--text-secondary);
   letter-spacing: 0.01em;
@@ -54,8 +54,8 @@
 
 .form__input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1.15rem;
+  padding: 0.46875rem 0.625rem;
+  font-size: 0.71875rem;
   background-color: var(--bg-input);
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
@@ -105,8 +105,8 @@ textarea.form__input {
 .file-drop {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  padding: 1.25rem;
+  gap: 0.75rem;
+  padding: 0.78125rem;
   border: 1.5px dashed var(--border-subtle);
   border-radius: 8px;
   background-color: var(--bg-input);
@@ -136,13 +136,13 @@ textarea.form__input {
 
 .file-drop__text strong {
   display: block;
-  font-size: 1.25rem;
+  font-size: 0.78125rem;
   color: var(--text-primary);
   margin-bottom: 2px;
 }
 
 .file-drop__text span {
-  font-size: 0.98rem;
+  font-size: 0.6125rem;
   color: var(--text-muted);
 }
 
@@ -156,8 +156,8 @@ textarea.form__input {
 .content-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.625rem;
+  padding: 0.625rem;
   background-color: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
@@ -190,14 +190,14 @@ textarea.form__input {
 
 .content-card__text h4 {
   margin: 0 0 2px 0;
-  font-size: 0.98rem;
+  font-size: 0.6125rem;
   color: var(--text-primary);
   font-weight: 500;
 }
 
 .content-card__text p {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.46875rem;
   color: var(--text-muted);
 }
 
@@ -230,12 +230,12 @@ textarea.form__input {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem;
+  padding: 0.78125rem;
   border-radius: 8px;
   background-color: var(--bg-input);
   border: 1px solid var(--border-subtle);
-  margin-bottom: .75rem;
-  margin-top: .75rem;
+  margin-bottom: 0.46875rem;
+  margin-top: 0.46875rem;
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
@@ -248,14 +248,14 @@ textarea.form__input {
 }
 
 .toggle-row__label { 
-  font-size: 0.925rem; 
+  font-size: 0.57813rem; 
   color: var(--text-primary); 
   font-weight: 500; 
   display: block; 
 }
 
 .toggle-row__desc { 
-  font-size: 0.78rem; 
+  font-size: 0.4875rem; 
   color: var(--text-muted); 
 }
 
@@ -301,7 +301,7 @@ textarea.form__input {
 .file-drop__changed-badge {
   display: block;
   color: #4ade80;
-  font-size: 0.85rem;
+  font-size: 0.53125rem;
   margin-top: 4px;
 }
 
@@ -309,9 +309,9 @@ textarea.form__input {
   background: rgba(99, 102, 241, 0.15);
   border: 1px solid var(--border-focus);
   color: #a5b4fc;
-  padding: 1.25rem 5rem;
+  padding: 0.78125rem 3.125rem;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.53125rem;
   cursor: pointer;
   flex-shrink: 0;
   margin-left: auto;
@@ -326,9 +326,9 @@ textarea.form__input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #f87171;
-  padding: 1.25rem 1.5rem;
+  padding: 0.78125rem 0.9375rem;
   border-radius: 6px;
-  font-size: 0.75rem;
+  font-size: 0.46875rem;
   cursor: pointer;
   flex-shrink: 0;
 }
@@ -345,7 +345,7 @@ textarea.form__input {
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  padding: 2rem;
+  padding: 1.25rem;
 }
 
 .lightbox-image {
@@ -358,13 +358,13 @@ textarea.form__input {
 
 .lightbox-close {
   position: fixed;
-  top: 1.5rem;
-  right: 1.5rem;
+  top: 0.9375rem;
+  right: 0.9375rem;
   width: 40px; height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.625rem;
 }

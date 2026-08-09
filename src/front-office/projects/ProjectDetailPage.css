@@ -59,7 +59,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: 1.875rem;
   background: linear-gradient(180deg, var(--pp-panel) 0%, var(--pp-bg) 100%);
   padding: 5vh 6vw;
   position: relative;
@@ -95,7 +95,7 @@
   max-width: 640px;
   color: var(--pp-text);
   min-height: 50%;
-  padding: 0.5rem 0;
+  padding: 0.3125rem 0;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -103,10 +103,10 @@
 }
 
 .project__info > .title {
-  font-size: 2.75rem;
+  font-size: 1.71875rem;
   font-weight: 800;
   line-height: 1.15;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.9375rem;
   letter-spacing: -0.01em;
   background: linear-gradient(100deg, #4ade80 0%, #22c55e 40%, #6366f1 100%);
   -webkit-background-clip: text;
@@ -115,10 +115,10 @@
 }
 
 .project__info > .description {
-  font-size: 1.1rem;
+  font-size: 0.6875rem;
   font-weight: 400;
   color: var(--pp-text-muted);
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5625rem;
   line-height: 1.75;
   text-align: left;
   width: 100%;
@@ -131,12 +131,12 @@
   align-items: center;
   justify-content: space-between;
   position: static;
-  padding-top: 1.25rem;
+  padding-top: 0.78125rem;
   border-top: 1px solid var(--pp-border);
 }
 
 .project__info > .bottom_options > .project__dates {
-  font-size: 0.95rem;
+  font-size: 0.59375rem;
   font-weight: 500;
   color: var(--pp-text-muted);
   margin-top: 0;
@@ -147,22 +147,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.59375rem;
   font-family: inherit;
   letter-spacing: 0.02em;
   color: var(--pp-text-muted);
 }
 
 .project__info > .bottom_options > div > a {
-  font-size: 1rem;
+  font-size: 0.625rem;
   font-weight: 500;
   color: var(--pp-text);
   text-decoration: none;
   margin-right: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  gap: 0.3125rem;
+  padding: 0.3125rem 0.625rem;
   border-radius: 999px;
   background: var(--pp-accent-soft);
   border: 1px solid var(--pp-border);
@@ -189,7 +189,7 @@
 
 .project__data-sources__title {
   margin: 0 0 0 6vw;
-  font-size: 1.9rem;
+  font-size: 1.1875rem;
   font-weight: 700;
   color: var(--pp-text);
   padding: 0;
@@ -199,7 +199,7 @@
 .project__data-sources > hr {
   width: 88%;
   max-width: 1400px;
-  margin: 1.5rem auto 2rem;
+  margin: 0.9375rem auto 1.25rem;
   border: none;
   border-top: 1px solid var(--pp-border);
 }
@@ -207,18 +207,18 @@
 .project__data-sources__list {
   list-style-type: none;
   padding: 0 6vw;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2.5rem;
   width: 100%;
   max-width: 1500px;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 0.9375rem;
 }
 
 .project__data-sources__item {
-  width: 17rem;
-  height: 17rem;
+  width: 10.625rem;
+  height: 10.625rem;
   margin-bottom: 0;
   background: var(--pp-panel);
   display: flex;
@@ -227,7 +227,7 @@
   justify-content: space-between;
   border-radius: 14px;
   border: 1px solid var(--pp-border);
-  padding: 1.1rem;
+  padding: 0.6875rem;
   box-sizing: border-box;
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
@@ -240,7 +240,7 @@
 
 .project__data-sources__item__image {
   width: 75%;
-  padding: 0.5rem;
+  padding: 0.3125rem;
   flex: 1;
   display: flex;
   align-items: center;
@@ -257,14 +257,14 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0.625rem;
   width: 100%;
-  padding-top: 0.75rem;
+  padding-top: 0.46875rem;
   border-top: 1px solid var(--pp-border);
 }
 
 .project__data-sources__item__info__name {
-  font-size: 1rem;
+  font-size: 0.625rem;
   font-weight: 500;
   margin-bottom: 0;
   width: auto;
@@ -275,7 +275,7 @@
 }
 
 .project__data-sources__item__info__size {
-  font-size: 0.85rem;
+  font-size: 0.53125rem;
   font-weight: 400;
   color: var(--pp-text-muted);
   width: max-content;
@@ -299,7 +299,7 @@
 }
 
 .project-second-section__title {
-  font-size: 1.9rem;
+  font-size: 1.1875rem;
   font-weight: 700;
   margin-bottom: 0;
   color: var(--pp-text);
@@ -319,7 +319,7 @@
   margin-top: 2.5vh;
   border-radius: 14px;
   margin-bottom: 2vh;
-  gap: 1.5rem;
+  gap: 0.9375rem;
 }
 
 .project-second-section__code-samples {
@@ -348,14 +348,14 @@
 }
 
 .project-second-section__code-samples__sample__title {
-  font-size: 1.2rem;
+  font-size: 0.75rem;
   font-weight: 600;
   margin-bottom: 0;
   color: var(--pp-text);
   margin-top: 0;
   margin-left: 0;
   background: var(--pp-panel-alt);
-  padding: 1rem 1.5rem;
+  padding: 0.625rem 0.9375rem;
   width: 100%;
   box-sizing: border-box;
   border-bottom: 1px solid var(--pp-border);
@@ -365,10 +365,10 @@
 .project-second-section__code-samples__sample__code {
   background: #16181c;
   color: #e5e7eb;
-  padding: 1.5rem;
+  padding: 0.9375rem;
   border-radius: 0;
   margin-bottom: 0;
-  font-size: 0.95rem;
+  font-size: 0.59375rem;
   line-height: 1.6;
   font-family: "Consolas", "Monaco", "Courier New", monospace;
   width: 100%;
@@ -387,7 +387,7 @@
     align-items: center;
     width: 100%;
     padding: 4vh 6vw;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   .project-overview > .project__image {
@@ -403,25 +403,25 @@
   }
 
   .project__info > .title {
-    font-size: 2rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.78125rem;
   }
 
   .project__info > .description {
-    font-size: 1.05rem;
-    margin-bottom: 1.75rem;
+    font-size: 0.65625rem;
+    margin-bottom: 1.09375rem;
   }
 
   .project__info > .bottom_options {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.46875rem;
     position: static;
   }
 
   .project__data-sources__title {
     margin-left: 6vw;
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
   }
 
   .project__data-sources__list {
@@ -435,7 +435,7 @@
   }
 
   .project-second-section__title {
-    font-size: 1.5rem;
+    font-size: 0.9375rem;
   }
 
   .code-samples-section-content {
@@ -443,12 +443,12 @@
   }
 
   .project-second-section__code-samples__sample__title {
-    font-size: 1.05rem;
-    padding: 0.85rem 1.1rem;
+    font-size: 0.65625rem;
+    padding: 0.53125rem 0.6875rem;
   }
 
   .project-second-section__code-samples__sample__code {
-    font-size: 0.85rem;
-    padding: 1.1rem;
+    font-size: 0.53125rem;
+    padding: 0.6875rem;
   }
 }

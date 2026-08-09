@@ -88,7 +88,7 @@ export default function GithubTokenInput({ githubDetails, onVerified }) {
             Verified write access to your portfolio repo
           </span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.46875rem" }}>
           <svg
             width="16"
             height="16"

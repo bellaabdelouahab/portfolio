@@ -22,19 +22,18 @@
  * properties (body colour, font) do not conflict at all: a utility on a child
  * beats an inherited value outright.
  *
- * ON THE 10px ROOT — the important one.
- * legacy-base.css sets html { font-size: 62.5% }, i.e. a 10px root, and all 535
- * rem values in the codebase are calibrated to it. Tailwind's defaults assume a
- * 16px root, so out of the box `p-4` would render 10px rather than its documented
- * 16px — every utility silently 62.5% of its stated size.
+ * ROOT FONT-SIZE — standard 16px, deliberately.
+ * This project used to set html { font-size: 62.5% } (a 10px root), the old trick
+ * that makes 1.4rem read as "14px" in your head. It was removed: every tool
+ * assumes a 16px root, so keeping it meant recalibrating each one forever, and
+ * anything inheriting the root rendered at 10px — too small to read.
  *
- * The obvious fix is to move to a 16px root and divide every rem by 1.6. That was
- * tried and reverted: scaling rem values preserves EXPLICIT sizes but not
- * INHERITED ones, and 1173 elements inherit their size from the root. They would
- * have jumped 10px -> 16px. Adapting Tailwind to the existing root instead is one
- * line, changes nothing that already renders, and still makes the utilities match
- * their documentation. Everything below is therefore expressed in rem against a
- * 10px root: 1.6rem = 16px.
+ * Migrating it meant scaling all 535 existing rem values by 0.625 so explicit
+ * sizes stayed put. Inherited and em-based sizes did grow, which is the intended
+ * outcome rather than a side effect: 10px inherited text was never a decision.
+ *
+ * Consequently everything below uses Tailwind's own defaults. No --spacing
+ * override, no rescaled type scale. p-4 is 16px because the root is 16px.
  */
 
 @layer legacy, theme, base, components, utilities;
@@ -43,11 +42,8 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 
 @theme {
-  /* ---- Spacing -----------------------------------------------------------
-     Tailwind builds its whole spacing scale as calc(--spacing * n). 0.4rem is
-     4px at this root, so p-1 = 4px, p-4 = 16px, p-8 = 32px — exactly what the
-     documentation says. Do not change without changing the root font-size too. */
-  --spacing: 0.4rem;
+  /* Spacing and type deliberately use Tailwind's defaults — the root is 16px, so
+     p-4 is 16px and text-base is 16px with no override needed. */
 
   /* ---- Colour -------------------------------------------------------------
      Reduced from the 333 distinct colour values in use. Dark surfaces are the
@@ -67,37 +63,17 @@
   --color-success: #2ac17f;
   --color-danger: #ff4d4d;
 
-  /* ---- Type ---------------------------------------------------------------
-     Reduced from 62 distinct sizes to a ~1.25 ratio scale. Values like 0.72rem,
-     9.5px and 0.19px letter-spacing were drift, not decisions.
-     Sizes are rem against the 10px root, so 1.6rem = 16px. */
-  --text-xs: 1.2rem;      /* 12px */
-  --text-xs--line-height: 1.6rem;
-  --text-sm: 1.4rem;      /* 14px */
-  --text-sm--line-height: 2rem;
-  --text-base: 1.6rem;    /* 16px */
-  --text-base--line-height: 2.4rem;
-  --text-lg: 1.8rem;      /* 18px */
-  --text-lg--line-height: 2.8rem;
-  --text-xl: 2rem;        /* 20px */
-  --text-xl--line-height: 2.8rem;
-  --text-2xl: 2.4rem;     /* 24px */
-  --text-2xl--line-height: 3.2rem;
-  --text-3xl: 3rem;       /* 30px */
-  --text-3xl--line-height: 3.6rem;
-  --text-4xl: 3.6rem;     /* 36px */
-  --text-4xl--line-height: 4rem;
-  --text-5xl: 4.8rem;     /* 48px */
-  --text-5xl--line-height: 5.2rem;
-
+  /* Type uses Tailwind's default scale (text-xs 12px … text-5xl 48px), which is
+     already a ~1.25 ratio. The 62 distinct sizes previously in use — including
+     0.72rem, 9.5px and 0.19px letter-spacing — were drift, not decisions. */
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 
   /* ---- Radius -------------------------------------------------------------
      From 25 values. 3/4/5/6px are indistinguishable at a glance, so they become
      one step; 8/10 become md; 14/15/16 become lg. */
-  --radius-sm: 0.4rem;   /* 4px */
-  --radius-md: 0.8rem;   /* 8px */
-  --radius-lg: 1.6rem;   /* 16px */
+  --radius-sm: 0.25rem;  /* 4px */
+  --radius-md: 0.5rem;   /* 8px */
+  --radius-lg: 1rem;     /* 16px */
 
   /* ---- Shadow -------------------------------------------------------------
      From 70 values. Three depths — resting, raised, floating. Beyond three the
