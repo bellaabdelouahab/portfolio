@@ -106,12 +106,17 @@ export default function Projects() {
         keywords="Projects, Portfolio, Web Development, Software Engineering, Data Science, Machine Learning"
         structuredData={projectsStructuredData}
       />
-      <section className="projects-section">
-        <div className="projects-header">
-          <h1 className="projects-section__title">Projects Library</h1>
+      <section className="inline-block h-auto w-full pb-7.5">
+        {/* Centred on phones, spread to the edges once the title is full size. */}
+        <div className="mx-auto mt-2.5 flex h-[8vh] w-[90%] flex-row items-center justify-center border-b border-line sm:mt-[4vh] sm:items-stretch sm:justify-between">
+          <h1 className="inline-block w-fit text-base font-bold leading-tight tracking-[4px] text-ink-strong sm:pb-5 sm:text-5xl">
+            Projects Library
+          </h1>
         </div>
 
-        <h2 className="projects-section__subtitle">
+        {/* Was ml-[7vw] against a 90%-wide (5vw) header — now on the same
+            gutter as the header and the filter row. */}
+        <h2 className="mx-auto mb-[3vh] mt-[2vh] w-[90%] text-2xl font-bold leading-snug tracking-[4px] text-ink">
           Get Access To All My Public Projects
         </h2>
 
@@ -166,7 +171,12 @@ export default function Projects() {
             </div>
           )}
         </div>
-        <div id="cards">
+        {/* id is required: the mousemove handler above looks it up by id, and
+            the spotlight rules in the stylesheet key off `#cards:hover`. */}
+        <div
+          id="cards"
+          className="mx-auto flex min-h-[70vh] w-full max-w-[1000px] flex-row flex-wrap justify-center gap-x-[30px] gap-y-5 py-2.5 lg:max-w-none lg:py-0"
+        >
           {projects &&
             projects.map((project, index) => {
               // Filter projects based on selected filter
@@ -185,7 +195,10 @@ export default function Projects() {
               return (
                 <div
                   key={project._id}
-                  className="card"
+                  /* `card` stays as the hook for the dot texture, the two
+                     spotlight pseudo-elements and the mousemove lookup — the
+                     rest of the card is utilities. */
+                  className="card relative h-[60vh] w-full cursor-pointer rounded-lg border border-line bg-surface pb-1.25 shadow-md transition-all duration-300 ease-standard hover:border-success/40 sm:h-auto sm:w-[calc(50%-4px)] sm:min-w-82.5 sm:shrink lg:w-82.5"
                   onClick={(e) => {
                     Navigate("/projects/" + project.title.replace(/\s/g, "-"), {
                       state: project,
@@ -194,11 +207,16 @@ export default function Projects() {
                   aria-label={`View details of ${project.title} project`}
                 >
                   <div
-                    className="projects-section__projects__project__img"
+                    className="h-50 rounded-t-lg bg-center bg-no-repeat"
                     style={{
                       backgroundImage: imageLoaded[project._id]
                         ? `url(${project.image})`
                         : "none",
+                      // Stretch, not cover — the old rule was
+                      // `background-size: 100% 100%`, and it lives here rather
+                      // than in a utility because the sibling backgroundImage
+                      // is already inline.
+                      backgroundSize: "100% 100%",
                     }}
                   >
                     {!imageLoaded[project._id] && <Skeleton height="100%" />}
@@ -213,32 +231,32 @@ export default function Projects() {
                   </div>
                   {imageLoaded[project._id] ? (
                     <>
-                      <h3 className="projects-section__projects__project__title">
+                      <h3 className="mx-2.5 mt-2.5 flex min-h-11.25 items-center justify-center text-center text-3xl font-bold leading-snug text-ink-strong">
                         {project.title}
                       </h3>
-                      <p className="projects-section__projects__project__description">
+                      <p className="hyphens-auto break-keep px-3.75 py-2.5 text-left text-sm font-extralight leading-5 text-ink">
                         {truncatedDescription}
                       </p>
                     </>
                   ) : (
+                    /* These two used to borrow
+                       `home-projects-section__projects__project__description`
+                       from the home page's featured-projects section purely for
+                       its `width: 90%; margin: auto`. Same result, no
+                       cross-feature dependency. */
                     <div>
-                      
-                      <div className="home-projects-section__projects__project__description" style={{
-                        display:"flex",
-                        justifyContent:"center",
-                        width:"100%"
-                      }}>
-                      <Skeleton
-                        height={24}
-                        width={`6.25rem`}
-                        style={{
-                          marginBottom: "10px",
-                          marginTop: "10px",
-                          marginLeft: "10px",
-                        }}
-                      />
+                      <div className="mx-auto flex w-[90%] justify-center">
+                        <Skeleton
+                          height={24}
+                          width={`6.25rem`}
+                          style={{
+                            marginBottom: "10px",
+                            marginTop: "10px",
+                            marginLeft: "10px",
+                          }}
+                        />
                       </div>
-                      <div className="home-projects-section__projects__project__description">
+                      <div className="mx-auto w-[90%]">
                         <Skeleton count={7} />
                       </div>
                     </div>
