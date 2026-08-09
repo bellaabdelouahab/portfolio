@@ -40,7 +40,7 @@ export default function CodeCard() {
       {"    "}
       <span className={t.type}>Goal</span>
       <span className={t.punct}>.</span>
-      <span className={t.fn}>MasteringBusinessIntelligence</span>
+      <span className={t.fn}>MasteringDataAnalitics</span>
       <span className={t.punct}>();</span>
     </>,
     <>
@@ -54,7 +54,7 @@ export default function CodeCard() {
 
   return (
     <figure
-      aria-label={`Java snippet: a class named Year${year} whose main method calls Goal.MasteringBusinessIntelligence`}
+      aria-label={`Java snippet: a class named Year${year} whose main method calls Goal.MasteringDataAnalitics`}
       className="w-full max-w-2xl overflow-hidden rounded-lg border border-line bg-[#282c34] shadow-lg"
     >
       {/* Window chrome. Decorative, so hidden from assistive tech. */}

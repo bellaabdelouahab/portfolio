@@ -100,7 +100,7 @@ export default function Projects() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Projects"
         description="Browse through all projects developed by Abdelouahab Bella, including web development, machine learning, and data science projects."
         keywords="Projects, Portfolio, Web Development, Software Engineering, Data Science, Machine Learning"
@@ -108,29 +108,29 @@ export default function Projects() {
       />
       <section className="inline-block h-auto w-full pb-7.5">
         {/* Centred on phones, spread to the edges once the title is full size. */}
-        <div className="mx-auto mt-2.5 flex h-[8vh] w-[90%] flex-row items-center justify-center border-b border-line sm:mt-[4vh] sm:items-stretch sm:justify-between">
+        <div className="mx-auto mt-2.5 flex h-[8vh] w-[90%] flex-row items-center justify-center  sm:mt-[4vh] sm:items-stretch sm:justify-between">
           <h1 className="inline-block w-fit text-base font-bold leading-tight tracking-[4px] text-ink-strong sm:pb-5 sm:text-5xl">
             Projects Library
           </h1>
         </div>
-
-        {/* Was ml-[7vw] against a 90%-wide (5vw) header — now on the same
-            gutter as the header and the filter row. */}
-        <h2 className="mx-auto mb-[3vh] mt-[2vh] w-[90%] text-2xl font-bold leading-snug tracking-[4px] text-ink">
-          Get Access To All My Public Projects
-        </h2>
-
         {/* Filter bar. The common tags are visible as chips rather than hidden
             behind a dropdown — a filter nobody can see is a filter nobody uses,
             and the tags double as a summary of what the work actually covers.
             The dropdown now sits beside them and holds only the long tail. */}
-        <div className="mx-auto mb-6 flex w-[90%] flex-wrap items-center gap-2">
-          <FilterChip active={filter === "All"} onClick={() => selectFilter("All")}>
+        <div className="mx-auto mb-6 flex w-[90%] flex-wrap items-center gap-2 border-b border-line pb-4">
+          <FilterChip
+            active={filter === "All"}
+            onClick={() => selectFilter("All")}
+          >
             All <span className="opacity-60">({projects.length})</span>
           </FilterChip>
 
           {primaryTags.map(([tag, count]) => (
-            <FilterChip key={tag} active={filter === tag} onClick={() => selectFilter(tag)}>
+            <FilterChip
+              key={tag}
+              active={filter === tag}
+              onClick={() => selectFilter(tag)}
+            >
               {tag} <span className="opacity-60">({count})</span>
             </FilterChip>
           ))}
@@ -143,7 +143,8 @@ export default function Projects() {
                 aria-expanded={showFilter}
                 className="cursor-pointer rounded-full border border-line bg-surface px-4 py-2 text-sm text-ink transition-colors duration-200 hover:border-success/40 hover:text-ink-strong"
               >
-                More tags <span aria-hidden="true">{showFilter ? "▲" : "▼"}</span>
+                More tags{" "}
+                <span aria-hidden="true">{showFilter ? "▲" : "▼"}</span>
               </button>
 
               {showFilter && (
@@ -171,6 +172,13 @@ export default function Projects() {
             </div>
           )}
         </div>
+
+        {/* Was ml-[7vw] against a 90%-wide (5vw) header — now on the same
+            gutter as the header and the filter row. */}
+        <h2 className="mx-auto mb-[3vh] mt-[2vh] w-[90%] text-2xl font-bold leading-snug tracking-[4px] text-ink">
+          Get Access To All My Public Projects
+        </h2>
+
         {/* id is required: the mousemove handler above looks it up by id, and
             the spotlight rules in the stylesheet key off `#cards:hover`. */}
         <div
@@ -183,13 +191,13 @@ export default function Projects() {
               if (filter !== "All" && !(project.tags || []).includes(filter)) {
                 return null;
               }
-              
+
               const description = project.description;
               let truncatedDescription = description.slice(0, 150); // Increased limit slightly
               const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
               truncatedDescription = truncatedDescription.slice(
                 0,
-                lastSpaceIndex
+                lastSpaceIndex,
               );
               if (description.length > 200) truncatedDescription += "...";
               return (
@@ -226,7 +234,6 @@ export default function Projects() {
                       style={{ display: "none" }}
                       onLoad={() => handleImageLoad(project._id)}
                       // on error set image as not found image at assets/images/notfound.png
-                       
                     />
                   </div>
                   {imageLoaded[project._id] ? (

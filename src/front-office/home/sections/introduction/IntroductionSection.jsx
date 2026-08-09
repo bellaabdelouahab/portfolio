@@ -57,26 +57,34 @@ export default function IntroductionSection() {
       // fourth layer — bg-blend-multiply is what dims the image without an
       // overlay element sitting above the content.
       <section
-        className="relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply"
+        className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
         style={{ backgroundImage: `url(${heroBackground})` }}
       >
+        <style>{`
+          .introduction-section a[href^="mailto:"] {
+            color: #25D366 !important;
+            background-color: #25D36611 !important;
+          }
+        `}</style>
         {/* Photo last in the DOM (name/heading stays first for SEO and screen
-            readers) but flex-col-reverse puts it on top visually on mobile —
-            a client sees the face before the sales copy, per the user's call
-            that this matters. At md+ it sits beside the text instead, the
-            usual consulting-site "portrait next to pitch" layout. */}
-        <div className="flex flex-col-reverse items-center gap-6 px-[3vw] md:flex-row md:items-center md:justify-between md:gap-12">
-          <div className="w-full">
+            readers) but on mobile the image should sit under the copy for a
+            cleaner vertical flow; at md+ it sits beside the text, matching
+            the screenshot position. */}
+        <div className="flex flex-col items-start gap-8 px-[3vw] md:flex-col md:items-start md:justify-between md:gap-8">
+          <div className="w-full max-w-xl md:max-w-none">
             {/* The clamp is the original fluid heading size, kept verbatim: the h1
                 inherits it, so the size lives on the wrapper rather than the heading. */}
-            <div className="relative mt-[7vh] block font-mono text-[clamp(0.625rem,calc(3vw_+_0.625rem),2.1875rem)] font-bold tracking-[4px] text-ink-strong">
-              <h1 className="animated-intro-text" data-value="Hi, I'm Abdelouahab">
+            <div className="relative block font-mono text-[clamp(1rem,calc(4vw_+_0.5rem),2.5rem)] font-bold tracking-[4px] text-ink-strong">
+              <h1
+                className="animated-intro-text"
+                data-value="Hi, I'm Abdelouahab"
+              >
                 Hi, I'm Abdelouahab
               </h1>
             </div>
             {/* tracking is forced: global.css sets `h1..h5 { letter-spacing: 1px }`
                 unlayered, and unlayered rules outrank every utility layer. */}
-            <h2 className="my-[3vh] block text-center text-[0.9375rem] font-bold leading-[3vh] tracking-[4px]! text-ink md:text-left md:text-[2rem] md:leading-none">
+            <h2 className="my-8 block text-center text-[1rem] font-bold leading-[1.2] tracking-[4px]! text-ink md:text-left md:text-[2rem] md:leading-none">
               {" "}
               ⟫⟫ a Data Analyst & Software Engineer
             </h2>
@@ -85,27 +93,25 @@ export default function IntroductionSection() {
                 tip jar left over from open-source work, not a way to hire the
                 person the rest of the page is trying to sell. Removed rather than
                 demoted, at the user's call. */}
-            <div className="mt-[2vh] mb-[7vh] md:mt-[7vh]">
+            <div className="mt-8 mb-12 md:mt-10">
               <ContactCtaButtons whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project." />
             </div>
           </div>
-
-          <img
-            src="/profile.png"
-            alt="Abdelouahab Bella"
-            width="176"
-            height="176"
-            className="mt-[7vh] size-32 shrink-0 rounded-full border-4 border-success/60 object-cover shadow-lg md:size-44"
-          />
+          <div className="mb-16 mt-12 px-[3vw] w-full max-w-xl md:max-w-none md:mb-0">
+            <CodeCard />
+          </div>
         </div>
 
-        {/* px-[3vw] matches the row above — the section's children used to use
-            hand-picked, mismatched vw margins (title 3vw, button 5vw); now
-            everything above the snippet shares one gutter. mt-12 gives it room
-            to read as its own element rather than crowding the call to action. */}
-        <div className="mb-16 mt-12 px-[3vw]">
-          <CodeCard />
-        </div>
+        <img
+          src="/profile.png"
+          alt="Abdelouahab Bella"
+          width="250"
+          height="250"
+          className="m-0 mx-auto w-48 h-48 shrink-0 rounded-full border-4 border-success/60 object-cover shadow-lg md:mt-0 md:w-[25rem] md:h-[25rem] self-center md:w-[20%]"
+        />
       </section>
     );
 }
+
+
+

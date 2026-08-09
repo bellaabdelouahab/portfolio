@@ -101,8 +101,8 @@ export default function Home() {
       <HappyClientsSection />
       <ServicesSection />
       <GithubProgressSection />
-      <GetInTouchSection />
       <FAQSection />
+      <GetInTouchSection />
     </>
   );
 }

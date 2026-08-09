@@ -6,7 +6,7 @@ export function ProjectCard({ project }) {
   const { title, description, image, githubLink, highlighted } = project;
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  let truncatedDescription = description.slice(0, 250);
+  let truncatedDescription = description.slice(0, 150);
   const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
   truncatedDescription = truncatedDescription.slice(0, lastSpaceIndex);
 
@@ -18,7 +18,7 @@ export function ProjectCard({ project }) {
 
   return (
     <div
-      className="relative h-100 w-81.25 overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-200 ease-standard hover:transform-[rotate(-1.5deg)_scale(1.05)] hover:shadow-[5px_7px_9px_rgba(0,0,0,0.2)]"
+      className="relative h-120 w-110 overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-200 ease-standard hover:transform-[rotate(-1.5deg)_scale(1.05)] hover:shadow-[5px_7px_9px_rgba(0,0,0,0.2)]"
       style={{
         border:
           highlighted === "star"
@@ -27,7 +27,7 @@ export function ProjectCard({ project }) {
       }}
     >
       <div
-        className="h-48 w-full rounded-t-[10px] bg-cover bg-center bg-no-repeat"
+        className="h-60 w-full rounded-t-[10px] bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: imageLoaded ? `url(${image})` : "none",
           backgroundSize: "100.5% 100%",

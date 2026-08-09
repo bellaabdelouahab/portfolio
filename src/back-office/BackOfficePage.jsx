@@ -150,7 +150,10 @@ export default function FillDB() {
                 </div>
               )}
 
-              <nav className="flex flex-1 flex-col gap-1" aria-label="Admin sections">
+              <nav
+                className="flex flex-1 flex-col gap-1"
+                aria-label="Admin sections"
+              >
                 {tabs.map((tab) => {
                   const isActive = activeTab === tab.id;
                   return (
@@ -184,7 +187,7 @@ export default function FillDB() {
             </div>
           </aside>
 
-          <div className="min-w-0 flex-1 p-4 md:p-8">
+          <div className="min-w-0 flex-1 p-4 md:p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-surface-raised scrollbar-track-surface">
             {tabs.map((tab) => activeTab === tab.id && tab.component)}
           </div>
         </div>

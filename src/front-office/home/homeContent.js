@@ -69,7 +69,7 @@ export const faqData = [
   },
   {
     id: "q5",
-    question: "Can you do remote digital adoption consulting worldwide?",
+    question: "Can you do remote digital adoption consulting?",
     answer: "Yes, I work remotely with clients worldwide to deliver digital adoption consulting, onboarding automation, and analytics support."
   },
   {
