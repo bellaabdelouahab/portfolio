@@ -1,79 +1,71 @@
-.github-progress-section {
-  width: 100%;
-  position: relative;
-      background:
-    linear-gradient(to bottom, #171717, transparent 30px),
-    #0A0A0A;
-    padding-top: 30px;
+/**
+ * What survived the Tailwind conversion, and why.
+ *
+ * Everything that was layout, sizing, spacing or colour now lives on the
+ * elements in GithubProgressSection.jsx. Three things could not move:
+ *
+ * 1. The remote activity-graph background is deliberately gated behind
+ *    `.visible`, the class HomePage's IntersectionObserver adds to
+ *    `.hidden-area`. That keeps the third-party image request out of the
+ *    initial page load, so it must stay a descendant selector on a class JS
+ *    writes at runtime.
+ * 2. The glow is a pair of pseudo-elements running an eight-stop animated
+ *    gradient — @keyframes and multi-stop gradients stay as CSS by policy.
+ * 3. `.github-progress-section__title` was deleted outright: the JSX renders
+ *    `home-sections-title` (styled globally), so that rule matched nothing.
+ *
+ * Rewritten mobile-first. The old `@media (max-width: 760px)` block described
+ * the base, and the rules outside it became the `min-width: 48rem` (md) case,
+ * which is the breakpoint 760 folds onto.
+ */
+
+.visible > .github-progress-section__img {
+  background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=d91b42&point=79d558&area=true&hide_border=true)
+    center / 100% no-repeat;
+  border-radius: 10px;
 }
 
-
-.github-progress-section {
-height: auto;
-width: 100%;
-/* background: transparent; */
-}
-.github-progress-section__title {
-color: rgb(255, 255, 255);
-font-size: 1.5em;
-font-weight: 700;
-letter-spacing: 4px;
-margin-top: 2vh;
-margin-left: 3vw;
-margin-bottom: 2vh;
-font-family: var(--font-family);
-}
-
-.github-progress-section__img {
-height: 25vw;
-width: 90%;
-margin: 0 auto;
-margin-bottom: 30px;
-border-radius: 5px;
-position: relative;
-}
-.visible > .github-progress-section__img{
-background: url(https://github-readme-activity-graph.vercel.app/graph?username=bellaabdelouahab&bg_color=262926&color=c0bfc0&line=d91b42&point=79d558&area=true&hide_border=true) 100% 100% no-repeat;
-background-size: 100% 120%;
-background-position: center;
-background-repeat: no-repeat;
-border-radius: 10px;
-/* background: #262926; */
-}
-.github-progress-section__img::after,.github-progress-section__img::before {
-content: "";
-position: absolute;
-top: -2px;
-left: -2px;
-width: calc(100% + 4px);
-height: calc(100% + 4px);
-background: linear-gradient(45deg, #e6fb04,#ff6600,#00ff66,#ff00ff,#ff0099,#6e0dd0,#ff3300,#099fff);
-background-size: 300% 400%;
-border-radius: 5px;
-animation: gradient 5s linear infinite;
-z-index: -1;
-filter: blur(10px);
-opacity: .2;
-}
-@keyframes gradient {
-0% {
-  background-position: 0% 50%;
-}
-50% {
-  background-position: 100% 50%;
-}
-100% {
-  background-position: 0% 50%;
-}
-}
-
-
-@media screen and (max-width: 760px){
-  .github-progress-section__img{
-    height: 35vw;
-    width: 95%;
-  }
+@media screen and (min-width: 48rem) {
   .visible > .github-progress-section__img {
-    background-size: 100%;
+    background-size: 100% 120%;
+  }
+}
+
+.github-progress-section__img::after,
+.github-progress-section__img::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(
+    45deg,
+    #e6fb04,
+    #ff6600,
+    #00ff66,
+    #ff00ff,
+    #ff0099,
+    #6e0dd0,
+    #ff3300,
+    #099fff
+  );
+  background-size: 300% 400%;
+  border-radius: 5px;
+  animation: gradient 5s linear infinite;
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.2;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

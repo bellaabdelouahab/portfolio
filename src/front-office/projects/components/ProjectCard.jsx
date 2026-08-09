@@ -18,7 +18,7 @@ export function ProjectCard({ project }) {
 
   return (
     <div
-      className="home-projects-section__projects__project"
+      className="relative h-100 w-81.25 overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-200 ease-standard hover:transform-[rotate(-1.5deg)_scale(1.05)] hover:shadow-[5px_7px_9px_rgba(0,0,0,0.2)]"
       style={{
         border:
           highlighted === "star"
@@ -27,7 +27,7 @@ export function ProjectCard({ project }) {
       }}
     >
       <div
-        className="home-projects-section__projects__project__img"
+        className="h-48 w-full rounded-t-[10px] bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: imageLoaded ? `url(${image})` : "none",
           backgroundSize: "100.5% 100%",
@@ -37,10 +37,10 @@ export function ProjectCard({ project }) {
       </div>
       {imageLoaded ? (
         <>
-          <h3 className="home-projects-section__projects__project__title">
+          <h3 className="mt-[2vh] mb-[2vh] ml-[1.5vw] text-2xl font-bold text-ink-strong">
             {title}
           </h3>
-          <p className="home-projects-section__projects__project__description">
+          <p className="mx-auto w-[90%] text-base leading-normal tracking-[2px]! text-ink">
             {truncatedDescription}...
           </p>
         </>
@@ -55,14 +55,14 @@ export function ProjectCard({ project }) {
               marginLeft: "10px",
             }}
           />
-          <div className="home-projects-section__projects__project__description">
+          <div className="mx-auto w-[90%]">
             <Skeleton count={7} />
           </div>
         </div>
       )}
-      <div className="home-projects-section__projects__project__buttons">
+      <div className="absolute bottom-[0.5vh] left-0 flex h-[10%] w-full items-center justify-around">
         <a
-          className="home-projects-section__projects__project__buttons__view"
+          className="rounded-[5px] bg-accent px-5 py-2.5 text-base font-bold tracking-[2px]! text-white"
           target="_blank"
           rel="noopener noreferrer"
           href={githubLink}
@@ -71,7 +71,7 @@ export function ProjectCard({ project }) {
         </a>
         {highlighted === "star" && (
           <a
-            className="home-projects-section__projects__project__buttons__sponsor"
+            className="rounded-[5px] border-[3px] border-dotted bg-[#474747e2] px-5 py-2.5 text-base font-bold tracking-[2px]! text-[gray]"
             rel="noopener noreferrer"
             target="_blank"
             href="https://github.com/bellaabdelouahab/"

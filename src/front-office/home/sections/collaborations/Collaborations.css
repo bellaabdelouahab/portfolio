@@ -1,29 +1,14 @@
-.collaborations {
-  padding: 1.25rem 0;
-    background:
-  linear-gradient(to bottom, #0A0A0A, transparent 30px),
-    #171717;
-  padding-top: 30px;
-}
-
-.scroller {
-  margin: auto;
-  max-width: 95%;
-}
-
-.scroller__inner {
-  padding-block: 0.625rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3.125rem;
-}
-
-.scroller__inner img {
-  height: 195px;
-  background: #80808066;
-  border-radius: 100px;
-}
-
+/**
+ * Only the marquee survives the Tailwind conversion, and deliberately so:
+ * the edge mask is a four-stop gradient, `scroll` is a real @keyframes, and the
+ * data-* attributes these hook off are written by JS at runtime (see
+ * Collaborations.jsx) only when the visitor has not asked for reduced motion.
+ * Everything else in this file is now utilities on the elements.
+ *
+ * `flex-wrap: nowrap` here intentionally overrides the `flex-wrap` utility on
+ * .scroller__inner — the row wraps until the animation is switched on, then
+ * becomes one long track.
+ */
 .scroller[data-animated="true"] {
   overflow: hidden;
   -webkit-mask: linear-gradient(
@@ -62,13 +47,5 @@
 @keyframes scroll {
   to {
     transform: translate(calc(-50% - 0.3125rem));
-  }
-}
-
-
-/* mobile stylw */
-@media screen and (max-width: 768px) {
-  .scroller__inner img {
-    height: 75px;
   }
 }

@@ -52,6 +52,17 @@ background: #233554;
 opacity: 0.5;
 padding-left: 10px;
 }
+/* Was previously defined only inside InternshipProjectsSection.css, which meant
+   the phone-size shrink for this SHARED heading class only took effect if that
+   one section's stylesheet happened to be loaded. Converting that file to
+   utilities (and deleting it) silently removed the rule for the other eight
+   home sections. Owning it here, next to the base rule it modifies, is correct
+   regardless of which sections keep hand-written CSS. */
+@media (max-width: 576px) {
+  .home-sections-title {
+    font-size: 0.9375rem;
+  }
+}
 
 
 .get-in-touch-content{

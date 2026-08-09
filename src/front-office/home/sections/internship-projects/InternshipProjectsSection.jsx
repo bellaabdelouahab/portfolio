@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import "./InternshipProjectsSection.css";
 
 const PROFESSIONAL_EXP = [
   {
@@ -180,6 +179,11 @@ const PROFESSIONAL_EXP = [
 ];
 
 const MOBILE_BREAKPOINT = 900;
+
+// The two date pills in the marker column are identical, so the class list lives
+// here rather than twice per row.
+const DATE_PILL =
+  "rounded-full border border-success/20 bg-success/10 px-1.5 py-0.625 text-center font-mono text-xs whitespace-nowrap text-[#7fd9ac]";
 
 export default function InternshipProjectsSection() {
   const [displayCount, setDisplayCount] = useState(4);
@@ -375,27 +379,48 @@ export default function InternshipProjectsSection() {
   }, [displayCount, isMobile]);
 
   return (
-    <section className="internship-projects-section">
-      <div className="experience">
-        <div className="home-sections-title">
-          <span>04. </span>
-          <h2>Professional Experience</h2>
-        </div>
+    <section className="internship-projects-section relative w-full bg-[#0a0a0a] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5 pb-13.25">
+      {/* `home-sections-title` is styled in shared/styles/minw-1000.css, which is
+          unlayered and therefore outranks the whole `utilities` layer — so this
+          section's long-standing font-size override needs `!` to land. It is
+          deliberately not responsive: the old `.experience .home-sections-title`
+          rule outranked the mobile media query, so this heading was 20px at
+          every width. mb/centring set properties the global never touches. */}
+      <div className="home-sections-title mb-7.5 text-center text-xl!">
+        <span>04. </span>
+        <h2>Professional Experience</h2>
       </div>
 
+      {/* Desktop is a three-column grid — [card][marker][card] — so the date
+          pills get a lane of their own and never crowd a card. Below 900px
+          (a JS breakpoint, because the snake SVG has to be skipped too) it
+          collapses to a row of [marker strip][card]. */}
       <div
-        className={`timeline ${isMobile ? "timeline--mobile" : ""}`}
+        className={
+          isMobile
+            ? "relative mx-auto flex max-w-400 flex-col gap-6.25 px-[5%]"
+            : "relative mx-auto grid max-w-400 grid-cols-[1fr_190px_1fr] gap-x-0 gap-y-10 px-[3%]"
+        }
         ref={containerRef}
       >
         {!isMobile && (
-          <svg className="timeline-snake" aria-hidden="true">
+          <svg
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-visible"
+            aria-hidden="true"
+          >
             <path
               ref={pathRef}
               d={pathState.d}
-              className="timeline-snake__path"
+              className="stroke-success stroke-3 [stroke-linecap:round] filter-[drop-shadow(0_0_5px_rgba(42,193,127,0.55))]"
               fill="none"
             />
-            <circle ref={glowRef} className="timeline-snake__glow" r="6" />
+            {/* opacity and cx/cy are driven from the rAF loop above via inline
+                style/attributes, which outrank these utilities. */}
+            <circle
+              ref={glowRef}
+              className="fill-[#7cf5c4] opacity-0 transition-opacity duration-200 ease-standard filter-[drop-shadow(0_0_8px_#2ac17f)_drop-shadow(0_0_16px_rgba(42,193,127,0.6))]"
+              r="6"
+            />
           </svg>
         )}
 
@@ -415,10 +440,11 @@ export default function InternshipProjectsSection() {
       </div>
 
       {displayCount < PROFESSIONAL_EXP.length && (
-        <div className="show-more-button">
+        <div className="mt-3.75 flex justify-center">
           <button
             onClick={handleShowMore}
             aria-label="Show more professional experience entries"
+            className="cursor-pointer rounded-full border-none bg-[#268b60] px-4 py-1.75 font-medium text-ink-strong transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:bg-success hover:shadow-[0_8px_20px_rgba(42,193,127,0.25)]"
           >
             View More Experience ({PROFESSIONAL_EXP.length - displayCount})
           </button>
@@ -430,33 +456,64 @@ export default function InternshipProjectsSection() {
 
 function ProjectRow({ project, align, isMobile, index, isVisible }) {
   const marker = (
-    <div className="timeline-marker-col">
-      <span className="timeline-date timeline-date--start">
-        {project.endDate}
-      </span>
-      <span className={`timeline-marker-dot timeline-marker-dot--${align}`} />
-      <span className="timeline-date timeline-date--end">
-        {project.startDate}
-      </span>
+    <div
+      className={[
+        "z-1 flex flex-col items-center justify-center gap-1.25",
+        isMobile ? "shrink-0 pt-3" : "pt-4",
+      ].join(" ")}
+    >
+      <span className={DATE_PILL}>{project.endDate}</span>
+      {/* `timeline-marker-dot` is NOT decorative — buildPath() queries it to read
+          the dot centres the snake curve is drawn through. Keep the class.
+          The 64px nudge pushes the dot toward the card it belongs to; on mobile
+          the marker is a straight strip so there is nothing to nudge. */}
+      <span
+        className={[
+          "timeline-marker-dot size-3.5 shrink-0 rounded-full border-[3px] border-success bg-[#0a0a0a]",
+          "shadow-[0_0_0_4px_rgba(42,193,127,0.15),0_0_12px_rgba(42,193,127,0.4)]",
+          isMobile ? "" : align === "left" ? "-translate-x-16" : "translate-x-16",
+        ].join(" ")}
+      />
+      <span className={DATE_PILL}>{project.startDate}</span>
     </div>
   );
 
   const card = (
-    // Replaced manual JS Class manipulations for `isVisible` state conditional Class rendering
+    // Replaced manual JS Class manipulations for `isVisible` state conditional Class rendering.
+    // `timeline-card-inner` is queried by the IntersectionObserver below — keep it.
     <div
-      className={`timeline-card-inner ${isVisible ? "is-visible" : ""}`}
+      className={[
+        "timeline-card-inner will-change-[opacity,transform] transition-[opacity,transform] duration-700 ease-standard",
+        "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-7 opacity-0",
+      ].join(" ")}
       data-index={index}
     >
-      <div className="timeline-card__panel">
-        <div className="timeline-card__img">
-          <img src={project.image} alt={project.title} loading="lazy" />
+      {/* `group` so the panel hover can also scale the thumbnail. */}
+      <div className="group flex flex-col overflow-hidden rounded-lg border border-success/15 bg-[#202020] transition-[transform,border-color,box-shadow] duration-300 ease-standard hover:-translate-y-1 hover:border-success/40 hover:shadow-lg">
+        <div className="aspect-20/8 w-full overflow-hidden bg-[#111]">
+          <img
+            src={project.image}
+            alt={project.title}
+            loading="lazy"
+            className="block h-full w-full object-cover transition-transform duration-500 ease-standard group-hover:scale-105"
+          />
         </div>
-        <div className="timeline-card__content">
-          <h3>{project.title}</h3>
-          <p>{project.description}</p>
-          <ul className="timeline-card__tech">
+        <div className="px-5 pt-4 pb-5">
+          <h3 className="mb-1.875 text-xs leading-[1.3] font-bold text-ink-strong sm:text-sm">
+            {project.title}
+          </h3>
+          <p className="mb-3.125 text-xs leading-[1.65] text-ink">
+            {project.description}
+          </p>
+          <ul className="mb-3.125 flex flex-wrap gap-1.25 p-1.25">
             {project.technologies.map((tech) => (
-              <li key={tech}>{tech}</li>
+              <li
+                key={tech}
+                className="rounded-full border border-success/25 bg-success/10 px-1.875 py-0.875 text-xs font-medium text-[#4fd99a]"
+              >
+                {tech}
+              </li>
             ))}
           </ul>
           {project.link && (
@@ -464,7 +521,7 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="timeline-card__link"
+              className="inline-flex items-center gap-1.25 rounded-md border border-success bg-transparent px-2.5 py-1.375 text-xs font-medium text-ink-strong no-underline transition-all duration-200 ease-standard hover:gap-1.625 hover:bg-success hover:text-[#0a0a0a]"
               aria-label={`Visit ${project.title} project website`}
             >
               Visit project website
@@ -490,15 +547,17 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
 
   if (isMobile) {
     return (
-      <div className="timeline-row timeline-row--mobile">
+      <div className="flex items-start gap-2.5">
         {marker}
         {card}
       </div>
     );
   }
 
+  // `contents` dissolves this wrapper so its three children become direct items
+  // of the .timeline grid and share one row.
   return (
-    <div className="timeline-row">
+    <div className="contents">
       {align === "left" ? card : <div />}
       {marker}
       {align === "right" ? card : <div />}
