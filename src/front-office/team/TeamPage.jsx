@@ -46,14 +46,19 @@ const Team = () => {
   const drawLines = useCallback(() => {
     const cards = document.querySelectorAll(".team-card");
     const container = containerRef.current;
-    const lines = document.querySelectorAll(".line");
+    const lines = document.querySelectorAll(".team-line");
     lines.forEach((line) => line.remove());
 
     cards.forEach((card, index) => {
       cards.forEach((nextCard, nextIndex) => {
         if (index !== nextIndex) {
           const line = document.createElement("div");
-          line.className = "line";
+          // `team-line` is the query hook only — the appearance is the utility
+          // list beside it. Renamed from the old global `.line`, which also
+          // matched the divider divs on the certificates page and leaked this
+          // page's styling onto them once /team had been visited.
+          line.className =
+            "team-line pointer-events-none absolute z-0 h-[0.2px] bg-[#69ca62] opacity-30";
           container.appendChild(line);
 
           const cardRect = card.getBoundingClientRect();
@@ -104,7 +109,7 @@ const Team = () => {
   };
 
   return (
-    <div className="team-container" ref={containerRef}>
+    <div className="relative h-full w-full overflow-hidden p-5" ref={containerRef}>
       <SEO
         title="My Team"
         description="The collaborators and development team Abdelouahab Bella works with on software engineering and data analytics projects."
@@ -118,7 +123,10 @@ const Team = () => {
           defaultPosition={member.position}
         >
           <div
-            className="team-card"
+            // `peer` pairs with the info card's `peer-hover:` below — Tailwind's
+            // rendering of the old `.team-card:hover ~ .info-card` selector.
+            // `team-card` survives as the querySelectorAll hook for drawLines.
+            className="peer team-card relative z-5 m-3.25 h-50 w-50 cursor-pointer select-none overflow-visible bg-page transition-transform duration-300 ease-standard hover:scale-105"
             style={{
               userSelect: "none",
               backgroundImage: `url(${member.image})`,
@@ -129,19 +137,21 @@ const Team = () => {
             }}
             onMouseEnter={() => handleMouseEnter(member)}
             onMouseLeave={handleMouseLeave}
-            
+
           >
             <div className="bb"></div>
-            <h3 style={{
-              color: "#aaa",
-            }}>{member.name}</h3>
+            <h3 className="absolute bottom-2.5 left-2.5 leading-snug text-ink">
+              {member.name}
+            </h3>
           </div>
         </Draggable>
       ))}
-      <div className="info-card">
+      {/* Parked just below the container and faded out; hovering any card above
+          slides it up into view. Both properties animate over 1s. */}
+      <div className="absolute -bottom-[10%] left-1/2 z-100 h-[10%] w-full -translate-x-1/2 bg-[#1a1a1a] p-5 text-center font-[Arial,sans-serif] text-base leading-normal text-ink-strong opacity-0 shadow-md transition-[bottom,opacity] duration-1000 ease-in-out peer-hover:bottom-0 peer-hover:opacity-100">
         {(
           <>
-            <p>{hoveredMember.name} is a {hoveredMember.role}</p>
+            <p className="leading-normal">{hoveredMember.name} is a {hoveredMember.role}</p>
           </>
         )}
       </div>

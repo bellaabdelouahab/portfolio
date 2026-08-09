@@ -94,7 +94,7 @@ export default function MusicPicks() {
   };
 
   return (
-    <div className={styles.MusicPicks}>
+    <div className="flex w-full flex-col items-center bg-page p-5">
       <SEO
         title="Music & Podcast Picks"
         description="Music and podcast recommendations from Abdelouahab Bella — what a data analyst and software engineer listens to while building."
@@ -102,6 +102,7 @@ export default function MusicPicks() {
       />
       <img
         src="music/bg-music.png"
+        className="h-auto w-[70%] max-w-full"
         style={{
           margin: 10,
           marginBottom: 50,
@@ -112,21 +113,25 @@ export default function MusicPicks() {
         }}
         alt="Music Picks"
       />
-      <section className={styles.musicSection}>
-        <div className={styles.sectionTitle}>
-          <h2>Recently played</h2>
-          <button>See all</button>
+      <section className="mb-10 w-full">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-ink">Recently played</h2>
+          <button className="cursor-pointer border-none bg-transparent text-sm font-bold text-ink-muted hover:text-ink">
+            See all
+          </button>
         </div>
-        <div className={styles.musicCards}>
+        <div className="flex flex-wrap justify-center gap-5 md:justify-start">
           {recentlyPlayed.map((music) => (
             <a
               href={music.url}
               key={music.id}
-              className={styles.musicCard}
+              // styles.musicCard is retained purely for the ::after play-button
+              // overlay that stayed in the CSS module.
+              className={`${styles.musicCard} relative flex w-37.5 flex-col items-center rounded-md bg-[#181818] p-2.5 text-center text-inherit shadow-sm transition-transform duration-200 ease-standard hover:scale-[1.02] md:w-50`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div className={styles.imageWrapper}>
+              <div>
                 {!imageLoaded[music.id] && (
                   <Skeleton height="175px" width="175px" />
                 )}
@@ -135,14 +140,15 @@ export default function MusicPicks() {
                   alt={music.title}
                   width="175"
                   height="175"
+                  className="relative mb-2.5 max-h-37.5 w-full rounded-sm object-cover shadow-md md:max-h-50"
                   onLoad={() => handleImageLoad(music.id)}
                   style={{ display: imageLoaded[music.id] ? "block" : "none" }}
                 />
               </div>
               {imageLoaded[music.id] ? (
                 <>
-                  <h3>{music.title}</h3>
-                  <p>{music.artist}</p>
+                  <h3 className="mb-1.5 w-full text-lg font-bold text-ink">{music.title}</h3>
+                  <p className="text-sm leading-normal text-ink-muted">{music.artist}</p>
                 </>
               ) : (
                 <div>
@@ -158,17 +164,20 @@ export default function MusicPicks() {
           ))}
         </div>
       </section>
-      <section className={styles.musicSection}>
-        <div className={styles.sectionTitle}>
-          <h2>Podcast picks</h2>
-          <button>See all</button>
+      <section className="mb-10 w-full">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-ink">Podcast picks</h2>
+          <button className="cursor-pointer border-none bg-transparent text-sm font-bold text-ink-muted hover:text-ink">
+            See all
+          </button>
         </div>
-        <div className={styles.podcastCards}>
+        {/* Narrower tracks below md so two podcasts still fit side by side. */}
+        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] justify-center gap-12.5 md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
           {podcasts.map((podcast) => (
             <a
               href={podcast.url}
               key={podcast.id}
-              className={styles.podcastCard}
+              className="relative flex h-43.75 w-full flex-row items-center rounded-md bg-[#181818] p-2.5 text-center text-inherit shadow-sm transition-transform duration-200 ease-standard hover:scale-[1.02] md:h-31.25 md:w-auto"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -180,6 +189,7 @@ export default function MusicPicks() {
                   alt={podcast.title}
                   width="150"
                   height="150"
+                  className="relative h-full max-h-37.5 w-1/2 rounded-sm object-cover shadow-md md:h-auto"
                   onLoad={() => handleImageLoad(podcast.id)}
                   style={{
                     display: imageLoaded[podcast.id] ? "block" : "none",
@@ -188,9 +198,9 @@ export default function MusicPicks() {
               )}
 
               {imageLoaded[podcast.id] ? (
-                <div className={styles.podcastInfo}>
-                  <h3>{podcast.title}</h3>
-                  <p>{podcast.artist}</p>
+                <div className="ml-2.5 flex flex-col items-start justify-center">
+                  <h3 className="mb-1.5 text-sm font-bold text-ink md:text-lg">{podcast.title}</h3>
+                  <p className="text-xs leading-normal text-ink-muted md:text-sm">{podcast.artist}</p>
                 </div>
               ) : (
                 <div>
