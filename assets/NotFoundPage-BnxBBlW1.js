@@ -1,1 +1,0 @@
-import{p as o,j as e,S as n}from"./index-BmkFiTP2.js";const r=()=>{const t=o();return e.jsxs("div",{style:{textAlign:"center",color:"white"},children:[e.jsx(n,{title:"Page Not Found",noIndex:!0}),e.jsx("h1",{children:"404 - Page Not Found"}),e.jsxs("p",{children:["The requested URL ",e.jsx("code",{children:t.pathname})," was not found on this server."]})]})};export{r as default};
