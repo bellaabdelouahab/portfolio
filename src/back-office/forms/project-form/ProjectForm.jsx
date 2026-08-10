@@ -488,7 +488,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
     // reads the same at this size.
     <form
       onSubmit={handleFormSubmit}
-      className="mx-auto my-5 max-w-3xl rounded-lg border border-success/30 bg-surface px-6 py-6 text-ink shadow-md md:px-8"
+      className="mx-auto my-5 max-w-4xl rounded-lg border border-success/30 bg-surface px-6 py-6 text-ink shadow-md md:px-8"
     >
       <div className="mb-6 text-center">
         <h1 className="mb-1 text-3xl leading-snug font-bold text-ink-strong">
