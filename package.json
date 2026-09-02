@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@wooorm/starry-night": "^1.5.0",
     "dotenv": "^16.4.5",
+    "express": "^5.2.1",
     "firebase": "^11.3.0",
     "firebase-admin": "^13.1.0",
     "hast-util-to-html": "^8.0.4",
@@ -27,14 +28,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
-    "build": "vite build && node scripts/prerender.js",
-    "build:only": "vite build",
-    "prerender": "node scripts/prerender.js",
-    "serve": "vite preview",
-    "clean": "rmdir /s /q build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "start": "NODE_ENV=development node server/index.mjs",
+    "build:client": "NODE_ENV=production vite build --outDir build/client",
+    "build:server": "NODE_ENV=production vite build --ssr src/entry-server.jsx --outDir build/server",
+    "build": "npm run build:client && npm run build:server",
+    "start:server": "NODE_ENV=production node server/index.mjs",
+    "serve": "npm run start:server",
     "generate-sitemap": "node scripts/generate-sitemap.js"
   },
   "eslintConfig": {
@@ -58,8 +57,6 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^4.3.4",
-    "gh-pages": "^6.3.0",
-    "puppeteer": "^25.5.0",
     "tailwindcss": "^4.3.3",
     "vite": "^6.2.1"
   }

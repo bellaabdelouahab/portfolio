@@ -3,13 +3,23 @@ import Draggable from "react-draggable";
 import "./TeamPage.scss";
 import SEO from "../../shared/ui/SEO";
 
+// Draggable's `defaultPosition` is read once at mount to set the initial
+// transform, so it has to be identical on the server render and the client's
+// pre-hydration render — reading the real window.innerWidth/innerHeight here
+// both crashes under SSR (no `window` in Node) and would hydration-mismatch
+// even if guarded, since the client's first render sees the real viewport
+// while the server never can. A fixed baseline viewport keeps the initial
+// layout deterministic on both sides; dragging still works exactly as before.
+const BASELINE_WIDTH = 1440;
+const BASELINE_HEIGHT = 900;
+
 const teamMembers = [
   {
     name: "Abdelouahab Bella",
     role: "Jack of all trades & You are in my portfolio",
     position: {
-      x: window.innerWidth * 0.5 - 420,
-      y: window.innerHeight * 0.1 - 80,
+      x: BASELINE_WIDTH * 0.5 - 420,
+      y: BASELINE_HEIGHT * 0.1 - 80,
     },
     // Served from our own public/ rather than fetched from github.com: the
     // remote copy is the same file, but going out to GitHub for it added a
@@ -20,8 +30,8 @@ const teamMembers = [
     name: "Yassir Loukilia",
     role: "Software Engineer & Frontend Specialist",
     position: {
-      x: window.innerWidth * 0.3 - 320,
-      y: window.innerHeight * 0.1 + 80,
+      x: BASELINE_WIDTH * 0.3 - 320,
+      y: BASELINE_HEIGHT * 0.1 + 80,
     },
     image: "https://avatars.githubusercontent.com/u/127755141?v=4",
   },
@@ -29,15 +39,12 @@ const teamMembers = [
     name: "Yassine Boujrada",
     role: "Master of web scraping and cybersecurity",
     position: {
-      x: window.innerWidth * 0.5 - 120,
-      y: window.innerHeight * 0.1 + 50,
+      x: BASELINE_WIDTH * 0.5 - 120,
+      y: BASELINE_HEIGHT * 0.1 + 50,
     },
     image: "yassine-pic.png",
   },
 ];
-
-console.log(teamMembers);
-
 
 const Team = () => {
   const containerRef = useRef(null);

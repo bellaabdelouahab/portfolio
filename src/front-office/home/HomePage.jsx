@@ -10,8 +10,7 @@ import { useLoaderData } from "react-router-dom";
 import ServicesSection from "./sections/services/ServicesSection";
 import Collaborations from "./sections/collaborations/Collaborations";
 import FAQSection from "./sections/faq/FAQSection";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../shared/lib/firebase";
+import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import SEO from "../../shared/ui/SEO";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
@@ -108,9 +107,8 @@ export default function Home() {
 }
 
 export const getHighlightedProjects = async () => {
-  const colRef = collection(db, "projects");
-  const snapshot = await getDocs(colRef);
-  const data = snapshot.docs
+  const docs = await getCollectionDocs("projects");
+  const data = docs
     .map((doc) => ({ _id: doc.id, ...doc.data() }))
     .filter((project) => project.showInOverview === true)
     // The back office writes overviewOrder when you drag the featured projects

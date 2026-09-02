@@ -1,16 +1,16 @@
 import { collection, getDocs, query, limit, startAfter, orderBy } from "firebase/firestore";
 import { db } from "./firebase";
 import { byNewest } from "./dates";
+import { getCollectionDocs } from "./firestoreAccess";
 
 // New function to fetch all certificates at once
 export async function getAllCertificates() {
-    const certificatesCollection = collection(db, "certificates");
-    const snapshot = await getDocs(certificatesCollection);
+    const docs = await getCollectionDocs("certificates");
     // Firestore's document order is unspecified, so an unsorted list reshuffles
     // between visits. Certificates store createdAt as a Mongo { $date } wrapper,
     // which is why the comparator goes through toDate rather than new Date().
-    const allCertificates = snapshot.docs.map(doc => doc.data()).sort(byNewest("createdAt"));
-    const count = snapshot.size;
+    const allCertificates = docs.map(doc => doc.data()).sort(byNewest("createdAt"));
+    const count = docs.length;
     return { allCertificates, count };
 }
 

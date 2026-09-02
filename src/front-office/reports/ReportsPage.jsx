@@ -1,7 +1,6 @@
 import './ReportsPage.css';
 import { useLoaderData } from 'react-router-dom';
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../shared/lib/firebase";
+import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import { useEffect } from 'react';
 import SEO from '../../shared/ui/SEO';
 import { coverPlaceholder } from '../../shared/lib/placeholders';
@@ -172,8 +171,7 @@ export default function Reports() {
 }
 
 export async function getReports() {
-  const colRef = collection(db, "reports");
-  const snapshot = await getDocs(colRef);
-  const data = snapshot.docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
+  const docs = await getCollectionDocs("reports");
+  const data = docs.map((doc) => ({ _id: doc.id, ...doc.data() }));
   return data;
 }

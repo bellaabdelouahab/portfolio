@@ -14,6 +14,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-export const auth = getAuth(app);
+// Auth is browser-only functionality (Navbar's auth check, /fill-db login) —
+// getAuth() relies on browser storage under the hood and isn't meant to run
+// in a Node SSR process, unlike getFirestore() which works fine there. This
+// file itself is still imported at module scope during SSR (for `db`), so
+// the guard has to live here rather than at each call site.
+export const auth = typeof window !== "undefined" ? getAuth(app) : undefined;
 
 export default app;

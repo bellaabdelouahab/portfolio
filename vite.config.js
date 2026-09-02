@@ -28,15 +28,27 @@ if (!isProduction) {
     }
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, isSsrBuild }) => {
     return {
         build: {
             outDir: 'build',
+            rollupOptions: !isSsrBuild
+                ? {
+                    // firebase-admin (server-only Firestore access, see
+                    // shared/lib/firebaseAdmin.js) is only ever reached via a
+                    // dynamic import behind a `typeof window === "undefined"`
+                    // check, so it never actually runs in the browser — but
+                    // Rollup still statically traces dynamic imports to build
+                    // their chunk, and firebase-admin's dependency tree uses
+                    // Node built-ins with no browser equivalent, which fails
+                    // the client build outright. Externalizing it here stops
+                    // Rollup from tracing into it for the client bundle; the
+                    // SSR build (isSsrBuild) still resolves and bundles it
+                    // normally, since it genuinely runs in Node there.
+                    external: [/^firebase-admin(\/.*)?$/],
+                }
+                : undefined,
         },
-        // Prerendering runs as a separate post-build step (scripts/prerender.js).
-        // The old vite-plugin-prerender/jsdom setup silently produced nothing:
-        // jsdom snapshotted before the lazy chunks and Firestore reads resolved,
-        // so every deploy shipped an empty <div id="root">.
         plugins: [
             react(),
             tailwindcss(),

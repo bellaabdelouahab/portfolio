@@ -54,25 +54,10 @@
     }
     </script>
 
-    <!-- GitHub Pages SPA redirect: decode path stashed by 404.html -->
-    <script>
-      (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(
-            null,
-            null,
-            l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      })(window.location);
-    </script>
+    <!-- Populated server-side per request by server/index.mjs with the
+         title/meta/link/JSON-LD tags SEO.jsx produced via react-helmet for
+         the matched route. Empty on this template as checked into git. -->
+    <!--app-head-->
   </head>
   <body>
     <noscript>
@@ -83,27 +68,13 @@
       <p>Contact: https://abdelouahab.xyz</p>
     </noscript>
 
-    <div id="static-seo-copy">
-      <h1>About Abdelouahab Bella</h1>
-      <p>Abdelouahab Bella is a Digital Adoption Consultant and Data Analyst in Agadir, Morocco, delivering WalkMe implementation, Power BI dashboards, and custom web development.</p>
-      <h2>Services</h2>
-      <p>Digital Adoption Consulting: WalkMe implementations and adoption analytics for SAP Ariba, Salesforce, ServiceNow, and Oracle.</p>
-      <p>Data Analytics: Power BI dashboards, GA4 integration, and business intelligence reporting.</p>
-      <p>Web Development: React front-ends, Django/FastAPI back-ends, REST APIs, and SEO-optimized websites.</p>
-      <h2>Contact</h2>
-      <p>https://abdelouahab.xyz</p>
-    </div>
-
-    <div id="root" class="root"></div>
+    <!-- Real per-request server-rendered markup goes here (see
+         entry-server.jsx) — this replaces the old #static-seo-copy /
+         puppeteer-prerender workaround entirely: crawlers now see full
+         content in the initial response with no JS required. -->
+    <div id="root" class="root"><!--app-html--></div>
+    <!--hydration-data-->
   </body>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var staticCopy = document.getElementById("static-seo-copy");
-      if (staticCopy) {
-        staticCopy.remove();
-      }
-    });
-  </script>
-  <script type="module" src="/src/index.jsx"></script>
+  <script type="module" src="/src/entry-client.jsx"></script>
   <script type="module" defer src="/script.js"></script>
 </html>
