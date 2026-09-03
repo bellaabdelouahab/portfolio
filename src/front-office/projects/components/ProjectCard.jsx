@@ -35,31 +35,18 @@ export function ProjectCard({ project }) {
       >
         {!imageLoaded && <Skeleton height="100%" />}
       </div>
-      {imageLoaded ? (
-        <>
-          <h3 className="mt-[2vh] mb-[2vh] ml-[1.5vw] text-2xl font-bold text-ink-strong">
-            {title}
-          </h3>
-          <p className="mx-auto w-[90%] text-base leading-normal tracking-[2px]! text-ink">
-            {truncatedDescription}...
-          </p>
-        </>
-      ) : (
-        <div>
-          <Skeleton
-            height={24}
-            width={`60%`}
-            style={{
-              marginBottom: "10px",
-              marginTop: "10px",
-              marginLeft: "10px",
-            }}
-          />
-          <div className="mx-auto w-[90%]">
-            <Skeleton count={7} />
-          </div>
-        </div>
-      )}
+      {/* Title/description used to be gated behind imageLoaded too, on the
+          theory of not showing "half loaded" content — but they don't
+          actually depend on the image at all, and gating them meant every
+          card shipped as an empty skeleton in the raw SSR HTML with zero
+          indexable text (the image preload's useEffect never runs during
+          SSR). Only the image itself needs its own loading state. */}
+      <h3 className="mt-[2vh] mb-[2vh] ml-[1.5vw] text-2xl font-bold text-ink-strong">
+        {title}
+      </h3>
+      <p className="mx-auto w-[90%] text-base leading-normal tracking-[2px]! text-ink">
+        {truncatedDescription}...
+      </p>
       <div className="absolute bottom-[0.5vh] left-0 flex h-[10%] w-full items-center justify-around">
         <a
           className="rounded-[5px] bg-accent px-5 py-2.5 text-base font-bold tracking-[2px]! text-white"
