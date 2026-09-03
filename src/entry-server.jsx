@@ -30,9 +30,15 @@ export async function render(url, requestHeaders = {}) {
 
   const router = createStaticRouter(handler.dataRoutes, context);
 
+  // hydrate={false}: StaticRouterProvider defaults to auto-injecting its own
+  // window.__staticRouterHydrationData <script> tag inline. server/index.mjs
+  // already injects one explicitly (via the hydrationData returned below,
+  // placed through the <!--hydration-data--> marker), so leaving the default
+  // on doubled the payload — two scripts setting the same global, harmless
+  // functionally (last one wins) but pure waste on every response.
   const appHtml = renderToString(
     <SkeletonTheme baseColor="#202020" highlightColor="#444">
-      <StaticRouterProvider router={router} context={context} />
+      <StaticRouterProvider router={router} context={context} hydrate={false} />
     </SkeletonTheme>
   );
 
