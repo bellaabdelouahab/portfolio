@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import { useLocation } from "react-router-dom";
 import { getAbsoluteUrl } from "../lib/siteConfig";
 
 export default function SEO({
@@ -30,15 +31,14 @@ export default function SEO({
 
   const shouldNoIndex = Boolean(noIndex || noindex);
 
-  // Always build the canonical from the configured site URL + the current path.
-  // window.location.href must not be used: during the build-time prerender pass
-  // it is a localhost address, which would bake localhost canonicals into every
-  // deployed page. It also drags query strings into the canonical.
-  const pageUrl =
-    url ||
-    (typeof window !== "undefined"
-      ? getAbsoluteUrl(window.location.pathname)
-      : getAbsoluteUrl("/"));
+  // Always build the canonical from the configured site URL + the current
+  // path via React Router's location — NOT window.location, which doesn't
+  // exist during SSR (renderToString runs in real Node, no window at all).
+  // useLocation() is populated identically by RouterProvider (client) and
+  // StaticRouterProvider (server), so this is accurate and SSR-safe either
+  // way, and never drags query strings into the canonical.
+  const location = useLocation();
+  const pageUrl = url || getAbsoluteUrl(location.pathname);
 
   // Default structured data for the portfolio
   const defaultStructuredData = {
