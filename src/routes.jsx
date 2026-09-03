@@ -37,6 +37,14 @@ export const routes = [
         },
       },
       {
+        path: "services/:id",
+        lazy: async () => {
+          const { default: Component, getServiceDetail: loader } =
+            await import("./front-office/services/ServiceDetailPage");
+          return { Component, loader };
+        },
+      },
+      {
         path: "certificates",
         lazy: async () => {
           const { default: Component } =

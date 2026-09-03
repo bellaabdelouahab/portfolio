@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../../../shared/lib/firebase";
 import { servicesContent } from "../../homeContent";
@@ -103,7 +104,9 @@ export default function ServicesSection() {
                   className="m-auto mb-2.5"
                 />
                 <h3 className="mb-2.5 text-2xl leading-snug font-bold text-success">
-                  {s.title}
+                  <Link to={`/services/${s.id}`} className="hover:underline">
+                    {s.title}
+                  </Link>
                 </h3>
                 <p className="mb-5 grow text-lg leading-tight text-ink">
                   {s.description}

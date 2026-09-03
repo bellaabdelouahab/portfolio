@@ -10,11 +10,23 @@ import {
   faFlaskVial,
   faNewspaper,
   faFlag,
-  faSitemap
+  faSitemap,
+  faRobot,
+  faCode,
+  faGraduationCap
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { auth } from "../../../shared/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { servicesContent } from "../../home/homeContent";
+
+// Keyed by servicesContent's own id, so a new service just needs an entry
+// here rather than a matching if/else chain in the render below.
+const SERVICE_ICONS = {
+  ai: faRobot,
+  web: faCode,
+  learning: faGraduationCap,
+};
 
 export default function Navbar() {
   const basePath = process.env.VITE_BASE_URL || "";
@@ -119,11 +131,20 @@ export default function Navbar() {
         >
           <li>
             {getNavLink("/", "Home", faHome)}
-            <br />
-            <br />
-            <br />
-            <br />
           </li>
+          <br />
+          <hr />
+          <br />
+          {servicesContent.map((service) => (
+            <li key={service.id}>
+              {getNavLink(
+                `/services/${service.id}`,
+                service.title,
+                SERVICE_ICONS[service.id] ?? faListCheck
+              )}
+            </li>
+          ))}
+          <br />
           <hr />
           <br />
           <li>

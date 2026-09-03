@@ -129,6 +129,27 @@ async function generateSitemapXML() {
         image: `${baseUrl}/logo.jpg`
       },
       {
+        url: '/services/ai',
+        priority: '0.85',
+        changefreq: 'monthly',
+        lastmod: currentDate,
+        title: 'AI Solutions & Automation | Abdelouahab Bella'
+      },
+      {
+        url: '/services/web',
+        priority: '0.85',
+        changefreq: 'monthly',
+        lastmod: currentDate,
+        title: 'Full-Stack Web Development | Abdelouahab Bella'
+      },
+      {
+        url: '/services/learning',
+        priority: '0.85',
+        changefreq: 'monthly',
+        lastmod: currentDate,
+        title: 'Online Programming Tutoring | Abdelouahab Bella'
+      },
+      {
         url: '/projects',
         priority: '0.9',
         changefreq: 'weekly',
