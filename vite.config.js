@@ -67,12 +67,26 @@ export default defineConfig(({ mode, isSsrBuild }) => {
                 'back-office': '/src/back-office',
             },
         },
-        define: {
-            'process.env': {
-                ...env,
-                NODE_ENV: mode === 'production' ? 'production' : 'development',
+        // Client-only: browsers have no real `process.env`, so Vite statically
+        // replaces every `process.env.X` reference with a build-time snapshot
+        // (this is how src/shared/lib/firebase.js's client config gets baked
+        // into the browser bundle). Applying this to the SSR build too — it
+        // used to be unconditional here — silently froze `process.env` for
+        // the *server* bundle to that same build-time snapshot, which can
+        // never contain a runtime-only secret like GOOGLE_APPLICATION_CREDENTIALS
+        // or FIREBASE_SERVICE_ACCOUNT (shared/lib/firebaseAdmin.js): the SSR
+        // bundle then saw that env var as permanently undefined no matter what
+        // the actual container environment provided at runtime. The SSR build
+        // runs in real Node, where `process.env.X` already does the right
+        // thing on its own — it needs no define at all.
+        define: isSsrBuild
+            ? {}
+            : {
+                'process.env': {
+                    ...env,
+                    NODE_ENV: mode === 'production' ? 'production' : 'development',
+                },
             },
-        },
         server: {
             port: 3000,
         },
