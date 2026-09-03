@@ -6,15 +6,9 @@
     <link rel="icon" href="/logo.jpg" />
     <!-- Base/shell CSS now lives in src/shared/styles/legacy-base.css so it is
          bundled and hashed. It replaced a 120 KB render-blocking public/fedora.css. -->
-    <title>Abdelouahab Bella | Data Analyst & Software Engineer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development."
-    />
     <meta name="author" content="Abdelouahab Bella" />
-    <meta name="robots" content="index, follow" />
     <link rel="sitemap" type="application/xml" href="https://abdelouahab.xyz/sitemaps/sitemap.xml" />
     <link rel="manifest" href="/manifest.json" />
 
@@ -22,41 +16,18 @@
     <link rel="preconnect" href="https://api.ipify.org" crossorigin />
     <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 
-    <!-- og:url and canonical are intentionally NOT set here. Every route renders
-         components/common/SEO.jsx, which owns them via Helmet. Declaring them
-         statically too produced two conflicting canonicals per page (both this
-         "/" value and the route's own), which Google discards. -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
-    <meta property="og:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta property="og:image" content="https://abdelouahab.xyz/logo.jpg" />
-    <meta property="og:site_name" content="Abdelouahab Bella Portfolio" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Abdelouahab Bella | Data Analyst & Software Engineer" />
-    <meta name="twitter:description" content="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development, machine learning and software development." />
-    <meta name="twitter:image" content="https://abdelouahab.xyz/logo.jpg" />
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Abdelouahab Bella",
-      "url": "https://abdelouahab.xyz",
-      "image": "https://abdelouahab.xyz/logo.jpg",
-      "jobTitle": "Data Analyst & Digital Adoption Consultant",
-      "worksFor": { "@type": "Organization", "name": "eVia Services" },
-      "alumniOf": { "@type": "CollegeOrUniversity", "name": "ENSA Khouribga" },
-      "sameAs": [
-        "https://www.linkedin.com/in/abdelouahab-bella",
-        "https://github.com/bellaabdelouahab"
-      ]
-    }
-    </script>
-
-    <!-- Populated server-side per request by server/index.mjs with the
-         title/meta/link/JSON-LD tags SEO.jsx produced via react-helmet for
-         the matched route. Empty on this template as checked into git. -->
+    <!-- title/description/robots/canonical/OG/Twitter/JSON-LD are deliberately
+         NOT declared here at all, static or otherwise. Every route renders
+         SEO.jsx, which now genuinely SSRs these per request via server/index.mjs
+         (see the marker comment right below this one) — declaring a static
+         default here too doesn't get overridden by that injection (it's a
+         plain string concat, not real DOM reconciliation the way client-side
+         react-helmet worked): a static title tag here would sit BEFORE the
+         injected one in the HTML source, and since a document's *first*
+         title tag wins, every route's tab title/meta/JSON-LD would silently
+         fall back to whatever static default lived here, no matter what
+         SEO.jsx actually rendered. Found this exact bug shipping the service
+         pages — this comment is why it must stay this way. -->
     <!--app-head-->
   </head>
   <body>
