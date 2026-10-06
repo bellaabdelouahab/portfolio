@@ -1,71 +1,113 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import SEO from "../../shared/ui/SEO";
+import { toDate } from "../../shared/lib/dates";
+
+const GROUPS = [
+  ["all", "All"],
+  ["IBM", "IBM"],
+  ["OPEN CLASS ROOM", "OpenClassrooms"],
+  ["other", "Other"],
+];
+const ISSUER_LABEL = { "OPEN CLASS ROOM": "OpenClassrooms", "IBM & Coursera": "IBM and Coursera", "DIGITAL INITIATIVE": "Digital Initiative" };
+
+const groupOf = (c) => (c.issuer === "IBM" || c.issuer === "OPEN CLASS ROOM" ? c.issuer : "other");
+const label = (c) => ISSUER_LABEL[c.issuer] || c.issuer;
+const when = (c) => {
+  const d = toDate(c.createdAt);
+  return d.getTime() ? d.toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : "";
+};
+
+function Chip({ active, onClick, children }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={[
+        "cursor-pointer rounded-full border px-4 py-1.5 text-sm transition-colors duration-200",
+        active ? "border-success bg-success/15 text-success" : "border-line bg-surface text-ink hover:border-success/40 hover:text-ink-strong",
+      ].join(" ")}
+    >
+      {children}
+    </button>
+  );
+}
 
 export default function Certificates() {
-  const basePath = process.env.VITE_BASE_URL || "";
-  // Loader now returns allCertificates and count
   const { allCertificates, count } = useLoaderData();
-  const certificatesPerPage = 9;
-  const [page, setPage] = useState(1);
+  const [group, setGroup] = useState("all");
+  const [shown, setShown] = useState(12);
 
-  // Display the first chunk of certificates
-  const displayedCertificates = allCertificates.slice(0, page * certificatesPerPage);
-
-  const handleShowMore = () => {
-    setPage(page + 1);
-  };
+  const filtered = useMemo(
+    () => allCertificates.filter((c) => group === "all" || groupOf(c) === group),
+    [allCertificates, group],
+  );
+  const countOf = (g) => (g === "all" ? count : allCertificates.filter((c) => groupOf(c) === g).length);
 
   return (
     <>
       <SEO
         title="Certificates"
-        description="Professional certifications and badges earned by Abdelouahab Bella in data analytics, machine learning, cloud platforms, and software engineering."
-        keywords="Abdelouahab Bella certifications, data analyst certificates, machine learning certification, professional badges"
+        description="Professional certifications earned by Abdelouahab Bella in data analytics, machine learning, cloud platforms and software engineering."
+        keywords="Abdelouahab Bella certifications, data analyst certificates, machine learning certification, IBM, OpenClassrooms"
       />
-      {/* Centred on phones, pushed to the edges once there is room for it. */}
-      <div className="flex h-[5vh] w-full items-center justify-center px-5 py-6 tracking-[0.5px] text-ink-strong md:justify-between md:px-25">
-        <div className="text-sm leading-normal md:text-lg md:leading-none">
-          Over {count} Badges &amp; Certifications
+      <section className="mx-auto w-full max-w-5xl px-5 py-8 md:py-10">
+        <header className="mb-6">
+          <h1 className="mb-2 text-3xl font-bold tracking-[1px]! text-ink-strong md:text-4xl">Certifications</h1>
+          <p className="text-base leading-relaxed text-ink">
+            {count} verified credentials in data, machine learning and software engineering. Select a row to open the
+            issuer&apos;s verification page.
+          </p>
+        </header>
+
+        <div className="mb-5 flex flex-wrap gap-2 border-b border-line pb-4">
+          {GROUPS.map(([id, text]) => (
+            <Chip key={id} active={group === id} onClick={() => { setGroup(id); setShown(12); }}>
+              {text} <span className="opacity-60">({countOf(id)})</span>
+            </Chip>
+          ))}
         </div>
-      </div>
-      {/* The old grid drew its lines with nth-child border juggling — six rules
-          to fake a table. Separate bordered cards say the same thing, match the
-          projects/reports/articles grids, and survive any column count. */}
-      <div className="grid gap-4 px-5 sm:grid-cols-2 md:px-12.5 lg:grid-cols-3">
-        {displayedCertificates.map((certificate, index) => (
-          <div
-            className="group flex h-50 cursor-pointer flex-row items-center justify-start gap-2.5 rounded-lg border border-line bg-surface p-2.5 text-ink shadow-md transition-colors duration-200 hover:border-success/40"
-            key={index}
-          >
-            <img
-              src={`${basePath}${certificate.image.replace(
-                ".webp",
-                "_result.webp"
-              )}`}
-              alt="NoImage"
-              width="100"
-              height="100"
-              className="size-37.5 shrink-0 rounded-sm"
-            />
-            <div className="mt-1 text-xl font-bold leading-snug group-hover:underline">
-              {certificate.title}
-            </div>
+
+        <ul className="divide-y divide-line overflow-hidden rounded-md border border-line bg-surface">
+          {filtered.slice(0, shown).map((c) => (
+            <li key={c.title + c.createdAt?.$date}>
+              <a
+                href={c.link || c.downloadPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 px-4 py-3 transition-colors hover:bg-surface-raised"
+              >
+                <img
+                  src={(c.image || "").replace(".webp", "_result.webp")}
+                  alt=""
+                  width="64"
+                  height="64"
+                  loading="lazy"
+                  className="size-16 shrink-0 rounded-sm bg-black object-cover"
+                />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-base leading-snug font-bold text-ink-strong group-hover:text-success">{c.title}</span>
+                  <span className="mt-0.5 block text-sm text-ink-muted">{label(c)}{when(c) && ` · ${when(c)}`}</span>
+                </span>
+                <span className="hidden shrink-0 text-sm font-bold text-success sm:block">Verify →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {shown < filtered.length && (
+          <div className="mt-5 text-center">
+            <button
+              type="button"
+              onClick={() => setShown((n) => n + 12)}
+              className="cursor-pointer rounded-sm border border-line bg-surface px-5 py-2 text-sm font-bold tracking-[1px]! text-ink-strong transition-colors hover:border-success/50"
+            >
+              Show more ({filtered.length - shown} remaining)
+            </button>
           </div>
-        ))}
-      </div>
-      {displayedCertificates.length < allCertificates.length && (
-        <div className="flex h-[5vh] w-full cursor-pointer items-center justify-center px-5 py-6 tracking-[0.5px] text-ink-strong md:px-25">
-          <div className="min-h-px w-full bg-line"></div>
-          <button
-            onClick={handleShowMore}
-            className="mx-5 min-w-37.5 cursor-pointer rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm font-semibold tracking-[2px] text-ink transition-colors duration-200 hover:border-success/40 hover:bg-surface-raised hover:text-ink-strong"
-          >
-            Show More
-          </button>
-          <div className="min-h-px w-full bg-line"></div>
-        </div>
-      )}
+        )}
+      </section>
     </>
   );
 }

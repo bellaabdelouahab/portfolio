@@ -55,10 +55,10 @@
      Reduced from the 333 distinct colour values in use. Dark surfaces are the
      existing palette. Two near-identical greens (#2ac17f, #29b578) collapse to
      one; #fff and #ffffff were the same colour spelled two ways, 63 uses. */
-  --color-page: #252525;
-  --color-surface: #2e2e2e;
-  --color-surface-raised: #383838;
-  --color-line: #3a3a3a;
+  --color-page: #181d27;
+  --color-surface: #222a36;
+  --color-surface-raised: #2b3441;
+  --color-line: #323b49;
 
   --color-ink-muted: #888888;
   --color-ink: #bbbbbb;
@@ -108,3 +108,8 @@
   --breakpoint-lg: 64rem;   /* 1024px */
   --breakpoint-xl: 80rem;   /* 1280px */
 }
+
+
+/* Slow horizontal drift for decorative image rows (service pages). */
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes drift-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }

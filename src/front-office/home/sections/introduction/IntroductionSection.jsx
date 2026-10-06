@@ -4,15 +4,15 @@ import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
 import heroBackground from "assets/images/home-section-bg1.jpg";
 
 const PROOF = [
-  ["Websites and web apps", "React, Django and FastAPI, deployed on your domain"],
-  ["Dashboards and reports", "Power BI, SQL and Python, refreshed automatically"],
-  ["Fixed price in MAD", "Free 30-minute call, proposal in two working days"],
+  ["Websites and web apps", "M3 5h18v11H3zM8 20h8M12 16v4"],
+  ["Dashboards and reports", "M4 20V10M10 20V4M16 20v-8M22 20H2"],
+  ["Fixed price in MAD", "M12 3v18M7 8c0-2 2-3 5-3s5 1 5 3-2 3-5 4-5 2-5 4 2 3 5 3 5-1 5-3"],
 ];
 
 export default function IntroductionSection() {
   return (
     <section
-      className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
+      className="introduction-section relative w-full bg-[#14192288] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
       style={{ backgroundImage: `url(${heroBackground})` }}
     >
       <div className="flex w-full flex-col items-start gap-8 px-[5vw] md:w-[70%] md:px-[3vw]">
@@ -24,16 +24,17 @@ export default function IntroductionSection() {
           I build websites and turn your data into decisions.
         </h1>
         <p className="max-w-2xl text-base leading-relaxed text-ink md:text-lg">
-          Freelance web developer and data analyst. I take a project from the
-          first sketch to a live site or dashboard, and show you the numbers
-          that prove it works.
+          Freelance web developer and data analyst in Agadir. From the first
+          sketch to a live site or dashboard.
         </p>
         <ContactCtaButtons whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project." />
-        <ul className="mt-2 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-          {PROOF.map(([title, text]) => (
-            <li key={title} className="rounded-sm border border-line bg-[#0a0a0a99] p-3">
-              <p className="text-sm font-bold text-ink-strong">{title}</p>
-              <p className="mt-1 text-xs leading-snug text-ink">{text}</p>
+        <ul className="mt-2 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-5">
+          {PROOF.map(([title, icon]) => (
+            <li key={title} className="flex items-center gap-2.5 text-sm font-bold text-ink-strong">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-success" aria-hidden="true">
+                <path d={icon} />
+              </svg>
+              {title}
             </li>
           ))}
         </ul>

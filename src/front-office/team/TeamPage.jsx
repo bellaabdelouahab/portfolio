@@ -109,7 +109,7 @@ export default function Team() {
         ))}
       </ul>
 
-      <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1e1e1e] p-7 text-center">
+      <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7 text-center">
         <h2 className="text-xl font-bold text-ink-strong">Talk to the lead</h2>
         <ContactCtaButtons className="justify-center" whatsappMessage="Hi Abdelouahab, I would like to discuss a project." />
       </div>

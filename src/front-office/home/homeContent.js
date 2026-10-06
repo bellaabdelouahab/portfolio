@@ -43,7 +43,7 @@ export const servicesContent = [
       ["Build", "Weekly demos on a private preview link so nothing is a surprise."],
       ["Launch and support", "Deployment, handover and 30 days of fixes included."],
     ],
-    startingPrice: "From 6,000 MAD",
+    startingPrice: "Starting from 6,000 MAD",
     relatedSkills: [
       "React, JavaScript, Tailwind CSS",
       "Django, FastAPI, Node.js",
@@ -75,7 +75,7 @@ export const servicesContent = [
       ["Build", "Model, dashboard and automation, reviewed with you at each step."],
       ["Handover", "Documentation, training and 30 days of adjustments included."],
     ],
-    startingPrice: "From 3,000 MAD",
+    startingPrice: "Starting from 3,000 MAD",
     relatedSkills: [
       "Power BI, DAX",
       "SQL (Advanced), SQL Server, PostgreSQL",
@@ -261,12 +261,12 @@ export const faqData = [
   {
     id: "q1",
     question: "How much does a website cost?",
-    answer: "Business websites start from 6,000 MAD and web applications from 15,000 MAD, depending on pages, features and integrations. You receive a fixed price in MAD after a free 30-minute discovery call."
+    answer: "Business websites start at 6,000 MAD and web applications at 15,000 MAD, depending on pages, features and integrations. You receive a fixed price in MAD after a free 30-minute discovery call."
   },
   {
     id: "q2",
     question: "How much does a dashboard or data project cost?",
-    answer: "Dashboards and reporting projects start from 3,000 MAD. Larger projects with several data sources and automated refresh are quoted after a short data review."
+    answer: "Dashboards and reporting projects start at 3,000 MAD. Larger projects with several data sources and automated refresh are quoted after a short data review."
   },
   {
     id: "q3",

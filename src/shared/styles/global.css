@@ -7,7 +7,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-bottom: 0 !important;
-  background: #252525 !important;
+  background: #181d27 !important;
   font-family: "Poppins", sans-serif !important;
 }
 main::-webkit-scrollbar {
@@ -97,7 +97,7 @@ p {
 }
 
 .main {
-  background: #0A0A0A;
+  background: #0f1319;
   height: 100%;
   overflow-y: auto;
   position: relative;

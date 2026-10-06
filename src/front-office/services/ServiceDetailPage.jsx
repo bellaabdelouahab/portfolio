@@ -10,6 +10,34 @@ import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 const RELATED_PROJECTS_LIMIT = 3;
 
 /**
+ * Two slow rows of client-project screenshots drifting in opposite directions
+ * behind the hero. Opacity is low and a mask fades them out before the content
+ * starts, so they read as texture rather than competing with the text. The
+ * motion stops for visitors who prefer reduced motion.
+ */
+function Backdrop({ images }) {
+  if (!images?.length) return null;
+  const row = [...images, ...images, ...images, ...images];
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] overflow-hidden opacity-[0.10] [mask-image:linear-gradient(to_bottom,black_30%,transparent)]"
+    >
+      {[0, 1].map((r) => (
+        <div
+          key={r}
+          className={`flex w-max gap-4 pt-4 ${r ? "animate-[drift-reverse_90s_linear_infinite]" : "animate-[drift_90s_linear_infinite]"} motion-reduce:animate-none`}
+        >
+          {(r ? [...row].reverse() : row).map((src, i) => (
+            <img key={`${r}-${i}`} src={src} alt="" loading="lazy" className="h-60 w-[26rem] shrink-0 rounded-md object-cover" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
  * Related projects come from Firestore `projects.tags`, but those tags are
  * freeform and sparse (most appear on a single project — see homeContent.js's
  * comment on relatedProjectTags), so a strict tag filter alone would leave
@@ -44,11 +72,15 @@ export async function getServiceDetail({ params }) {
             .slice(0, RELATED_PROJECTS_LIMIT - tagged.length),
         ];
 
-  return { service, relatedProjects };
+  const backdrop = allProjects
+    .filter((p) => p.hidden !== true && (p.caseStudy?.kind || "client") === "client" && p.image)
+    .map((p) => p.image);
+
+  return { service, relatedProjects, backdrop };
 }
 
 export default function ServiceDetailPage() {
-  const { service, relatedProjects } = useLoaderData();
+  const { service, relatedProjects, backdrop } = useLoaderData();
   const relevantExperience = professionalExperience.filter((exp) =>
     (exp.services || []).includes(service.id),
   );
@@ -69,7 +101,9 @@ export default function ServiceDetailPage() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-5 py-10">
+    <div className="relative">
+      <Backdrop images={backdrop} />
+    <div className="relative mx-auto w-full max-w-5xl px-5 py-10">
       <SEO
         title={service.title}
         description={service.longDescription || service.description}
@@ -170,7 +204,7 @@ export default function ServiceDetailPage() {
         </section>
       )}
 
-      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1e1e1e] p-7.5 text-center">
+      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7.5 text-center">
         <h2 className="text-2xl leading-snug font-bold text-ink-strong">
           Interested in {service.title}?
         </h2>
@@ -179,6 +213,7 @@ export default function ServiceDetailPage() {
           whatsappMessage={`Hi, I'm interested in your ${service.title} service`}
         />
       </section>
+    </div>
     </div>
   );
 }

@@ -29,8 +29,10 @@ export async function getProject({ params }) {
   const others = all
     .filter((p) => p._id !== project._id && p.hidden !== true)
     .sort(byNewest("startDate"));
+  const kindOf = (p) => p.caseStudy?.kind || "client";
+  const sameKind = others.filter((p) => kindOf(p) === kindOf(project));
   const sameService = (p) => (p.caseStudy?.services || []).some((s) => (project.caseStudy?.services || []).includes(s));
-  const related = [...others.filter(sameService), ...others.filter((p) => !sameService(p))].slice(0, 3);
+  const related = [...sameKind.filter(sameService), ...sameKind.filter((p) => !sameService(p))].slice(0, 3);
   return { project, related };
 }
 
@@ -71,6 +73,7 @@ export default function ProjectDetailPage() {
   const period = project.startDate
     ? `${fmt(project.startDate)} to ${project.endDate ? fmt(project.endDate) : "present"}`
     : "";
+  const personal = cs.kind === "personal";
   const serviceId = (cs.services || [])[0];
   const service = servicesContent.find((s) => s.id === serviceId);
   const summary = cs.summary || project.description;
@@ -98,7 +101,7 @@ export default function ProjectDetailPage() {
       />
 
       <nav aria-label="Breadcrumb" className="mb-5 text-sm text-ink-muted">
-        <Link to="/projects" className="hover:text-success">Projects</Link>
+        <Link to="/projects" className="hover:text-success">{personal ? "Personal projects" : "Client work"}</Link>
         <span className="mx-2">/</span>
         <span>{project.title}</span>
       </nav>
@@ -136,7 +139,7 @@ export default function ProjectDetailPage() {
       </header>
 
       <dl className="mt-8 grid grid-cols-2 gap-5 rounded-md border border-line bg-surface p-5 md:grid-cols-4">
-        <Meta label="Client">{cs.client}</Meta>
+        <Meta label={personal ? "Type" : "Client"}>{cs.client}</Meta>
         <Meta label="Role">{cs.role}</Meta>
         <Meta label="Period">{period}</Meta>
         <Meta label="Status">{cs.status}</Meta>
@@ -145,7 +148,7 @@ export default function ProjectDetailPage() {
       {cs.results?.length > 0 && (
         <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
           {cs.results.map((r) => (
-            <li key={r.label} className="rounded-md border border-success/30 bg-[#1e1e1e] p-4 text-center">
+            <li key={r.label} className="rounded-md border border-success/30 bg-[#1a202b] p-4 text-center">
               <p className="text-2xl font-bold text-success md:text-3xl">{r.value}</p>
               <p className="mt-1 text-xs leading-snug text-ink">{r.label}</p>
             </li>
@@ -154,9 +157,9 @@ export default function ProjectDetailPage() {
       )}
 
       <div className="mt-10 grid gap-8 md:grid-cols-3">
-        <Block title="The challenge">{cs.challenge}</Block>
+        <Block title={personal ? "The idea" : "The challenge"}>{cs.challenge}</Block>
         <Block title="What I built">{cs.solution}</Block>
-        <Block title="The outcome">{cs.outcome}</Block>
+        <Block title={personal ? "The result" : "The outcome"}>{cs.outcome}</Block>
       </div>
 
       {cs.features?.length > 0 && (
@@ -172,7 +175,7 @@ export default function ProjectDetailPage() {
 
       {project.carouselImages?.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-2 text-xl font-bold text-ink-strong">Screens</h2>
+          <h2 className="mb-3 text-xl font-bold text-ink-strong">Screens</h2>
           <Carousel carouselImages={project.carouselImages} />
         </section>
       )}
@@ -192,8 +195,8 @@ export default function ProjectDetailPage() {
       <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
 
-      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1e1e1e] p-7 text-center">
-        <h2 className="text-2xl font-bold text-ink-strong">Need something similar?</h2>
+      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7 text-center">
+        <h2 className="text-2xl font-bold text-ink-strong">{personal ? "Need something like this built?" : "Need something similar?"}</h2>
         <p className="max-w-xl text-ink">
           Book a free 30-minute call to talk through your project. You get a fixed price in MAD within two working days.
         </p>

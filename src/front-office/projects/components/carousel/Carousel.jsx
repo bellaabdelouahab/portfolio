@@ -1,139 +1,171 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faExpand,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 
-export default function Carousel({ carouselImages }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const ARROW =
+  "absolute top-1/2 z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/55 text-white backdrop-blur transition-colors hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-success";
 
-  const goToPrev = useCallback(() => {
-    if (!carouselImages?.length) return;
-    setCurrentIndex((prev) =>
-      prev === 0 ? carouselImages.length - 1 : prev - 1,
-    );
-  }, [carouselImages]);
+/**
+ * Screenshot viewer: one large image, previous/next arrows, a thumbnail strip,
+ * swipe on touch, arrow keys, and a full-screen view on click. Images are shown
+ * whole (object-contain) because they are screenshots, and cropping a UI hides
+ * the part the client wants to see.
+ */
+export default function Carousel({ carouselImages = [] }) {
+  const images = carouselImages.filter((i) => i?.img);
+  const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
+  const touchX = useRef(null);
+  const thumbs = useRef(null);
+  const count = images.length;
 
-  const goToNext = useCallback(() => {
-    if (!carouselImages?.length) return;
-    setCurrentIndex((prev) =>
-      prev === carouselImages.length - 1 ? 0 : prev + 1,
-    );
-  }, [carouselImages]);
+  const go = useCallback(
+    (delta) => setIndex((i) => (i + delta + count) % count),
+    [count],
+  );
+
+  // Keep the active thumbnail in view without scrolling the whole page.
+  useEffect(() => {
+    const el = thumbs.current?.children[index];
+    if (el && thumbs.current) {
+      thumbs.current.scrollTo({
+        left: el.offsetLeft - thumbs.current.clientWidth / 2 + el.clientWidth / 2,
+        behavior: "smooth",
+      });
+    }
+  }, [index]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "ArrowLeft") goToPrev();
-      if (e.key === "ArrowRight") goToNext();
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") go(1);
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [goToPrev, goToNext]);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open, go]);
 
-  if (!carouselImages || carouselImages.length === 0) return null;
+  if (count === 0) return null;
+  const current = images[index];
 
-  const current = carouselImages[currentIndex];
+  const onTouchStart = (e) => { touchX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchX.current == null) return;
+    const dx = e.changedTouches[0].clientX - touchX.current;
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    touchX.current = null;
+  };
 
   return (
-    // The stacked green shadows stay an arbitrary value: at 0.05 alpha they are
-    // a faint halo, not an elevation cue, so shadow-md would be a different
-    // effect rather than a rounding of this one.
-    <div className="mx-auto my-4 flex w-full flex-col gap-3 rounded-md border border-line p-2 shadow-[rgba(45,184,17,0.05)_0px_2px_8px,rgba(45,184,17,0.05)_0px_4px_12px,rgba(45,184,17,0.05)_0px_8px_28px] md:w-4/5 md:max-w-[1100px] md:p-3 md:pt-8">
-      <div className="flex items-center gap-2.5">
+    <section
+      aria-roledescription="carousel"
+      aria-label="Project screenshots"
+      className="w-full"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") go(-1);
+        if (e.key === "ArrowRight") go(1);
+      }}
+    >
+      <div
+        className="group relative aspect-[16/10] w-full overflow-hidden rounded-md border border-line bg-black"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         <button
           type="button"
-          className={NAV_BUTTON}
-          onClick={goToPrev}
-          aria-label="Previous image"
+          onClick={() => setOpen(true)}
+          aria-label="Open image full screen"
+          className="absolute inset-0 cursor-zoom-in"
         >
-          <ChevronIcon direction="left" />
+          <img
+            key={current.img}
+            src={current.img}
+            alt={current.title || `Screenshot ${index + 1}`}
+            className="h-full w-full object-contain"
+          />
         </button>
+        {count > 1 && (
+          <>
+            <button type="button" aria-label="Previous image" onClick={() => go(-1)} className={`${ARROW} left-3`}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <button type="button" aria-label="Next image" onClick={() => go(1)} className={`${ARROW} right-3`}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </>
+        )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-gradient-to-t from-black/80 to-transparent px-4 pt-10 pb-3 text-sm text-white">
+          <span>{current.title}</span>
+          <span className="flex shrink-0 items-center gap-3">
+            <span className="tabular-nums opacity-80">{index + 1} / {count}</span>
+            <FontAwesomeIcon icon={faExpand} className="opacity-70" />
+          </span>
+        </div>
+      </div>
 
-        {/* `group` replaces the old `.carousel__frame:hover .carousel__caption`
-            descendant rule. */}
-        <div className="group relative aspect-[4/3] flex-1 overflow-hidden rounded-md bg-black md:aspect-video">
-          {carouselImages.map((img, index) => (
-            <div
-              key={img._id ?? index}
+      {count > 1 && (
+        <div ref={thumbs} className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:thin]">
+          {images.map((img, i) => (
+            <button
+              key={img.img}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Show image ${i + 1}${img.title ? `: ${img.title}` : ""}`}
+              aria-current={i === index}
               className={[
-                "absolute inset-0 bg-contain bg-center bg-no-repeat",
-                "transition-[opacity,transform] duration-500 ease-standard",
-                index === currentIndex ? "scale-100 opacity-100" : "scale-[1.02] opacity-0",
+                "h-16 w-28 shrink-0 cursor-pointer overflow-hidden rounded-sm border-2 bg-black transition-opacity",
+                i === index ? "border-success opacity-100" : "border-transparent opacity-60 hover:opacity-100",
               ].join(" ")}
-              style={{ backgroundImage: `url(${img.img})` }}
-            />
+            >
+              <img src={img.img} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
+            </button>
           ))}
-          {current?.title && (
-            // Always visible below md — a hover-only caption is unreachable on
-            // touch, which is what the old max-width:768px override said too.
-            <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 to-transparent px-4 py-3 opacity-100 transition-opacity duration-300 ease-standard md:opacity-0 md:group-hover:opacity-100">
-              <p className="text-xs leading-snug font-normal text-ink-strong md:text-sm">
-                {current.title}
-              </p>
-            </div>
-          )}
-          <div className="absolute top-2 right-2.5 rounded-full bg-black/60 px-1.5 py-0.5 text-xs leading-none text-ink">
-            {currentIndex + 1} / {carouselImages.length}
+        </div>
+      )}
+
+      {open && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Screenshot viewer"
+          className="fixed inset-0 z-[1000] flex flex-col bg-black/95"
+          onClick={() => setOpen(false)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="flex items-center justify-between px-5 py-3 text-sm text-white">
+            <span>{current.title} <span className="ml-2 opacity-60">{index + 1} / {count}</span></span>
+            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="cursor-pointer text-xl">
+              <FontAwesomeIcon icon={faXmark} />
+            </button>
+          </div>
+          <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-6" onClick={(e) => e.stopPropagation()}>
+            <img src={current.img} alt={current.title || ""} className="max-h-full max-w-full object-contain" />
+            {count > 1 && (
+              <>
+                <button type="button" aria-label="Previous image" onClick={() => go(-1)} className={`${ARROW} left-4`}>
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </button>
+                <button type="button" aria-label="Next image" onClick={() => go(1)} className={`${ARROW} right-4`}>
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+              </>
+            )}
           </div>
         </div>
-
-        <button
-          type="button"
-          className={NAV_BUTTON}
-          onClick={goToNext}
-          aria-label="Next image"
-        >
-          <ChevronIcon direction="right" />
-        </button>
-      </div>
-
-      {/* The scrollbar is hidden through an arbitrary variant rather than a
-          leftover stylesheet; ::-webkit-scrollbar is the only rule that would
-          have kept this component's CSS file alive. */}
-      <div className="flex justify-center gap-2.5 overflow-x-auto rounded-sm bg-surface-raised p-2.5 [&::-webkit-scrollbar]:hidden">
-        {carouselImages.map((img, index) => (
-          <button
-            type="button"
-            key={img._id ?? index}
-            className={[
-              "h-[70px] w-[100px] shrink-0 cursor-pointer overflow-hidden rounded-sm border-4 p-0",
-              "transition-all duration-200 ease-standard md:h-[85px] md:w-[150px]",
-              index === currentIndex
-                ? "border-[#2db811] opacity-100"
-                : "border-transparent opacity-55 hover:opacity-85",
-            ].join(" ")}
-            onClick={() => setCurrentIndex(index)}
-            aria-label={`Go to image ${index + 1}`}
-          >
-            <img
-              src={img.img}
-              alt={img.title || `Preview ${index + 1}`}
-              className="size-full object-cover"
-            />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-const NAV_BUTTON = [
-  "flex size-[26px] shrink-0 cursor-pointer items-center justify-center",
-  "rounded-sm border border-transparent bg-transparent text-ink-strong",
-  "transition-all duration-200 ease-standard md:size-8",
-  "hover:border-[#2db811] hover:bg-[#2db811]/10 hover:text-[#2db811]",
-].join(" ");
-
-function ChevronIcon({ direction }) {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{ transform: direction === "right" ? "rotate(180deg)" : "none" }}
-    >
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
+      )}
+    </section>
   );
 }
