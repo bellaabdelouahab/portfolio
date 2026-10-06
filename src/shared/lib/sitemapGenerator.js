@@ -65,19 +65,9 @@ export const getSiteStructure = async () => {
           children: certificates
         },
         {
-          title: 'Resume',
-          url: '/resume',
-          description: 'Professional resume highlighting skills and experience',
-        },
-        {
           title: 'Team',
           url: '/my-team',
           description: 'Meet the team members and collaborators',
-        },
-        {
-          title: 'Music Picks',
-          url: '/music',
-          description: 'Musical preferences and podcast recommendations',
         },
         {
           title: 'Reports',
@@ -99,9 +89,7 @@ export const getSiteStructure = async () => {
         { title: 'Home', url: '/' },
         { title: 'Projects', url: '/projects' },
         { title: 'Certificates', url: '/certificates' },
-        { title: 'Resume', url: '/resume' },
         { title: 'Team', url: '/my-team' },
-        { title: 'Music Picks', url: '/music' },
         { title: 'Reports', url: '/reports' },
         { title: 'Site Map', url: '/site-map' }
       ]

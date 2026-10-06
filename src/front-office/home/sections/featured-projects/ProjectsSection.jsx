@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ProjectCard } from "../../../projects/components/ProjectCard";
 
 export default function ProjectsSection({ projectHighlight }) {
@@ -7,17 +8,22 @@ export default function ProjectsSection({ projectHighlight }) {
         {/* tracking is forced: global.css sets `h1..h5 { letter-spacing: 1px }`
             unlayered, and unlayered rules outrank every utility layer. */}
         <h2 className="mt-[2vh] mb-[2vh] ml-[3vw] text-2xl font-bold tracking-[4px]! text-ink-strong">
-          ❤️ Projects Highlights
+          Selected work
         </h2>
         {/* border-0 undoes preflight's `hr { border-top-width: 1px }`, otherwise
             the rule renders as its border rather than its own 0.5px height. */}
         <hr className="h-[0.5px] w-[95%] border-0 bg-[#6a6666]" />
-        <div className="mx-auto flex w-full flex-row flex-wrap justify-center gap-7.5 p-5">
+        <div className="mx-auto grid w-[94%] grid-cols-1 gap-5 p-5 sm:grid-cols-2 lg:grid-cols-3">
             {projectHighlight &&
                 projectHighlight.map((project) => (
                     <ProjectCard key={project._id} project={project} />
                 ))}
         </div>
+        <p className="pb-6 text-center">
+          <Link to="/projects" className="font-bold tracking-[2px]! text-success! hover:underline">
+            See all projects →
+          </Link>
+        </p>
       </section>
     );
 }

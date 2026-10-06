@@ -15,11 +15,10 @@ export default function GetInTouchSection() {
           Get in Touch
         </div>
         <p className="get-in-touch-content">
-          Abdelouahab Bella is currently taking on freelance and consulting
-          projects as an independent auto-entrepreneur in Agadir, Morocco. If
-          you need help with digital adoption, data analytics, or web
-          development, his inbox is open — let's talk about how he can help
-          your business grow.
+          I take on freelance web development and data analytics projects
+          from Agadir, Morocco, for clients in Morocco and abroad. Book a free
+          30-minute call, or send a message with a few lines about what you
+          need. You get a fixed price in MAD within two working days.
         </p>
         <div className="get-in-touch-btn">
           <ContactCtaButtons

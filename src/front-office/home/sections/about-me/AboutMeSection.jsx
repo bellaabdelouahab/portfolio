@@ -1,13 +1,6 @@
-const skills = [
-  "WalkMe (SmartTips, SmartWalkThrus, Insights, Segmentation)",
-  "SQL (Advanced), Python (Pandas, scripting)",
-  "Power BI, GA4, Google Search Console, Microsoft Clarity",
-  "User Behavior & Funnel Analytics",
-  "Back-end (Django, FastAPI)",
-  "Docker, GitLab CI/CD, PostgreSQL, Linux",
-  "REST APIs",
-  "Stakeholder Communication & Change Management",
-];
+import { aboutContent } from "../../homeContent";
+
+const skills = aboutContent.skills;
 
 /**
  * The skill bullet marker used to be a `li::before` whose `content` changed at
@@ -46,19 +39,10 @@ export default function AboutMeSection() {
           <div className="w-full md:w-fit">
             {/* leading-5 explicitly — body { line-height: 1 } is global. */}
             <p className="p-2.5 text-justify text-xs font-bold leading-5 text-ink md:p-[1.875rem]">
-              Abdelouahab Bella is a Digital Adoption Consultant and Data
-              Analytics Specialist based in Agadir, Morocco, delivering WalkMe
-              implementations across SAP Ariba, S/4HANA, Salesforce, ServiceNow,
-              and Oracle for enterprise clients.
+              {aboutContent.intro}
             </p>
             <p className="p-2.5 text-justify text-xs font-bold leading-5 text-ink md:p-[1.875rem]">
-              He turns user behavior data into adoption KPIs, ROI models, and
-              executive-ready dashboards, backed by a technical foundation in
-              Python, SQL, and ETL pipeline design. He holds a Master's in Big
-              Data and Business Intelligence and works across the full analytics
-              stack — from raw data to stakeholder-facing insight — while
-              collaborating closely with cross-functional and multinational
-              teams.
+              {aboutContent.detailedIntro}
             </p>
             <span className="flex h-min w-fit items-center justify-center p-[2vh] text-[0.9375rem] font-medium tracking-[4px] text-success underline">
               Skills:

@@ -83,12 +83,44 @@ export default function ServiceDetailPage() {
         <p className="max-w-3xl text-lg leading-relaxed text-ink">
           {service.longDescription || service.description}
         </p>
+        {service.startingPrice && (
+          <p className="mt-4 text-xl font-bold text-ink-strong">
+            {service.startingPrice}
+            <span className="ml-2 text-sm font-normal text-ink/70">fixed quote after a free call</span>
+          </p>
+        )}
       </div>
+
+      {service.deliverables?.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">What you get</h2>
+          <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            {service.deliverables.map((d) => (
+              <li key={d} className="rounded-sm border border-line bg-surface p-3 text-ink">{d}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {service.process?.length > 0 && (
+        <section className="mb-10">
+          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">How it works</h2>
+          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {service.process.map(([title, text], i) => (
+              <li key={title} className="rounded-sm border border-line bg-surface p-4">
+                <p className="font-mono text-sm text-success">0{i + 1}</p>
+                <p className="mt-1 font-bold text-ink-strong">{title}</p>
+                <p className="mt-1 text-sm text-ink">{text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       {service.relatedSkills?.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
-            What&apos;s Included
+            Tools and skills
           </h2>
           <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             {service.relatedSkills.map((skill) => (
@@ -108,7 +140,7 @@ export default function ServiceDetailPage() {
           <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
             Related Projects
           </h2>
-          <div className="flex flex-wrap justify-center gap-7.5">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProjects.map((project) => (
               <ProjectCard key={project._id} project={project} />
             ))}
@@ -143,6 +175,7 @@ export default function ServiceDetailPage() {
           Interested in {service.title}?
         </h2>
         <ContactCtaButtons
+          className="justify-center"
           whatsappMessage={`Hi, I'm interested in your ${service.title} service`}
         />
       </section>

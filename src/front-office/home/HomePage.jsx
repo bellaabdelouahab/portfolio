@@ -39,8 +39,8 @@ export default function Home() {
     "mainEntity": {
       "@type": "Person",
       "name": "Abdelouahab Bella",
-      "jobTitle": "Data Analyst & Software Engineer",
-      "description": "Accomplished Data Analyst with extensive experience in data science, computer systems engineering, and software development.",
+      "jobTitle": "Web Developer & Data Analyst",
+      "description": "Freelance web developer and data analyst in Agadir, Morocco. Builds business websites and web applications, and turns data into dashboards and reports.",
       "url": getAbsoluteUrl("/"),
       "sameAs": [
         "https://github.com/bellaabdelouahab",
@@ -60,35 +60,26 @@ export default function Home() {
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "serviceType": "Digital Adoption Consulting",
+      "serviceType": "Web Development",
       "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
       "areaServed": ["Agadir", "Morocco"],
-      "description": "WalkMe implementation and digital adoption consulting for enterprise platforms including SAP Ariba, Salesforce, ServiceNow, and Oracle.",
+      "description": "Business websites, web applications and internal tools built with React, Django and FastAPI, deployed on the client's domain.",
     },
     {
       "@context": "https://schema.org",
       "@type": "Service",
-      "serviceType": "Data Analytics & Power BI Dashboards",
+      "serviceType": "Data Analytics and Business Intelligence",
       "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
       "areaServed": ["Agadir", "Morocco"],
-      "description": "Power BI dashboard development, GA4 analytics, and enterprise data analytics consulting for actionable business insights.",
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Full-Stack Web Development",
-      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
-      "areaServed": ["Agadir", "Morocco"],
-      "description": "Custom web application development with React front-end, Django/FastAPI back-end, REST APIs, and SEO optimization.",
+      "description": "Power BI dashboards, SQL and Python data pipelines, and web analytics for actionable business reporting.",
     },
   ];
-
   return (
     <>
       <SEO
         title="Home"
-        description="Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer with expertise in web development and machine learning"
-        keywords="Abdelouahab Bella, Data Science, Software Engineering, Portfolio, Projects, Machine Learning, Web Development"
+        description="Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards, with fixed prices in MAD."
+        keywords="web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web development, Abdelouahab Bella"
         structuredData={homeStructuredData}
         serviceSchemaBlocks={serviceSchemaBlocks}
       />
@@ -110,7 +101,7 @@ export const getHighlightedProjects = async () => {
   const docs = await getCollectionDocs("projects");
   const data = docs
     .map((doc) => ({ _id: doc.id, ...doc.data() }))
-    .filter((project) => project.showInOverview === true)
+    .filter((project) => project.showInOverview === true && project.hidden !== true)
     // The back office writes overviewOrder when you drag the featured projects
     // into position (ManageProjects). Without this sort that ordering was never
     // applied here, so the arrangement had no effect and Firestore's own

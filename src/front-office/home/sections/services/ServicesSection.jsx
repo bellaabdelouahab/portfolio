@@ -28,6 +28,29 @@ const FORM_CONTENT = [
 
 // Each form sits one full viewport to the right and slides in over the cards,
 // which slide out to the left at the same time.
+// Budgets are in MAD. Each service has its own ranges so the options match
+// what the work realistically costs.
+const FORMS = {
+  web: {
+    heading: "Start a web project",
+    fields: [
+      { name: "projectType", label: "Project Type", options: ["Business website", "Booking or management platform", "Online store", "Web application", "Redesign of an existing site", "Other"] },
+      { name: "features", label: "Features Needed", textarea: "Pages, integrations, languages, anything you already have" },
+    ],
+    budgets: ["Less than 6,000 MAD", "6,000 - 15,000 MAD", "15,000 - 30,000 MAD", "More than 30,000 MAD"],
+  },
+  data: {
+    heading: "Discuss your data project",
+    fields: [
+      { name: "projectType", label: "What do you need", options: ["Dashboard (Power BI or web)", "Automated reports", "Data cleaning and migration", "Web and sales analytics setup", "Machine learning or computer vision", "Not sure yet"] },
+      { name: "dataSources", label: "Data Sources", textarea: "Excel files, ERP, database, website analytics..." },
+    ],
+    budgets: ["Less than 3,000 MAD", "3,000 - 8,000 MAD", "8,000 - 20,000 MAD", "More than 20,000 MAD"],
+  },
+};
+
+const TIMELINES = ["Less than 1 month", "1-3 months", "3-6 months", "More than 6 months"];
+
 const FORM_WRAPPER =
   "absolute top-0 left-full h-full w-full bg-[#1e1e1e] transition-transform duration-500 ease-standard";
 
@@ -108,8 +131,11 @@ export default function ServicesSection() {
                     {s.title}
                   </Link>
                 </h3>
-                <p className="mb-5 grow text-lg leading-tight text-ink">
+                <p className="mb-3 grow text-lg leading-tight text-ink">
                   {s.description}
+                </p>
+                <p className="mb-5 text-sm font-bold tracking-[1px] text-ink-strong">
+                  {s.startingPrice}
                 </p>
                 <button
                   className="cursor-pointer rounded-sm border border-success bg-success px-5 py-2.5 text-xs font-bold text-[#2e2d2d] no-underline outline-none transition-all duration-300 ease-standard hover:bg-[#1e1e1e] hover:text-success"
@@ -122,281 +148,74 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* AI Form */}
-        <div
-          className={[
-            FORM_WRAPPER,
-            activeForm === "ai" ? "-translate-x-full p-6.25" : "",
-          ].join(" ")}
-        >
-          <div className={FORM_CONTENT}>
-            <div className="mb-5">
-              <button
-                className={BACK_BUTTON}
-                onClick={() => setActiveForm(null)}
-              >
-                ← Back to Services
-              </button>
-              <h2 className="mt-2.5 text-2xl leading-snug text-success">
-                AI Solutions
-              </h2>
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const additionalData = {
-                  company: e.target.company.value,
-                  projectDescription: e.target.projectDescription.value,
-                  budget: e.target.budget.value,
-                  timeline: e.target.timeline.value,
-                };
-                handleSubmit("ai", additionalData);
-              }}
+        {servicesContent.map((svc) => {
+          const form = FORMS[svc.id];
+          if (!form) return null;
+          return (
+            <div
+              key={svc.id}
+              className={[
+                FORM_WRAPPER,
+                activeForm === svc.id ? "-translate-x-full p-6.25" : "",
+              ].join(" ")}
             >
-              {/* Form fields */}
-              <FormGroup label="Name">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              {/* ...other form fields... */}
-              <FormGroup label="Email">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              <FormGroup label="Company/Organization">
-                <input type="text" name="company" required className={FIELD} />
-              </FormGroup>
-              <FormGroup label="Project Description">
-                <textarea
-                  name="projectDescription"
-                  required
-                  className={TEXTAREA}
-                ></textarea>
-              </FormGroup>
-              <FormGroup label="Budget Range">
-                <select name="budget" required className={FIELD}>
-                  <option value="">Select Budget</option>
-                  <option value="< $250">Less than $250</option>
-                  <option value="$250 - $1,000">$250 - $1,000</option>
-                  <option value="$1,000 - $2,500">$1,000 - $2,500</option>
-                  <option value="> $2,500">More than $2,500</option>
-                </select>
-              </FormGroup>
-              <FormGroup label="Timeline Expectations">
-                <select name="timeline" required className={FIELD}>
-                  <option value="">Select Timeline</option>
-                  <option value="< 1 month">Less than 1 month</option>
-                  <option value="1-3 months">1-3 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="> 6 months">More than 6 months</option>
-                </select>
-              </FormGroup>
-              <button type="submit" className={SUBMIT}>
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Web Dev Form */}
-        <div
-          className={[
-            FORM_WRAPPER,
-            activeForm === "web" ? "-translate-x-full p-6.25" : "",
-          ].join(" ")}
-        >
-          <div className={FORM_CONTENT}>
-            <div className="mb-5">
-              <button
-                className={BACK_BUTTON}
-                onClick={() => setActiveForm(null)}
-              >
-                ← Back to Services
-              </button>
-              <h2 className="mt-2.5 text-2xl leading-snug text-success">
-                Web Development
-              </h2>
+              <div className={FORM_CONTENT}>
+                <div className="mb-5">
+                  <button className={BACK_BUTTON} onClick={() => setActiveForm(null)}>
+                    ← Back to Services
+                  </button>
+                  <h2 className="mt-2.5 text-2xl leading-snug text-success">{form.heading}</h2>
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const f = e.target;
+                    const extra = { company: f.company.value, budget: f.budget.value, timeline: f.timeline.value, currency: "MAD" };
+                    form.fields.forEach((field) => { extra[field.name] = f[field.name].value; });
+                    handleSubmit(svc.id, extra);
+                  }}
+                >
+                  <FormGroup label="Name">
+                    <input type="text" name="name" required value={formData.name} onChange={handleChange} className={FIELD} />
+                  </FormGroup>
+                  <FormGroup label="Email">
+                    <input type="email" name="email" required value={formData.email} onChange={handleChange} className={FIELD} />
+                  </FormGroup>
+                  <FormGroup label="Company or Organization">
+                    <input type="text" name="company" className={FIELD} />
+                  </FormGroup>
+                  {form.fields.map((field) => (
+                    <FormGroup key={field.name} label={field.label}>
+                      {field.options ? (
+                        <select name={field.name} required className={FIELD}>
+                          <option value="">Select</option>
+                          {field.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                      ) : (
+                        <textarea name={field.name} placeholder={field.textarea} required className={TEXTAREA}></textarea>
+                      )}
+                    </FormGroup>
+                  ))}
+                  <FormGroup label="Budget Range (MAD)">
+                    <select name="budget" required className={FIELD}>
+                      <option value="">Select Budget</option>
+                      {form.budgets.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </FormGroup>
+                  <FormGroup label="Timeline">
+                    <select name="timeline" required className={FIELD}>
+                      <option value="">Select Timeline</option>
+                      {TIMELINES.map((o) => <option key={o} value={o}>{o}</option>)}
+                    </select>
+                  </FormGroup>
+                  <button type="submit" className={SUBMIT}>
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </button>
+                </form>
+              </div>
             </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const additionalData = {
-                  projectType: e.target.projectType.value,
-                  features: e.target.features.value,
-                  budget: e.target.budget.value,
-                  timeline: e.target.timeline.value,
-                };
-                handleSubmit("web", additionalData);
-              }}
-            >
-              {/* Form fields */}
-              <FormGroup label="Name">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              <FormGroup label="Email">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              <FormGroup label="Project Type">
-                <select name="projectType" required className={FIELD}>
-                  <option value="">Select Project Type</option>
-                  <option value="E-commerce">E-commerce</option>
-                  <option value="Portfolio">Portfolio</option>
-                  <option value="Blog">Blog</option>
-                  <option value="Corporate">Corporate Website</option>
-                  <option value="Other">Other</option>
-                </select>
-              </FormGroup>
-              <FormGroup label="Features Needed">
-                <textarea
-                  name="features"
-                  placeholder="Describe the features you need..."
-                  required
-                  className={TEXTAREA}
-                ></textarea>
-              </FormGroup>
-              <FormGroup label="Budget Range">
-                <select name="budget" required className={FIELD}>
-                  <option value="">Select Budget</option>
-                  <option value="< $1,000">Less than $1,000</option>
-                  <option value="$1,000 - $3,000">$1,000 - $3,000</option>
-                  <option value="$3,000 - $5,000">$3,000 - $5,000</option>
-                  <option value="> $5,000">More than $5,000</option>
-                </select>
-              </FormGroup>
-              <FormGroup label="Timeline Expectations">
-                <select name="timeline" required className={FIELD}>
-                  <option value="">Select Timeline</option>
-                  <option value="< 2 weeks">Less than 2 weeks</option>
-                  <option value="2-4 weeks">2-4 weeks</option>
-                  <option value="1-2 months">1-2 months</option>
-                  <option value="> 2 months">More than 2 months</option>
-                </select>
-              </FormGroup>
-              <button type="submit" className={SUBMIT}>
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Learning Form */}
-        <div
-          className={[
-            FORM_WRAPPER,
-            activeForm === "learning" ? "-translate-x-full p-6.25" : "",
-          ].join(" ")}
-        >
-          <div className={FORM_CONTENT}>
-            <div className="mb-5">
-              <button
-                className={BACK_BUTTON}
-                onClick={() => setActiveForm(null)}
-              >
-                ← Back to Services
-              </button>
-              <h2 className="mt-2.5 text-2xl leading-snug text-success">
-                Online Learning
-              </h2>
-            </div>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const additionalData = {
-                  technology: e.target.technology.value,
-                  skillLevel: e.target.skillLevel.value,
-                  learningGoals: e.target.learningGoals.value,
-                  schedule: e.target.schedule.value,
-                };
-                handleSubmit("learning", additionalData);
-              }}
-            >
-              {/* Form fields */}
-              <FormGroup label="Name">
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              <FormGroup label="Email">
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={FIELD}
-                />
-              </FormGroup>
-              <FormGroup label="Technology Interested In">
-                <select name="technology" required className={FIELD}>
-                  <option value="">Select Technology</option>
-                  <option value="JavaScript">JavaScript</option>
-                  <option value="Python">Python</option>
-                  <option value="React">React</option>
-                  <option value="Node.js">Node.js</option>
-                  <option value="Other">Other</option>
-                </select>
-              </FormGroup>
-              <FormGroup label="Current Skill Level">
-                <select name="skillLevel" required className={FIELD}>
-                  <option value="">Select Skill Level</option>
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Advanced">Advanced</option>
-                </select>
-              </FormGroup>
-              <FormGroup label="Learning Goals">
-                <textarea
-                  name="learningGoals"
-                  placeholder="What do you want to achieve?"
-                  required
-                  className={TEXTAREA}
-                ></textarea>
-              </FormGroup>
-              <FormGroup label="Preferred Schedule">
-                <textarea
-                  name="schedule"
-                  placeholder="What days/times work best for you?"
-                  required
-                  className={TEXTAREA}
-                ></textarea>
-              </FormGroup>
-              <button type="submit" className={SUBMIT}>
-                {isSubmitting ? "Submitting..." : "Submit Request"}
-              </button>
-            </form>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </div>
   );

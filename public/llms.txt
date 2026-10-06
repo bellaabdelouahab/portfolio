@@ -1,11 +1,11 @@
 # Abdelouahab Bella
 
-> Digital Adoption Consultant and Data Analyst based in Agadir, Morocco.
+> Freelance web developer and data analyst based in Agadir, Morocco.
 
 ## Services
-- WalkMe implementation and digital adoption consulting
-- Power BI dashboards and data analytics
-- Full-stack web development
+- Web development: business websites, web applications, internal tools
+- Data analytics: Power BI dashboards, SQL and Python pipelines, web analytics
 
 ## Contact
 https://abdelouahab.xyz
+Book a call: https://calendly.com/abdobella977/30min

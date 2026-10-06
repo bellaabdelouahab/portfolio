@@ -31,9 +31,9 @@ export const routes = [
       {
         path: "projects/:title",
         lazy: async () => {
-          const { default: Component } =
+          const { default: Component, getProject: loader } =
             await import("./front-office/projects/ProjectDetailPage");
-          return { Component };
+          return { Component, loader };
         },
       },
       {
@@ -55,26 +55,10 @@ export const routes = [
         },
       },
       {
-        path: "resume",
-        lazy: async () => {
-          const { default: Component } =
-            await import("./front-office/resume/ResumePage");
-          return { Component };
-        },
-      },
-      {
         path: "my-team",
         lazy: async () => {
           const { default: Component } =
             await import("./front-office/team/TeamPage");
-          return { Component };
-        },
-      },
-      {
-        path: "music",
-        lazy: async () => {
-          const { default: Component } =
-            await import("./front-office/music/MusicPage");
           return { Component };
         },
       },

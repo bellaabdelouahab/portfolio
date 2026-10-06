@@ -1,72 +1,55 @@
-import { useState, useEffect } from "react";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import { Link } from "react-router-dom";
+import { slugifyProjectTitle } from "../../../shared/lib/projectSlug";
 
+const FALLBACK_SERVICE = { web: "Web", data: "Data" };
+
+/**
+ * Compact project card: 16:9 image, title, three-line summary, up to three
+ * tags and one clear action. Sized with a fluid grid (min 17rem) so three
+ * fit across a 14-inch laptop and two across a tablet, instead of the old
+ * fixed 440x480px box that left one card per row on 1366px screens.
+ */
 export function ProjectCard({ project }) {
-  const { title, description, image, githubLink, highlighted } = project;
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  let truncatedDescription = description.slice(0, 150);
-  const lastSpaceIndex = truncatedDescription.lastIndexOf(" ");
-  truncatedDescription = truncatedDescription.slice(0, lastSpaceIndex);
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = `${image}`;
-    img.onload = () => setImageLoaded(true);
-  }, [image]);
+  const { title, description, image, highlighted, tags = [], caseStudy = {} } = project;
+  const summary = caseStudy.summary || description || "";
+  const service = FALLBACK_SERVICE[(caseStudy.services || [])[0]];
+  const href = `/projects/${slugifyProjectTitle(title)}`;
 
   return (
-    <div
-      className="relative h-120 w-110 overflow-hidden rounded-lg bg-surface shadow-md transition-all duration-200 ease-standard hover:transform-[rotate(-1.5deg)_scale(1.05)] hover:shadow-[5px_7px_9px_rgba(0,0,0,0.2)]"
-      style={{
-        border:
-          highlighted === "star"
-            ? "4px solid #c39a3b"
-            : "1px solid oklch(1 0 0 / 10%)",
-      }}
+    <Link
+      to={href}
+      aria-label={`View case study: ${title}`}
+      className={[
+        "group flex w-full flex-col overflow-hidden rounded-lg border bg-surface shadow-md",
+        "transition-all duration-200 ease-standard hover:-translate-y-1 hover:shadow-xl",
+        highlighted === "star" ? "border-[#c39a3b]" : "border-line hover:border-success/50",
+      ].join(" ")}
     >
-      <div
-        className="h-60 w-full rounded-t-[10px] bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: imageLoaded ? `url(${image})` : "none",
-          backgroundSize: "100.5% 100%",
-        }}
-      >
-        {!imageLoaded && <Skeleton height="100%" />}
-      </div>
-      {/* Title/description used to be gated behind imageLoaded too, on the
-          theory of not showing "half loaded" content — but they don't
-          actually depend on the image at all, and gating them meant every
-          card shipped as an empty skeleton in the raw SSR HTML with zero
-          indexable text (the image preload's useEffect never runs during
-          SSR). Only the image itself needs its own loading state. */}
-      <h3 className="mt-[2vh] mb-[2vh] ml-[1.5vw] text-2xl font-bold text-ink-strong">
-        {title}
-      </h3>
-      <p className="mx-auto w-[90%] text-base leading-normal tracking-[2px]! text-ink">
-        {truncatedDescription}...
-      </p>
-      <div className="absolute bottom-[0.5vh] left-0 flex h-[10%] w-full items-center justify-around">
-        <a
-          className="rounded-[5px] bg-accent px-5 py-2.5 text-base font-bold tracking-[2px]! text-white"
-          target="_blank"
-          rel="noopener noreferrer"
-          href={githubLink}
-        >
-          View Project
-        </a>
-        {highlighted === "star" && (
-          <a
-            className="rounded-[5px] border-[3px] border-dotted bg-[#474747e2] px-5 py-2.5 text-base font-bold tracking-[2px]! text-[gray]"
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://github.com/bellaabdelouahab/"
-          >
-            1$/Sponsor
-          </a>
+      <div className="relative aspect-video w-full overflow-hidden bg-black">
+        <img
+          src={image}
+          alt={`${title} preview`}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        {service && (
+          <span className="absolute top-2 left-2 rounded-sm bg-black/70 px-2 py-0.5 text-[0.65rem] font-bold tracking-[2px]! text-success uppercase">
+            {service}
+          </span>
         )}
       </div>
-    </div>
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <h3 className="text-base leading-snug font-bold text-ink-strong">{title}</h3>
+        <p className="line-clamp-3 text-sm leading-snug text-ink">{summary}</p>
+        {tags.length > 0 && (
+          <ul className="mt-auto flex flex-wrap gap-1.5 pt-2">
+            {tags.slice(0, 3).map((t) => (
+              <li key={t} className="rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-ink-muted">{t}</li>
+            ))}
+          </ul>
+        )}
+        <span className="pt-1 text-sm font-bold text-success group-hover:underline">View case study →</span>
+      </div>
+    </Link>
   );
 }

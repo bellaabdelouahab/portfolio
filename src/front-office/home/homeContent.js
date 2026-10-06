@@ -1,18 +1,18 @@
 export const aboutContent = {
   name: "Abdelouahab Bella",
   location: "Agadir, Morocco",
-  title: "Digital Adoption Consultant & Data Analytics Specialist",
-  intro: "Abdelouahab Bella is a Digital Adoption Consultant and Data Analytics Specialist based in Agadir, Morocco, delivering WalkMe implementations across SAP Ariba, S/4HANA, Salesforce, ServiceNow, and Oracle for enterprise clients.",
-  detailedIntro: "He turns user behavior data into adoption KPIs, ROI models, and executive-ready dashboards, backed by a technical foundation in Python, SQL, and ETL pipeline design. He holds a Master's in Big Data and Business Intelligence and works across the full analytics stack — from raw data to stakeholder-facing insight — while collaborating closely with cross-functional and multinational teams.",
+  title: "Web Developer & Data Analyst",
+  intro: "Abdelouahab Bella is a freelance web developer and data analyst based in Agadir, Morocco. He builds business websites and web applications, and turns raw data into dashboards and reports that teams use to make decisions.",
+  detailedIntro: "He holds a Master's in Big Data and Business Intelligence and has worked on enterprise data migration, Power BI reporting and SaaS platforms. Clients get one person who can build the product and measure how it performs, from the first sketch to deployment and monitoring.",
   skills: [
-    "WalkMe (SmartTips, SmartWalkThrus, Insights, Segmentation)",
-    "SQL (Advanced), Python (Pandas, scripting)",
-    "Power BI, GA4, Google Search Console, Microsoft Clarity",
-    "User Behavior & Funnel Analytics",
-    "Back-end (Django, FastAPI)",
-    "Docker, GitLab CI/CD, PostgreSQL, Linux",
-    "REST APIs",
-    "Stakeholder Communication & Change Management"
+    "React, JavaScript, Django, FastAPI",
+    "Docker, CI/CD, PostgreSQL, Linux",
+    "SQL (Advanced), Python (Pandas)",
+    "Power BI, DAX, ETL pipelines",
+    "GA4, Search Console, Microsoft Clarity",
+    "SEO and web performance",
+    "REST APIs and integrations",
+    "Client communication in English, French, Arabic"
   ]
 };
 
@@ -20,74 +20,78 @@ export const aboutContent = {
 // dedicated /services/:id page (ServiceDetailPage.jsx).
 //
 // relatedProjectTags match against the `tags` array on Firestore `projects`
-// documents (see ProjectListPage.jsx's filter chips for the same field).
-// Tags there are freeform and sparse — most appear on only one project — so
-// ServiceDetailPage falls back to the most recent projects if a service's
-// tags match fewer than a handful. "learning" has no natural tag cluster of
-// its own (tutoring isn't a technology), so it deliberately relies entirely
-// on that fallback to show a representative spread of work.
+// documents. ServiceDetailPage falls back to the most recent projects if a
+// service's tags match fewer than a handful.
+// startingPrice is shown in MAD; budgets in the inquiry forms use the same unit.
 export const servicesContent = [
-  {
-    id: "ai",
-    title: "AI solutions",
-    icon: "/icons/AI.png",
-    description: "Abdelouahab Bella delivers AI solutions including chatbots, predictive analytics, and automation to transform business operations and generate actionable insights. His expertise spans enterprise-grade AI integration, helping organizations stay ahead in today's data-centric environment.",
-    longDescription: "From computer-vision systems to ETL pipelines that turn raw data into predictive, decision-ready insight, Abdelouahab Bella builds AI and automation that fits into how a business actually operates — not a demo that never ships. That includes chatbots and conversational interfaces, predictive analytics on operational data, and automating the manual reporting work that eats up a team's week.",
-    relatedSkills: [
-      "Python (Pandas, scripting, automation)",
-      "Computer Vision (OpenCV)",
-      "ETL pipeline design",
-      "SQL (Advanced)",
-      "Docker, GitLab CI/CD",
-    ],
-    relatedProjectTags: ["TensorFlow", "Deep Learning", "Chatbot", "YOLO", "Data Mining", "Algorithms", "DDQN"],
-    buttonText: "Learn More",
-    schemaType: "Service",
-    serviceType: "AI Solutions & Automation",
-  },
   {
     id: "web",
     title: "Web Development",
     icon: "/icons/web-dev.png",
-    description: "Abdelouahab Bella has built 100+ websites blending creativity and functionality to deliver visually stunning, high-performance web applications. Specializing in both front-end and back-end development, he guarantees seamless performance and intuitive user interfaces for your digital success.",
-    longDescription: "Full-stack web development from React front ends to Django/FastAPI back ends, REST APIs, and the SEO/performance work that makes a site actually findable. Recent work spans SaaS platforms, agency and NGO sites, and internal tools — deployed with Docker and CI/CD, not handed off as a one-off build.",
-    relatedSkills: [
-      "React, JavaScript",
-      "Back-end (Django, FastAPI)",
-      "Docker, GitLab CI/CD, PostgreSQL, Linux",
-      "REST APIs",
-      "SEO & technical performance",
+    description: "Business websites, booking and management platforms, and internal tools. Built with React and Django or FastAPI, deployed on your own domain, and set up to be found on Google.",
+    longDescription: "Business websites, web applications and internal tools, designed for the people who use them and built to be maintained. Work covers the interface, the back end and the database, the deployment on a server you own, and the SEO and performance basics that decide whether the site gets found.",
+    deliverables: [
+      "Responsive website or web application, fully tested on phone and laptop",
+      "Back end, database and admin area you can use without a developer",
+      "Deployment on your domain with HTTPS, backups and monitoring",
+      "On-page SEO, analytics and a performance report",
+      "Source code, documentation and a handover session",
     ],
-    relatedProjectTags: ["React", "Angular", "Django", "Spring Boot", "JavaScript", "Tailwind CSS", "BootStrap", "Wordpress", "Nginx", "JWT", "CSS"],
-    buttonText: "Hire Me",
+    process: [
+      ["Discovery call", "30 minutes to define goals, users and scope. Free."],
+      ["Proposal", "Fixed scope, timeline and price in MAD within two working days."],
+      ["Build", "Weekly demos on a private preview link so nothing is a surprise."],
+      ["Launch and support", "Deployment, handover and 30 days of fixes included."],
+    ],
+    startingPrice: "From 6,000 MAD",
+    relatedSkills: [
+      "React, JavaScript, Tailwind CSS",
+      "Django, FastAPI, Node.js",
+      "PostgreSQL, MongoDB, SQLite",
+      "Docker, CI/CD, Nginx, Linux",
+      "SEO and technical performance",
+    ],
+    relatedProjectTags: ["React", "Angular", "Django", "Spring Boot", "JavaScript", "Tailwind CSS", "BootStrap", "Wordpress", "Nginx", "JWT", "CSS", "Node.js"],
+    buttonText: "Start a Project",
     schemaType: "Service",
-    serviceType: "Full-Stack Web Development",
+    serviceType: "Web Development",
   },
   {
-    id: "learning",
-    title: "Online Learning",
-    icon: "/icons/online-learning.png",
-    description: "Abdelouahab Bella offers personalized online tutoring to help you master programming languages and frameworks. Whether you're a beginner or an experienced coder, he provides tailored lessons to suit your learning style and help you achieve your goals.",
-    longDescription: "One-on-one tutoring in Python, JavaScript, React, and Node.js, tailored to where you actually are — a first script or a production app. Lessons are built around real projects rather than generic exercises, drawing on the same stack used in the client work below.",
-    relatedSkills: [
-      "Python, JavaScript, React, Node.js",
-      "SQL & data fundamentals",
-      "Git & collaborative workflows",
-      "Project-based curriculum design",
+    id: "data",
+    title: "Data Analytics",
+    icon: "/icons/AI.png",
+    description: "Dashboards, reports and data pipelines that answer the questions your team asks every week. Power BI, SQL and Python, from messy exports to a screen people actually open.",
+    longDescription: "Dashboards, automated reports and data pipelines for teams that still work from spreadsheets and exports. Work covers cleaning and modelling the data, building the dashboard in Power BI or on the web, and automating the refresh so the numbers are current without anyone copying files.",
+    deliverables: [
+      "Interactive dashboard (Power BI or web) built around your decisions",
+      "Cleaned, documented data model and automated refresh",
+      "KPI definitions agreed with your team, written down",
+      "Web and sales analytics setup with GA4 and Search Console",
+      "Training session so your team can read and extend it",
     ],
-    relatedProjectTags: [],
-    buttonText: "Contact Me",
+    process: [
+      ["Discovery call", "30 minutes on the questions you need answered. Free."],
+      ["Data review", "Audit of your sources, quality problems and a feasibility note."],
+      ["Build", "Model, dashboard and automation, reviewed with you at each step."],
+      ["Handover", "Documentation, training and 30 days of adjustments included."],
+    ],
+    startingPrice: "From 3,000 MAD",
+    relatedSkills: [
+      "Power BI, DAX",
+      "SQL (Advanced), SQL Server, PostgreSQL",
+      "Python (Pandas), ETL automation",
+      "GA4, Search Console, Microsoft Clarity",
+      "Machine learning and computer vision",
+    ],
+    relatedProjectTags: ["Power Bi", "DAX", "ETL", "SQL Server", "Data", "Data Analytics", "TensorFlow", "Deep Learning", "YOLO", "Data Mining"],
+    buttonText: "Discuss Your Data",
     schemaType: "Service",
-    serviceType: "Online Programming Tutoring",
+    serviceType: "Data Analytics and Business Intelligence",
   },
 ];
 
-// Single canonical source for work history — used by InternshipProjectsSection.jsx
-// (the homepage timeline) and ServiceDetailPage.jsx (each service's "Relevant
-// Experience" list, filtered by the `services` tag below). Not every entry maps
-// cleanly to one of the three services in servicesContent (e.g. WalkMe/SAP
-// consulting isn't AI, web, or tutoring) — those are left untagged rather than
-// force-fit, so they still appear on the homepage timeline but on no service page.
+// Single canonical source for work history, used by the homepage timeline and
+// by each service page's "Relevant Experience" list (filtered by `services`).
 export const professionalExperience = [
   {
     title: "Digital ROI Auditor (Freelance)",
@@ -105,18 +109,17 @@ export const professionalExperience = [
       "Web Analytics",
       "Data Analysis",
     ],
-    services: [],
+    services: ["data", "web"],
   },
   {
-    title: "Digital Adoption Consultant [eVia Services]",
+    title: "Data & Analytics Consultant [eVia Services]",
     description:
-      "Abdelouahab Bella delivered enterprise-scale WalkMe implementations across SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow, and Oracle platforms. He designed adoption analytics dashboards, ROI models, and user behavior tracking solutions while coordinating multinational stakeholders throughout the software development lifecycle.",
+      "Delivered analytics for enterprise platforms including SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow and Oracle. Designed user-adoption dashboards, ROI models and behaviour tracking, and coordinated multinational stakeholders throughout delivery.",
     link: "",
     image: "/pro_exp/evia-services.png",
     startDate: "Nov 2025",
     endDate: "Present",
     technologies: [
-      "WalkMe",
       "SAP Ariba",
       "SAP S/4HANA",
       "Salesforce",
@@ -125,7 +128,7 @@ export const professionalExperience = [
       "SQL",
       "Analytics",
     ],
-    services: [],
+    services: ["data"],
   },
   {
     title: "Python Developer & Automation Engineer (Freelance)",
@@ -163,7 +166,7 @@ export const professionalExperience = [
       "GitLab CI/CD",
       "Linux",
     ],
-    services: ["ai"],
+    services: ["data"],
   },
   {
     title: "Backend Developer & Web Analyst [Smart Maint]",
@@ -212,7 +215,7 @@ export const professionalExperience = [
     startDate: "Apr 2023",
     endDate: "Jun 2023",
     technologies: ["Python", "OpenCV", "FastAPI", "Computer Vision", "Linux"],
-    services: ["ai"],
+    services: ["data"],
   },
   {
     title:
@@ -250,56 +253,51 @@ export const professionalExperience = [
       "WebSockets",
       "Arduino",
     ],
-    services: ["ai", "web"],
+    services: ["data", "web"],
   },
 ];
 
 export const faqData = [
   {
     id: "q1",
-    question: "Do you provide services in Agadir?",
-    answer: "Yes, I provide digital adoption, web development, and analytics services in Agadir for enterprise teams and small businesses."
+    question: "How much does a website cost?",
+    answer: "Business websites start from 6,000 MAD and web applications from 15,000 MAD, depending on pages, features and integrations. You receive a fixed price in MAD after a free 30-minute discovery call."
   },
   {
     id: "q2",
-    question: "Can I get an SEO audit for my website?",
-    answer: "Yes, I offer SEO audits and technical website reviews with actionable recommendations for better visibility and faster performance."
+    question: "How much does a dashboard or data project cost?",
+    answer: "Dashboards and reporting projects start from 3,000 MAD. Larger projects with several data sources and automated refresh are quoted after a short data review."
   },
   {
     id: "q3",
-    question: "Are you a web developer?",
-    answer: "Yes, I am a web developer building React front ends, Django/FastAPI back ends, REST APIs, and SEO-friendly web applications."
+    question: "How long does a project take?",
+    answer: "A business website usually takes two to four weeks and a dashboard one to three weeks. Larger applications are planned in phases, with a working demo every week."
   },
   {
     id: "q4",
-    question: "Do you offer WalkMe consulting in Morocco?",
-    answer: "Yes, I offer WalkMe consulting across Morocco, including SmartTips, SmartWalkThrus, Insights, and adoption analytics for enterprise tools."
+    question: "Do you work with clients outside Agadir?",
+    answer: "Yes. Most projects run remotely with calls and a shared preview link. I work with clients across Morocco and abroad, in English, French and Arabic."
   },
   {
     id: "q5",
-    question: "Can you do remote digital adoption consulting?",
-    answer: "Yes, I work remotely with clients worldwide to deliver digital adoption consulting, onboarding automation, and analytics support."
+    question: "Who owns the code and the data?",
+    answer: "You do. The code, the database and the dashboards are delivered to you at handover, hosted on accounts in your name, with documentation."
   },
   {
     id: "q6",
-    question: "Are you a Power BI expert in Agadir?",
-    answer: "Yes, I am a Power BI expert in Agadir, creating dashboards, integrating GA4, and delivering SQL-powered analytics for local and international clients."
+    question: "Can you improve an existing website?",
+    answer: "Yes. I offer SEO audits and technical reviews with a prioritised list of fixes for speed, search visibility and conversion."
   },
   {
     id: "q7",
-    question: "Do you work as a data analyst freelancer in Morocco?",
-    answer: "Yes, I work as a data analyst freelancer in Morocco, specializing in dashboards, user behavior metrics, and executive reporting."
-  },
-  {
-    id: "q8",
-    question: "Can you implement WalkMe for SAP Ariba?",
-    answer: "Yes, I can implement WalkMe for SAP Ariba and related enterprise systems to improve adoption, reduce support tickets, and measure success."
+    question: "Do you provide support after launch?",
+    answer: "Every project includes 30 days of fixes after launch. Ongoing maintenance, monitoring and reporting are available on a monthly plan."
   }
 ];
 
 export const contactContent = {
   title: "Get in Touch",
-  content: "Abdelouahab Bella is currently taking on freelance and consulting projects as an independent auto-entrepreneur in Agadir, Morocco. If you need help with digital adoption, data analytics, or web development, his inbox is open — let's talk about how he can help your business grow.",
+  content: "Abdelouahab Bella takes on freelance web development and data analytics projects from Agadir, Morocco. Book a free 30-minute call, or send a message with a few lines about what you need.",
   buttonText: "Get in Touch",
-  email: "" // User left it blank in the component
+  email: ""
 };

@@ -125,15 +125,15 @@ async function generateSitemapXML() {
         priority: '1.0',
         changefreq: 'weekly',
         lastmod: currentDate,
-        title: 'Best Software Engineer & Data Analyst Portfolio',
+        title: 'Web Developer & Data Analyst | Abdelouahab Bella',
         image: `${baseUrl}/logo.jpg`
       },
       {
-        url: '/services/ai',
+        url: '/services/data',
         priority: '0.85',
         changefreq: 'monthly',
         lastmod: currentDate,
-        title: 'AI Solutions & Automation | Abdelouahab Bella'
+        title: 'Data Analytics & BI Dashboards | Abdelouahab Bella'
       },
       {
         url: '/services/web',
@@ -141,13 +141,6 @@ async function generateSitemapXML() {
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Full-Stack Web Development | Abdelouahab Bella'
-      },
-      {
-        url: '/services/learning',
-        priority: '0.85',
-        changefreq: 'monthly',
-        lastmod: currentDate,
-        title: 'Online Programming Tutoring | Abdelouahab Bella'
       },
       {
         url: '/projects',
@@ -163,15 +156,7 @@ async function generateSitemapXML() {
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Professional Certifications | Top Developer Portfolio',
-        image: `${baseUrl}/yassine-pic.png`
-      },
-      {
-        url: '/resume',
-        priority: '0.8',
-        changefreq: 'monthly',
-        lastmod: currentDate,
-        title: 'Software Engineer Resume | Professional CV',
-        image: `${baseUrl}/resume.png`
+        image: `${baseUrl}/logo.jpg`
       },
       {
         url: '/my-team',
@@ -179,13 +164,6 @@ async function generateSitemapXML() {
         changefreq: 'monthly',
         lastmod: currentDate,
         title: 'Development Team | Collaborative Projects Portfolio'
-      },
-      {
-        url: '/music',
-        priority: '0.7',
-        changefreq: 'monthly',
-        lastmod: currentDate,
-        title: 'Music & Podcast Recommendations | Developer Lifestyle'
       },
       {
         url: '/reports',

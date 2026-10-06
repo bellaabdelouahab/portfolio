@@ -1,249 +1,229 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../../shared/lib/firebase";
-import "./ProjectDetailPage.css";
+import { Link, useLoaderData } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faArrowUpRightFromSquare, faCalendarCheck } from "@fortawesome/free-solid-svg-icons";
+import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
+import { byNewest } from "../../shared/lib/dates";
+import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
+import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
+import { BOOKING_URL, getWhatsAppLink } from "../../shared/lib/contactConfig";
+import { servicesContent } from "../home/homeContent";
+import SEO from "../../shared/ui/SEO";
 import CodeSamples from "./components/code-samples/CodeSamples";
 import Carousel from "./components/carousel/Carousel";
 import Collaborators from "./components/collaborators/Collaborators";
-import ProjectOverView from "./components/overview/ProjectOverView";
-import ProjectTools from "./components/tools/ProjectTools";
 import ProjectDataSources from "./components/datasource/ProjectDataSources";
-import SEO from "../../shared/ui/SEO";
-import Skeleton from "react-loading-skeleton";
-import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
-import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
 
-/**
- * The `project-page` class is NOT decorative — the starfield effect below does
- * `document.querySelector(".project-page")` to find its mount point, so it has
- * to stay on every one of the three returns. The utilities carry the styling;
- * `relative` in particular is what the absolutely-positioned .stars-container
- * is measured against.
- *
- * Shared as a constant because loading / error / loaded all render the same
- * shell and a drifted copy would silently break the starfield on that branch.
- */
-const PAGE_SHELL =
-  "project-page relative flex w-full flex-col items-center bg-[#1a1c1f]";
+const BTN =
+  "inline-flex items-center gap-2 rounded-sm px-4 py-2 text-sm font-bold tracking-[1px]! transition-transform duration-200 ease-standard hover:scale-105";
 
-export default function Project() {
-  const location = useLocation();
-  const { title } = useParams();
-  const navigate = useNavigate();
-  
-  // Define state for loading projects, project data, and errors
-  const [loading, setLoading] = useState(true);
-  const [project, setProject] = useState(null);
-  const [error, setError] = useState(null);
+/** Slug first (lossy-safe), then raw Firestore id, so old shared links keep working. */
+export async function getProject({ params }) {
+  const docs = await getCollectionDocs("projects");
+  const all = docs.map((d) => ({ _id: d.id, ...d.data() }));
+  const project =
+    all.find((p) => slugifyProjectTitle(p.title) === params.title) ||
+    all.find((p) => p.title === params.title.replace(/-/g, " ")) ||
+    all.find((p) => p._id === params.title);
+  if (!project) throw new Response("Project not found", { status: 404 });
+  const others = all
+    .filter((p) => p._id !== project._id && p.hidden !== true)
+    .sort(byNewest("startDate"));
+  const sameService = (p) => (p.caseStudy?.services || []).some((s) => (project.caseStudy?.services || []).includes(s));
+  const related = [...others.filter(sameService), ...others.filter((p) => !sameService(p))].slice(0, 3);
+  return { project, related };
+}
 
-  // Try to fetch project data directly from Firebase using the URL parameter
-  useEffect(() => {
-    // Create stars background effect
-    const createStarsBackground = () => {
-      const starsContainer = document.createElement("div");
-      starsContainer.className = "stars-container";
-      document.querySelector(".project-page")?.appendChild(starsContainer);
+const fmt = (iso) =>
+  iso
+    ? new Date(iso).toLocaleDateString("en-GB", { month: "short", year: "numeric" })
+    : "";
 
-      // Generate random stars
-      const numberOfStars = 500;
-      for (let i = 0; i < numberOfStars; i++) {
-        const star = document.createElement("div");
-        star.className = "star";
-        
-        // Random properties
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        const size = Math.random() * 3 + 1;
-        const opacity = Math.random() * 0.7 + 0.3;
-        const duration = Math.random() * 50 + 50;
-        const delay = Math.random() * 50;
+function Meta({ label, children }) {
+  if (!children) return null;
+  return (
+    <div>
+      <dt className="text-xs tracking-[2px]! text-ink-muted uppercase">{label}</dt>
+      <dd className="mt-1 text-sm font-bold text-ink-strong">{children}</dd>
+    </div>
+  );
+}
 
-        // Apply styles
-        star.style.left = `${left}%`;
-        star.style.top = `${top}%`;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.opacity = opacity;
-        star.style.animationDuration = `${duration}s`;
-        star.style.animationDelay = `${delay}s`;
+function Block({ title, children }) {
+  if (!children) return null;
+  return (
+    <section>
+      <h2 className="mb-3 text-xl font-bold text-ink-strong">{title}</h2>
+      <div className="text-base leading-relaxed text-ink">{children}</div>
+    </section>
+  );
+}
 
-        starsContainer.appendChild(star);
-      }
+export default function ProjectDetailPage() {
+  const { project, related } = useLoaderData();
+  const cs = project.caseStudy || {};
+  const techs = [
+    ...new Set([
+      ...(project.tags || []),
+      ...((project.tools?.techs || []).map((t) => t?.title).filter(Boolean)),
+    ]),
+  ];
+  const period = project.startDate
+    ? `${fmt(project.startDate)} to ${project.endDate ? fmt(project.endDate) : "present"}`
+    : "";
+  const serviceId = (cs.services || [])[0];
+  const service = servicesContent.find((s) => s.id === serviceId);
+  const summary = cs.summary || project.description;
 
-      return starsContainer;
-    };
-    
-    // Function to fetch project data from Firebase
-    const fetchProject = async () => {
-      setLoading(true);
-      try {
-        // Use state from routing if available (for faster loading)
-        if (location.state) {
-          setProject(location.state);
-          setLoading(false);
-        }
-        
-        // Fetch from Firebase anyway (to ensure data is fresh and available)
-        // Fast path: slugs that are just the title with spaces swapped for dashes.
-        const projectTitle = title.replace(/-/g, " ");
-
-        const projectsRef = collection(db, "projects");
-        const q = query(projectsRef, where("title", "==", projectTitle));
-        let querySnapshot = await getDocs(q);
-
-        // The slug is lossy: slugifyProjectTitle() strips ":" and "|" and collapses
-        // whitespace, so a title like "FastX: Revolutionizing Parcel Delivery" can
-        // never be recovered by swapping dashes back to spaces. Fall back to
-        // comparing slugs, which is exact in the direction that actually matters.
-        if (querySnapshot.empty) {
-          const allProjects = await getDocs(projectsRef);
-          const match = allProjects.docs.find(
-            (d) => slugifyProjectTitle(d.data().title) === title
-          );
-          if (match) {
-            querySnapshot = { empty: false, docs: [match] };
-          }
-        }
-
-        if (!querySnapshot.empty) {
-          // Found project by title
-          const projectData = {
-            _id: querySnapshot.docs[0].id,
-            ...querySnapshot.docs[0].data()
-          };
-          setProject(projectData);
-          setLoading(false);
-        }
-        else if (location.state) {
-          // We already set the project from state, so we're good
-        }
-        else {
-          // Try to find by ID in case the title is in URL format
-          const projectDoc = await getDoc(doc(db, "projects", title));
-          
-          if (projectDoc.exists()) {
-            const projectData = {
-              _id: projectDoc.id,
-              ...projectDoc.data()
-            };
-            setProject(projectData);
-            setLoading(false);
-          } else {
-            // If we get here, the project doesn't exist
-            setError("Project not found");
-            setLoading(false);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching project:", err);
-        setError("Failed to load project. Please try again later.");
-        setLoading(false);
-      }
-    };
-    
-    // Call both functions
-    let starsContainer;
-    fetchProject();
-    
-    // Create stars after a short delay to ensure project-page element exists
-    setTimeout(() => {
-      starsContainer = createStarsBackground();
-    }, 200);
-    
-    // Cleanup function
-    return () => {
-      if (starsContainer?.parentNode) {
-        starsContainer.parentNode.removeChild(starsContainer);
-      }
-    };
-  }, [location.state, title]);
-
-  // Generate structured data for SEO
-  const generateProjectStructuredData = () => {
-    if (!project) return null;
-
-    const projectDescription = typeof project.description === "string" && project.description.trim()
-      ? project.description.trim()
-      : "Project details from Abdelouahab Bella's portfolio.";
-
-    return {
-      "@context": "https://schema.org",
-      "@type": "SoftwareSourceCode",
-      "name": project.title || "Portfolio Project",
-      "description": projectDescription,
-      "datePublished": project.startDate || null,
-      "programmingLanguage": project.tools?.techs?.map(tech => tech?.title).filter(Boolean).join(", ") || null,
-      "codeRepository": project.githubLink || null,
-      "author": {
-        "@type": "Person",
-        "name": "Abdelouahab Bella"
-      }
-    };
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: summary,
+    datePublished: project.startDate || undefined,
+    keywords: techs.join(", "),
+    url: getAbsoluteUrl(`/projects/${slugifyProjectTitle(project.title)}`),
+    author: { "@type": "Person", name: "Abdelouahab Bella" },
   };
 
-  if (loading) {
-    return (
-      <section className={PAGE_SHELL}>
-        <SEO title="Loading Project" description="Loading project details..." />
-        {/* The skeletons used to sit in an unstyled div inside a centering flex
-            column, so they collapsed to their own intrinsic widths. Constraining
-            the block is what makes them read as a page rather than a stack. */}
-        <div className="w-full max-w-4xl px-[6vw] py-[6vh]">
-          <h2 className="mb-4"><Skeleton width={300} /></h2>
-          <Skeleton height={200} />
-          <Skeleton count={5} />
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className={PAGE_SHELL}>
-        <SEO title="Project Not Found" description="The requested project could not be found." />
-        <div className="w-full max-w-2xl px-[6vw] py-[10vh] text-center">
-          <h2 className="text-2xl font-bold text-ink-strong">Project Not Found</h2>
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">{error}</p>
-          <button
-            type="button"
-            onClick={() => navigate("/projects")}
-            className="mt-6 cursor-pointer rounded-full border border-[#2db811]/20 bg-[#2db811]/15 px-4 py-2 text-xs font-medium text-ink-strong transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:border-[#2db811] hover:bg-[#2db811] hover:text-[#0e1710]"
-          >
-            Back to Projects
-          </button>
-        </div>
-      </section>
-    );
-  }
-
-  const projectDescription = typeof project.description === "string" && project.description.trim()
-    ? project.description.trim()
-    : "Project details from Abdelouahab Bella's portfolio.";
-
-  const projectKeywords = [
-    project.title,
-    "project",
-    "portfolio",
-    ...(project.tools?.techs?.map(tech => tech?.title).filter(Boolean) || []),
-  ].filter(Boolean).join(", ");
-
   return (
-    <section className={PAGE_SHELL}>
+    <article className="mx-auto w-full max-w-6xl px-5 py-8 md:py-12">
       <SEO
-        title={project.title || "Portfolio Project"}
-        description={projectDescription.substring(0, 160)}
-        keywords={projectKeywords}
+        title={project.title}
+        description={String(summary).substring(0, 160)}
+        keywords={[project.title, "case study", ...techs].join(", ")}
         image={project.image || getAbsoluteUrl("/logo.jpg")}
         type="article"
-        structuredData={generateProjectStructuredData()}
+        structuredData={structuredData}
       />
-      <ProjectOverView project={project} />
-      <Carousel carouselImages={project.carouselImages} />
-      <ProjectTools tools={project.tools} />
+
+      <nav aria-label="Breadcrumb" className="mb-5 text-sm text-ink-muted">
+        <Link to="/projects" className="hover:text-success">Projects</Link>
+        <span className="mx-2">/</span>
+        <span>{project.title}</span>
+      </nav>
+
+      <header className="grid gap-8 md:grid-cols-2 md:items-center">
+        <div>
+          {service && (
+            <p className="mb-2 text-xs font-bold tracking-[3px]! text-success uppercase">{service.title}</p>
+          )}
+          <h1 className="mb-4 text-3xl leading-tight font-bold text-ink-strong md:text-4xl">{project.title}</h1>
+          <p className="mb-6 text-lg leading-relaxed text-ink">{summary}</p>
+          <div className="flex flex-wrap gap-3">
+            {cs.liveUrl && (
+              <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> View live demo
+              </a>
+            )}
+            {project.githubLink && /github\.com/.test(project.githubLink) && (
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-line text-ink-strong!`}>
+                <FontAwesomeIcon icon={faGithub} /> Source code
+              </a>
+            )}
+            {project.githubLink && !/github\.com/.test(project.githubLink) && !cs.liveUrl && (
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Visit project
+              </a>
+            )}
+          </div>
+        </div>
+        <img
+          src={project.image}
+          alt={`${project.title} preview`}
+          className="w-full rounded-md border border-line bg-black object-cover shadow-lg md:max-h-[22rem]"
+        />
+      </header>
+
+      <dl className="mt-8 grid grid-cols-2 gap-5 rounded-md border border-line bg-surface p-5 md:grid-cols-4">
+        <Meta label="Client">{cs.client}</Meta>
+        <Meta label="Role">{cs.role}</Meta>
+        <Meta label="Period">{period}</Meta>
+        <Meta label="Status">{cs.status}</Meta>
+      </dl>
+
+      {cs.results?.length > 0 && (
+        <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {cs.results.map((r) => (
+            <li key={r.label} className="rounded-md border border-success/30 bg-[#1e1e1e] p-4 text-center">
+              <p className="text-2xl font-bold text-success md:text-3xl">{r.value}</p>
+              <p className="mt-1 text-xs leading-snug text-ink">{r.label}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-10 grid gap-8 md:grid-cols-3">
+        <Block title="The challenge">{cs.challenge}</Block>
+        <Block title="What I built">{cs.solution}</Block>
+        <Block title="The outcome">{cs.outcome}</Block>
+      </div>
+
+      {cs.features?.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-4 text-xl font-bold text-ink-strong">Key features</h2>
+          <ul className="grid gap-2.5 sm:grid-cols-2">
+            {cs.features.map((f) => (
+              <li key={f} className="rounded-sm border border-line bg-surface p-3 text-sm text-ink">{f}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {project.carouselImages?.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-2 text-xl font-bold text-ink-strong">Screens</h2>
+          <Carousel carouselImages={project.carouselImages} />
+        </section>
+      )}
+
+      {techs.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-3 text-xl font-bold text-ink-strong">Stack and tools</h2>
+          <ul className="flex flex-wrap gap-2">
+            {techs.map((t) => (
+              <li key={t} className="rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink">{t}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <ProjectDataSources dataSources={project.dataSources} />
       <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
-    </section>
+
+      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1e1e1e] p-7 text-center">
+        <h2 className="text-2xl font-bold text-ink-strong">Need something similar?</h2>
+        <p className="max-w-xl text-ink">
+          Book a free 30-minute call to talk through your project. You get a fixed price in MAD within two working days.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+            <FontAwesomeIcon icon={faCalendarCheck} /> Book a meeting
+          </a>
+          <a href={getWhatsAppLink(`Hi Abdelouahab, I saw "${project.title}" and have a similar project.`)} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-success text-success!`}>
+            WhatsApp
+          </a>
+        </div>
+      </section>
+
+      {related.length > 0 && (
+        <section className="mt-12">
+          <h2 className="mb-4 text-xl font-bold text-ink-strong">More projects</h2>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {related.map((p) => (
+              <Link
+                key={p._id}
+                to={`/projects/${slugifyProjectTitle(p.title)}`}
+                className="group overflow-hidden rounded-md border border-line bg-surface transition-colors hover:border-success/50"
+              >
+                <img src={p.image} alt="" loading="lazy" className="h-36 w-full object-cover" />
+                <p className="p-3 text-sm font-bold text-ink-strong group-hover:text-success">{p.title}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
   );
 }

@@ -6,6 +6,8 @@
  */
 export const CONTACT_EMAIL = "abdobella977@gmail.com";
 
+export const BOOKING_URL = "https://calendly.com/abdobella977/30min";
+
 // wa.me expects digits only, no leading + or spaces.
 const WHATSAPP_NUMBER = "212762549778";
 

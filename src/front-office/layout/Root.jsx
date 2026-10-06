@@ -6,7 +6,7 @@ import PageSkeleton from "../../shared/ui/PageSkeleton";
 import WhatsAppFloatingButton from "../../shared/ui/WhatsAppFloatingButton";
 
 /** Routes whose content is long-form rather than a card grid. */
-const ARTICLE_ROUTES = ["/resume", "/articles", "/projects/", "/my-team", "/site-map"];
+const ARTICLE_ROUTES = ["/articles", "/projects/", "/my-team", "/site-map"];
 
 export default function Root() {
   // State for theme color

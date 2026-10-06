@@ -6,14 +6,12 @@ import {
   faHome,
   faListCheck,
   faCertificate,
-  faFileAlt,
-  faFlaskVial,
+  faUsers,
   faNewspaper,
   faFlag,
   faSitemap,
-  faRobot,
-  faCode,
-  faGraduationCap
+  faChartLine,
+  faCode
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { auth } from "../../../shared/lib/firebase";
@@ -23,9 +21,8 @@ import { servicesContent } from "../../home/homeContent";
 // Keyed by servicesContent's own id, so a new service just needs an entry
 // here rather than a matching if/else chain in the render below.
 const SERVICE_ICONS = {
-  ai: faRobot,
+  data: faChartLine,
   web: faCode,
-  learning: faGraduationCap,
 };
 
 export default function Navbar() {
@@ -157,13 +154,7 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            {getNavLink("/resume", "Resume", faFileAlt)}
-          </li>
-          <li>
-            {getNavLink("/my-team", "Team", faFlaskVial)}
-          </li>
-          <li>
-            {getNavLink("/music", "Music Picks", faFlag)}
+            {getNavLink("/my-team", "Team", faUsers)}
           </li>
           <br />
           <hr />
@@ -185,13 +176,14 @@ export default function Navbar() {
       </div>
       <span className="navbar__footer">
         <a
-          href="https://github.com/your-username/your-repo"
+          href="https://github.com/bellaabdelouahab"
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="GitHub profile"
         >
           <FontAwesomeIcon icon={faGithub} size="2x" />
         </a>
-        <p>‟Made with hard work and Discipline, not Love ^_~‟</p>
+        <p>Agadir, Morocco. Available for freelance projects.</p>
       </span>
     </nav>
   );
