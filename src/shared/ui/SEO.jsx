@@ -19,13 +19,23 @@ export default function SEO({
     ? /^https?:\/\//.test(image) ? image : getAbsoluteUrl(image)
     : getAbsoluteUrl("/og-default.png");
 
+  // Search results show about 60 characters of title and 155 of description, so
+  // the brand suffix is dropped when it would push a title past that, and long
+  // descriptions are cut at a word boundary.
+  const withBrand = title ? `${title} | Abdelouahab Bella` : "";
   const pageTitle = title
-    ? `${title} | Abdelouahab Bella`
-    : "Web Developer & Data Analyst in Agadir, Morocco | Abdelouahab Bella";
+    ? withBrand.length <= 62 ? withBrand : title
+    : "Web Developer & Data Analyst, Agadir | Abdelouahab Bella";
 
-  const pageDescription =
+  const clip = (text, max = 158) => {
+    if (text.length <= max) return text;
+    const cut = text.slice(0, max - 1);
+    return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+  };
+  const pageDescription = clip(
     description ||
-    "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad.";
+      "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad.",
+  );
 
   const pageKeywords =
     keywords ||

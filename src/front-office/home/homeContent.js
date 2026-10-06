@@ -45,8 +45,8 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 6,000 MAD",
     priceFrom: 6000,
-    seoTitle: "Web Development in Agadir, Morocco: Websites, WordPress, Shopify, Django",
-    seoDescription: "Freelance web developer in Agadir. Business websites, online stores and web applications with WordPress, Shopify, Django or Next.js. Written quote in MAD from a registered auto-entrepreneur.",
+    seoTitle: "Web Development in Agadir, Morocco",
+    seoDescription: "Freelance web developer in Agadir: business websites, online stores and web apps with WordPress, Shopify, Django or Next.js. Written quote in MAD.",
     relatedSkills: [
       "WordPress and Shopify",
       "React, Next.js, Tailwind CSS",
@@ -81,8 +81,8 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 3,000 MAD",
     priceFrom: 3000,
-    seoTitle: "Power BI Dashboards and Data Analytics in Morocco",
-    seoDescription: "Freelance data analyst in Morocco. Power BI dashboards, automated Excel and SQL reporting and Python data pipelines, starting from 3,000 MAD. Registered auto-entrepreneur.",
+    seoTitle: "Power BI Dashboards in Morocco",
+    seoDescription: "Freelance data analyst in Morocco: Power BI dashboards, automated Excel and SQL reporting and Python pipelines, starting from 3,000 MAD.",
     relatedSkills: [
       "Power BI, DAX, Excel automation",
       "SQL (Advanced), SQL Server, PostgreSQL",

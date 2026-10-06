@@ -90,7 +90,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        description="Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD from a registered auto-entrepreneur."
+        description="Freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD."
         structuredData={homeStructuredData}
       />
       <IntroductionSection />
