@@ -28,7 +28,7 @@ export const servicesContent = [
     id: "web",
     title: "Web Development",
     icon: "/icons/web-dev.png",
-    description: "Business websites, booking and management platforms, and internal tools. Built with React and Django or FastAPI, deployed on your own domain, and set up to be found on Google.",
+    description: "Business websites, online stores, booking and management platforms, and internal tools. WordPress or Shopify for a fast launch, a custom build with Django or Next.js when you need more.",
     longDescription: "Business websites, web applications and internal tools, designed for the people who use them and built to be maintained. Work covers the interface, the back end and the database, the deployment on a server you own, and the SEO and performance basics that decide whether the site gets found.",
     deliverables: [
       "Responsive website or web application, fully tested on phone and laptop",
@@ -45,7 +45,8 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 6,000 MAD",
     relatedSkills: [
-      "React, JavaScript, Tailwind CSS",
+      "WordPress and Shopify",
+      "React, Next.js, Tailwind CSS",
       "Django, FastAPI, Node.js",
       "PostgreSQL, MongoDB, SQLite",
       "Docker, CI/CD, Nginx, Linux",
@@ -77,7 +78,7 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 3,000 MAD",
     relatedSkills: [
-      "Power BI, DAX",
+      "Power BI, DAX, Excel automation",
       "SQL (Advanced), SQL Server, PostgreSQL",
       "Python (Pandas), ETL automation",
       "GA4, Search Console, Microsoft Clarity",

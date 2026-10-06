@@ -1,13 +1,28 @@
+import { Link } from "react-router-dom";
 import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
 // Imported rather than referenced from CSS: only a JS import gets the hashed,
 // cache-busted URL Vite emits for a file under src/shared/assets.
 import heroBackground from "assets/images/home-section-bg1.jpg";
 
-const PROOF = [
-  ["Websites and web apps", "M3 5h18v11H3zM8 20h8M12 16v4"],
-  ["Dashboards and reports", "M4 20V10M10 20V4M16 20v-8M22 20H2"],
-  ["Registered auto-entrepreneur", "M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6zM8.5 12l2.5 2.5 4.5-5"],
-  ["Fixed price in MAD", "M12 3v18M7 8c0-2 2-3 5-3s5 1 5 3-2 3-5 4-5 2-5 4 2 3 5 3 5-1 5-3"],
+const OFFERS = [
+  {
+    title: "Websites and web apps",
+    text: "WordPress or Shopify when you need to launch fast. A custom build with Django or Next.js when you need more.",
+    tags: ["WordPress", "Shopify", "Django", "Next.js", "React"],
+    to: "/services/web",
+  },
+  {
+    title: "Dashboards and data",
+    text: "Power BI dashboards, automated Excel and SQL reporting, and Python pipelines that keep the numbers current.",
+    tags: ["Power BI", "SQL", "Excel", "Python"],
+    to: "/services/data",
+  },
+  {
+    title: "SEO and analytics",
+    text: "Get found on Google and see what visitors do: audits, tracking setup and monthly reporting.",
+    tags: ["GA4", "Search Console", "Clarity"],
+    to: "/services/web",
+  },
 ];
 
 export default function IntroductionSection() {
@@ -29,13 +44,18 @@ export default function IntroductionSection() {
           sketch to a live site or dashboard.
         </p>
         <ContactCtaButtons whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project." />
-        <ul className="mt-2 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-5">
-          {PROOF.map(([title, icon]) => (
-            <li key={title} className="flex items-center gap-2.5 text-sm font-bold text-ink-strong">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-success" aria-hidden="true">
-                <path d={icon} />
-              </svg>
-              {title}
+        <ul className="mt-2 grid w-full max-w-4xl gap-3 sm:grid-cols-3">
+          {OFFERS.map((o) => (
+            <li key={o.title}>
+              <Link to={o.to} className="group flex h-full flex-col rounded-md border border-line bg-[#171717cc] p-4 transition-colors hover:border-success/60">
+                <span className="text-base font-bold text-ink-strong group-hover:text-success">{o.title}</span>
+                <span className="mt-1.5 text-sm leading-snug text-ink">{o.text}</span>
+                <span className="mt-auto flex flex-wrap gap-1.5 pt-3">
+                  {o.tags.map((t) => (
+                    <span key={t} className="rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-ink-muted">{t}</span>
+                  ))}
+                </span>
+              </Link>
             </li>
           ))}
         </ul>
