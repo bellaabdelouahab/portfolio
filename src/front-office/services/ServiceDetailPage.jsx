@@ -5,6 +5,7 @@ import { servicesContent, professionalExperience } from "../home/homeContent";
 import { ProjectCard } from "../projects/components/ProjectCard";
 import ContactCtaButtons from "../../shared/ui/ContactCtaButtons";
 import SEO from "../../shared/ui/SEO";
+import BusinessStatus from "../../shared/ui/BusinessStatus";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 
 const RELATED_PROJECTS_LIMIT = 3;
@@ -201,6 +202,8 @@ export default function ServiceDetailPage() {
           </ul>
         </section>
       )}
+
+      <BusinessStatus className="mb-12" />
 
       <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7.5 text-center">
         <h2 className="text-2xl leading-snug font-bold text-ink-strong">

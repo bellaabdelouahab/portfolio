@@ -279,6 +279,11 @@ export const faqData = [
     answer: "Yes. Most projects run remotely with calls and a shared preview link. I work with clients across Morocco and abroad, in English, French and Arabic."
   },
   {
+    id: "q4b",
+    question: "Are you a registered business? Do you issue invoices?",
+    answer: "Yes. I work as a registered auto-entrepreneur in Morocco. You receive a written quote before the work starts and an official invoice at the end, and my taxes are declared, so I can be set up as a supplier in your company."
+  },
+  {
     id: "q5",
     question: "Who owns the code and the data?",
     answer: "You do. The code, the database and the dashboards are delivered to you at handover, hosted on accounts in your name, with documentation."
@@ -297,7 +302,7 @@ export const faqData = [
 
 export const contactContent = {
   title: "Get in Touch",
-  content: "Abdelouahab Bella takes on freelance web development and data analytics projects from Agadir, Morocco. Book a free 30-minute call, or send a message with a few lines about what you need.",
+  content: "Abdelouahab Bella takes on freelance web development and data analytics projects from Agadir, Morocco, as a registered auto-entrepreneur. Book a free 30-minute call, or send a message with a few lines about what you need.",
   buttonText: "Get in Touch",
   email: ""
 };

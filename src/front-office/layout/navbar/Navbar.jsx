@@ -183,7 +183,7 @@ export default function Navbar() {
         >
           <FontAwesomeIcon icon={faGithub} size="2x" />
         </a>
-        <p>Agadir, Morocco. Available for freelance projects.</p>
+        <p>Registered auto-entrepreneur. Agadir, Morocco.</p>
       </span>
     </nav>
   );

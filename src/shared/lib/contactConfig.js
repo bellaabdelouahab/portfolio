@@ -20,3 +20,13 @@ export function getMailtoLink(subject = "") {
   const base = `mailto:${CONTACT_EMAIL}`;
   return subject ? `${base}?subject=${encodeURIComponent(subject)}` : base;
 }
+
+/**
+ * Legal status shown across the site. Fill `ice` (the 15-digit business
+ * identifier on invoices) to display it next to the status; it stays hidden
+ * while empty rather than showing a placeholder.
+ */
+export const BUSINESS = {
+  status: "Registered auto-entrepreneur",
+  ice: "",
+};

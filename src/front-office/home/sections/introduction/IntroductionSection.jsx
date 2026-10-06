@@ -6,6 +6,7 @@ import heroBackground from "assets/images/home-section-bg1.jpg";
 const PROOF = [
   ["Websites and web apps", "M3 5h18v11H3zM8 20h8M12 16v4"],
   ["Dashboards and reports", "M4 20V10M10 20V4M16 20v-8M22 20H2"],
+  ["Registered auto-entrepreneur", "M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6zM8.5 12l2.5 2.5 4.5-5"],
   ["Fixed price in MAD", "M12 3v18M7 8c0-2 2-3 5-3s5 1 5 3-2 3-5 4-5 2-5 4 2 3 5 3 5-1 5-3"],
 ];
 

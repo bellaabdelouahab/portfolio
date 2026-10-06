@@ -2,15 +2,12 @@ import { Outlet, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import PageSkeleton from "../../shared/ui/PageSkeleton";
+import PageSkeleton, { variantForPath } from "../../shared/ui/PageSkeleton";
 import WhatsAppFloatingButton from "../../shared/ui/WhatsAppFloatingButton";
-
-/** Routes whose content is long-form rather than a card grid. */
-const ARTICLE_ROUTES = ["/articles", "/projects/", "/my-team", "/site-map"];
 
 export default function Root() {
   // State for theme color
-  const [themeColor, setThemeColor] = useState("#000000");
+  const [themeColor, setThemeColor] = useState("#171717");
 
   // createBrowserRouter keeps rendering the CURRENT route until the next route's
   // loader resolves. Without reading that state the UI simply freezes on the old
@@ -18,9 +15,7 @@ export default function Root() {
   const navigation = useNavigation();
   const isNavigating = navigation.state === "loading";
   const target = navigation.location?.pathname ?? "";
-  const skeletonVariant = ARTICLE_ROUTES.some((r) => target.startsWith(r))
-    ? "article"
-    : "cards";
+  const skeletonVariant = variantForPath(target);
 
   const resetScroll = () => {
     document.getElementsByClassName("main")[0].scrollTop = 0;

@@ -8,7 +8,26 @@
 // The admin import is dynamic and only reached on the server branch, so
 // firebase-admin (and any service-account handling) never reaches the
 // browser bundle — Vite code-splits it into a chunk the client never fetches.
-export async function getCollectionDocs(collectionName) {
+//
+// Results are cached in memory so moving between pages does not re-read the
+// same collection every time: five minutes in the browser, one minute on the
+// server. Concurrent requests for the same collection share one read. Edits
+// made in the back office show up when the entry expires.
+const TTL_MS = typeof window === "undefined" ? 60_000 : 5 * 60_000;
+const cache = new Map();
+
+export function getCollectionDocs(collectionName) {
+  const hit = cache.get(collectionName);
+  if (hit && Date.now() - hit.at < TTL_MS) return hit.promise;
+  const promise = readCollection(collectionName).catch((err) => {
+    cache.delete(collectionName);
+    throw err;
+  });
+  cache.set(collectionName, { at: Date.now(), promise });
+  return promise;
+}
+
+async function readCollection(collectionName) {
   if (typeof window === "undefined") {
     const { getAdminDb } = await import("./firebaseAdmin.js");
     const snapshot = await getAdminDb().collection(collectionName).get();

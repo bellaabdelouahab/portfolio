@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { servicesContent } from "../../homeContent";
+import BusinessStatus from "../../../../shared/ui/BusinessStatus";
 import { BOOKING_URL } from "../../../../shared/lib/contactConfig";
 
 /**
@@ -48,6 +49,7 @@ export default function ServicesSection() {
           </article>
         ))}
       </div>
+      <BusinessStatus className="mx-auto w-[92%] max-w-5xl" />
     </div>
   );
 }
