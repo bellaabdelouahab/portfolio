@@ -73,6 +73,13 @@ else
     fi
   done
 
+  # First run: publish the branch even if there are no files yet.
+  if ! git ls-remote --exit-code --heads "$REMOTE" "$BRANCH" >/dev/null 2>&1; then
+    git -C "$REPO" push --quiet origin "$BRANCH" 2>"$HOME_DIR/push.err" \
+      && { PUSHED_AT="$(date -u +%FT%TZ)"; COMMIT="$(git -C "$REPO" rev-parse HEAD)"; } \
+      || ERROR="Push to GitHub failed: $(tr '\n' ' ' < "$HOME_DIR/push.err" | cut -c1-200)"
+  fi
+
   git -C "$REPO" add -A
   CHANGED="$(git -C "$REPO" status --porcelain | wc -l)"
   if [ "$CHANGED" -gt 0 ]; then
