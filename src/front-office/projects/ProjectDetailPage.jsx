@@ -92,12 +92,13 @@ export default function ProjectDetailPage() {
   return (
     <article className="mx-auto w-full max-w-6xl px-5 py-8 md:py-12">
       <SEO
-        title={project.title}
+        title={`${project.title}: ${personal ? "project" : "case study"}`}
         description={String(summary).substring(0, 160)}
         keywords={[project.title, "case study", ...techs].join(", ")}
         image={project.image || getAbsoluteUrl("/logo.jpg")}
         type="article"
         structuredData={structuredData}
+        breadcrumbs={[["Home", "/"], ["Projects", "/projects"], [project.title, `/projects/${slugifyProjectTitle(project.title)}`]]}
       />
 
       <nav aria-label="Breadcrumb" className="mb-5 text-sm text-ink-muted">

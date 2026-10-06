@@ -89,15 +89,16 @@ export default function ServiceDetailPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.title,
-    description: service.longDescription || service.description,
+    description: service.seoDescription || service.longDescription || service.description,
     serviceType: service.serviceType,
-    provider: {
-      "@type": "Person",
-      name: "Abdelouahab Bella",
-      url: getAbsoluteUrl("/"),
-    },
-    areaServed: ["Agadir", "Morocco"],
+    provider: { "@id": getAbsoluteUrl("/#business") },
+    areaServed: [{ "@type": "Country", name: "Morocco" }, { "@type": "City", name: "Agadir" }],
     url: getAbsoluteUrl(`/services/${service.id}`),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "MAD",
+      priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: service.priceFrom },
+    },
   };
 
   return (
@@ -105,15 +106,17 @@ export default function ServiceDetailPage() {
       <Backdrop images={backdrop} />
     <div className="relative mx-auto w-full max-w-5xl px-5 py-10">
       <SEO
-        title={service.title}
-        description={service.longDescription || service.description}
-        keywords={`${service.title}, ${service.serviceType}, Abdelouahab Bella, Agadir, Morocco`}
+        title={service.seoTitle || service.title}
+        description={service.seoDescription || service.longDescription || service.description}
+        keywords={`${service.title}, ${service.serviceType}, Agadir, Morocco, freelance`}
         structuredData={structuredData}
+        breadcrumbs={[["Home", "/"], [service.title, `/services/${service.id}`]]}
       />
 
       <div className="mb-10 flex flex-col items-center text-center">
         <img src={service.icon} alt="" width="75" height="75" className="mb-5" />
         <h1 className="mb-5 text-4xl leading-snug font-bold text-success">{service.title}</h1>
+        <p className="mb-2 text-sm font-bold tracking-[2px]! text-success uppercase">Agadir, Morocco · Remote worldwide</p>
         <p className="max-w-3xl text-lg leading-relaxed text-ink">
           {service.longDescription || service.description}
         </p>

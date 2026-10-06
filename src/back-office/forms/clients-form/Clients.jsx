@@ -3,6 +3,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 
+import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
 const FIELD = "flex flex-col gap-1.5";
 const LABEL = "text-xs font-medium leading-normal text-ink";
 const INPUT =
@@ -34,7 +35,7 @@ export default function Clients() {
     repo: "portfolio",
     branch: "master", // Note: using master branch as per the repo URL
     baseImagePath: "public/images/clients/",
-    token: localStorage.getItem("githubToken") || "" // Get token from localStorage if available
+    token: "vps" // Get token from localStorage if available
   };
 
   const handleChange = (e) => {
@@ -103,75 +104,7 @@ export default function Clients() {
   };
 
   // Function to commit a file to GitHub
-  const commitFileToGithub = async (file, filePath, commitMessage) => {
-    if (!file || !githubDetails.token) {
-      throw new Error("Missing file or GitHub token");
-    }
-
-    try {
-      // Convert file to base64
-      const base64Content = await getBase64(file);
-      
-      // Check if file already exists to get its SHA (needed for updates)
-      let fileSha = null;
-      try {
-        const checkResponse = await fetch(
-          `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
-          {
-            headers: {
-              Authorization: `token ${githubDetails.token}`,
-              Accept: 'application/vnd.github.v3+json'
-            }
-          }
-        );
-        
-        if (checkResponse.status === 200) {
-          const fileData = await checkResponse.json();
-          fileSha = fileData.sha;
-        }
-      } catch (error) {
-        // File doesn't exist, which is fine for creating new files
-        console.log(`File does not exist yet: ${filePath}`);
-      }
-
-      // Prepare commit payload
-      const commitData = {
-        message: commitMessage,
-        content: base64Content,
-        branch: githubDetails.branch
-      };
-
-      // If we're updating an existing file, include the SHA
-      if (fileSha) {
-        commitData.sha = fileSha;
-      }
-
-      // Make the commit
-      const response = await fetch(
-        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
-        {
-          method: 'PUT',
-          headers: {
-            Authorization: `token ${githubDetails.token}`,
-            Accept: 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(commitData)
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (response.status === 200 || response.status === 201) {
-        return responseData;
-      } else {
-        throw new Error(`GitHub API Error: ${responseData.message}`);
-      }
-    } catch (error) {
-      console.error('Error committing to GitHub:', error);
-      throw error;
-    }
-  };
+  const commitFileToGithub = (file, filePath) => putAsset(file, filePath);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,21 +115,6 @@ export default function Clients() {
       setLoading(true);
       
       // Check if GitHub token exists
-      if (!githubDetails.token) {
-        const token = prompt("Please enter your GitHub token to commit images:");
-        if (!token) {
-          setMessage({
-            type: "error",
-            text: "GitHub token is required to commit images.",
-          });
-          setLoading(false);
-          return;
-        }
-        
-        // Save token to localStorage for future use
-        localStorage.setItem("githubToken", token);
-        githubDetails.token = token;
-      }
       
       // Generate a unique ID for the client
       const clientId = uuidv4().replace(/-/g, "").substring(0, 24);
@@ -208,7 +126,7 @@ export default function Clients() {
       
       // Start committing to GitHub
       setIsCommitting(true);
-      setCommitStatus("Committing client image to GitHub...");
+      setCommitStatus("Uploading client image...");
       
       try {
         await commitFileToGithub(
@@ -217,7 +135,7 @@ export default function Clients() {
           `Add client image: ${formData.name}`
         );
         
-        setCommitStatus("Image successfully committed to GitHub!");
+        setCommitStatus("Image uploaded.");
       } catch (error) {
         setCommitStatus(`Error committing image: ${error.message}`);
         throw error;

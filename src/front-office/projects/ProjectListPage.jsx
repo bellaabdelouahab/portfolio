@@ -85,6 +85,7 @@ export default function Projects() {
         description="Web development and data analytics projects by Abdelouahab Bella, each with the problem, the solution and the result."
         keywords="web development projects, Power BI dashboards, case studies, Abdelouahab Bella"
         structuredData={structuredData}
+        breadcrumbs={[["Home", "/"], ["Projects", "/projects"]]}
       />
       <section className="mx-auto w-full max-w-7xl px-5 py-8 md:py-10">
         <header className="mb-6 max-w-3xl">

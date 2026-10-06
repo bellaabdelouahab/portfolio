@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
 
+import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
 /* Shared between the loading skeleton and the real grid so the two can never
    drift out of alignment — a skeleton at a different column width is worse than
    no skeleton at all. */
@@ -26,7 +27,7 @@ const githubDetails = {
   branch: "master",
   baseImagePath: "public/images/projects/",
   get token() {
-    return localStorage.getItem("githubToken") || "";
+    return "vps";
   },
 };
 
@@ -126,43 +127,9 @@ export default function ManageProjects({ onEditProject }) {
   };
 
   /* ---------- Delete (Firestore + GitHub assets) ---------- */
-  const listRepoFolder = async (path) => {
-    const res = await fetch(
-      `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${path}?ref=${githubDetails.branch}`,
-      {
-        headers: {
-          Authorization: `token ${githubDetails.token}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      },
-    );
-    if (res.status === 404) return [];
-    if (!res.ok) throw new Error(`Failed to list ${path}`);
-    return res.json(); // array of {name, path, sha, type}
-  };
+  const listRepoFolder = (path) => listAssets(path);
 
-  const deleteRepoFile = async (path, sha) => {
-    const res = await fetch(
-      `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${path}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `token ${githubDetails.token}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: `Delete asset: ${path}`,
-          sha,
-          branch: githubDetails.branch,
-        }),
-      },
-    );
-    if (!res.ok) {
-      const data = await res.json();
-      throw new Error(data.message || `Failed to delete ${path}`);
-    }
-  };
+  const deleteRepoFile = (path) => deleteAsset(path);
 
   const deleteProjectAssets = async (projectId) => {
     const basePath = `${githubDetails.baseImagePath}${projectId}`;
@@ -182,10 +149,6 @@ export default function ManageProjects({ onEditProject }) {
 
   const handleDelete = async (e, project) => {
     e.stopPropagation();
-    if (!githubDetails.token) {
-      alert("GitHub token missing — verify it on the project form first.");
-      return;
-    }
     if (
       !window.confirm(
         `Delete "${project.title}"? This removes it from Firestore and GitHub, and cannot be undone.`,

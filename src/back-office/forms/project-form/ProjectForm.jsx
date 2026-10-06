@@ -18,7 +18,7 @@ import {
   ProjectDataComponent,
   TextareaComponent,
 } from "./components/IndexForm";
-import GithubTokenInput from "./components/GithubInput/GithubTokenInput";
+import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
 import * as s from "./components/formStyles";
 
 export default function ProjectForm({ initialProject = null, onDoneEditing }) {
@@ -34,24 +34,14 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
   const [tags, setTags] = useState([]);
   const [submitButtonText, setSubmitButtonText] = useState("Submit Project");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [githubTokenReady, setGithubTokenReady] = useState(
-    localStorage.getItem("githubToken") ? true : false,
-  );
+  const githubTokenReady = true; // uploads go to the VPS now, no GitHub token needed
 
   const [commitStatus, setCommitStatus] = useState("");
   const [isCommitting, setIsCommitting] = useState(false);
 
   const [existingImage, setExistingImage] = useState(null);
 
-  const githubDetails = {
-    owner: "bellaabdelouahab",
-    repo: "portfolio",
-    branch: "master",
-    baseImagePath: "public/images/projects/",
-    get token() {
-      return localStorage.getItem("githubToken") || "";
-    },
-  };
+  const githubDetails = { baseImagePath: "public/images/projects/" };
 
   // ---------- Pre-fill on edit ----------
   useEffect(() => {
@@ -86,98 +76,11 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       reader.onerror = reject;
     });
 
-  const commitFileToGithub = async (file, filePath, commitMessage) => {
-    if (!file || !githubDetails.token)
-      throw new Error("Missing file or GitHub token");
-    const base64Content = await getBase64(file);
-
-    let fileSha = null;
-    try {
-      const checkResponse = await fetch(
-        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
-        {
-          headers: {
-            Authorization: `token ${githubDetails.token}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-        },
-      );
-      if (checkResponse.status === 200)
-        fileSha = (await checkResponse.json()).sha;
-    } catch (_) {}
-
-    const commitData = {
-      message: commitMessage,
-      content: base64Content,
-      branch: githubDetails.branch,
-    };
-    if (fileSha) commitData.sha = fileSha;
-
-    const response = await fetch(
-      `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `token ${githubDetails.token}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(commitData),
-      },
-    );
-    const responseData = await response.json();
-    if (response.status !== 200 && response.status !== 201) {
-      throw new Error(`GitHub API Error: ${responseData.message}`);
-    }
-    return { path: filePath, sha: responseData.content.sha };
-  };
+  const commitFileToGithub = (file, filePath) => putAsset(file, filePath);
 
   // shaHint optional — if omitted, the sha is fetched from GitHub before deleting.
-  const deleteFileFromGithub = async (
-    filePath,
-    commitMessage,
-    shaHint = null,
-  ) => {
-    try {
-      let sha = shaHint;
-      if (!sha) {
-        const getRes = await fetch(
-          `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
-          {
-            headers: {
-              Authorization: `token ${githubDetails.token}`,
-              Accept: "application/vnd.github.v3+json",
-            },
-          },
-        );
-        if (getRes.status !== 200) {
-          console.warn(
-            `Could not find ${filePath} to delete (maybe already gone)`,
-          );
-          return;
-        }
-        sha = (await getRes.json()).sha;
-      }
-      const res = await fetch(
-        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `token ${githubDetails.token}`,
-            Accept: "application/vnd.github.v3+json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: commitMessage,
-            sha,
-            branch: githubDetails.branch,
-          }),
-        },
-      );
-      if (!res.ok) console.error(`Delete failed for ${filePath}`);
-    } catch (err) {
-      console.error(`Delete failed for ${filePath}:`, err);
-    }
+  const deleteFileFromGithub = async (filePath) => {
+    await deleteAsset(filePath);
   };
 
   const commitProjectImages = async (
@@ -187,7 +90,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
     projectId,
   ) => {
     setIsCommitting(true);
-    setCommitStatus("Committing images to GitHub...");
+    setCommitStatus("Uploading images...");
     const basePath = githubDetails.baseImagePath + projectId;
     const carouselPath = `${basePath}/carousel`;
     const committed = []; // {path, sha, forMain?, itemId?}
@@ -218,7 +121,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         committed.push({ ...result, itemId: item.id });
       }
 
-      setCommitStatus("All images committed!");
+      setCommitStatus("All images uploaded!");
       setTimeout(() => {
         setCommitStatus("");
         setIsCommitting(false);
@@ -268,13 +171,6 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         setIsSubmitting(false);
         return;
       }
-      if (!githubDetails.token) {
-        alert("Please verify your GitHub token before submitting.");
-        setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
-        setIsSubmitting(false);
-        return;
-      }
-
       // Validate all carousel items needing upload are webp
       const uploadCandidates = carouselItems.filter((item) => item.file);
       for (const item of uploadCandidates) {
@@ -705,10 +601,6 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
       />
       <TagInput tags={tags} setTags={setTags} />
       <CaseStudyFields initial={initialProject} />
-      <GithubTokenInput
-        githubDetails={githubDetails}
-        onVerified={() => setGithubTokenReady(true)}
-      />
 
       {/* disabled already covers isSubmitting/isCommitting, so the old
           `.submitting` variant (darker bg, forced opacity) was redundant —

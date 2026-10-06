@@ -6,6 +6,7 @@ import ManageProjects from "./forms/manage-projects-form/ManageProjects";
 import CertificatesForm from "./forms/certificates-form/CertificatesForm";
 import Clients from "./forms/clients-form/Clients";
 import VisitorStats from "./visitor-stats/VisitorStats";
+import StoragePanel from "./storage/StoragePanel";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import SEO from "../shared/ui/SEO";
 import { avatarPlaceholder } from "../shared/lib/placeholders";
@@ -29,6 +30,7 @@ export default function FillDB() {
     { id: 3, label: "Report", component: <ReportForm /> },
     { id: 4, label: "Clients", component: <Clients /> },
     { id: 5, label: "Visitor Stats", component: <VisitorStats /> },
+    { id: 6, label: "Storage", component: <StoragePanel /> },
   ]
 
   // Handle authentication state

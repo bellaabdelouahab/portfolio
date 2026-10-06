@@ -13,6 +13,8 @@ import FAQSection from "./sections/faq/FAQSection";
 import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import SEO from "../../shared/ui/SEO";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
+import { CONTACT_EMAIL } from "../../shared/lib/contactConfig";
+import { servicesContent } from "./homeContent";
 
 export default function Home() {
   const projectHighlight = useLoaderData();
@@ -32,56 +34,64 @@ export default function Home() {
     });
   }, []);
 
-  // Create structured data for home page
+  const site = getAbsoluteUrl("/");
   const homeStructuredData = {
     "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "mainEntity": {
-      "@type": "Person",
-      "name": "Abdelouahab Bella",
-      "jobTitle": "Web Developer & Data Analyst",
-      "description": "Freelance web developer and data analyst in Agadir, Morocco. Builds business websites and web applications, and turns data into dashboards and reports.",
-      "url": getAbsoluteUrl("/"),
-      "sameAs": [
-        "https://github.com/bellaabdelouahab",
-        "https://linkedin.com/in/abdelouahab-bella"
-      ],
-      "knowsAbout": [
-        "Data Science",
-        "Machine Learning",
-        "Web Development",
-        "Software Engineering"
-      ]
-    }
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": getAbsoluteUrl("/#website"),
+        url: site,
+        name: "Abdelouahab Bella",
+        inLanguage: "en",
+        publisher: { "@id": getAbsoluteUrl("/#business") },
+      },
+      {
+        "@type": "Person",
+        "@id": getAbsoluteUrl("/#person"),
+        name: "Abdelouahab Bella",
+        jobTitle: "Web Developer and Data Analyst",
+        url: site,
+        image: getAbsoluteUrl("/profile.png"),
+        email: CONTACT_EMAIL,
+        address: { "@type": "PostalAddress", addressLocality: "Agadir", addressCountry: "MA" },
+        sameAs: ["https://github.com/bellaabdelouahab", "https://linkedin.com/in/abdelouahab-bella"],
+        knowsAbout: ["Web development", "WordPress", "Shopify", "Django", "Next.js", "Power BI", "SQL", "Python", "Data analytics", "SEO"],
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": getAbsoluteUrl("/#business"),
+        name: "Abdelouahab Bella, web development and data analytics",
+        url: site,
+        image: getAbsoluteUrl("/og-default.png"),
+        description: "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
+        founder: { "@id": getAbsoluteUrl("/#person") },
+        email: CONTACT_EMAIL,
+        telephone: "+212762549778",
+        priceRange: "MAD",
+        currenciesAccepted: "MAD",
+        address: { "@type": "PostalAddress", addressLocality: "Agadir", addressRegion: "Souss-Massa", addressCountry: "MA" },
+        areaServed: [{ "@type": "Country", name: "Morocco" }, { "@type": "City", name: "Agadir" }],
+        knowsLanguage: ["en", "fr", "ar"],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Services",
+          itemListElement: servicesContent.map((svc) => ({
+            "@type": "Offer",
+            priceCurrency: "MAD",
+            priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: svc.priceFrom },
+            itemOffered: { "@type": "Service", name: svc.title, url: getAbsoluteUrl(`/services/${svc.id}`), description: svc.description },
+          })),
+        },
+      },
+    ],
   };
 
-  // Service schema blocks — one per distinct offering
-  const serviceSchemaBlocks = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Web Development",
-      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
-      "areaServed": ["Agadir", "Morocco"],
-      "description": "Business websites, web applications and internal tools built with React, Django and FastAPI, deployed on the client's domain.",
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Service",
-      "serviceType": "Data Analytics and Business Intelligence",
-      "provider": { "@type": "Person", "name": "Abdelouahab Bella" },
-      "areaServed": ["Agadir", "Morocco"],
-      "description": "Power BI dashboards, SQL and Python data pipelines, and web analytics for actionable business reporting.",
-    },
-  ];
   return (
     <>
       <SEO
-        title="Home"
-        description="Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards, with fixed prices in MAD."
-        keywords="web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web development, Abdelouahab Bella"
+        description="Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD from a registered auto-entrepreneur."
         structuredData={homeStructuredData}
-        serviceSchemaBlocks={serviceSchemaBlocks}
       />
       <IntroductionSection />
       <ProjectsSection projectHighlight={projectHighlight} />

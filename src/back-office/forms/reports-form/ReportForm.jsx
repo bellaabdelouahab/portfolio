@@ -4,6 +4,7 @@ import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import * as pdfjsLib from "pdfjs-dist";
 
+import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
 const FIELD = "flex flex-col gap-1.5";
 const LABEL = "w-full text-center text-xs font-medium leading-normal text-ink";
 const INPUT =
@@ -50,7 +51,7 @@ export default function ReportForm() {
     branch: "master",
     baseImagePath: "public/images/reports/",
     basePdfPath: "public/reports/",
-    token: localStorage.getItem("githubToken") || "",
+    token: "vps",
   };
 
   const handleChange = (e) => {
@@ -297,74 +298,11 @@ export default function ReportForm() {
   };
 
   // Function to commit a file to GitHub
-  const commitFileToGithub = async (file, filePath, commitMessage) => {
-    if (!file || !githubDetails.token)
-      throw new Error("Missing file or GitHub token");
-    const base64Content = await getBase64(file);
-
-    let fileSha = null;
-    try {
-      const checkResponse = await fetch(
-        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}?ref=${githubDetails.branch}`,
-        {
-          headers: {
-            Authorization: `token ${githubDetails.token}`,
-            Accept: "application/vnd.github.v3+json",
-          },
-        },
-      );
-      if (checkResponse.status === 200)
-        fileSha = (await checkResponse.json()).sha;
-    } catch (_) {}
-
-    const commitData = {
-      message: commitMessage,
-      content: base64Content,
-      branch: githubDetails.branch,
-    };
-    if (fileSha) commitData.sha = fileSha;
-
-    const response = await fetch(
-      `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `token ${githubDetails.token}`,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(commitData),
-      },
-    );
-    const responseData = await response.json();
-    if (response.status !== 200 && response.status !== 201) {
-      throw new Error(`GitHub API Error: ${responseData.message}`);
-    }
-    return { path: filePath, sha: responseData.content.sha };
-  };
+  const commitFileToGithub = (file, filePath) => putAsset(file, filePath);
 
   // New: rollback helper
-  const deleteFileFromGithub = async (filePath, sha, commitMessage) => {
-    try {
-      await fetch(
-        `https://api.github.com/repos/${githubDetails.owner}/${githubDetails.repo}/contents/${filePath}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `token ${githubDetails.token}`,
-            Accept: "application/vnd.github.v3+json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: commitMessage,
-            sha,
-            branch: githubDetails.branch,
-          }),
-        },
-      );
-    } catch (err) {
-      console.error(`Rollback failed for ${filePath}:`, err);
-    }
+  const deleteFileFromGithub = async (filePath) => {
+    await deleteAsset(filePath);
   };
 
   const handleSubmit = async (e) => {
@@ -376,21 +314,6 @@ export default function ReportForm() {
       setLoading(true);
 
       // Check if GitHub token exists
-      if (!githubDetails.token) {
-        const token = prompt("Please enter your GitHub token to commit files:");
-        if (!token) {
-          setMessage({
-            type: "error",
-            text: "GitHub token is required to commit files.",
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Save token to localStorage for future use
-        localStorage.setItem("githubToken", token);
-        githubDetails.token = token;
-      }
 
       // Generate a unique ID for the report
       const reportId = uuidv4().replace(/-/g, "").substring(0, 24);

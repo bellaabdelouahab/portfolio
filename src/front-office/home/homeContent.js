@@ -44,6 +44,9 @@ export const servicesContent = [
       ["Launch and support", "Deployment, handover and 30 days of fixes included."],
     ],
     startingPrice: "Starting from 6,000 MAD",
+    priceFrom: 6000,
+    seoTitle: "Web Development in Agadir, Morocco: Websites, WordPress, Shopify, Django",
+    seoDescription: "Freelance web developer in Agadir. Business websites, online stores and web applications with WordPress, Shopify, Django or Next.js. Written quote in MAD from a registered auto-entrepreneur.",
     relatedSkills: [
       "WordPress and Shopify",
       "React, Next.js, Tailwind CSS",
@@ -77,6 +80,9 @@ export const servicesContent = [
       ["Handover", "Documentation, training and 30 days of adjustments included."],
     ],
     startingPrice: "Starting from 3,000 MAD",
+    priceFrom: 3000,
+    seoTitle: "Power BI Dashboards and Data Analytics in Morocco",
+    seoDescription: "Freelance data analyst in Morocco. Power BI dashboards, automated Excel and SQL reporting and Python data pipelines, starting from 3,000 MAD. Registered auto-entrepreneur.",
     relatedSkills: [
       "Power BI, DAX, Excel automation",
       "SQL (Advanced), SQL Server, PostgreSQL",

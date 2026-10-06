@@ -10,24 +10,26 @@ export default function SEO({
   keywords,
   type = "website",
   structuredData = null,
+  breadcrumbs = null,
   serviceSchemaBlocks = [],
   noIndex = false,
   noindex = false,
 }) {
-  const resolvedImage = image || getAbsoluteUrl("/logo.jpg");
+  const resolvedImage = image
+    ? /^https?:\/\//.test(image) ? image : getAbsoluteUrl(image)
+    : getAbsoluteUrl("/og-default.png");
 
-  // Format the page title
   const pageTitle = title
-    ? `${title} | Abdelouahab Bella Portfolio`
-    : "Abdelouahab Bella | Data Analyst & Software Engineer Portfolio";
+    ? `${title} | Abdelouahab Bella`
+    : "Web Developer & Data Analyst in Agadir, Morocco | Abdelouahab Bella";
 
   const pageDescription =
     description ||
-    "Portfolio of Abdelouahab Bella, Data Analyst and Software Engineer. Featuring projects in web development, machine learning, and modern software solutions.";
+    "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad.";
 
   const pageKeywords =
     keywords ||
-    "Abdelouahab Bella, Data Analyst Portfolio, Software Engineer Portfolio, Web Development Projects, Machine Learning Portfolio, Top Software Engineer, React Portfolio, Professional Developer Website";
+    "web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web developer Morocco, Abdelouahab Bella";
 
   const shouldNoIndex = Boolean(noIndex || noindex);
 
@@ -40,30 +42,28 @@ export default function SEO({
   const location = useLocation();
   const pageUrl = url || getAbsoluteUrl(location.pathname);
 
-  // Default structured data for the portfolio
-  const defaultStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    name: pageTitle,
-    description: pageDescription,
-    url: pageUrl,
-    image: resolvedImage,
-    mainEntity: {
-      "@type": "Person",
-      name: "Abdelouahab Bella",
-      url: getAbsoluteUrl("/"),
-      jobTitle: "Data Analyst & Software Engineer",
-      knowsAbout: [
-        "Data Science",
-        "Machine Learning",
-        "React",
-        "Web Development",
-        "Software Engineering",
-      ],
-    },
-  };
+  const finalStructuredData =
+    structuredData || {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: pageTitle,
+      description: pageDescription,
+      url: pageUrl,
+      image: resolvedImage,
+      isPartOf: { "@id": getAbsoluteUrl("/#website") },
+      about: { "@id": getAbsoluteUrl("/#business") },
+    };
 
-  const finalStructuredData = structuredData || defaultStructuredData;
+  const breadcrumbSchema = breadcrumbs && {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map(([name, path], i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name,
+      item: getAbsoluteUrl(path),
+    })),
+  };
 
   return (
     <Helmet>
@@ -78,6 +78,8 @@ export default function SEO({
       <meta property="og:image" content={resolvedImage} />
       <meta property="og:url" content={pageUrl} />
       <meta property="og:type" content={type} />
+      <meta property="og:site_name" content="Abdelouahab Bella" />
+      <meta property="og:locale" content="en_US" />
 
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -100,6 +102,10 @@ export default function SEO({
       <script type="application/ld+json">
         {JSON.stringify(finalStructuredData)}
       </script>
+
+      {breadcrumbSchema && (
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      )}
 
       {/* Service Schema Blocks */}
       {serviceSchemaBlocks.map((block, idx) => (

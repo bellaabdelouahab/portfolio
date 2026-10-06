@@ -38,6 +38,8 @@ RUN npm run build
 FROM node:20-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
+# Back-office uploads live on a persistent volume (see ops/assets-sync).
+ENV UPLOADS_DIR=/data/uploads
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
@@ -45,7 +47,7 @@ RUN npm ci --omit=dev
 COPY --from=build /app/build ./build
 COPY --from=build /app/server ./server
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
-RUN chmod +x ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh && mkdir -p /data/uploads
 
 EXPOSE 5174
 ENTRYPOINT ["./docker-entrypoint.sh"]

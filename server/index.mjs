@@ -6,6 +6,9 @@ import express from "express";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import compression from "compression";
+import { assetRoutes, uploadsStatic } from "./assets.mjs";
+import { seoRoutes } from "./seo.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -13,6 +16,15 @@ const port = process.env.PORT || 5174;
 const base = process.env.BASE || "/";
 
 const app = express();
+
+app.disable("x-powered-by");
+app.use(compression());
+seoRoutes(app);
+
+// Back-office asset API and uploaded files (see server/assets.mjs).
+app.use("/api/assets", assetRoutes());
+// The directory only ever contains images/ and reports/ (dotfiles are not served).
+app.use(uploadsStatic());
 
 let vite;
 if (!isProduction) {
@@ -28,6 +40,14 @@ if (!isProduction) {
     base,
     express.static(path.resolve(__dirname, "../build/client"), {
       index: false,
+      // Vite fingerprints everything under /assets, so it can be cached for a
+      // year. Other files (images, icons) are revalidated after a week.
+      setHeaders(res, file) {
+        res.setHeader(
+          "Cache-Control",
+          file.includes(`${path.sep}assets${path.sep}`) ? "public, max-age=31536000, immutable" : "public, max-age=604800",
+        );
+      },
     })
   );
 }
