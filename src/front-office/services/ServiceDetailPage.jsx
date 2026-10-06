@@ -56,24 +56,23 @@ export async function getServiceDetail({ params }) {
     .map((doc) => ({ _id: doc.id, ...doc.data() }))
     .sort(byNewest("startDate"));
 
-  const tagged = service.relatedProjectTags.length
-    ? allProjects.filter((project) =>
-        (project.tags || []).some((tag) => service.relatedProjectTags.includes(tag)),
-      )
-    : [];
+  const visible = allProjects.filter((p) => p.hidden !== true);
+  const tagged = visible.filter(
+    (p) => (p.caseStudy?.kind || "client") === "client" && (p.caseStudy?.services || []).includes(service.id),
+  );
 
   const relatedProjects =
     tagged.length >= RELATED_PROJECTS_LIMIT
       ? tagged.slice(0, RELATED_PROJECTS_LIMIT)
       : [
           ...tagged,
-          ...allProjects
+          ...visible
             .filter((project) => !tagged.some((t) => t._id === project._id))
             .slice(0, RELATED_PROJECTS_LIMIT - tagged.length),
         ];
 
   const backdrop = allProjects
-    .filter((p) => p.hidden !== true && (p.caseStudy?.kind || "client") === "client" && p.image)
+    .filter((p) => p.hidden !== true && (p.caseStudy?.kind || "client") === "client" && (p.caseStudy?.services || []).includes(service.id) && p.image)
     .map((p) => p.image);
 
   return { service, relatedProjects, backdrop };
@@ -126,25 +125,35 @@ export default function ServiceDetailPage() {
       </div>
 
       {service.deliverables?.length > 0 && (
-        <section className="mb-10">
+        <section className="mb-12">
           <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">What you get</h2>
-          <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+          <ul className="grid gap-x-8 gap-y-4 rounded-md border border-line bg-surface p-6 md:grid-cols-2">
             {service.deliverables.map((d) => (
-              <li key={d} className="rounded-sm border border-line bg-surface p-3 text-ink">{d}</li>
+              <li key={d} className="flex gap-3 text-base leading-snug text-ink">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-success" aria-hidden="true">
+                  <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+                {d}
+              </li>
             ))}
           </ul>
         </section>
       )}
 
       {service.process?.length > 0 && (
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">How it works</h2>
-          <ol className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mb-12">
+          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">How it works</h2>
+          <ol className="relative grid gap-6 md:grid-cols-4 md:gap-4">
+            <span aria-hidden="true" className="absolute top-5 right-[12.5%] left-[12.5%] hidden h-px bg-line md:block" />
             {service.process.map(([title, text], i) => (
-              <li key={title} className="rounded-sm border border-line bg-surface p-4">
-                <p className="font-mono text-sm text-success">0{i + 1}</p>
-                <p className="mt-1 font-bold text-ink-strong">{title}</p>
-                <p className="mt-1 text-sm text-ink">{text}</p>
+              <li key={title} className="relative flex gap-4 md:flex-col md:items-center md:gap-3 md:text-center">
+                <span className="relative z-10 flex size-10 shrink-0 items-center justify-center rounded-full border border-success bg-page font-mono text-sm font-bold text-success">
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="font-bold text-ink-strong">{title}</p>
+                  <p className="mt-1 text-sm leading-snug text-ink">{text}</p>
+                </div>
               </li>
             ))}
           </ol>
@@ -152,16 +161,11 @@ export default function ServiceDetailPage() {
       )}
 
       {service.relatedSkills?.length > 0 && (
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
-            Tools and skills
-          </h2>
-          <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <section className="mb-12">
+          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">Tools and skills</h2>
+          <ul className="flex flex-wrap gap-2.5">
             {service.relatedSkills.map((skill) => (
-              <li
-                key={skill}
-                className="rounded-sm border border-line bg-surface p-3 text-ink"
-              >
+              <li key={skill} className="rounded-full border border-line bg-surface px-4 py-1.5 text-sm text-ink">
                 {skill}
               </li>
             ))}
@@ -172,7 +176,7 @@ export default function ServiceDetailPage() {
       {relatedProjects.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
-            Related Projects
+            Related work
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProjects.map((project) => (
@@ -183,28 +187,22 @@ export default function ServiceDetailPage() {
       )}
 
       {relevantExperience.length > 0 && (
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
-            Relevant Experience
-          </h2>
-          <ul className="flex flex-col gap-4">
+        <section className="mb-12">
+          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">Relevant experience</h2>
+          <ul className="border-l border-line">
             {relevantExperience.map((exp) => (
-              <li
-                key={exp.title}
-                className="rounded-sm border border-line bg-surface p-4"
-              >
-                <h3 className="text-lg font-bold text-success">{exp.title}</h3>
-                <p className="mb-2 text-sm text-ink/70">
-                  {exp.startDate} – {exp.endDate}
-                </p>
-                <p className="text-ink">{exp.description}</p>
+              <li key={exp.title} className="relative pb-6 pl-6 last:pb-0">
+                <span aria-hidden="true" className="absolute top-1.5 -left-[5px] size-2.5 rounded-full bg-success" />
+                <p className="text-sm text-ink-muted">{exp.startDate} to {exp.endDate}</p>
+                <h3 className="text-lg font-bold text-ink-strong">{exp.title}</h3>
+                <p className="mt-1 text-ink">{exp.description}</p>
               </li>
             ))}
           </ul>
         </section>
       )}
 
-      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7.5 text-center">
+      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7.5 text-center">
         <h2 className="text-2xl leading-snug font-bold text-ink-strong">
           Interested in {service.title}?
         </h2>

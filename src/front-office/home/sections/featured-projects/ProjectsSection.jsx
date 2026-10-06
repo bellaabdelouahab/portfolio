@@ -4,7 +4,7 @@ import { ProjectCard } from "../../../projects/components/ProjectCard";
 export default function ProjectsSection({ projectHighlight }) {
     return (
       // Gradient fade into the hero above, over the section's own black.
-      <section className="home-projects-section hidden-area w-full bg-[#0f1319] bg-[linear-gradient(to_bottom,#11161d,transparent_30px)] pt-7.5">
+      <section className="home-projects-section hidden-area w-full bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#181818,transparent_30px)] pt-7.5">
         {/* tracking is forced: global.css sets `h1..h5 { letter-spacing: 1px }`
             unlayered, and unlayered rules outrank every utility layer. */}
         <h2 className="mt-[2vh] mb-[2vh] ml-[3vw] text-2xl font-bold tracking-[4px]! text-ink-strong">

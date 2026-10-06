@@ -93,7 +93,7 @@ export default function SiteMap() {
         {siteStructure.pages.map((page, index) => (
           <div
             key={index}
-            className="rounded-md bg-[#171c26] p-4 shadow-sm transition-[transform,box-shadow] duration-300 ease-standard hover:-translate-y-1 hover:shadow-md"
+            className="rounded-md bg-[#1a1a1a] p-4 shadow-sm transition-[transform,box-shadow] duration-300 ease-standard hover:-translate-y-1 hover:shadow-md"
           >
             <h2 className="mb-2.5 text-base text-[#61dafb]">
               <Link

@@ -12,7 +12,7 @@ const PROOF = [
 export default function IntroductionSection() {
   return (
     <section
-      className="introduction-section relative w-full bg-[#14192288] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
+      className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
       style={{ backgroundImage: `url(${heroBackground})` }}
     >
       <div className="flex w-full flex-col items-start gap-8 px-[5vw] md:w-[70%] md:px-[3vw]">

@@ -26,7 +26,7 @@ export default function HappyClientsSection() {
     };
 
     return (
-      <div className="happy-clients-section hidden-area bg-[#0f1319] bg-[linear-gradient(to_bottom,#141922,transparent_30px)] pt-7.5 pb-1.25 text-ink">
+      <div className="happy-clients-section hidden-area bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5 pb-1.25 text-ink">
         <div className="home-sections-title">
           <span>06. </span>
           What My Clients Say

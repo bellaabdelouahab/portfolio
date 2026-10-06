@@ -134,7 +134,7 @@ export default function ProjectDetailPage() {
         <img
           src={project.image}
           alt={`${project.title} preview`}
-          className="w-full rounded-md border border-line bg-black object-cover shadow-lg md:max-h-[22rem]"
+          className="aspect-[16/10] w-full rounded-md border border-line bg-[#111] object-contain shadow-lg"
         />
       </header>
 
@@ -148,7 +148,7 @@ export default function ProjectDetailPage() {
       {cs.results?.length > 0 && (
         <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
           {cs.results.map((r) => (
-            <li key={r.label} className="rounded-md border border-success/30 bg-[#1a202b] p-4 text-center">
+            <li key={r.label} className="rounded-md border border-success/30 bg-[#202020] p-4 text-center">
               <p className="text-2xl font-bold text-success md:text-3xl">{r.value}</p>
               <p className="mt-1 text-xs leading-snug text-ink">{r.label}</p>
             </li>
@@ -195,7 +195,7 @@ export default function ProjectDetailPage() {
       <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
 
-      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7 text-center">
+      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
         <h2 className="text-2xl font-bold text-ink-strong">{personal ? "Need something like this built?" : "Need something similar?"}</h2>
         <p className="max-w-xl text-ink">
           Book a free 30-minute call to talk through your project. You get a fixed price in MAD within two working days.
@@ -220,7 +220,7 @@ export default function ProjectDetailPage() {
                 to={`/projects/${slugifyProjectTitle(p.title)}`}
                 className="group overflow-hidden rounded-md border border-line bg-surface transition-colors hover:border-success/50"
               >
-                <img src={p.image} alt="" loading="lazy" className="h-36 w-full object-cover" />
+                <img src={p.image} alt="" loading="lazy" className="aspect-[16/10] w-full bg-[#111] object-contain" />
                 <p className="p-3 text-sm font-bold text-ink-strong group-hover:text-success">{p.title}</p>
               </Link>
             ))}

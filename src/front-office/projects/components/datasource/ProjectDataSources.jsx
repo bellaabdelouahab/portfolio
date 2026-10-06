@@ -13,7 +13,7 @@ export default function ProjectDataSources({ dataSources }) {
   };
 
   return (
-    <div className="relative z-[1] w-full bg-[#151a23] py-[3vh]">
+    <div className="relative z-[1] w-full bg-[#1a1c1f] py-[3vh]">
       {/* tracking needs ! — global.css sets an unlayered h1..h5 letter-spacing:1px
           that outranks the utilities layer. */}
       <h2 className="ml-[6vw] text-base font-bold tracking-[-0.01em]! text-ink-strong md:text-lg">
@@ -24,7 +24,7 @@ export default function ProjectDataSources({ dataSources }) {
         {dataSources.map((dataSource, index) => (
           <div
             key={index}
-            className="flex h-[170px] w-full max-w-[320px] flex-col items-center justify-between rounded-lg border border-[#2db811]/20 bg-[#1b212c] p-3 transition-[transform,border-color,box-shadow] duration-200 ease-standard hover:-translate-y-1.5 hover:border-[#2db811] hover:shadow-[0_12px_30px_rgba(45,184,17,0.15)] md:w-[170px]"
+            className="flex h-[170px] w-full max-w-[320px] flex-col items-center justify-between rounded-lg border border-[#2db811]/20 bg-[#212121] p-3 transition-[transform,border-color,box-shadow] duration-200 ease-standard hover:-translate-y-1.5 hover:border-[#2db811] hover:shadow-[0_12px_30px_rgba(45,184,17,0.15)] md:w-[170px]"
           >
             <div className="flex w-3/4 flex-1 items-center justify-center p-1">
               <img

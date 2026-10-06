@@ -140,7 +140,7 @@ export default function Projects() {
           <p className="py-16 text-center text-ink">No project matches this filter.</p>
         )}
 
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#1a202b] p-7 text-center">
+        <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
           <h2 className="text-xl font-bold text-ink-strong">Have a project in mind?</h2>
           <ContactCtaButtons className="justify-center" whatsappMessage="Hi Abdelouahab, I saw your projects and would like to discuss mine." />
         </div>

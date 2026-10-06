@@ -3,7 +3,7 @@ import "./GithubProgressSection.css";
 export default function GithubProgressSection() {
     return (
       // Gradient fade into the section above, over the section's own black.
-      <section className="github-progress-section hidden-area relative w-full bg-[#0f1319] bg-[linear-gradient(to_bottom,#141922,transparent_30px)] pt-7.5">
+      <section className="github-progress-section hidden-area relative w-full bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5">
         <h2 className="home-sections-title">
           <span>03. </span>
           Github Progress

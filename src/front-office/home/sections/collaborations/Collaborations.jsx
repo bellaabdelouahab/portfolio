@@ -36,7 +36,7 @@ export default function Collaborations() {
   }, []);
 
   return (
-    <div className="collaborations hidden-area bg-[#141922] bg-[linear-gradient(to_bottom,#0f1319,transparent_30px)] pt-7.5 pb-5">
+    <div className="collaborations hidden-area bg-[#171717] bg-[linear-gradient(to_bottom,#1c1c1c,transparent_30px)] pt-7.5 pb-5">
       <div className="home-sections-title">
         <span>05. </span>
         Collaborations

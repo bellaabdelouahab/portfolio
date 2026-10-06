@@ -7,6 +7,7 @@ import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
 import TagInput from "./components/tag-input/TagInput";
 
 import { doc, setDoc, updateDoc } from "firebase/firestore";
+import CaseStudyFields, { parseCaseStudy } from "./components/CaseStudyFields";
 import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 
@@ -341,6 +342,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         durration: formData.get("endDate") ? "completed" : "ongoing",
         highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
         tags,
+        ...parseCaseStudy(formData, initialProject),
         showInOverview: isEditMode
           ? (initialProject.showInOverview ?? false)
           : false,
@@ -702,6 +704,7 @@ export default function ProjectForm({ initialProject = null, onDoneEditing }) {
         defaultChecked={initialProject?.highlighted === "star"}
       />
       <TagInput tags={tags} setTags={setTags} />
+      <CaseStudyFields initial={initialProject} />
       <GithubTokenInput
         githubDetails={githubDetails}
         onVerified={() => setGithubTokenReady(true)}

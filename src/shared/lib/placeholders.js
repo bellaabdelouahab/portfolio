@@ -15,7 +15,7 @@ const svg = (markup) => `data:image/svg+xml,${encodeURIComponent(markup)}`;
 /** Portrait placeholder for report covers (matches the 175x250 card art). */
 export const coverPlaceholder = svg(`
 <svg xmlns="http://www.w3.org/2000/svg" width="175" height="250" viewBox="0 0 175 250">
-  <rect width="175" height="250" fill="#222a36"/>
+  <rect width="175" height="250" fill="#2e2e2e"/>
   <g fill="none" stroke="#4a4a4a" stroke-width="2">
     <rect x="47" y="86" width="81" height="100" rx="4"/>
     <path d="M62 112h51M62 130h51M62 148h34"/>
@@ -26,7 +26,7 @@ export const coverPlaceholder = svg(`
 /** Square placeholder for avatars. */
 export const avatarPlaceholder = svg(`
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="32" fill="#2b3441"/>
+  <rect width="64" height="64" rx="32" fill="#383838"/>
   <circle cx="32" cy="25" r="11" fill="#5a5a5a"/>
   <path d="M12 60c0-11 9-18 20-18s20 7 20 18z" fill="#5a5a5a"/>
 </svg>`);

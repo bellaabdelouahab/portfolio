@@ -6,7 +6,7 @@ export default function CodeSamples({ codeSamples }) {
   if (!codeSamples || codeSamples.length === 0) return null;
   return (
     // z-[1] keeps this above the starfield overlay mounted on .project-page.
-    <section className="relative z-[1] mt-[2vh] flex w-full flex-col items-center justify-center bg-[#151a23] pb-[2vh]">
+    <section className="relative z-[1] mt-[2vh] flex w-full flex-col items-center justify-center bg-[#1a1c1f] pb-[2vh]">
       <link
         rel="stylesheet"
         href="https://esm.sh/@wooorm/starry-night@1/style/both.css"
@@ -36,7 +36,7 @@ export function CodeSample({ codeSample }) {
     code();
   }, [codeSample]);
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-[#2db811]/20 bg-[#1b212c] transition-colors duration-200 ease-standard hover:border-[#2db811]">
+    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg border border-[#2db811]/20 bg-[#212121] transition-colors duration-200 ease-standard hover:border-[#2db811]">
       <div className="h-full w-full">
         <h2 className="w-full border-b border-[#2db811]/20 bg-[#262a30] px-3 py-2 text-xs leading-normal font-semibold text-ink-strong md:px-4 md:py-2.5">
           {codeSample.title}

@@ -29,12 +29,12 @@ export function ProjectCard({ project }) {
         highlighted === "star" ? "border-[#c39a3b]" : "border-line hover:border-success/50",
       ].join(" ")}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-black">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#111]">
         <img
           src={image}
           alt={`${title} preview`}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-contain"
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">

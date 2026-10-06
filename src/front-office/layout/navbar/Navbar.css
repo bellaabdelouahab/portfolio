@@ -5,7 +5,7 @@
 .root > header {
 height: 100%;
 width: 240px;
-background: #141922;
+background: #171717;
 position: relative;
 }
 .navbar {
@@ -33,7 +33,7 @@ background-size: 100%;
 border-radius: 50%;
 }
 .navbar__menu {
-border-top: 1px solid #181d27;
+border-top: 1px solid #232323;
 }
 
 .navbar__menu__list > li {
