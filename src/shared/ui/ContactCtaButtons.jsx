@@ -16,14 +16,14 @@ export default function ContactCtaButtons({ className = "", whatsappMessage = ""
         href={getWhatsAppLink(whatsappMessage)}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-sm bg-[#25D366] px-5 py-2.5 text-sm font-bold tracking-[1px]! text-white transition-transform duration-200 ease-standard hover:scale-105"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-[#25D366] px-5 py-2.5 text-sm font-bold tracking-[1px]! text-white transition-transform duration-200 ease-standard hover:scale-105"
       >
         <FontAwesomeIcon icon={faWhatsapp} className="text-lg" />
         WhatsApp Me
       </a>
       <a
         href={getMailtoLink()}
-        className="inline-flex items-center gap-2 rounded-sm border border-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-success transition-transform duration-200 ease-standard hover:scale-105 hover:bg-success/10"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm border border-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-success! transition-transform duration-200 ease-standard hover:scale-105 hover:bg-success/10"
       >
         <FontAwesomeIcon icon={faEnvelope} className="text-lg" />
         Contact Me
@@ -32,7 +32,7 @@ export default function ContactCtaButtons({ className = "", whatsappMessage = ""
         href={BOOKING_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-black transition-transform duration-200 ease-standard hover:scale-105"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-black transition-transform duration-200 ease-standard hover:scale-105"
       >
         <FontAwesomeIcon icon={faCalendarCheck} className="text-lg" />
         Book a Meeting

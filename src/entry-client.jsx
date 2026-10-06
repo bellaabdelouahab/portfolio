@@ -7,6 +7,12 @@ import "./shared/styles/global.css";
 // source order is not the whole story — see the layer comment in tailwind.css.
 import "./shared/styles/tailwind.css";
 import "react-loading-skeleton/dist/skeleton.css";
+// Font Awesome injects its own CSS at runtime, which does not happen reliably
+// with server-rendered pages: until it did, every nav icon rendered at the size
+// of its container. Loading the stylesheet explicitly fixes that.
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 import { SkeletonTheme } from "react-loading-skeleton";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";

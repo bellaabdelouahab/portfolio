@@ -15,12 +15,6 @@ export default function IntroductionSection() {
       className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
       style={{ backgroundImage: `url(${heroBackground})` }}
     >
-      <style>{`
-        .introduction-section a[href^="mailto:"] {
-          color: #25D366 !important;
-          background-color: #25D36611 !important;
-        }
-      `}</style>
       <div className="flex w-full flex-col items-start gap-8 px-[5vw] md:w-[70%] md:px-[3vw]">
         <p className="font-mono text-sm tracking-[3px] text-success uppercase">
           Abdelouahab Bella · Agadir, Morocco
