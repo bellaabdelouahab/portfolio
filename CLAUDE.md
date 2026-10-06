@@ -5,26 +5,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm start                 # Vite dev server on http://localhost:3000
-npm run build             # vite build -> ./build, then prerenders every route
-npm run build:only        # vite build with no prerender pass (faster; not deployable)
-npm run prerender         # prerender an existing ./build in place
-npm run serve             # Preview the production build
-npm run generate-sitemap  # Firestore -> public/sitemaps/sitemap.xml + prerender-routes.json
-npm run deploy            # gh-pages -d build (predeploy runs the build)
+npm start                 # SSR dev server (vite middleware) on http://localhost:5174
+npm run build             # client + server bundles into ./build
+npm run serve             # production SSR server from ./build (needs Firebase admin credentials)
 ```
 
-Run `generate-sitemap` **before** `build` for a fully correct output — it writes the route
-manifest that tells the prerenderer which project detail pages exist. Without it the
-prerenderer falls back to static routes only and warns. CI does this in the right order.
+There is no test runner. `README.md` is stale CRA boilerplate; ignore it.
 
-There is **no test runner configured**. `@testing-library/*` is in `dependencies` and `README.md` is unmodified Create React App boilerplate — both are stale leftovers from the CRA-to-Vite migration. `README.md` describes commands (`npm test`, `npm run eject`) that do not exist; don't trust it.
+## Deployment
 
-`npm run clean` uses Windows `rmdir /s /q` and only works on Windows.
+The site is a Node SSR server (`server/index.mjs`, Express) built from the `Dockerfile` and deployed by Coolify on the owner's VPS from the `master` branch; a push to `master` redeploys. GitHub Pages and the old puppeteer prerender are gone.
+
+- `server/assets.mjs`: back-office uploads are written to the persistent volume `/data/uploads` (not committed from the browser). `ops/assets-sync/sync.sh` (cron on the VPS, every 5 min) backs that volume up to the `uploads` branch and writes `.sync-status.json`, which the back office "Storage" tab displays. Never deletes from the backup; `restore.sh` restores.
+- `server/seo.mjs`: `/sitemap.xml` (built from Firestore, cached 1 h), `/robots.txt`, and 301 redirects for removed pages. Add new static pages to `STATIC_PAGES` there.
+- Build variables in Coolify: `VITE_*` (Firebase client config and `VITE_SITE_URL`). Runtime: `FIREBASE_SERVICE_ACCOUNT_B64`, `SITE_URL`.
+- Content model, including the `caseStudy` field and how to add a project: `docs/ADDING_PROJECTS.md`.
 
 ## Architecture
 
-Vite + React 18 SPA, deployed as a static bundle to GitHub Pages (`abdelouahab.xyz`, see `CNAME`). **Firebase Firestore is the CMS** — there is no backend server of this repo's own.
+Vite + React 18, server-side rendered by `server/index.mjs` on the owner's VPS (`abdelouahab.xyz`). **Firebase Firestore is the CMS**; the Express server only renders pages, serves the sitemap and stores uploaded assets.
 
 ### Data flow
 
