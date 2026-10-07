@@ -6,7 +6,12 @@
 # - Additive only: files deleted from the volume are never deleted from the
 #   backup, so a wiped or rebuilt VPS cannot erase it. History stays in git.
 # - Runs from cron every 5 minutes and also when the back office drops a
-#   `.sync-request` file into the volume.
+#   `.sync-request` file into the volume. New files are pushed at most once an
+#   hour (unless a push is requested) so the history stays small.
+# - Commits use a dedicated backup identity whose email is not linked to any
+#   GitHub account, and live on the `uploads` branch, which is not the default
+#   branch. GitHub counts only default-branch commits made with a linked email,
+#   so the backup never appears on the contribution graph.
 # - If the volume is empty and the backup is not, the backup is restored first
 #   (self-heal after a rebuild).
 set -uo pipefail
@@ -32,6 +37,7 @@ STATUS_TMP="$HOME_DIR/status.json"
 ERROR=""
 PUSHED_AT=""
 COMMIT=""
+PENDING=0
 
 # Keep the previous push information when nothing new is pushed.
 if sudo -n test -f "$VOL/.sync-status.json"; then
@@ -82,8 +88,15 @@ else
 
   git -C "$REPO" add -A
   CHANGED="$(git -C "$REPO" status --porcelain | wc -l)"
-  if [ "$CHANGED" -gt 0 ]; then
-    if git -C "$REPO" commit --quiet -m "Backup: $CHANGED changed files"; then
+  PENDING="$CHANGED"
+  # Throttle: at most one push an hour unless the back office asked for one.
+  DUE=0
+  [ -z "$PUSHED_AT" ] && DUE=1
+  [ -n "$PUSHED_AT" ] && [ $(( $(date +%s) - $(date -d "$PUSHED_AT" +%s) )) -ge 3600 ] && DUE=1
+  sudo -n test -f "$VOL/.sync-request" && DUE=1
+  if [ "$CHANGED" -gt 0 ] && [ "$DUE" -eq 1 ]; then
+    PENDING=0
+    if git -C "$REPO" -c user.name="Portfolio backup" -c user.email="backup@abdelouahab.xyz" commit --quiet -m "Backup: $CHANGED changed files"; then
       if git -C "$REPO" push --quiet origin "$BRANCH" 2>"$HOME_DIR/push.err" \
          || { git -C "$REPO" pull --quiet --rebase origin "$BRANCH" && git -C "$REPO" push --quiet origin "$BRANCH" 2>"$HOME_DIR/push.err"; }; then
         PUSHED_AT="$(date -u +%FT%TZ)"
@@ -100,7 +113,7 @@ fi
 
 BACKED="$(( $(count_files "$REPO/images") + $(count_files "$REPO/reports") ))"
 jq -n --arg ok "$([ -z "$ERROR" ] && echo true || echo false)" --arg err "$ERROR" \
-      --arg run "$(date -u +%FT%TZ)" --arg push "$PUSHED_AT" --arg commit "$COMMIT" --argjson backed "$BACKED" \
-  '{ok: ($ok == "true"), error: $err, lastRunAt: $run, lastPushAt: $push, lastCommit: $commit, backedUpFiles: $backed}' > "$STATUS_TMP"
+      --arg run "$(date -u +%FT%TZ)" --arg push "$PUSHED_AT" --arg commit "$COMMIT" --argjson backed "$BACKED" --argjson pending "$PENDING" \
+  '{pendingFiles: $pending, ok: ($ok == "true"), error: $err, lastRunAt: $run, lastPushAt: $push, lastCommit: $commit, backedUpFiles: $backed}' > "$STATUS_TMP"
 sudo -n install -m 644 "$STATUS_TMP" "$VOL/.sync-status.json"
 sudo -n rm -f "$VOL/.sync-request"

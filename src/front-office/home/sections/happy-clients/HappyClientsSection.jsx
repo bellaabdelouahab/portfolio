@@ -1,25 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../../../../shared/ui/Modal";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../../shared/lib/firebase";
 
-export default function HappyClientsSection() {
-    const [clients, setClients] = useState([]);
+export default function HappyClientsSection({ clients = [] }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    useEffect(() => {
-        const fetchClients = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, "clients"));
-                const clientsData = querySnapshot.docs.map(doc => doc.data());
-                setClients(clientsData);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchClients();
-    }, []);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
@@ -40,12 +23,12 @@ export default function HappyClientsSection() {
               className="relative flex w-75 flex-col rounded-md bg-page p-5 shadow-md transition-transform duration-300 ease-standard hover:scale-110"
               key={index}
             >
-              <img
+              <img loading="lazy" decoding="async"
                 className="size-12.5 rounded-full"
                 src={`${client.image}`}
                 alt="client"
               />
-              <img
+              <img loading="lazy" decoding="async"
                 className="absolute top-2.5 right-2.5 size-5 border-none opacity-80"
                 src="./icons/quotes.png"
                 alt="quotes"

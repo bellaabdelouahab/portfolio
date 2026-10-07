@@ -14,6 +14,7 @@ export const toDate = (value) => {
   if (value instanceof Date) return value;
   if (typeof value.toDate === "function") return value.toDate();
   if (typeof value === "object" && value.$date) return new Date(value.$date);
+  if (typeof value === "object" && value._seconds) return new Date(value._seconds * 1000);
   const d = new Date(value);
   return Number.isNaN(d.getTime()) ? new Date(0) : d;
 };

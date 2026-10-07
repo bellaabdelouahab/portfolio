@@ -34,8 +34,11 @@ async function readCollection(collectionName) {
     return snapshot.docs;
   }
 
-  const { collection, getDocs } = await import("firebase/firestore");
-  const { db } = await import("./firebase.js");
-  const snapshot = await getDocs(collection(db, collectionName));
-  return snapshot.docs;
+  // Browser: ask the server's cached JSON endpoint instead of loading the
+  // Firebase SDK. Rows are wrapped to look like Firestore snapshots so every
+  // loader keeps its own `doc.id` and `doc.data()` code.
+  const res = await fetch(`/api/content/${collectionName}`);
+  if (!res.ok) throw new Error(`Could not load ${collectionName}`);
+  const rows = await res.json();
+  return rows.map(({ id, ...data }) => ({ id, data: () => data }));
 }

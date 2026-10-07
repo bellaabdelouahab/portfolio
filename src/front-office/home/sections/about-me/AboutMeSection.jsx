@@ -72,7 +72,7 @@ export default function AboutMeSection() {
                 "after:transition-all after:duration-300 after:ease-standard after:content-['']",
                 "hover:after:top-2.5 hover:after:left-2.5",
               ].join(" ")}
-              style={{ backgroundImage: "url('/profile-photo.jpg')" }}
+              style={{ backgroundImage: "url('/profile-photo.webp')" }}
             />
           </div>
         </div>

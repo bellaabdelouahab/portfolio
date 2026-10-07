@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
 // Imported rather than referenced from CSS: only a JS import gets the hashed,
 // cache-busted URL Vite emits for a file under src/shared/assets.
-import heroBackground from "assets/images/home-section-bg1.jpg";
+import heroBackground from "assets/images/home-section-bg1.webp";
 
 const OFFERS = [
   {
@@ -61,7 +61,9 @@ export default function IntroductionSection() {
         </ul>
       </div>
       <img
-        src="/profile.png"
+        src="/profile.webp"
+        fetchpriority="high"
+        decoding="async"
         alt="Abdelouahab Bella"
         width="250"
         height="250"

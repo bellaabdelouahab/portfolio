@@ -17,7 +17,7 @@ export default function SEO({
 }) {
   const resolvedImage = image
     ? /^https?:\/\//.test(image) ? image : getAbsoluteUrl(image)
-    : getAbsoluteUrl("/og-default.png");
+    : getAbsoluteUrl("/og-default.jpg");
 
   // Search results show about 60 characters of title and 155 of description, so
   // the brand suffix is dropped when it would push a title past that, and long

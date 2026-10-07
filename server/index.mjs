@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 import compression from "compression";
 import { assetRoutes, uploadsStatic } from "./assets.mjs";
 import { seoRoutes } from "./seo.mjs";
+import { contentRoutes } from "./content.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -20,6 +21,7 @@ const app = express();
 app.disable("x-powered-by");
 app.use(compression());
 seoRoutes(app);
+contentRoutes(app);
 
 // Back-office asset API and uploaded files (see server/assets.mjs).
 app.use("/api/assets", assetRoutes());

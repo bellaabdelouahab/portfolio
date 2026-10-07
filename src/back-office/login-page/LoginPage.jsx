@@ -1,5 +1,5 @@
 import "./LoginPage.css"; // only supplies the @keyframes for .login-error-shake
-import loginBackground from "assets/images/login-bg.jpg";
+import loginBackground from "assets/images/login-bg.webp";
 import { useState, useEffect } from "react";
 import { 
   getAuth, 

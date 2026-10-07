@@ -9,8 +9,6 @@ const SITE_URL = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://
 // Pages that used to exist and may still be indexed. 301 keeps their ranking
 // and sends visitors somewhere useful instead of a 404.
 export const REDIRECTS = {
-  "/resume": "/",
-  "/music": "/",
   "/services/ai": "/services/data",
   "/services/learning": "/services/web",
 };

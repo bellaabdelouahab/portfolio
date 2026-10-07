@@ -17,7 +17,7 @@ import { CONTACT_EMAIL } from "../../shared/lib/contactConfig";
 import { servicesContent } from "./homeContent";
 
 export default function Home() {
-  const projectHighlight = useLoaderData();
+  const { projects: projectHighlight, clients } = useLoaderData();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -52,7 +52,7 @@ export default function Home() {
         name: "Abdelouahab Bella",
         jobTitle: "Web Developer and Data Analyst",
         url: site,
-        image: getAbsoluteUrl("/profile.png"),
+        image: getAbsoluteUrl("/profile.webp"),
         email: CONTACT_EMAIL,
         address: { "@type": "PostalAddress", addressLocality: "Agadir", addressCountry: "MA" },
         sameAs: ["https://github.com/bellaabdelouahab", "https://linkedin.com/in/abdelouahab-bella"],
@@ -63,7 +63,7 @@ export default function Home() {
         "@id": getAbsoluteUrl("/#business"),
         name: "Abdelouahab Bella, web development and data analytics",
         url: site,
-        image: getAbsoluteUrl("/og-default.png"),
+        image: getAbsoluteUrl("/og-default.jpg"),
         description: "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
         founder: { "@id": getAbsoluteUrl("/#person") },
         email: CONTACT_EMAIL,
@@ -98,7 +98,7 @@ export default function Home() {
       <AboutMeSection />
       <InternshipProjectsSection />
       <Collaborations />
-      <HappyClientsSection />
+      <HappyClientsSection clients={clients} />
       <ServicesSection />
       <GithubProgressSection />
       <FAQSection />
@@ -108,23 +108,16 @@ export default function Home() {
 }
 
 export const getHighlightedProjects = async () => {
-  const docs = await getCollectionDocs("projects");
-  const data = docs
+  const [projectDocs, clientDocs] = await Promise.all([
+    getCollectionDocs("projects"),
+    getCollectionDocs("clients"),
+  ]);
+  const projects = projectDocs
     .map((doc) => ({ _id: doc.id, ...doc.data() }))
     .filter((project) => project.showInOverview === true && project.hidden !== true)
     // The back office writes overviewOrder when you drag the featured projects
-    // into position (ManageProjects). Without this sort that ordering was never
-    // applied here, so the arrangement had no effect and Firestore's own
-    // unspecified document order won. Same comparator ManageProjects uses.
+    // into position (ManageProjects).
     .sort((a, b) => (a.overviewOrder ?? 0) - (b.overviewOrder ?? 0));
-  return data;
+  const clients = clientDocs.map((doc) => doc.data());
+  return { projects, clients };
 };
-
-
-
-
-
-
-
-
-

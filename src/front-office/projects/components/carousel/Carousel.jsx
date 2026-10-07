@@ -89,7 +89,7 @@ export default function Carousel({ carouselImages = [] }) {
           aria-label="Open image full screen"
           className="absolute inset-0 cursor-zoom-in"
         >
-          <img
+          <img loading="lazy" decoding="async"
             key={current.img}
             src={current.img}
             alt={current.title || `Screenshot ${index + 1}`}
@@ -152,7 +152,7 @@ export default function Carousel({ carouselImages = [] }) {
             </button>
           </div>
           <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-6" onClick={(e) => e.stopPropagation()}>
-            <img src={current.img} alt={current.title || ""} className="max-h-full max-w-full object-contain" />
+            <img loading="lazy" decoding="async" src={current.img} alt={current.title || ""} className="max-h-full max-w-full object-contain" />
             {count > 1 && (
               <>
                 <button type="button" aria-label="Previous image" onClick={() => go(-1)} className={`${ARROW} left-4`}>

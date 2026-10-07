@@ -134,6 +134,10 @@ export default function ProjectDetailPage() {
         </div>
         <img
           src={project.image}
+          fetchpriority="high"
+          decoding="async"
+          width="1440"
+          height="900"
           alt={`${project.title} preview`}
           className="aspect-[16/10] w-full rounded-md border border-line bg-[#111] object-contain shadow-lg"
         />

@@ -14,8 +14,6 @@ import {
   faCode
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { auth } from "../../../shared/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import { servicesContent } from "../../home/homeContent";
 
 // Keyed by servicesContent's own id, so a new service just needs an entry
@@ -30,35 +28,20 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState("");
-  const [authChecked, setAuthChecked] = useState(false);
 
-  // Check authentication status when component mounts
+  // The back office stores the signed-in owner in localStorage. Reading that is
+  // enough to decide whether to show the owner-only Site Map link, and it keeps
+  // the whole Firebase SDK out of every public page.
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser && currentUser.email === "abdobella977@gmail.com") {
+    try {
+      const stored = JSON.parse(localStorage.getItem("firebaseAuthUser") || "null");
+      if (stored?.email === "abdobella977@gmail.com") {
         setIsAuthenticated(true);
-        setUserEmail(currentUser.email);
-      } else {
-        // Check localStorage as fallback
-        const storedUser = localStorage.getItem("firebaseAuthUser");
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser);
-          if (parsedUser && parsedUser.email === "abdobella977@gmail.com") {
-            setIsAuthenticated(true);
-            setUserEmail(parsedUser.email);
-          } else {
-            setIsAuthenticated(false);
-            setUserEmail("");
-          }
-        } else {
-          setIsAuthenticated(false);
-          setUserEmail("");
-        }
+        setUserEmail(stored.email);
       }
-      setAuthChecked(true);
-    });
-
-    return () => unsubscribe();
+    } catch {
+      /* private mode or corrupt value: stay signed out */
+    }
   }, []);
 
   // Add keyboard shortcut for admin panel

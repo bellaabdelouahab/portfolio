@@ -27,7 +27,7 @@ export default function ProjectDataSources({ dataSources }) {
             className="flex h-[170px] w-full max-w-[320px] flex-col items-center justify-between rounded-lg border border-[#2db811]/20 bg-[#212121] p-3 transition-[transform,border-color,box-shadow] duration-200 ease-standard hover:-translate-y-1.5 hover:border-[#2db811] hover:shadow-[0_12px_30px_rgba(45,184,17,0.15)] md:w-[170px]"
           >
             <div className="flex w-3/4 flex-1 items-center justify-center p-1">
-              <img
+              <img loading="lazy" decoding="async"
                 src={dataSourcesImg[dataSource.type]}
                 alt={dataSource.type || "data source"}
                 className="w-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]"

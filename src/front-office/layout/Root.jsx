@@ -121,7 +121,7 @@ function createSocialLink({ href, src, alt }) {
       rel="noopener noreferrer"
       className="social-networks__link"
     >
-      <img
+      <img loading="lazy" decoding="async"
         src={src}
         alt={alt}
         className="social-networks__link__img"

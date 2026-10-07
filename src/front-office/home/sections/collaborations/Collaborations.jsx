@@ -49,20 +49,20 @@ export default function Collaborations() {
         data-speed="fast"
       >
         <div className="scroller__inner flex flex-wrap gap-12.5 py-2.5">
-          <img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150" className={LOGO} />
-          <img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150" className={LOGO} />
-          <img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150" className={LOGO} />
-          <img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150" className={LOGO} />
-          <img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150" className={LOGO} />
-          <img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150" className={LOGO} />
-          <img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150" className={LOGO} />
-          <img src="network/agri4.0_logo.png" alt="Agri 4.0 Logo" width="200" height="150" className={LOGO} />
-          <img src="network/ensak.png" alt="ENSAK Logo" width="200" height="150" className={LOGO} />
-          <img src="network/um6p_logo.png" alt="UM6P Logo" width="200" height="150" className={LOGO} />
-          <img src="network/postmaroc_logo.png" alt="Postmaroc Logo" width="200" height="150" className={LOGO} />
-          <img src="network/nidinnovation_logo.png" alt="NID Innovation Logo" width="200" height="150" className={LOGO} />
-          <img src="network/smart-maint_logo.png" alt="Smart Maint Logo" width="200" height="150" className={LOGO} />
-          <img src="network/copag_logo.png" alt="Copag Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/agri4.0_logo.webp" alt="Agri 4.0 Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/ensak.webp" alt="ENSAK Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/um6p_logo.webp" alt="UM6P Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/postmaroc_logo.webp" alt="Postmaroc Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/nidinnovation_logo.webp" alt="NID Innovation Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/smart-maint_logo.webp" alt="Smart Maint Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/copag_logo.webp" alt="Copag Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/agri4.0_logo.webp" alt="Agri 4.0 Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/ensak.webp" alt="ENSAK Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/um6p_logo.webp" alt="UM6P Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/postmaroc_logo.webp" alt="Postmaroc Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/nidinnovation_logo.webp" alt="NID Innovation Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/smart-maint_logo.webp" alt="Smart Maint Logo" width="200" height="150" className={LOGO} />
+          <img loading="lazy" decoding="async" src="network/copag_logo.webp" alt="Copag Logo" width="200" height="150" className={LOGO} />
         </div>
       </div>
     </div>

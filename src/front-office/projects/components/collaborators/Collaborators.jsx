@@ -22,7 +22,7 @@ export default function Collaborators({ collaborators }) {
                 `assets/...` in a JS import, but not inside a url() that
                 Tailwind generates into its own stylesheet. */}
             <a href="/" className="group relative block size-[150px]">
-              <img
+              <img loading="lazy" decoding="async"
                 className="size-[150px] rounded-md"
                 src={collaborator.image}
                 alt="colaborator"

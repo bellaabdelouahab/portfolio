@@ -128,7 +128,7 @@ export function assetRoutes() {
     }
     let requested = false;
     try { await fs.access(path.join(UPLOADS_DIR, REQUEST_FILE)); requested = true; } catch {}
-    res.json({ storage: { dir: "VPS volume", files: files.length, bytes }, sync: status, unsynced, requested });
+    res.json({ storage: { dir: "VPS volume", files: files.length, bytes }, sync: status, unsynced: unsynced + (status?.pendingFiles || 0), requested });
   });
 
   router.post("/sync-request", requireOwner, async (_req, res) => {

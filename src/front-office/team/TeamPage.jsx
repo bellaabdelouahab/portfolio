@@ -6,7 +6,7 @@ const MEMBERS = [
   {
     name: "Abdelouahab Bella",
     role: "Founder, Web Developer and Data Analyst",
-    image: "/team/abdelouahab-bella.jpg",
+    image: "/team/abdelouahab-bella.webp",
     summary:
       "Leads every engagement: scoping, architecture, delivery and the point of contact for the client. Master's in Big Data and Business Intelligence.",
     skills: ["React", "Django and FastAPI", "Power BI and SQL", "DevOps"],
@@ -18,7 +18,7 @@ const MEMBERS = [
   {
     name: "Yassir Loukilia",
     role: "Software Engineer, Front-end",
-    image: "/team/yassir-loukilia.jpg",
+    image: "/team/yassir-loukilia.webp",
     summary:
       "Builds the user interface on larger projects: component libraries, responsive layouts and front-end performance.",
     skills: ["React", "JavaScript", "UI implementation"],
@@ -27,7 +27,7 @@ const MEMBERS = [
   {
     name: "Yassine Boujrada",
     role: "Engineer, Data Collection and Security",
-    image: "/team/yassine-boujrada.jpg",
+    image: "/team/yassine-boujrada.webp",
     summary:
       "Handles web data collection, automation and security reviews when a project needs scraped or monitored data or a hardening pass.",
     skills: ["Web scraping", "Automation", "Cybersecurity"],

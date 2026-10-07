@@ -46,10 +46,10 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Root-relative: this lives in public/, and a bare "preloader.png" resolves
+  /* Root-relative: this lives in public/, and a bare "preloader.webp" resolves
      against the bundled stylesheet's own URL (/assets/...) rather than the site
      root, which 404'd and produced a build-time "didn't resolve" warning. */
-  background-image: url("/preloader.png");
+  background-image: url("/preloader.webp");
   background-size: auto 50%;
   background-repeat: no-repeat;
   background-position: center;

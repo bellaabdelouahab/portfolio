@@ -58,7 +58,7 @@ function Viewer({ c, onClose }) {
   return (
     <div role="dialog" aria-modal="true" aria-label={c.title} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/85 p-5" onClick={onClose}>
       <div className="w-full max-w-lg rounded-md border border-line bg-surface p-6 text-center" onClick={(e) => e.stopPropagation()}>
-        {showArt(c) && <img src={art(c)} alt={c.title} className="mx-auto mb-5 max-h-72 w-auto rounded-sm bg-white object-contain" />}
+        {showArt(c) && <img loading="lazy" decoding="async" src={art(c)} alt={c.title} className="mx-auto mb-5 max-h-72 w-auto rounded-sm bg-white object-contain" />}
         <h2 className="text-xl font-bold text-ink-strong">{c.title}</h2>
         <p className="mt-1 text-sm text-ink-muted">{issuerOf(c)} · {year(c)}</p>
         <div className="mt-5 flex justify-center gap-3">
@@ -104,7 +104,7 @@ export default function Certificates() {
           <div className="mb-10 grid gap-5 md:grid-cols-2">
             {featured.map((c) => (
               <button key={c.title} type="button" onClick={() => setOpen(c)} className="group flex cursor-pointer items-center gap-5 rounded-md border border-success/40 bg-surface p-5 text-left transition-colors hover:border-success">
-                <img src={art(c)} alt="" className="size-28 shrink-0 rounded-md bg-white object-contain p-1" />
+                <img loading="lazy" decoding="async" src={art(c)} alt="" className="size-28 shrink-0 rounded-md bg-white object-contain p-1" />
                 <span>
                   <span className="text-xs font-bold tracking-[2px]! text-success uppercase">Featured</span>
                   <span className="mt-1 block text-lg leading-snug font-bold text-ink-strong">{c.title}</span>

@@ -105,7 +105,7 @@ export const professionalExperience = [
     description:
       "Abdelouahab Bella operates as an independent Digital ROI Auditor, providing free digital audits for Moroccan businesses while building a portfolio of proven case studies and measurable results. He leverages web analytics and user behavior data to identify conversion bottlenecks, improve local search visibility, and maximize digital ROI through actionable recommendations.",
     link: "",
-    image: "/pro_exp/digital-roi-auditor.png",
+    image: "/pro_exp/digital-roi-auditor.webp",
     startDate: "Apr 2026",
     endDate: "Present",
     technologies: [
@@ -123,7 +123,7 @@ export const professionalExperience = [
     description:
       "Delivered analytics for enterprise platforms including SAP Ariba, SAP S/4HANA, Salesforce, ServiceNow and Oracle. Designed user-adoption dashboards, ROI models and behaviour tracking, and coordinated multinational stakeholders throughout delivery.",
     link: "",
-    image: "/pro_exp/evia-services.png",
+    image: "/pro_exp/evia-services.webp",
     startDate: "Nov 2025",
     endDate: "Present",
     technologies: [
@@ -142,7 +142,7 @@ export const professionalExperience = [
     description:
       "Providing freelance Python development and automation engineering services specializing in backend systems, ETL workflow automation, CI/CD pipelines, scalable API development, and data migration solutions for client projects.",
     link: "",
-    image: "/pro_exp/python_dev_automation.png",
+    image: "/pro_exp/python_dev_automation.webp",
     startDate: "Sep 2025",
     endDate: "Apr 2026",
     technologies: [
@@ -161,7 +161,7 @@ export const professionalExperience = [
     description:
       "Contributed to an enterprise-scale data migration project transferring 100M+ records from legacy systems to a modern data platform. Developed Python ETL automation scripts with robust validation and logging mechanisms while assisting in CI/CD pipeline implementation and executive-level analytics delivery.",
     link: "",
-    image: "/pro_exp/copag.png",
+    image: "/pro_exp/copag.webp",
     startDate: "Jun 2025",
     endDate: "Sep 2025",
     technologies: [
@@ -180,7 +180,7 @@ export const professionalExperience = [
     description:
       "Developed and deployed a SaaS platform serving 50+ users using Django and FastAPI. Designed automated CI/CD pipelines enabling zero-downtime deployments, implemented infrastructure monitoring solutions, and optimized SEO performance to achieve first-page search rankings for target keywords.",
     link: "",
-    image: "/pro_exp/smart-maint.jpg",
+    image: "/pro_exp/smart-maint.webp",
     startDate: "Mar 2024",
     endDate: "Jan 2025",
     technologies: [
@@ -199,7 +199,7 @@ export const professionalExperience = [
     description:
       "Developed and delivered a modern company website and digital platform showcasing NidInnovation's services and offerings while implementing scalable full-stack architecture and responsive user experiences.",
     link: "",
-    image: "/pro_exp/nidinnovation.png",
+    image: "/pro_exp/nidinnovation.webp",
     startDate: "Apr 2024",
     endDate: "Jun 2024",
     technologies: [
@@ -218,7 +218,7 @@ export const professionalExperience = [
     description:
       "Developed a production-grade computer vision solution for a government-funded smart parking initiative, achieving 99% real-time parking spot detection accuracy and contributing to securing follow-on investor funding through advanced image processing techniques.",
     link: "",
-    image: "/pro_exp/agri4.0.png",
+    image: "/pro_exp/agri4.0.webp",
     startDate: "Apr 2023",
     endDate: "Jun 2023",
     technologies: ["Python", "OpenCV", "FastAPI", "Computer Vision", "Linux"],
@@ -230,7 +230,7 @@ export const professionalExperience = [
     description:
       "Developed a multi-administrator platform providing project and beneficiary management capabilities for young entrepreneurs and agricultural cooperatives. Integrated REST APIs and implemented client-facing features enabling seamless data exchange and user management.",
     link: "",
-    image: "/pro_exp/um6p_crjea.png",
+    image: "/pro_exp/um6p_crjea.webp",
     startDate: "Aug 2022",
     endDate: "Jan 2023",
     technologies: [
@@ -248,7 +248,7 @@ export const professionalExperience = [
     description:
       "Developed IoT-powered livestock analytics solutions for real-time cattle monitoring, artificial insemination planning, and heat detection. The platform automated breeding and health monitoring workflows, reducing manual intervention while enabling predictive analytics capabilities across multiple breeding sites.",
     link: "",
-    image: "/pro_exp/agri4.0.png",
+    image: "/pro_exp/agri4.0.webp",
     startDate: "Oct 2021",
     endDate: "Dec 2021",
     technologies: [

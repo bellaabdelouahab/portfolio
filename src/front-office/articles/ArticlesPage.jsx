@@ -50,14 +50,14 @@ export default function Articles() {
               className="size-7 shrink-0 rounded-sm border-2 border-surface-raised"
               aria-label="Download article"
             >
-              <img src={downloadIcon} alt="" className="size-full" />
+              <img loading="lazy" decoding="async" src={downloadIcon} alt="" className="size-full" />
             </button>
             <button
               type="button"
               className="size-7 shrink-0"
               aria-label="Open article in a new tab"
             >
-              <img src={newTabIcon} alt="" className="size-full" />
+              <img loading="lazy" decoding="async" src={newTabIcon} alt="" className="size-full" />
             </button>
           </div>
         </div>

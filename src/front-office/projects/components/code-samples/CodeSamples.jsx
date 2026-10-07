@@ -1,4 +1,3 @@
-import { createStarryNight, common } from "@wooorm/starry-night";
 import { useEffect, useState } from "react";
 import { toHtml } from "hast-util-to-html";
 
@@ -29,6 +28,8 @@ export function CodeSample({ codeSample }) {
   const [highlightedCode, setHighlightedCode] = useState(null);
   useEffect(() => {
     const code = async () => {
+      // About 1 MB of grammars: loaded only when a project actually has code.
+      const { createStarryNight, common } = await import("@wooorm/starry-night");
       const starryNight = await createStarryNight(common);
       const tree = starryNight.highlight(codeSample.code, codeSample.language);
       setHighlightedCode(toHtml(tree));

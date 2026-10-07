@@ -25,7 +25,7 @@ display: block;
 .navbar__logolink {
 display: block;
 margin: 20px auto;
-background: url("assets/images/logo.jpg");
+background: url("assets/images/logo.webp");
 width: 140px;
 height: 140px;
 background-repeat: no-repeat;
@@ -141,7 +141,7 @@ text-align: center;
     all: unset;
     display: block;
     margin: 0;
-    background: url(assets/images/logo.jpg);
+    background: url(assets/images/logo.webp);
     /* background: red; */
     height: 3.125rem;
     min-width: 3.125rem;
