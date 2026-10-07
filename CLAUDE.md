@@ -1,129 +1,58 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for working in this repository.
 
 ## Commands
 
 ```bash
-npm start                 # SSR dev server (vite middleware) on http://localhost:5174
-npm run build             # client + server bundles into ./build
-npm run serve             # production SSR server from ./build (needs Firebase admin credentials)
+npm start        # SSR dev server (Vite middleware) on http://localhost:5174
+npm run build    # client + server bundles into ./build
+npm run serve    # production server from ./build
 ```
 
-There is no test runner. `README.md` is stale CRA boilerplate; ignore it.
-
-## Deployment
-
-The site is a Node SSR server (`server/index.mjs`, Express) built from the `Dockerfile` and deployed by Coolify on the owner's VPS from the `master` branch; a push to `master` redeploys. GitHub Pages and the old puppeteer prerender are gone.
-
-- `server/assets.mjs`: back-office uploads are written to the persistent volume `/data/uploads` (not committed from the browser). `ops/assets-sync/sync.sh` (cron on the VPS, every 5 min) backs that volume up to the `uploads` branch and writes `.sync-status.json`, which the back office "Storage" tab displays. Never deletes from the backup; `restore.sh` restores.
-- `server/seo.mjs`: `/sitemap.xml` (built from Firestore, cached 1 h), `/robots.txt`, and 301 redirects for removed pages. Add new static pages to `STATIC_PAGES` there.
-- Build variables in Coolify: `VITE_*` (Firebase client config and `VITE_SITE_URL`). Runtime: `FIREBASE_SERVICE_ACCOUNT_B64`, `SITE_URL`.
-- Content model, including the `caseStudy` field and how to add a project: `docs/ADDING_PROJECTS.md`.
+There is no test runner. Pages need Firebase admin credentials to render (`GOOGLE_APPLICATION_CREDENTIALS` or `FIREBASE_SERVICE_ACCOUNT`) and the client values in `.env.local` (see `.env.example`).
 
 ## Architecture
 
-Vite + React 18, server-side rendered by `server/index.mjs` on the owner's VPS (`abdelouahab.xyz`). **Firebase Firestore is the CMS**; the Express server only renders pages, serves the sitemap and stores uploaded assets.
-
-### Data flow
-
-All content (projects, certificates, reports, clients, visitor stats) lives in Firestore and is read directly from the browser via the modular `firebase/firestore` SDK. `src/shared/lib/firebase.js` initializes the singleton `db` and `auth`.
-
-Two fetching patterns coexist:
-- **React Router loaders** — `src/App.jsx` attaches loaders to routes (`getHighlightedProjects` from `front-office/home/HomePage.jsx`, `getProjects` from `front-office/projects/ProjectsPage.jsx`, `getReports` from `front-office/reports/ReportsPage.jsx`, `getAllCertificates` from `shared/lib/firebaseQueries.js`). Note most loader functions are exported from the page files themselves, not from a data layer.
-- **`useEffect` + local state** — `front-office/projects/ProjectPage.jsx` fetches by URL slug, using `location.state` as an optimistic first paint before refetching.
-
-`ProjectPage.jsx` resolves a project from the URL slug in two steps: an indexed `where("title", "==", slug.replace(/-/g, " "))` fast path, then a fallback that fetches the collection and compares `slugifyProjectTitle(doc.title)` against the slug. The fallback is not optional — slugging is **lossy** (it strips `:` and `|` and collapses whitespace), so titles like `FastX: Revolutionizing Parcel Delivery Operations` and `ICAMAI 2024 | Conference Website` can never be recovered by swapping dashes back to spaces. Both previously rendered "Project Not Found".
-
-`src/shared/lib/projectSlug.js` and `slugifyTitle()` in `scripts/generate-sitemap.js` implement the same transform for the client and the build. **They must stay identical** — if they drift, the prerenderer writes pages at paths the app cannot resolve.
-
-**Firestore returns documents in unspecified order** and most queries here don't sort. `ReportsPage` sorts client-side by `createdAt`; `getHighlightedProjects` sorts by `overviewOrder` (the field the back office's drag-to-arrange UI writes). `getProjects` and `getSiteStructure` still don't sort, so `/projects` and `/site-map` list content in arbitrary order that can differ between loads.
-
-### Directory layout
-
-`src/` is four things and nothing else:
+React 18 + React Router, built with Vite, styled with Tailwind plus a few legacy global stylesheets. An Express server (`server/index.mjs`) renders every page with `renderToString`, so crawlers get full HTML. **Firestore is the CMS.** The browser never loads the Firebase SDK on public pages; it reads `/api/content/:collection` (cached JSON, `server/content.mjs`). Only the back office (`/fill-db`) loads Firebase.
 
 ```
 src/
-  App.jsx  index.jsx          bootstrap + route table
-  front-office/               everything the public sees
-    layout/                   Root.jsx, navbar/
-    home/                     HomePage.jsx, homeContent.js, sections/<section>/
-    projects/                 ProjectsPage.jsx, ProjectPage.jsx, components/
-    certificates/ reports/ resume/ articles/ team/ music/ sitemap/ not-found/
-  back-office/                the /fill-db admin area
-    BackOfficePage.jsx, forms/, login-page/, visitor-stats/, button-group/
-  shared/                     used by BOTH offices
-    lib/  ui/  styles/  assets/
+  routes.jsx            route table, used by server and client; mounted at / and /fr
+  entry-client.jsx      hydration
+  entry-server.jsx      SSR render
+  front-office/         public pages (home, projects, services, certificates, team, articles, reports)
+  back-office/          /fill-db admin (forms, storage status, visitor stats)
+  shared/               lib/, ui/, styles/, i18n/
+server/                 index.mjs (SSR), assets.mjs, content.mjs, seo.mjs, stats.mjs
+ops/assets-sync/        VPS backup scripts
+docs/                   ADDING_PROJECTS.md
 ```
 
-**Two rules keep it that way:**
+Rules: a page is the one component a route renders, named `<Feature>Page.jsx`; everything else lives in the feature that owns it; move code to `shared/` only when a second feature needs it.
 
-1. **Page vs component.** A page is what a route renders — exactly one per route, named `<Feature>Page.jsx`, at the root of its feature folder. Everything else is a component living in the feature that owns it. Before this layout, "view" vs "component" had no consistent meaning and a component's styles could be spread across five files.
-2. **Promotion to `shared/` requires a second consumer.** Move something to `shared/` when a *second* feature imports it — not in anticipation. `SEO.jsx` is there because 13 files across both offices use it.
+## Deployment
 
-A corollary worth stating: **a feature folder should be openable on its own.** Editing the FAQ means opening `front-office/home/sections/faq/` and nothing else.
+Coolify builds the `Dockerfile` on the owner's VPS from `master`; a push redeploys. Build variables: `VITE_*` (Firebase client config, `VITE_SITE_URL`). Runtime: `FIREBASE_SERVICE_ACCOUNT_B64`, `SITE_URL`.
 
-### Routing
+- `server/assets.mjs`: back-office uploads go to the persistent volume `/data/uploads` and are served before the built-in files. `ops/assets-sync/sync.sh` (cron, every 5 minutes) backs them up to the `uploads` branch, commits at most once an hour with a dedicated identity, and writes `.sync-status.json` for the back office Storage tab. It never deletes from the backup; `restore.sh` restores.
+- `server/seo.mjs`: `/sitemap.xml` (from Firestore, English and French with hreflang), `/robots.txt`, 301 redirects for removed pages. Add new static pages to `STATIC_PAGES`.
+- `server/stats.mjs`: first-party proxy for the self-hosted Plausible (`/_s/a.js`, `/_s/e`) so ad blockers do not drop it.
 
-`src/App.jsx` is the single source of route truth: `createBrowserRouter` (clean URLs, no hash) with every page `React.lazy`-loaded behind a shared `Suspense` fallback. `front-office/layout/Root.jsx` is the layout shell (navbar + `<Outlet>` + global Helmet tags).
+## Content and languages
 
-Static hosting needs a SPA fallback — `_redirects` handles Netlify-style hosts; GitHub Pages relies on the 404 fallback pattern.
+- Projects live in Firestore. The `caseStudy` field drives the card and the page (kind client or personal, services, client, role, status, liveUrl, summary, challenge, solution, outcome, results, features). `hidden: true` removes a project from every page. See `docs/ADDING_PROJECTS.md`.
+- English and French: `/fr/...` is French. The language comes from the URL (`shared/i18n/i18n.js`). Interface strings are in `shared/i18n/strings.js`; services, FAQ and experience in `front-office/home/homeContent.js` (English) and `homeContent.fr.js`; each project has its French text in the `fr` field. Always build links with `useLocalePath()`.
+- Slugs come from `slugifyProjectTitle()` (`shared/lib/projectSlug.js`) using the English title; `server/seo.mjs` has the same function and the two must stay identical.
 
-`/fill-db` is the admin back-office (`back-office/BackOfficePage.jsx`). It gates on Firebase Auth and hard-codes the single allowed owner email; any other signed-in user is immediately signed out. It carries `noIndex`.
+## SEO
 
-### SEO layer
+`shared/ui/SEO.jsx` is rendered by every page: title (brand suffix dropped past 62 characters), description (clipped at 158), canonical, hreflang, Open Graph, JSON-LD, breadcrumbs. Absolute URLs go through `shared/lib/siteConfig.js` (`getAbsoluteUrl`), never hardcoded. Business facts (name, phone, prices) live in `shared/lib/contactConfig.js` and `homeContent.js`.
 
-This is the most actively-worked part of the repo. `SEO_STATE_HANDOFF.md` and `SEO_REMAINING_TASKS.md` are local-only notes (gitignored), not in the repo.
+## Conventions
 
-- `src/shared/ui/SEO.jsx` is the shared per-route metadata component (React Helmet): title/description/keywords, OG + Twitter tags, canonical, robots, JSON-LD, and an optional `serviceSchemaBlocks` array for extra `Service` schema. It accepts both `noIndex` and `noindex`. **Every route must render it** — a route without it inherits whatever title the previously-mounted Helmet set, and gets no canonical of its own, which reads to Google as a duplicate of the homepage.
-- **All absolute URLs must go through `shared/lib/siteConfig.js` (`getAbsoluteUrl`)** — never hardcode the domain, and never derive a canonical from `window.location.href`: during the build-time prerender that is a localhost address, which would bake localhost canonicals into every deployed page.
-- `index.html` deliberately does **not** declare `canonical` or `og:url`. `SEO.jsx` owns them; declaring both produced two conflicting canonicals per page, which Google discards.
-- `src/front-office/home/homeContent.js` holds the marketing copy (about, services, FAQ) that also feeds structured data — edit copy there, not inline in components.
-### Static generation (this is what makes the site indexable)
-
-GitHub Pages has no server-side rewrite: it answers any path that isn't a real file with `404.html` at **HTTP status 404**. Googlebot stops at a 404 and never runs JS, so client-side routes cannot be indexed no matter what the SPA renders. The `spa-github-pages` redirect in `public/404.html` fixes navigation for humans but not for crawlers.
-
-`scripts/prerender.js` (runs as part of `npm run build`) solves this by writing a real `build/<route>/index.html` for every route, so `/projects` is served as a genuine 200 with fully rendered markup. It boots the built bundle against a local static server and drives real Chrome via puppeteer.
-
-Things to know before touching it:
-- **Routes come from `prerender-routes.json`**, written by `scripts/generate-sitemap.js` from the same Firestore query that builds the sitemap. This is deliberate — generated pages and advertised URLs cannot drift apart. Add a route to `staticRoutes` there, not to the prerenderer.
-- It waits on the DOM, **not** `networkidle` — the Firestore SDK holds a long-lived connection, so network idle never fires.
-- **The wait requires the DOM to hold still (6 unchanged samples at 300ms) plus a minimum dwell — not just the absence of known spinners.** Naming loading states (`.preloader`, `.react-loading-skeleton`, `.loading-indicator`, a `Loading` title) is necessary but *cannot be sufficient*: a section that hasn't started rendering looks exactly like one that has finished. Sections with their own Firestore read (Projects Highlights, Happy Clients, Collaborations) commit long after the shell, and the marker-only check used to capture the home page with an **empty Projects Highlights section** — shipped to crawlers, with the build log still reporting `19/19 routes` and exiting zero. If you change this, keep the stability+dwell test; don't fall back to enumerating spinners.
-- A quick way to check the prerender is healthy: build twice and confirm `build/index.html` is byte-identical and contains project cards (`grep -c home-projects-section__projects__project`, expect 19).
-- Its static server serves real files only for asset-looking requests (paths with an extension); navigation requests always get the un-prerendered shell. Otherwise re-running the prerender over an existing build feeds it its own stale output.
-- `window.__PRERENDER__` is set during the pass; `src/App.jsx` checks it to skip `trackVisitor()`, which would otherwise write a fake visitor record per route on every build and every nightly cron run.
-- A failed route fails the build. That's intentional — silently shipping a 404-ing route is the bug this replaced.
-- The previous `vite-plugin-prerender` + jsdom setup silently produced nothing (jsdom snapshotted before the lazy chunks and Firestore reads resolved) and shipped an empty `<div id="root">` on every deploy. Don't reintroduce it.
-
-`#static-seo-copy` in `index.html` is removed on `DOMContentLoaded`, so it never appears in prerendered output — it only serves non-JS fetchers of the raw shell. Keep it that way; leaving it in rendered output alongside the real content would be duplicate/cloaked copy.
-
-`scripts/generate-sitemap.js` is CommonJS (the rest of the repo is ESM), runs under Node in CI via `.github/workflows/deploy.yml`, and uses **firebase-admin**, not the client SDK. It exits non-zero if it had to fall back to stub data. `src/shared/lib/sitemapGenerator.js` is unrelated to it — it only builds the data for the human-facing `/site-map` page.
-
-## Conventions and gotchas
-
-**Env vars are read two different ways, and both matter:**
-- `vite.config.js` `define`s the whole `process.env` object from a manually-parsed `.env` / `.env.production` / `.env.example`. `src/shared/lib/firebase.js` reads `process.env.VITE_FIREBASE_*` through this mechanism.
-- `shared/lib/siteConfig.js` reads `import.meta.env.VITE_SITE_URL` (Vite's native mechanism).
-
-Adding a var may require accounting for both paths. In CI, `deploy.yml` writes `.env.production` from GitHub secrets, with a hardcoded fallback for the site URL — it previously resolved to an empty string and produced `href="/"` canonicals.
-
-**No `import React` needed** — `vite.config.js` sets `esbuild.jsxInject`, so React is injected into every file. Existing files that import it explicitly are harmless but redundant.
-
-**Path aliases** (`vite.config.js`): `assets` → `/src/shared/assets`, plus `shared`, `front-office`, `back-office`. Prefer relative imports inside a feature and aliases across features.
-
-**Styling** is plain CSS/SCSS with no framework, layered in this order (set by `src/index.jsx`, and the order matters):
-
-1. `shared/styles/legacy-base.css` — reset, `62.5%` root font-size, navbar and app shell. **Must load first.**
-2. `shared/styles/minw-1000.css` and `shared/styles/global.css` — globals.
-3. Per-feature stylesheets, colocated with their component.
-
-Most imports are side-effectful, so class names are global — check for collisions before adding generic selectors. Two files are CSS Modules (`MusicPage.module.css`, `ServicesSection.module.scss`).
-
-**Referencing images from CSS:** always `url("assets/images/foo.png")` via the alias. A file-relative `url(../images/foo.png)` resolves against the stylesheet's own location and breaks silently when the file moves. Files in `public/` are referenced from the site root, e.g. `url("/preloader.png")`.
-
-**~18 distinct breakpoints** are in use (`300, 320, 400, 500, 576, 600, 640, 760, 765, 767, 768, 780, 820, 990, 992, 1000, 1024, 1119, 1120, 4000`). Collapsing them is a *visual* change, so it was deliberately not done during the restructure — it belongs with a Tailwind migration, which imposes its own scale.
-
-**Direct DOM manipulation** appears in several pages (star-field generation in `ProjectPage.jsx`, `IntersectionObserver` reveal animations in `HomePage.jsx`, scroll reset in `Root.jsx`). It's the established pattern here, not an accident.
-
-**`serviceAccountKey.json`** is gitignored. Don't `git add` it, and don't reference it from committed code — `migrate.js` (a one-off Firestore import script) references another such key file by name.
+- No `import React` needed (`esbuild.jsxInject`). Aliases: `assets`, `shared`, `front-office`, `back-office`.
+- Tailwind v4 utilities for new work. `legacy-base.css`, `global.css` and `minw-1000.css` are unlayered and outrank utilities: when a utility loses, add `!` (for example `tracking-[1px]!`, `text-success!` on links).
+- CSS `url()` to images uses the `assets/` alias, never a file-relative path.
+- Images: WebP, 1440 px wide at most, `loading="lazy"` below the fold. Hero images use `fetchpriority="high"`.
+- Never commit `serviceAccountKey.json` or `.env*`.

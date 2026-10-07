@@ -1,28 +1,23 @@
 {
-  "manifest_version": 2,
-  "short_name": "AB Portfolio",
-  "name": "Abdelouahab Bella Portfolio",
-  "version": "1.0",
-  "description": "Portfolio of Abdelouahab Bella, a Data Analyst & Software Engineer",
+  "name": "Abdelouahab Bella",
+  "short_name": "A. Bella",
+  "description": "Freelance web developer and data analyst in Agadir, Morocco.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#171717",
+  "theme_color": "#171717",
   "icons": [
     {
-      "src": "/logo.jpg",
-      "sizes": "256x256",
-      "type": "image/jpg"
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/logo.jpg",
-      "type": "image/jpg",
-      "sizes": "256x256"
-    },
-    {
-      "src": "/logo.jpg",
-      "type": "image/jpg",
-      "sizes": "256x256"
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#1e1e1e"
+  ]
 }

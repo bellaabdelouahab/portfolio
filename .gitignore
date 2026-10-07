@@ -39,3 +39,6 @@ serviceAccountKey.json
 firestore.rules
 .env
 x.json
+
+# IDE
+.idea/

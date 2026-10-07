@@ -67,6 +67,7 @@ export default function Home() {
         name: "Abdelouahab Bella, web development and data analytics",
         url: site,
         image: getAbsoluteUrl("/og-default.jpg"),
+        logo: getAbsoluteUrl("/icon-512.png"),
         description: lang === "fr" ? "Développeur web et analyste de données freelance à Agadir, Maroc : sites web, applications et tableaux de bord Power BI." : "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
         founder: { "@id": getAbsoluteUrl("/#person") },
         email: CONTACT_EMAIL,

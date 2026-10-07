@@ -43,8 +43,7 @@ export default function Root() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content={themeColor} />
-                <link rel="icon" href="/logo.jpg" />
-      </Helmet>
+              </Helmet>
         
       <header id="header" className="header header-sticky">
         <Navbar />

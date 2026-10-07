@@ -1,6 +1,5 @@
 {
   "name": "portfolio",
-  "homepage": "https://abdelouahab.xyz",
   "version": "0.1.0",
   "main": "src/index.js",
   "private": true,
@@ -8,12 +7,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@wooorm/starry-night": "^1.5.0",
     "compression": "^1.8.2",
-    "dotenv": "^16.4.5",
     "express": "^5.2.1",
     "firebase": "^11.3.0",
     "firebase-admin": "^13.1.0",
@@ -21,12 +16,9 @@
     "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-draggable": "^4.4.6",
     "react-helmet": "^6.1.0",
     "react-loading-skeleton": "^3.4.0",
-    "react-router-dom": "^6.7.0",
-    "sass": "^1.63.4",
-    "web-vitals": "^2.1.4"
+    "react-router-dom": "^6.7.0"
   },
   "scripts": {
     "start": "NODE_ENV=development node server/index.mjs",
@@ -34,31 +26,14 @@
     "build:server": "NODE_ENV=production vite build --ssr src/entry-server.jsx --outDir build/server",
     "build": "npm run build:client && npm run build:server",
     "start:server": "NODE_ENV=production node server/index.mjs",
-    "serve": "npm run start:server",
-    "generate-sitemap": "node scripts/generate-sitemap.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "serve": "npm run start:server"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "dotenv": "^18.0.6",
     "tailwindcss": "^4.3.3",
     "vite": "^6.2.1"
-  }
+  },
+  "description": "Portfolio of Abdelouahab Bella: server-rendered React site with a Firestore back office."
 }
