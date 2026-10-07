@@ -7,16 +7,19 @@ import ContactCtaButtons from "../../shared/ui/ContactCtaButtons";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
 import { ProjectCard } from "./components/ProjectCard";
+import { useLang, useLocalePath, withLang } from "../../shared/i18n/i18n";
+import { useT } from "../../shared/i18n/strings";
+import { localizeProject } from "../../shared/lib/localize";
 
 const KINDS = [
-  ["client", "Client work", "Delivered for clients, each with the problem, the solution and the result."],
-  ["personal", "Personal projects", "Products, experiments and study projects built on my own time."],
+  ["client", "proj.client", "proj.clientIntro"],
+  ["personal", "proj.personal", "proj.personalIntro"],
 ];
 
 const SERVICE_FILTERS = [
-  ["all", "All work"],
-  ["web", "Web development"],
-  ["data", "Data analytics"],
+  ["all", "proj.allWork"],
+  ["web", "proj.web"],
+  ["data", "proj.data"],
 ];
 
 function Chip({ active, onClick, children }) {
@@ -39,6 +42,9 @@ function Chip({ active, onClick, children }) {
 
 export default function Projects() {
   const projects = useLoaderData();
+  const t = useT();
+  const lang = useLang();
+  const lp = useLocalePath();
   const [kind, setKind] = useState("client");
   const [service, setService] = useState("all");
   const [query, setQuery] = useState("");
@@ -49,13 +55,14 @@ export default function Projects() {
       if ((p.caseStudy?.kind || "client") !== kind) return false;
       if (service !== "all" && !(p.caseStudy?.services || []).includes(service)) return false;
       if (!q) return true;
-      return [p.title, p.description, p.caseStudy?.client, ...(p.tags || [])]
+      const l = localizeProject(p, lang);
+      return [p.title, l.title, l.description, l.caseStudy?.client, ...(p.tags || [])]
         .filter(Boolean)
         .join(" ")
         .toLowerCase()
         .includes(q);
     });
-  }, [projects, kind, service, query]);
+  }, [projects, kind, service, query, lang]);
 
   const ofKind = projects.filter((p) => (p.caseStudy?.kind || "client") === kind);
   const counts = (id) =>
@@ -72,8 +79,8 @@ export default function Projects() {
       itemListElement: projects.map((p, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: getAbsoluteUrl(`/projects/${slugifyProjectTitle(p.title)}`),
-        name: p.title,
+        url: getAbsoluteUrl(withLang(lang, `/projects/${slugifyProjectTitle(p.title)}`)),
+        name: localizeProject(p, lang).title,
       })),
     },
   };
@@ -85,19 +92,19 @@ export default function Projects() {
         description="Web development and data analytics projects by Abdelouahab Bella, each with the problem, the solution and the result."
         keywords="web development projects, Power BI dashboards, case studies, Abdelouahab Bella"
         structuredData={structuredData}
-        breadcrumbs={[["Home", "/"], ["Projects", "/projects"]]}
+        breadcrumbs={[[t("nav.home"), "/"], [t("proj.title"), "/projects"]]}
       />
       <section className="mx-auto w-full max-w-7xl px-5 py-8 md:py-10">
         <header className="mb-6 max-w-3xl">
           <h1 className="mb-2 text-3xl font-bold tracking-[1px]! text-ink-strong md:text-4xl">
-            Projects
+            {t("proj.title")}
           </h1>
           <p className="text-base leading-relaxed text-ink">
-            {KINDS.find(([id]) => id === kind)[2]}
+            {t(KINDS.find(([id]) => id === kind)[2])}
           </p>
         </header>
 
-        <div role="tablist" aria-label="Project type" className="mb-5 flex gap-6 border-b border-line">
+        <div role="tablist" aria-label={t("proj.tabs")} className="mb-5 flex gap-6 border-b border-line">
           {KINDS.map(([id, text]) => (
             <button
               key={id}
@@ -110,7 +117,7 @@ export default function Projects() {
                 kind === id ? "border-success text-ink-strong" : "border-transparent text-ink-muted hover:text-ink-strong",
               ].join(" ")}
             >
-              {text} <span className="font-normal opacity-60">({kindCount(id)})</span>
+              {t(text)} <span className="font-normal opacity-60">({kindCount(id)})</span>
             </button>
           ))}
         </div>
@@ -118,15 +125,15 @@ export default function Projects() {
         <div className="mb-6 flex flex-wrap items-center gap-2 pb-2">
           {SERVICE_FILTERS.map(([id, label]) => (
             <Chip key={id} active={service === id} onClick={() => setService(id)}>
-              {label} <span className="opacity-60">({counts(id)})</span>
+              {t(label)} <span className="opacity-60">({counts(id)})</span>
             </Chip>
           ))}
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name, client or tool"
-            aria-label="Search projects"
+            placeholder={t("proj.search")}
+            aria-label={t("proj.searchAria")}
             className="ml-auto w-full rounded-full border border-line bg-surface px-4 py-1.5 text-sm text-ink-strong focus:border-success focus:outline-none sm:w-64"
           />
         </div>
@@ -138,12 +145,12 @@ export default function Projects() {
             ))}
           </div>
         ) : (
-          <p className="py-16 text-center text-ink">No project matches this filter.</p>
+          <p className="py-16 text-center text-ink">{t("proj.none")}</p>
         )}
 
         <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
-          <h2 className="text-xl font-bold text-ink-strong">Have a project in mind?</h2>
-          <ContactCtaButtons className="justify-center" whatsappMessage="Hi Abdelouahab, I saw your projects and would like to discuss mine." />
+          <h2 className="text-xl font-bold text-ink-strong">{t("proj.haveOne")}</h2>
+          <ContactCtaButtons className="justify-center" whatsappMessage={t("msg.whatsappProjects")} />
         </div>
       </section>
     </>

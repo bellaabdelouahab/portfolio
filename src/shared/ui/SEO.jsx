@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
+import { langOf, stripLang, withLang } from "../i18n/i18n";
 import { getAbsoluteUrl } from "../lib/siteConfig";
 
 export default function SEO({
@@ -15,6 +16,7 @@ export default function SEO({
   noIndex = false,
   noindex = false,
 }) {
+  const lang = langOf(useLocation().pathname);
   const resolvedImage = image
     ? /^https?:\/\//.test(image) ? image : getAbsoluteUrl(image)
     : getAbsoluteUrl("/og-default.jpg");
@@ -25,7 +27,9 @@ export default function SEO({
   const withBrand = title ? `${title} | Abdelouahab Bella` : "";
   const pageTitle = title
     ? withBrand.length <= 62 ? withBrand : title
-    : "Web Developer & Data Analyst, Agadir | Abdelouahab Bella";
+    : lang === "fr"
+      ? "Développeur web et analyste de données, Agadir | Abdelouahab Bella"
+      : "Web Developer & Data Analyst, Agadir | Abdelouahab Bella";
 
   const clip = (text, max = 158) => {
     if (text.length <= max) return text;
@@ -34,12 +38,16 @@ export default function SEO({
   };
   const pageDescription = clip(
     description ||
-      "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad.",
+      (lang === "fr"
+        ? "Abdelouahab Bella, développeur web et analyste de données freelance à Agadir, Maroc. Sites web, applications et tableaux de bord Power BI pour des entreprises au Maroc et à l'étranger."
+        : "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad."),
   );
 
   const pageKeywords =
     keywords ||
-    "web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web developer Morocco, Abdelouahab Bella";
+    (lang === "fr"
+      ? "développeur web Agadir, analyste de données Maroc, tableaux de bord Power BI, développeur web freelance Maroc, Abdelouahab Bella"
+      : "web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web developer Morocco, Abdelouahab Bella");
 
   const shouldNoIndex = Boolean(noIndex || noindex);
 
@@ -51,6 +59,11 @@ export default function SEO({
   // way, and never drags query strings into the canonical.
   const location = useLocation();
   const pageUrl = url || getAbsoluteUrl(location.pathname);
+  const barePath = stripLang(location.pathname);
+  const alternates = {
+    en: getAbsoluteUrl(withLang("en", barePath)),
+    fr: getAbsoluteUrl(withLang("fr", barePath)),
+  };
 
   const finalStructuredData =
     structuredData || {
@@ -77,6 +90,7 @@ export default function SEO({
 
   return (
     <Helmet>
+      <html lang={lang} />
       {/* Basic Meta Tags */}
       <title>{pageTitle}</title>
       <meta name="description" content={pageDescription} />
@@ -89,7 +103,8 @@ export default function SEO({
       <meta property="og:url" content={pageUrl} />
       <meta property="og:type" content={type} />
       <meta property="og:site_name" content="Abdelouahab Bella" />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
+      <meta property="og:locale:alternate" content={lang === "fr" ? "en_US" : "fr_FR"} />
 
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -126,6 +141,15 @@ export default function SEO({
 
       {/* Canonical URL to prevent duplicate content issues */}
       <link rel="canonical" href={pageUrl} />
+      {!shouldNoIndex && (
+        <link rel="alternate" hrefLang="en" href={alternates.en} />
+      )}
+      {!shouldNoIndex && (
+        <link rel="alternate" hrefLang="fr" href={alternates.fr} />
+      )}
+      {!shouldNoIndex && (
+        <link rel="alternate" hrefLang="x-default" href={alternates.en} />
+      )}
     </Helmet>
   );
 }

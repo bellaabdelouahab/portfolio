@@ -1,6 +1,5 @@
-import { aboutContent } from "../../homeContent";
-
-const skills = aboutContent.skills;
+import { useT } from "../../../../shared/i18n/strings";
+import { useContent } from "../../../../shared/i18n/useContent";
 
 /**
  * The skill bullet marker used to be a `li::before` whose `content` changed at
@@ -22,6 +21,9 @@ function SkillItem({ children }) {
 }
 
 export default function AboutMeSection() {
+  const t = useT();
+  const { about } = useContent();
+  const skills = about.skills;
   return (
     // The gradient is the 30px fade from the previous section's black into this
     // section's own #171717 — background-image over background-colour, so both
@@ -31,7 +33,7 @@ export default function AboutMeSection() {
       <div className="hidden-area">
         <div className="home-sections-title">
           <span>02. </span>
-          About Me
+          {t("home.about")}
         </div>
         {/* Fixed 45vh height only from md up; below that the columns stack and the
             section has to grow with its content. */}
@@ -39,13 +41,13 @@ export default function AboutMeSection() {
           <div className="w-full md:w-fit">
             {/* leading-5 explicitly — body { line-height: 1 } is global. */}
             <p className="p-2.5 text-justify text-xs font-bold leading-5 text-ink md:p-[1.875rem]">
-              {aboutContent.intro}
+              {about.intro}
             </p>
             <p className="p-2.5 text-justify text-xs font-bold leading-5 text-ink md:p-[1.875rem]">
-              {aboutContent.detailedIntro}
+              {about.detailedIntro}
             </p>
             <span className="flex h-min w-fit items-center justify-center p-[2vh] text-[0.9375rem] font-medium tracking-[4px] text-success underline">
-              Skills:
+              {t("home.skills")}
             </span>
             <div className="w-fit">
               {/* One column below md, two above — the tracks keep their original

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Modal from "../../../../shared/ui/Modal";
 
+import { useT } from "../../../../shared/i18n/strings";
 export default function HappyClientsSection({ clients = [] }) {
+    const t = useT();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleModal = () => {
@@ -12,7 +14,7 @@ export default function HappyClientsSection({ clients = [] }) {
       <div className="happy-clients-section hidden-area bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5 pb-1.25 text-ink">
         <div className="home-sections-title">
           <span>06. </span>
-          What My Clients Say
+          {t("home.clients")}
         </div>
         {/* `clients` is [] until the Firestore read lands, so on first paint this
             is just the centred CTA — the flex/gap/justify below is what keeps
@@ -56,7 +58,7 @@ export default function HappyClientsSection({ clients = [] }) {
               className="cursor-pointer rounded-sm border-none bg-accent px-6 py-3 font-sans text-base font-bold tracking-[2px]! text-ink-strong shadow-[0_4px_10px_rgba(217,27,66,0.3)] transition-all duration-300 ease-standard hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_6px_12px_rgba(217,27,66,0.4)] active:translate-y-px"
               onClick={toggleModal}
             >
-              Share Your Experience
+              {t("home.shareExperience")}
             </button>
           </div>
         </div>
@@ -64,7 +66,7 @@ export default function HappyClientsSection({ clients = [] }) {
         <Modal
           isOpen={isModalOpen}
           onClose={toggleModal}
-          title="Share Your Experience"
+          title={t("home.shareExperience")}
         >
           {/* Replace this URL with your actual Google Form URL */}
           <iframe
@@ -74,7 +76,7 @@ export default function HappyClientsSection({ clients = [] }) {
             marginHeight="0"
             marginWidth="0"
           >
-            Loading form...
+            {t("home.loadingForm")}
           </iframe>
         </Modal>
       </div>

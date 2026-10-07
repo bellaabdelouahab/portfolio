@@ -1,15 +1,17 @@
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SEO from "../../shared/ui/SEO";
+import { useT } from "../../shared/i18n/strings";
+import { useLocalePath } from "../../shared/i18n/i18n";
 
-const NotFound = () => {
-  const location = useLocation();
+export default function NotFound() {
+  const t = useT();
+  const lp = useLocalePath();
   return (
-    <div style={{ textAlign: "center", color: "white" }}>
-      <SEO title="Page Not Found" noIndex />
-      <h1>404 - Page Not Found</h1>
-      <p>The requested URL <code>{location.pathname}</code> was not found on this server.</p>
+    <div className="mx-auto max-w-xl px-5 py-24 text-center">
+      <SEO title={t("nf.title")} noIndex />
+      <h1 className="mb-3 text-3xl font-bold text-ink-strong">404 · {t("nf.title")}</h1>
+      <p className="mb-6 text-ink">{t("nf.text")}</p>
+      <Link to={lp("/")} className="font-bold text-success! hover:underline">{t("nf.home")}</Link>
     </div>
   );
-};
-
-export default NotFound;
+}

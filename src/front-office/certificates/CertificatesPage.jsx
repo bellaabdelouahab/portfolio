@@ -3,6 +3,8 @@ import { useLoaderData } from "react-router-dom";
 import SEO from "../../shared/ui/SEO";
 import { toDate } from "../../shared/lib/dates";
 
+import { useT } from "../../shared/i18n/strings";
+import { useLang } from "../../shared/i18n/i18n";
 /**
  * Credentials are shown the way Credly and LinkedIn show them: the badge,
  * the name, who issued it, when, and a link to the issuer's own verification
@@ -13,10 +15,10 @@ import { toDate } from "../../shared/lib/dates";
 const FEATURED = ["IBM Data Analyst Professional Certificate", "Data Analyst Capstone Project"];
 
 const TRACKS = [
-  ["Data analytics", (c) => ["IBM", "Cognitive Class", "365 DataScience"].includes(c.issuer)],
-  ["Machine learning and AI", (c) => /machine learning|deep learning|natural language|sagemaker/i.test(c.title)],
-  ["Software engineering", (c) => /spring|architecture|react|python intermediate/i.test(c.title)],
-  ["Community", () => true],
+  ["Data analytics", "Analyse de données", (c) => ["IBM", "Cognitive Class", "365 DataScience"].includes(c.issuer)],
+  ["Machine learning and AI", "Machine learning et IA", (c) => /machine learning|deep learning|natural language|sagemaker/i.test(c.title)],
+  ["Software engineering", "Génie logiciel", (c) => /spring|architecture|react|python intermediate/i.test(c.title)],
+  ["Community", "Communauté", () => true],
 ];
 
 const ISSUER = { "OPEN CLASS ROOM": "OpenClassrooms", "IBM & Coursera": "IBM and Coursera", "DIGITAL INITIATIVE": "Digital Initiative", "OPEN SOURCE": "Open Source Days" };
@@ -37,7 +39,7 @@ function Mark({ c, className = "" }) {
 
 function Badge({ c, size = "size-24", onOpen }) {
   return (
-    <button type="button" onClick={() => onOpen(c)} className="group flex cursor-pointer flex-col items-center gap-3 text-center" aria-label={`Open ${c.title}`}>
+    <button type="button" onClick={() => onOpen(c)} className="group flex cursor-pointer flex-col items-center gap-3 text-center" aria-label={c.title}>
       {showArt(c) ? (
         <img src={art(c)} alt="" loading="lazy" className={`${size} rounded-md bg-white object-contain p-1 transition-transform duration-200 group-hover:scale-105`} />
       ) : (
@@ -50,6 +52,7 @@ function Badge({ c, size = "size-24", onOpen }) {
 }
 
 function Viewer({ c, onClose }) {
+  const t = useT();
   useEffect(() => {
     const k = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
@@ -63,9 +66,9 @@ function Viewer({ c, onClose }) {
         <p className="mt-1 text-sm text-ink-muted">{issuerOf(c)} · {year(c)}</p>
         <div className="mt-5 flex justify-center gap-3">
           {validLink(c.link) && (
-            <a href={c.link} target="_blank" rel="noopener noreferrer" className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-black!">Verify credential</a>
+            <a href={c.link} target="_blank" rel="noopener noreferrer" className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-black!">{t("cert.verify")}</a>
           )}
-          <button type="button" onClick={onClose} className="cursor-pointer rounded-sm border border-line px-4 py-2 text-sm font-bold tracking-[1px]! text-ink-strong">Close</button>
+          <button type="button" onClick={onClose} className="cursor-pointer rounded-sm border border-line px-4 py-2 text-sm font-bold tracking-[1px]! text-ink-strong">{t("car.close")}</button>
         </div>
       </div>
     </div>
@@ -74,30 +77,34 @@ function Viewer({ c, onClose }) {
 
 export default function Certificates() {
   const { allCertificates, count } = useLoaderData();
+  const t = useT();
+  const lang = useLang();
   const [open, setOpen] = useState(null);
 
   const featured = FEATURED.map((t) => allCertificates.find((c) => c.title === t)).filter(Boolean);
   const groups = useMemo(() => {
     const left = allCertificates.filter((c) => !FEATURED.includes(c.title));
     const used = new Set();
-    return TRACKS.map(([name, test]) => {
+    return TRACKS.map(([en, fr, test]) => {
       const items = left.filter((c) => !used.has(c) && test(c));
       items.forEach((c) => used.add(c));
-      return [name, items];
+      return [lang === "fr" ? fr : en, items];
     }).filter(([, items]) => items.length);
-  }, [allCertificates]);
+  }, [allCertificates, lang]);
 
   return (
     <>
       <SEO
-        title="Certifications"
-        description="Verified certifications by Abdelouahab Bella in data analytics, machine learning and software engineering, including the IBM Data Analyst Professional Certificate."
+        title={t("cert.title")}
+        description={lang === "fr"
+          ? "Certifications d'Abdelouahab Bella en analyse de données, machine learning et génie logiciel, dont le certificat professionnel IBM Data Analyst."
+          : "Verified certifications by Abdelouahab Bella in data analytics, machine learning and software engineering, including the IBM Data Analyst Professional Certificate."}
         keywords="IBM Data Analyst Professional Certificate, data analyst certifications, Abdelouahab Bella"
       />
       <section className="mx-auto w-full max-w-5xl px-5 py-8 md:py-10">
         <header className="mb-8 max-w-3xl">
-          <h1 className="mb-2 text-3xl font-bold tracking-[1px]! text-ink-strong md:text-4xl">Certifications</h1>
-          <p className="text-base leading-relaxed text-ink">{count} credentials in data, machine learning and software engineering. Select one to see the issuer and verify it.</p>
+          <h1 className="mb-2 text-3xl font-bold tracking-[1px]! text-ink-strong md:text-4xl">{t("cert.title")}</h1>
+          <p className="text-base leading-relaxed text-ink">{t("cert.intro", { n: count })}</p>
         </header>
 
         {featured.length > 0 && (
@@ -106,7 +113,7 @@ export default function Certificates() {
               <button key={c.title} type="button" onClick={() => setOpen(c)} className="group flex cursor-pointer items-center gap-5 rounded-md border border-success/40 bg-surface p-5 text-left transition-colors hover:border-success">
                 <img loading="lazy" decoding="async" src={art(c)} alt="" className="size-28 shrink-0 rounded-md bg-white object-contain p-1" />
                 <span>
-                  <span className="text-xs font-bold tracking-[2px]! text-success uppercase">Featured</span>
+                  <span className="text-xs font-bold tracking-[2px]! text-success uppercase">{t("cert.featured")}</span>
                   <span className="mt-1 block text-lg leading-snug font-bold text-ink-strong">{c.title}</span>
                   <span className="mt-1 block text-sm text-ink-muted">{issuerOf(c)} · {year(c)}</span>
                 </span>

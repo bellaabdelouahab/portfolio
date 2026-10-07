@@ -29,7 +29,6 @@ export default function Root() {
     });
 
     // Set the lang attribute on the HTML tag
-    document.documentElement.lang = 'en';
 
     return () => {
       navLinks.forEach((link) => {
@@ -44,8 +43,7 @@ export default function Root() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content={themeColor} />
-        <meta name="robots" content="index, follow" />
-        <link rel="icon" href="/logo.jpg" />
+                <link rel="icon" href="/logo.jpg" />
       </Helmet>
         
       <header id="header" className="header header-sticky">

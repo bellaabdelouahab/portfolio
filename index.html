@@ -43,6 +43,10 @@
          content in the initial response with no JS required. -->
     <div id="root" class="root"><!--app-html--></div>
     <!--hydration-data-->
+    <!-- Privacy-friendly analytics (self-hosted Plausible), served from this site
+         under neutral paths so blockers treat it as first-party. No cookies. -->
+    <script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>
+    <script defer data-domain="abdelouahab.xyz" data-api="/_s/e" src="/_s/a.js"></script>
   </body>
   <script type="module" src="/src/entry-client.jsx"></script>
   <script type="module" defer src="/script.js"></script>

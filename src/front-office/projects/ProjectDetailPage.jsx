@@ -7,7 +7,10 @@ import { byNewest } from "../../shared/lib/dates";
 import { slugifyProjectTitle } from "../../shared/lib/projectSlug";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 import { BOOKING_URL, getWhatsAppLink } from "../../shared/lib/contactConfig";
-import { servicesContent } from "../home/homeContent";
+import { useLang, useLocalePath, withLang, dateLocale } from "../../shared/i18n/i18n";
+import { useT } from "../../shared/i18n/strings";
+import { useContent } from "../../shared/i18n/useContent";
+import { localizeProject } from "../../shared/lib/localize";
 import SEO from "../../shared/ui/SEO";
 import CodeSamples from "./components/code-samples/CodeSamples";
 import Carousel from "./components/carousel/Carousel";
@@ -36,10 +39,8 @@ export async function getProject({ params }) {
   return { project, related };
 }
 
-const fmt = (iso) =>
-  iso
-    ? new Date(iso).toLocaleDateString("en-GB", { month: "short", year: "numeric" })
-    : "";
+const fmt = (iso, lang) =>
+  iso ? new Date(iso).toLocaleDateString(dateLocale(lang), { month: "short", year: "numeric" }) : "";
 
 function Meta({ label, children }) {
   if (!children) return null;
@@ -62,20 +63,26 @@ function Block({ title, children }) {
 }
 
 export default function ProjectDetailPage() {
-  const { project, related } = useLoaderData();
+  const { project: rawProject, related } = useLoaderData();
+  const t = useT();
+  const lang = useLang();
+  const lp = useLocalePath();
+  const { services } = useContent();
+  const project = localizeProject(rawProject, lang);
   const cs = project.caseStudy || {};
+  const slug = slugifyProjectTitle(rawProject.title);
   const techs = [
     ...new Set([
       ...(project.tags || []),
-      ...((project.tools?.techs || []).map((t) => t?.title).filter(Boolean)),
+      ...((project.tools?.techs || []).map((tech) => tech?.title).filter(Boolean)),
     ]),
   ];
   const period = project.startDate
-    ? `${fmt(project.startDate)} to ${project.endDate ? fmt(project.endDate) : "present"}`
+    ? `${fmt(project.startDate, lang)} ${t("svc.to")} ${project.endDate ? fmt(project.endDate, lang) : t("proj.present")}`
     : "";
   const personal = cs.kind === "personal";
   const serviceId = (cs.services || [])[0];
-  const service = servicesContent.find((s) => s.id === serviceId);
+  const service = services.find((s) => s.id === serviceId);
   const summary = cs.summary || project.description;
 
   const structuredData = {
@@ -85,24 +92,25 @@ export default function ProjectDetailPage() {
     description: summary,
     datePublished: project.startDate || undefined,
     keywords: techs.join(", "),
-    url: getAbsoluteUrl(`/projects/${slugifyProjectTitle(project.title)}`),
+    url: getAbsoluteUrl(withLang(lang, `/projects/${slug}`)),
+    inLanguage: lang,
     author: { "@type": "Person", name: "Abdelouahab Bella" },
   };
 
   return (
     <article className="mx-auto w-full max-w-6xl px-5 py-8 md:py-12">
       <SEO
-        title={`${project.title}: ${personal ? "project" : "case study"}`}
+        title={`${project.title}${lang === "fr" ? " : " : ": "}${t(personal ? "proj.project" : "proj.caseStudy")}`}
         description={String(summary).substring(0, 160)}
-        keywords={[project.title, "case study", ...techs].join(", ")}
+        keywords={[project.title, t("proj.caseStudy"), ...techs].join(", ")}
         image={project.image || getAbsoluteUrl("/logo.jpg")}
         type="article"
         structuredData={structuredData}
-        breadcrumbs={[["Home", "/"], ["Projects", "/projects"], [project.title, `/projects/${slugifyProjectTitle(project.title)}`]]}
+        breadcrumbs={[[t("nav.home"), "/"], [t("proj.title"), "/projects"], [project.title, `/projects/${slug}`]]}
       />
 
       <nav aria-label="Breadcrumb" className="mb-5 text-sm text-ink-muted">
-        <Link to="/projects" className="hover:text-success">{personal ? "Personal projects" : "Client work"}</Link>
+        <Link to={lp("/projects")} className="hover:text-success">{t(personal ? "proj.breadcrumbPersonal" : "proj.breadcrumbClient")}</Link>
         <span className="mx-2">/</span>
         <span>{project.title}</span>
       </nav>
@@ -117,17 +125,17 @@ export default function ProjectDetailPage() {
           <div className="flex flex-wrap gap-3">
             {cs.liveUrl && (
               <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> View live demo
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> {t("proj.liveDemo")}
               </a>
             )}
             {project.githubLink && /github\.com/.test(project.githubLink) && (
               <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-line text-ink-strong!`}>
-                <FontAwesomeIcon icon={faGithub} /> Source code
+                <FontAwesomeIcon icon={faGithub} /> {t("proj.source")}
               </a>
             )}
             {project.githubLink && !/github\.com/.test(project.githubLink) && !cs.liveUrl && (
               <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
-                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> Visit project
+                <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> {t("proj.visit")}
               </a>
             )}
           </div>
@@ -138,16 +146,16 @@ export default function ProjectDetailPage() {
           decoding="async"
           width="1440"
           height="900"
-          alt={`${project.title} preview`}
+          alt={t("proj.imageAlt", { title: project.title })}
           className="aspect-[16/10] w-full rounded-md border border-line bg-[#111] object-contain shadow-lg"
         />
       </header>
 
       <dl className="mt-8 grid grid-cols-2 gap-5 rounded-md border border-line bg-surface p-5 md:grid-cols-4">
-        <Meta label={personal ? "Type" : "Client"}>{cs.client}</Meta>
-        <Meta label="Role">{cs.role}</Meta>
-        <Meta label="Period">{period}</Meta>
-        <Meta label="Status">{cs.status}</Meta>
+        <Meta label={t(personal ? "proj.metaType" : "proj.metaClient")}>{cs.client}</Meta>
+        <Meta label={t("proj.metaRole")}>{cs.role}</Meta>
+        <Meta label={t("proj.metaPeriod")}>{period}</Meta>
+        <Meta label={t("proj.metaStatus")}>{cs.status}</Meta>
       </dl>
 
       {cs.results?.length > 0 && (
@@ -162,14 +170,14 @@ export default function ProjectDetailPage() {
       )}
 
       <div className="mt-10 grid gap-8 md:grid-cols-3">
-        <Block title={personal ? "The idea" : "The challenge"}>{cs.challenge}</Block>
-        <Block title="What I built">{cs.solution}</Block>
-        <Block title={personal ? "The result" : "The outcome"}>{cs.outcome}</Block>
+        <Block title={t(personal ? "proj.idea" : "proj.challenge")}>{cs.challenge}</Block>
+        <Block title={t("proj.built")}>{cs.solution}</Block>
+        <Block title={t(personal ? "proj.result" : "proj.outcome")}>{cs.outcome}</Block>
       </div>
 
       {cs.features?.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-4 text-xl font-bold text-ink-strong">Key features</h2>
+          <h2 className="mb-4 text-xl font-bold text-ink-strong">{t("proj.features")}</h2>
           <ul className="grid gap-2.5 sm:grid-cols-2">
             {cs.features.map((f) => (
               <li key={f} className="rounded-sm border border-line bg-surface p-3 text-sm text-ink">{f}</li>
@@ -180,14 +188,14 @@ export default function ProjectDetailPage() {
 
       {project.carouselImages?.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-ink-strong">Screens</h2>
+          <h2 className="mb-3 text-xl font-bold text-ink-strong">{t("proj.screens")}</h2>
           <Carousel carouselImages={project.carouselImages} />
         </section>
       )}
 
       {techs.length > 0 && (
         <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-ink-strong">Stack and tools</h2>
+          <h2 className="mb-3 text-xl font-bold text-ink-strong">{t("proj.stack")}</h2>
           <ul className="flex flex-wrap gap-2">
             {techs.map((t) => (
               <li key={t} className="rounded-full border border-line bg-surface px-3 py-1 text-sm text-ink">{t}</li>
@@ -201,15 +209,15 @@ export default function ProjectDetailPage() {
       <Collaborators collaborators={project.collaborators} />
 
       <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
-        <h2 className="text-2xl font-bold text-ink-strong">{personal ? "Need something like this built?" : "Need something similar?"}</h2>
+        <h2 className="text-2xl font-bold text-ink-strong">{t(personal ? "proj.builtLike" : "proj.similar")}</h2>
         <p className="max-w-xl text-ink">
-          Book a free 30-minute call to talk through your project. You get a fixed price in MAD within two working days.
+          {t("proj.similarText")}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
-            <FontAwesomeIcon icon={faCalendarCheck} /> Book a meeting
+          <a href={BOOKING_URL} onClick={() => window.plausible?.("Contact: Book a meeting")} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+            <FontAwesomeIcon icon={faCalendarCheck} /> {t("cta.book")}
           </a>
-          <a href={getWhatsAppLink(`Hi Abdelouahab, I saw "${project.title}" and have a similar project.`)} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-success text-success!`}>
+          <a href={getWhatsAppLink(t("msg.whatsappProject", { title: project.title }))} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-success text-success!`}>
             WhatsApp
           </a>
         </div>
@@ -217,16 +225,16 @@ export default function ProjectDetailPage() {
 
       {related.length > 0 && (
         <section className="mt-12">
-          <h2 className="mb-4 text-xl font-bold text-ink-strong">More projects</h2>
+          <h2 className="mb-4 text-xl font-bold text-ink-strong">{t("proj.more")}</h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((p) => (
               <Link
                 key={p._id}
-                to={`/projects/${slugifyProjectTitle(p.title)}`}
+                to={lp(`/projects/${slugifyProjectTitle(p.title)}`)}
                 className="group overflow-hidden rounded-md border border-line bg-surface transition-colors hover:border-success/50"
               >
                 <img src={p.image} alt="" loading="lazy" className="aspect-[16/10] w-full bg-[#111] object-contain" />
-                <p className="p-3 text-sm font-bold text-ink-strong group-hover:text-success">{p.title}</p>
+                <p className="p-3 text-sm font-bold text-ink-strong group-hover:text-success">{localizeProject(p, lang).title}</p>
               </Link>
             ))}
           </div>

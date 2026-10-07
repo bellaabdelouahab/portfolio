@@ -1,5 +1,5 @@
 import "./Navbar.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,16 +7,16 @@ import {
   faListCheck,
   faCertificate,
   faUsers,
-  faNewspaper,
-  faFlag,
   faSitemap,
   faChartLine,
   faCode
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { servicesContent } from "../../home/homeContent";
+import { useLang, useLocalePath, stripLang, withLang } from "../../../shared/i18n/i18n";
+import { useT } from "../../../shared/i18n/strings";
+import { useContent } from "../../../shared/i18n/useContent";
 
-// Keyed by servicesContent's own id, so a new service just needs an entry
+// Keyed by the service's own id, so a new service just needs an entry
 // here rather than a matching if/else chain in the render below.
 const SERVICE_ICONS = {
   data: faChartLine,
@@ -26,6 +26,11 @@ const SERVICE_ICONS = {
 export default function Navbar() {
   const basePath = process.env.VITE_BASE_URL || "";
   const navigate = useNavigate();
+  const t = useT();
+  const lang = useLang();
+  const lp = useLocalePath();
+  const { search, pathname } = useLocation();
+  const { services } = useContent();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState("");
 
@@ -79,24 +84,23 @@ export default function Navbar() {
     !el.classList.contains("hidden") && el.focus();
   };
 
-  const getNavLink = (path, label, icon, isBeta = false) => (
-    <NavLink to={`${basePath}${path}`} onClick={(e) => { if (!isBeta) toggleMenu(); }} style={{ pointerEvents: isBeta ? 'none' : 'auto' }}>
+  const getNavLink = (path, label, icon) => (
+    <NavLink to={`${basePath}${lp(path)}`} end={path === "/"} onClick={toggleMenu}>
       <FontAwesomeIcon icon={icon} />
       {label}
-      {isBeta && <span className="beta-badge" style={{ marginLeft: '5px', fontSize: '0.6em', padding: '2px 4px', background: '#ffcc00', color: '#333', borderRadius: '3px', verticalAlign: 'center' }}>BETA</span>}
     </NavLink>
   );
 
   return (
     <nav className="navbar at-top" id="navbar" role="navigation">
-      <NavLink className="navbar__logolink" to={`/`} />
+      <NavLink className="navbar__logolink" to={lp("/")} aria-label={t("nav.home")} />
       <div className="navbar__menu">
         <button
           htmlFor="f-toggle"
           tabIndex="0"
           id="hamburger"
           className="hamburger"
-          aria-label="Toggle navigation"
+          aria-label={t("nav.toggle")}
           onClick={(e) => toggleMenu()}
         >
           <span></span>
@@ -110,12 +114,12 @@ export default function Navbar() {
           aria-hidden="true"
         >
           <li>
-            {getNavLink("/", "Home", faHome)}
+            {getNavLink("/", t("nav.home"), faHome)}
           </li>
           <br />
           <hr />
           <br />
-          {servicesContent.map((service) => (
+          {services.map((service) => (
             <li key={service.id}>
               {getNavLink(
                 `/services/${service.id}`,
@@ -128,29 +132,29 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            {getNavLink("/projects", "All Projects", faListCheck)}
+            {getNavLink("/projects", t("nav.projects"), faListCheck)}
           </li>
           <li>
-            {getNavLink("/certificates", "Certificates", faCertificate)}
-          </li>
-          <br />
-          <hr />
-          <br />
-          <li>
-            {getNavLink("/my-team", "Team", faUsers)}
+            {getNavLink("/certificates", t("nav.certificates"), faCertificate)}
           </li>
           <br />
           <hr />
           <br />
           <li>
-            {getNavLink("/reports", "Reports", faFlag, true)}
+            {getNavLink("/my-team", t("nav.team"), faUsers)}
           </li>
+          <br />
+          <hr />
+          <br />
           <li>
-            {getNavLink("/articles", "Articles", faNewspaper, true)}
+            <a href="https://github.com/bellaabdelouahab" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGithub} />
+              GitHub
+            </a>
           </li>
           {isAuthenticated && userEmail === "abdobella977@gmail.com" && (
             <li>
-              {getNavLink("/site-map", "Site Map", faSitemap)}
+              {getNavLink("/site-map", t("nav.sitemap"), faSitemap)}
             </li>
           )}
           <br />
@@ -158,15 +162,25 @@ export default function Navbar() {
         </ul>
       </div>
       <span className="navbar__footer">
-        <a
-          href="https://github.com/bellaabdelouahab"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub profile"
-        >
-          <FontAwesomeIcon icon={faGithub} size="2x" />
-        </a>
-        <p>Registered auto-entrepreneur. Agadir, Morocco.</p>
+        {/* Language toggle: the same page in the other language. */}
+        <div role="group" aria-label={t("nav.language")} className="mb-2 flex items-center justify-center gap-1 text-sm font-bold">
+          {["en", "fr"].map((code) => (
+            <Link
+              key={code}
+              to={`${withLang(code, stripLang(pathname))}${search}`}
+              hrefLang={code}
+              lang={code}
+              aria-current={lang === code ? "true" : undefined}
+              className={[
+                "rounded-sm border px-2.5 py-1 tracking-[1px]!",
+                lang === code ? "border-success bg-success/15 text-success!" : "border-line text-ink! hover:border-success/50",
+              ].join(" ")}
+            >
+              {code.toUpperCase()}
+            </Link>
+          ))}
+        </div>
+        <p>{t("nav.status")}</p>
       </span>
     </nav>
   );

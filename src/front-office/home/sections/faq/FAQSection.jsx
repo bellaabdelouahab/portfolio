@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet";
-import { faqData } from "../../homeContent";
 
+import { useT } from "../../../../shared/i18n/strings";
+import { useContent } from "../../../../shared/i18n/useContent";
 /**
  * FAQ as master–detail rather than an accordion.
  *
@@ -18,6 +19,8 @@ import { faqData } from "../../homeContent";
  * section demonstrates what it is for without requiring a click.
  */
 export default function FAQSection() {
+  const t = useT();
+  const { faq: faqData } = useContent();
   const [selectedId, setSelectedId] = useState(faqData[0]?.id);
   const selected = faqData.find((item) => item.id === selectedId) ?? faqData[0];
 
@@ -40,7 +43,7 @@ export default function FAQSection() {
       <section className="faq-section hidden-area">
         <div className="home-sections-title">
           <span>08. </span>
-          Frequently Asked Questions
+          {t("home.faq")}
         </div>
 
         <div className="mx-auto grid w-full max-w-8xl gap-4 px-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,.7fr)] lg:items-start mb-5">

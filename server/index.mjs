@@ -10,6 +10,7 @@ import compression from "compression";
 import { assetRoutes, uploadsStatic } from "./assets.mjs";
 import { seoRoutes } from "./seo.mjs";
 import { contentRoutes } from "./content.mjs";
+import { statsRoutes } from "./stats.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -19,9 +20,11 @@ const base = process.env.BASE || "/";
 const app = express();
 
 app.disable("x-powered-by");
+app.set("trust proxy", true);
 app.use(compression());
 seoRoutes(app);
 contentRoutes(app);
+statsRoutes(app);
 
 // Back-office asset API and uploaded files (see server/assets.mjs).
 app.use("/api/assets", assetRoutes());
@@ -91,7 +94,9 @@ app.use(/.*/, async (req, res) => {
       hydrationData
     ).replace(/</g, "\\u003c")};</script>`;
 
+    const lang = /^\/fr(\/|\?|$)/.test(req.originalUrl) ? "fr" : "en";
     const html = template
+      .replace('<html lang="en">', `<html lang="${lang}">`)
       .replace(
         "<!--app-head-->",
         `${helmet.title.toString()}${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}`

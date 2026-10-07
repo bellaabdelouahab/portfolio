@@ -1,7 +1,10 @@
 import { useLoaderData } from "react-router-dom";
 import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import { byNewest } from "../../shared/lib/dates";
-import { servicesContent, professionalExperience } from "../home/homeContent";
+import { servicesContent } from "../home/homeContent";
+import { useLang, useLocalePath, withLang } from "../../shared/i18n/i18n";
+import { useT } from "../../shared/i18n/strings";
+import { useContent } from "../../shared/i18n/useContent";
 import { ProjectCard } from "../projects/components/ProjectCard";
 import ContactCtaButtons from "../../shared/ui/ContactCtaButtons";
 import SEO from "../../shared/ui/SEO";
@@ -80,8 +83,13 @@ export async function getServiceDetail({ params }) {
 }
 
 export default function ServiceDetailPage() {
-  const { service, relatedProjects, backdrop } = useLoaderData();
-  const relevantExperience = professionalExperience.filter((exp) =>
+  const { service: baseService, relatedProjects, backdrop } = useLoaderData();
+  const t = useT();
+  const lang = useLang();
+  const lp = useLocalePath();
+  const { services, experience } = useContent();
+  const service = services.find((s) => s.id === baseService.id) || baseService;
+  const relevantExperience = experience.filter((exp) =>
     (exp.services || []).includes(service.id),
   );
 
@@ -93,7 +101,8 @@ export default function ServiceDetailPage() {
     serviceType: service.serviceType,
     provider: { "@id": getAbsoluteUrl("/#business") },
     areaServed: [{ "@type": "Country", name: "Morocco" }, { "@type": "City", name: "Agadir" }],
-    url: getAbsoluteUrl(`/services/${service.id}`),
+    url: getAbsoluteUrl(withLang(lang, `/services/${service.id}`)),
+    inLanguage: lang,
     offers: {
       "@type": "Offer",
       priceCurrency: "MAD",
@@ -108,29 +117,29 @@ export default function ServiceDetailPage() {
       <SEO
         title={service.seoTitle || service.title}
         description={service.seoDescription || service.longDescription || service.description}
-        keywords={`${service.title}, ${service.serviceType}, Agadir, Morocco, freelance`}
+        keywords={`${service.title}, ${service.serviceType}, Agadir, ${lang === "fr" ? "Maroc" : "Morocco"}, freelance`}
         structuredData={structuredData}
-        breadcrumbs={[["Home", "/"], [service.title, `/services/${service.id}`]]}
+        breadcrumbs={[[t("nav.home"), "/"], [service.title, `/services/${service.id}`]]}
       />
 
       <div className="mb-10 flex flex-col items-center text-center">
         <img src={service.icon} alt="" width="75" height="75" className="mb-5" />
         <h1 className="mb-5 text-4xl leading-snug font-bold text-success">{service.title}</h1>
-        <p className="mb-2 text-sm font-bold tracking-[2px]! text-success uppercase">Agadir, Morocco · Remote worldwide</p>
+        <p className="mb-2 text-sm font-bold tracking-[2px]! text-success uppercase">{t("svc.agadir")}</p>
         <p className="max-w-3xl text-lg leading-relaxed text-ink">
           {service.longDescription || service.description}
         </p>
         {service.startingPrice && (
           <p className="mt-4 text-xl font-bold text-ink-strong">
             {service.startingPrice}
-            <span className="ml-2 text-sm font-normal text-ink/70">fixed quote after a free call</span>
+            <span className="ml-2 text-sm font-normal text-ink/70">{t("svc.priceNote")}</span>
           </p>
         )}
       </div>
 
       {service.deliverables?.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">What you get</h2>
+          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">{t("svc.get")}</h2>
           <ul className="grid gap-x-8 gap-y-4 rounded-md border border-line bg-surface p-6 md:grid-cols-2">
             {service.deliverables.map((d) => (
               <li key={d} className="flex gap-3 text-base leading-snug text-ink">
@@ -146,7 +155,7 @@ export default function ServiceDetailPage() {
 
       {service.process?.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">How it works</h2>
+          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">{t("svc.how")}</h2>
           <ol className="relative grid gap-6 md:grid-cols-4 md:gap-4">
             <span aria-hidden="true" className="absolute top-5 right-[12.5%] left-[12.5%] hidden h-px bg-line md:block" />
             {service.process.map(([title, text], i) => (
@@ -166,7 +175,7 @@ export default function ServiceDetailPage() {
 
       {service.relatedSkills?.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">Tools and skills</h2>
+          <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">{t("svc.tools")}</h2>
           <ul className="flex flex-wrap gap-2.5">
             {service.relatedSkills.map((skill) => (
               <li key={skill} className="rounded-full border border-line bg-surface px-4 py-1.5 text-sm text-ink">
@@ -180,7 +189,7 @@ export default function ServiceDetailPage() {
       {relatedProjects.length > 0 && (
         <section className="mb-10">
           <h2 className="mb-4 text-2xl leading-snug font-bold text-ink-strong">
-            Related work
+            {t("svc.related")}
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {relatedProjects.map((project) => (
@@ -192,12 +201,12 @@ export default function ServiceDetailPage() {
 
       {relevantExperience.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">Relevant experience</h2>
+          <h2 className="mb-5 text-2xl leading-snug font-bold text-ink-strong">{t("svc.experience")}</h2>
           <ul className="border-l border-line">
             {relevantExperience.map((exp) => (
               <li key={exp.title} className="relative pb-6 pl-6 last:pb-0">
                 <span aria-hidden="true" className="absolute top-1.5 -left-[5px] size-2.5 rounded-full bg-success" />
-                <p className="text-sm text-ink-muted">{exp.startDate} to {exp.endDate}</p>
+                <p className="text-sm text-ink-muted">{exp.startDate} {t("svc.to")} {exp.endDate}</p>
                 <h3 className="text-lg font-bold text-ink-strong">{exp.title}</h3>
                 <p className="mt-1 text-ink">{exp.description}</p>
               </li>
@@ -210,11 +219,11 @@ export default function ServiceDetailPage() {
 
       <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7.5 text-center">
         <h2 className="text-2xl leading-snug font-bold text-ink-strong">
-          Interested in {service.title}?
+          {t("svc.interested", { service: service.title })}
         </h2>
         <ContactCtaButtons
           className="justify-center"
-          whatsappMessage={`Hi, I'm interested in your ${service.title} service`}
+          whatsappMessage={t("msg.whatsappService", { service: service.title })}
         />
       </section>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { professionalExperience as PROFESSIONAL_EXP } from "../../homeContent";
 
+import { useT } from "../../../../shared/i18n/strings";
+import { useContent } from "../../../../shared/i18n/useContent";
 const MOBILE_BREAKPOINT = 900;
 
 // The two date pills in the marker column are identical, so the class list lives
@@ -9,6 +10,8 @@ const DATE_PILL =
   "rounded-full border border-success/20 bg-success/10 px-1.5 py-0.625 text-center font-mono text-xs whitespace-nowrap text-[#7fd9ac]";
 
 export default function InternshipProjectsSection() {
+  const t = useT();
+  const { experience: PROFESSIONAL_EXP } = useContent();
   const [displayCount, setDisplayCount] = useState(4);
   const [pathState, setPathState] = useState({ d: "", points: [] });
   const [isMobile, setIsMobile] = useState(false);
@@ -211,7 +214,7 @@ export default function InternshipProjectsSection() {
           every width. mb/centring set properties the global never touches. */}
       <div className="home-sections-title mb-7.5 text-center text-xl!">
         <span>04. </span>
-        <h2>Professional Experience</h2>
+        <h2>{t("home.experience")}</h2>
       </div>
 
       {/* Desktop is a three-column grid — [card][marker][card] — so the date
@@ -266,10 +269,10 @@ export default function InternshipProjectsSection() {
         <div className="mt-3.75 flex justify-center">
           <button
             onClick={handleShowMore}
-            aria-label="Show more professional experience entries"
+            aria-label={t("home.moreExperienceAria")}
             className="cursor-pointer rounded-full border-none bg-[#268b60] px-4 py-1.75 font-medium text-ink-strong transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:bg-success hover:shadow-[0_8px_20px_rgba(42,193,127,0.25)]"
           >
-            View More Experience ({PROFESSIONAL_EXP.length - displayCount})
+            {t("home.moreExperience", { n: PROFESSIONAL_EXP.length - displayCount })}
           </button>
         </div>
       )}
@@ -345,9 +348,9 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.25 rounded-md border border-success bg-transparent px-2.5 py-1.375 text-xs font-medium text-ink-strong no-underline transition-all duration-200 ease-standard hover:gap-1.625 hover:bg-success hover:text-[#1c1c1c]"
-              aria-label={`Visit ${project.title} project website`}
+              aria-label={t("home.visitSiteAria", { title: project.title })}
             >
-              Visit project website
+              {t("home.visitSite")}
               <svg
                 width="14"
                 height="14"

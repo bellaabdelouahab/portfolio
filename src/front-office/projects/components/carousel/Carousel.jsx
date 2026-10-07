@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useT } from "../../../../shared/i18n/strings";
 import {
   faChevronLeft,
   faChevronRight,
@@ -17,6 +18,7 @@ const ARROW =
  * the part the client wants to see.
  */
 export default function Carousel({ carouselImages = [] }) {
+  const t = useT();
   const images = carouselImages.filter((i) => i?.img);
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -70,7 +72,7 @@ export default function Carousel({ carouselImages = [] }) {
   return (
     <section
       aria-roledescription="carousel"
-      aria-label="Project screenshots"
+      aria-label={t("car.region")}
       className="w-full"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -86,7 +88,7 @@ export default function Carousel({ carouselImages = [] }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          aria-label="Open image full screen"
+          aria-label={t("car.open")}
           className="absolute inset-0 cursor-zoom-in"
         >
           <img loading="lazy" decoding="async"
@@ -98,10 +100,10 @@ export default function Carousel({ carouselImages = [] }) {
         </button>
         {count > 1 && (
           <>
-            <button type="button" aria-label="Previous image" onClick={() => go(-1)} className={`${ARROW} left-3`}>
+            <button type="button" aria-label={t("car.prev")} onClick={() => go(-1)} className={`${ARROW} left-3`}>
               <FontAwesomeIcon icon={faChevronLeft} />
             </button>
-            <button type="button" aria-label="Next image" onClick={() => go(1)} className={`${ARROW} right-3`}>
+            <button type="button" aria-label={t("car.next")} onClick={() => go(1)} className={`${ARROW} right-3`}>
               <FontAwesomeIcon icon={faChevronRight} />
             </button>
           </>
@@ -139,7 +141,7 @@ export default function Carousel({ carouselImages = [] }) {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="Screenshot viewer"
+          aria-label={t("car.viewer")}
           className="fixed inset-0 z-[1000] flex flex-col bg-black/95"
           onClick={() => setOpen(false)}
           onTouchStart={onTouchStart}
@@ -147,7 +149,7 @@ export default function Carousel({ carouselImages = [] }) {
         >
           <div className="flex items-center justify-between px-5 py-3 text-sm text-white">
             <span>{current.title} <span className="ml-2 opacity-60">{index + 1} / {count}</span></span>
-            <button type="button" aria-label="Close" onClick={() => setOpen(false)} className="cursor-pointer text-xl">
+            <button type="button" aria-label={t("car.close")} onClick={() => setOpen(false)} className="cursor-pointer text-xl">
               <FontAwesomeIcon icon={faXmark} />
             </button>
           </div>
@@ -155,10 +157,10 @@ export default function Carousel({ carouselImages = [] }) {
             <img loading="lazy" decoding="async" src={current.img} alt={current.title || ""} className="max-h-full max-w-full object-contain" />
             {count > 1 && (
               <>
-                <button type="button" aria-label="Previous image" onClick={() => go(-1)} className={`${ARROW} left-4`}>
+                <button type="button" aria-label={t("car.prev")} onClick={() => go(-1)} className={`${ARROW} left-4`}>
                   <FontAwesomeIcon icon={faChevronLeft} />
                 </button>
-                <button type="button" aria-label="Next image" onClick={() => go(1)} className={`${ARROW} right-4`}>
+                <button type="button" aria-label={t("car.next")} onClick={() => go(1)} className={`${ARROW} right-4`}>
                   <FontAwesomeIcon icon={faChevronRight} />
                 </button>
               </>

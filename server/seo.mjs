@@ -40,19 +40,20 @@ function db() {
 
 let cached = { at: 0, xml: "" };
 
+const frPath = (path) => (path === "/" ? "/fr" : `/fr${path}`);
+
 async function buildSitemap() {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = STATIC_PAGES.map((p) => ({ loc: abs(p.path), lastmod: today, ...p, images: [] }));
+  const pages = STATIC_PAGES.map((p) => ({ ...p, lastmod: today, images: [] }));
   try {
     const snap = await db().collection("projects").get();
     snap.docs
       .map((d) => ({ id: d.id, ...d.data() }))
       .filter((p) => p.hidden !== true && p.title)
       .forEach((p) => {
-        const updated = typeof p.updatedAt === "string" ? p.updatedAt.slice(0, 10) : today;
-        urls.push({
-          loc: abs(`/projects/${slug(p.title)}`),
-          lastmod: updated,
+        pages.push({
+          path: `/projects/${slug(p.title)}`,
+          lastmod: typeof p.updatedAt === "string" ? p.updatedAt.slice(0, 10) : today,
           priority: (p.caseStudy?.kind || "client") === "client" ? "0.8" : "0.6",
           changefreq: "monthly",
           images: [p.image, ...(p.carouselImages || []).map((c) => c.img)].filter(Boolean).slice(0, 6).map((src) => ({
@@ -64,15 +65,14 @@ async function buildSitemap() {
   } catch (e) {
     console.error("sitemap: could not read projects", e.message);
   }
-  const body = urls
-    .map(
-      (u) =>
-        `  <url>\n    <loc>${esc(u.loc)}</loc>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>` +
-        u.images.map((i) => `\n    <image:image><image:loc>${esc(i.loc)}</image:loc><image:title>${esc(i.title)}</image:title></image:image>`).join("") +
-        `\n  </url>`,
-    )
-    .join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${body}\n</urlset>\n`;
+  // Every page exists in English and French; each entry lists both so search
+  // engines show the right language to the right visitor.
+  const entry = (u, path) =>
+    `  <url>\n    <loc>${esc(abs(path))}</loc>\n    <xhtml:link rel="alternate" hreflang="en" href="${esc(abs(u.path))}"/>\n    <xhtml:link rel="alternate" hreflang="fr" href="${esc(abs(frPath(u.path)))}"/>\n    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(abs(u.path))}"/>\n    <lastmod>${u.lastmod}</lastmod>\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>` +
+    u.images.map((i) => `\n    <image:image><image:loc>${esc(i.loc)}</image:loc><image:title>${esc(i.title)}</image:title></image:image>`).join("") +
+    `\n  </url>`;
+  const body = pages.flatMap((u) => [entry(u, u.path), entry(u, frPath(u.path))]).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${body}\n</urlset>\n`;
 }
 
 export function seoRoutes(app) {
@@ -89,6 +89,7 @@ export function seoRoutes(app) {
         "User-agent: *",
         "Allow: /",
         "Disallow: /fill-db",
+        "Disallow: /fr/fill-db",
         "Disallow: /api/",
         "Disallow: /site-map",
         "",

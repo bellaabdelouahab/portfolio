@@ -14,10 +14,13 @@ import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import SEO from "../../shared/ui/SEO";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
 import { CONTACT_EMAIL } from "../../shared/lib/contactConfig";
-import { servicesContent } from "./homeContent";
+import { useLang, withLang } from "../../shared/i18n/i18n";
+import { useContent } from "../../shared/i18n/useContent";
 
 export default function Home() {
   const { projects: projectHighlight, clients } = useLoaderData();
+  const lang = useLang();
+  const { services: servicesContent } = useContent();
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -34,7 +37,7 @@ export default function Home() {
     });
   }, []);
 
-  const site = getAbsoluteUrl("/");
+  const site = getAbsoluteUrl(withLang(lang, "/"));
   const homeStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -43,14 +46,14 @@ export default function Home() {
         "@id": getAbsoluteUrl("/#website"),
         url: site,
         name: "Abdelouahab Bella",
-        inLanguage: "en",
+        inLanguage: lang,
         publisher: { "@id": getAbsoluteUrl("/#business") },
       },
       {
         "@type": "Person",
         "@id": getAbsoluteUrl("/#person"),
         name: "Abdelouahab Bella",
-        jobTitle: "Web Developer and Data Analyst",
+        jobTitle: lang === "fr" ? "Développeur web et analyste de données" : "Web Developer and Data Analyst",
         url: site,
         image: getAbsoluteUrl("/profile.webp"),
         email: CONTACT_EMAIL,
@@ -64,7 +67,7 @@ export default function Home() {
         name: "Abdelouahab Bella, web development and data analytics",
         url: site,
         image: getAbsoluteUrl("/og-default.jpg"),
-        description: "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
+        description: lang === "fr" ? "Développeur web et analyste de données freelance à Agadir, Maroc : sites web, applications et tableaux de bord Power BI." : "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
         founder: { "@id": getAbsoluteUrl("/#person") },
         email: CONTACT_EMAIL,
         telephone: "+212762549778",
@@ -80,7 +83,7 @@ export default function Home() {
             "@type": "Offer",
             priceCurrency: "MAD",
             priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: svc.priceFrom },
-            itemOffered: { "@type": "Service", name: svc.title, url: getAbsoluteUrl(`/services/${svc.id}`), description: svc.description },
+            itemOffered: { "@type": "Service", name: svc.title, url: getAbsoluteUrl(withLang(lang, `/services/${svc.id}`)), description: svc.description },
           })),
         },
       },
@@ -90,7 +93,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        description="Freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD."
+        description={lang === "fr" ? "Développeur web et analyste de données freelance à Agadir, Maroc. Sites web, boutiques en ligne et tableaux de bord Power BI, avec un devis écrit en MAD." : "Freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD."}
         structuredData={homeStructuredData}
       />
       <IntroductionSection />

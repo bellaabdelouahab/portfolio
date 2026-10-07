@@ -1,3 +1,4 @@
+import { useT } from "../i18n/strings";
 /**
  * Placeholder shown while a route's loader is running.
  *
@@ -150,7 +151,8 @@ const VARIANTS = {
 };
 
 /** Picks the skeleton that matches the page being navigated to. */
-export function variantForPath(path = "") {
+export function variantForPath(rawPath = "") {
+  const path = rawPath.replace(/^\/fr(?=\/|$)/, "") || "/";
   if (path === "/" || path === "") return "home";
   if (path.startsWith("/projects/")) return "project";
   if (path.startsWith("/projects")) return "projects";
@@ -161,10 +163,11 @@ export function variantForPath(path = "") {
 }
 
 export default function PageSkeleton({ variant = "projects" }) {
+  const t = useT();
   const Body = VARIANTS[variant] || ProjectsListSkeleton;
   return (
     <div role="status" aria-live="polite" aria-busy="true" className="mx-auto w-full max-w-6xl px-5 py-10">
-      <span className="sr-only">Loading page…</span>
+      <span className="sr-only">{t("loading")}</span>
       <Body />
     </div>
   );

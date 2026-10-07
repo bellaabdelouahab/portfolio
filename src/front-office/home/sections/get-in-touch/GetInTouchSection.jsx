@@ -1,6 +1,8 @@
 import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
 
+import { useT } from "../../../../shared/i18n/strings";
 export default function GetInTouchSection() {
+    const t = useT();
     return (
       <div
         className="get-in-touch hidden-area"
@@ -12,18 +14,15 @@ export default function GetInTouchSection() {
       >
         <div className="home-sections-title">
           <span>09. </span>
-          Get in Touch
+          {t("home.contact")}
         </div>
         <p className="get-in-touch-content">
-          I take on freelance web development and data analytics projects
-          from Agadir, Morocco, for clients in Morocco and abroad. Book a free
-          30-minute call, or send a message with a few lines about what you
-          need. You get a fixed price in MAD within two working days.
+          {t("home.contactText")}
         </p>
         <div className="get-in-touch-btn">
           <ContactCtaButtons
             className="mb-12.5 justify-center"
-            whatsappMessage="Hi Abdelouahab, I found your portfolio and would like to talk about a project."
+            whatsappMessage={t("msg.whatsapp")}
           />
         </div>
       </div>

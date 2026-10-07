@@ -4,14 +4,14 @@
 // via `lazy`, which both the browser router and the SSR static handler know
 // how to await — this is what lets one route table serve both without a
 // separate prerender pass.
-export const routes = [
-  {
-    path: "/",
-    lazy: async () => {
-      const { default: Component } = await import("./front-office/layout/Root");
-      return { Component };
-    },
-    children: [
+const rootLazy = async () => {
+  const { default: Component } = await import("./front-office/layout/Root");
+  return { Component };
+};
+
+// The same pages exist twice: at `/` (English) and under `/fr` (French). The
+// language is read from the URL by shared/i18n/i18n.js.
+const pages = () => [
       {
         index: true,
         lazy: async () => {
@@ -115,6 +115,9 @@ export const routes = [
           return { Component };
         },
       },
-    ],
-  },
+];
+
+export const routes = [
+  { path: "/", lazy: rootLazy, children: pages() },
+  { path: "/fr", lazy: rootLazy, children: pages().filter((r) => r.path !== "fill-db") },
 ];
