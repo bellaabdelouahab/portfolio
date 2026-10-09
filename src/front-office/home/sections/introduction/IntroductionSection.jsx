@@ -48,15 +48,21 @@ export default function IntroductionSection() {
           ))}
         </ul>
       </div>
-      <img
-        src="/profile.webp"
-        fetchpriority="high"
-        decoding="async"
-        alt={t("hero.photoAlt")}
-        width="250"
-        height="250"
-        className="m-0 mx-auto mt-10 h-48 w-48 shrink-0 self-center rounded-full border-4 border-success/60 object-cover shadow-lg md:mt-0 md:h-[20rem] md:w-[20rem]"
-      />
+      <figure className="m-0 mx-auto mt-10 flex shrink-0 flex-col items-center gap-4 self-center text-center md:mt-0">
+        <img
+          src="/profile.webp"
+          fetchpriority="high"
+          decoding="async"
+          alt={t("hero.photoAlt")}
+          width="250"
+          height="250"
+          className="m-0 h-48 w-48 shrink-0 rounded-full border-4 border-success/60 object-cover shadow-lg md:h-[20rem] md:w-[20rem]"
+        />
+        <figcaption>
+          <span className="block text-xl font-bold tracking-[1px] text-ink-strong">Abdelouahab Bella</span>
+          <span className="mt-1 block text-sm text-ink">{t("hero.role")}</span>
+        </figcaption>
+      </figure>
     </section>
   );
 }
