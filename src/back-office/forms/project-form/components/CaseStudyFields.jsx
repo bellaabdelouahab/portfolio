@@ -5,6 +5,36 @@ const HINT = "mt-1 text-xs text-ink-muted";
 
 const lines = (arr, fn) => (arr || []).map(fn).join("\n");
 
+
+/** French version of the same fields. Empty fields fall back to English on /fr. */
+function FrenchFields({ initial }) {
+  const fr = initial?.fr || {};
+  const cs = fr.caseStudy || {};
+  return (
+    <fieldset className="mt-5 rounded-md border border-line p-4">
+      <legend className="px-2 text-sm font-bold text-success">French version (shown on /fr)</legend>
+      <p className={HINT + " mb-3"}>Leave a field empty to show the English text on the French site.</p>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div><label className={LABEL}>Title</label><input name="fr_title" defaultValue={fr.title || ""} className={FIELD} /></div>
+        <div><label className={LABEL}>Client or context</label><input name="fr_client" defaultValue={cs.client || ""} className={FIELD} /></div>
+        <div><label className={LABEL}>Your role</label><input name="fr_role" defaultValue={cs.role || ""} className={FIELD} /></div>
+        <div><label className={LABEL}>Status</label><input name="fr_status" defaultValue={cs.status || ""} className={FIELD} /></div>
+      </div>
+      <div className="mt-4"><label className={LABEL}>Description</label><textarea name="fr_description" defaultValue={fr.description || ""} rows={2} className={FIELD} /></div>
+      <div className="mt-4"><label className={LABEL}>One-sentence summary</label><textarea name="fr_summary" defaultValue={cs.summary || ""} rows={2} className={FIELD} /></div>
+      <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <div><label className={LABEL}>The challenge</label><textarea name="fr_challenge" defaultValue={cs.challenge || ""} rows={5} className={FIELD} /></div>
+        <div><label className={LABEL}>What you built</label><textarea name="fr_solution" defaultValue={cs.solution || ""} rows={5} className={FIELD} /></div>
+        <div><label className={LABEL}>The outcome</label><textarea name="fr_outcome" defaultValue={cs.outcome || ""} rows={5} className={FIELD} /></div>
+      </div>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div><label className={LABEL}>Key numbers</label><textarea name="fr_results" defaultValue={lines(cs.results, (r) => `${r.value} | ${r.label}`)} rows={5} className={FIELD} /><p className={HINT}>One per line: value | label, same order as the English list.</p></div>
+        <div><label className={LABEL}>Key features</label><textarea name="fr_features" defaultValue={lines(cs.features, (f) => f)} rows={5} className={FIELD} /><p className={HINT}>One per line.</p></div>
+      </div>
+    </fieldset>
+  );
+}
+
 /**
  * Case-study fields shown on the public project page. Uncontrolled inputs read
  * back by parseCaseStudy() on submit, so the form's own state stays untouched.
@@ -74,6 +104,7 @@ export default function CaseStudyFields({ initial }) {
         <input type="checkbox" name="cs_hidden" defaultChecked={initial?.hidden === true} />
         Hide this project from the site
       </label>
+      <FrenchFields initial={initial} />
     </fieldset>
   );
 }
@@ -88,7 +119,30 @@ export function parseCaseStudy(formData, initial) {
     return { value: value.trim(), label: rest.join("|").trim() };
   }).filter((r) => r.value && r.label);
   const text = (n) => String(formData.get(n) || "").trim();
+  const frText = (n) => text(n) || undefined;
+  const frResults = split("fr_results").map((l) => {
+    const [value, ...rest] = l.split("|");
+    return { value: value.trim(), label: rest.join("|").trim() };
+  }).filter((r) => r.value && r.label);
+  const frFeatures = split("fr_features");
+  const prevFr = initial?.fr || {};
+  const frCaseStudy = Object.fromEntries(Object.entries({
+    client: frText("fr_client"), role: frText("fr_role"), status: frText("fr_status"),
+    summary: frText("fr_summary"), challenge: frText("fr_challenge"), solution: frText("fr_solution"),
+    outcome: frText("fr_outcome"),
+    results: frResults.length ? frResults : undefined,
+    features: frFeatures.length ? frFeatures : undefined,
+  }).filter(([, v]) => v !== undefined));
+  const fr = {
+    ...prevFr,
+    ...(frText("fr_title") ? { title: frText("fr_title") } : {}),
+    ...(frText("fr_description") ? { description: frText("fr_description") } : {}),
+    caseStudy: frCaseStudy,
+  };
+  if (!frText("fr_title")) delete fr.title;
+  if (!frText("fr_description")) delete fr.description;
   return {
+    fr,
     caseStudy: {
       ...(initial?.caseStudy || {}),
       kind: text("cs_kind") || "client",
