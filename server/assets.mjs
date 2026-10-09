@@ -42,7 +42,7 @@ function resolveAssetPath(input) {
   return { rel: clean, abs };
 }
 
-async function requireOwner(req, res, next) {
+export async function requireOwner(req, res, next) {
   try {
     const header = req.get("authorization") || "";
     const token = header.startsWith("Bearer ") ? header.slice(7) : "";

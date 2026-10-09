@@ -1,40 +1,45 @@
 import { Field, Input, Textarea, Select, Toggle } from "../../../ui";
 import { fieldError } from "../formModel";
+import { Group } from "./parts";
 
-export default function BasicsStep({ v, set, errors }) {
+export default function BasicsStep({ f, set, errors }) {
+  const titleErr = fieldError(errors, "title");
+  const descErr = fieldError(errors, "description");
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Field label="Title" required error={fieldError(errors, "title")} className="md:col-span-2">
-        <Input value={v.title} onChange={(e) => set("title", e.target.value)} placeholder="My project" error={!!fieldError(errors, "title")} />
+    <div className="grid gap-3 md:grid-cols-3">
+      <Field label="Title" required error={titleErr} className="md:col-span-2">
+        <Input value={f.title} onChange={(e) => set("title", e.target.value)} placeholder="Project name" error={!!titleErr} />
       </Field>
-      <Field label="GitHub link">
-        <Input value={v.githubLink} onChange={(e) => set("githubLink", e.target.value)} placeholder="github.com/you/repo" />
-      </Field>
-      <Field label="Short description" required error={fieldError(errors, "description")} className="md:col-span-3">
-        <Textarea rows={3} value={v.description} onChange={(e) => set("description", e.target.value)} placeholder="One or two sentences about the project" error={!!fieldError(errors, "description")} />
-      </Field>
-      <Field label="Start date">
-        <Input type="date" value={v.startDate} onChange={(e) => set("startDate", e.target.value)} />
-      </Field>
-      <Field label="End date" hint="Leave empty if ongoing." error={fieldError(errors, "endDate")}>
-        <Input type="date" value={v.endDate} onChange={(e) => set("endDate", e.target.value)} error={!!fieldError(errors, "endDate")} />
-      </Field>
-      <Field label="Kind">
-        <Select value={v.cs_kind} onChange={(e) => set("cs_kind", e.target.value)}>
+      <Field label="Kind" hint="Client work or a personal project.">
+        <Select value={f.kind} onChange={(e) => set("kind", e.target.value)}>
           <option value="client">Client work</option>
           <option value="personal">Personal project</option>
         </Select>
       </Field>
-      <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium text-ink">Services</span>
-        <Toggle label="Web development" checked={v.cs_web} onChange={(x) => set("cs_web", x)} />
-        <Toggle label="Data analytics" checked={v.cs_data} onChange={(x) => set("cs_data", x)} />
-      </div>
-      <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium text-ink">Visibility</span>
-        <Toggle label="Highlighted" hint="Shown first and marked with a star." checked={v.highlighted} onChange={(x) => set("highlighted", x)} />
-        <Toggle label="Hidden" hint="Removed from every page of the site." checked={v.hidden} onChange={(x) => set("hidden", x)} />
-      </div>
+
+      <Field label="Short description" required error={descErr} hint="Shown on the project card and as the page summary when there is none." className="md:col-span-3">
+        <Textarea rows={2} value={f.description} onChange={(e) => set("description", e.target.value)} placeholder="One or two sentences about the project" error={!!descErr} />
+      </Field>
+
+      <Field label="Start date">
+        <Input type="date" value={f.startDate} onChange={(e) => set("startDate", e.target.value)} />
+      </Field>
+      <Field label="End date" hint="Leave empty if the project is ongoing." error={fieldError(errors, "endDate")}>
+        <Input type="date" value={f.endDate} onChange={(e) => set("endDate", e.target.value)} error={!!fieldError(errors, "endDate")} />
+      </Field>
+      <Group title="Services">
+        <div className="flex flex-col gap-2">
+          <Toggle label="Web development" checked={f.web} onChange={(x) => set("web", x)} />
+          <Toggle label="Data analytics" checked={f.data} onChange={(x) => set("data", x)} />
+        </div>
+      </Group>
+
+      <Group title="Highlighted" className="md:col-span-1">
+        <Toggle label="Highlight this project" hint="Shown first and marked with a star." checked={f.highlighted} onChange={(x) => set("highlighted", x)} />
+      </Group>
+      <Group title="Hidden" className="md:col-span-2">
+        <Toggle label="Hide this project" hint="Removed from every page of the site. Use it while a project is not ready." checked={f.hidden} onChange={(x) => set("hidden", x)} />
+      </Group>
     </div>
   );
 }

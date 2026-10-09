@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../../../shared/lib/firebase";
-import { slugifyProjectTitle } from "../../../shared/lib/projectSlug";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../../../shared/lib/firebase";
 import { deleteAsset, listAssets } from "../../lib/assetStore";
-import { Page, Button, Badge, Input, EmptyState, ConfirmDialog, useToast } from "../../ui";
-
-const BASE_IMAGE_PATH = "public/images/projects/";
-const MAX_HOME = 3;
+import { deleteDraft, listDrafts } from "../../lib/draftStore";
+import { Page, Button, Input, EmptyState, ConfirmDialog, useToast } from "../../ui";
+import HomeBoard from "./HomeBoard";
+import DraftsSection from "./DraftsSection";
+import { GalleryCard, ListRow } from "./ProjectTiles";
+import { GridIcon, ListIcon } from "./icons";
+import { BASE_IMAGE_PATH, HOME_SLOTS, deriveSlots, sortKey } from "./projectMeta";
 
 const FILTERS = [
   { id: "all", label: "All", test: () => true },
@@ -14,24 +17,35 @@ const FILTERS = [
   { id: "personal", label: "Personal", test: (p) => p.caseStudy?.kind === "personal" },
   { id: "hidden", label: "Hidden", test: (p) => p.hidden === true },
   { id: "highlighted", label: "Highlighted", test: (p) => p.highlighted === "star" },
-  { id: "home", label: "On home", test: (p) => p.showInOverview === true },
 ];
 
-const sortKey = (p) => String(p.startDate || p.createdAt || "");
-const formatDate = (iso) => {
-  const d = iso ? new Date(iso) : null;
-  return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : "-";
+const VIEW_KEY = "backoffice.projects.view";
+const readView = () => {
+  try {
+    return localStorage.getItem(VIEW_KEY) === "list" ? "list" : "grid";
+  } catch {
+    return "grid";
+  }
 };
 
-export default function ManageProjects({ onEditProject }) {
+export default function ManageProjects({ onEditProject, onResumeDraft }) {
   const { toast } = useToast();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
+  const [view, setView] = useState(readView);
   const [busyId, setBusyId] = useState(null);
   const [confirming, setConfirming] = useState(null);
+  const [drafts, setDrafts] = useState([]);
+  const [discarding, setDiscarding] = useState(null);
+  const [draftBusy, setDraftBusy] = useState(null);
+  const [dragId, setDragId] = useState(null);
+  const [overGallery, setOverGallery] = useState(false);
+
+  const projectsRef = useRef(projects);
+  projectsRef.current = projects;
 
   const load = async () => {
     setLoading(true);
@@ -47,22 +61,43 @@ export default function ManageProjects({ onEditProject }) {
     }
   };
 
+  /** Drafts are a bonus: any failure (including "Not signed in") just hides the section. */
+  const loadDrafts = useCallback(async () => {
+    try {
+      const list = await listDrafts();
+      setDrafts(Array.isArray(list) ? list : []);
+    } catch {
+      setDrafts([]);
+    }
+  }, []);
+
   useEffect(() => {
     load();
-  }, []);
+    loadDrafts();
+    // The Firebase user can arrive after the first render; fetch drafts again then.
+    if (!auth) return undefined;
+    let first = true;
+    return onAuthStateChanged(auth, (user) => {
+      if (first) {
+        first = false;
+        return;
+      }
+      if (user) loadDrafts();
+    });
+  }, [loadDrafts]);
 
   const patchLocal = (id, patch) => setProjects((list) => list.map((p) => (p.id === id ? { ...p, ...patch } : p)));
 
   /** Optimistic update of one or more documents; reverts the local copy on failure. */
   const update = async (changes, okMessage) => {
-    const before = changes.map((c) => projects.find((p) => p.id === c.id));
+    const before = changes.map((c) => projectsRef.current.find((p) => p.id === c.id));
     changes.forEach((c) => patchLocal(c.id, c.patch));
     try {
       await Promise.all(changes.map((c) => updateDoc(doc(db, "projects", c.id), c.patch)));
-      toast(okMessage);
+      if (okMessage) toast(okMessage);
     } catch (error) {
       console.error("Update failed:", error);
-      before.forEach((p) => p && patchLocal(p.id, Object.fromEntries(Object.keys(changes.find((c) => c.id === p.id).patch).map((k) => [k, p[k]]))));
+      before.forEach((p, i) => p && patchLocal(p.id, Object.fromEntries(Object.keys(changes[i].patch).map((k) => [k, p[k]]))));
       toast(`Update failed: ${error.message}`, "danger");
     }
   };
@@ -71,21 +106,87 @@ export default function ManageProjects({ onEditProject }) {
   const toggleHighlight = (p) =>
     update([{ id: p.id, patch: { highlighted: p.highlighted === "star" ? "basic" : "star" } }], p.highlighted === "star" ? "Highlight removed" : "Project highlighted");
 
-  const toggleHome = (p) => {
-    const featured = projects
-      .filter((x) => x.showInOverview === true)
-      .sort((a, b) => (a.overviewOrder ?? 0) - (b.overviewOrder ?? 0));
-    if (p.showInOverview === true) {
-      const rest = featured.filter((x) => x.id !== p.id);
-      const changes = [
-        { id: p.id, patch: { showInOverview: false, overviewOrder: null } },
-        ...rest.map((x, i) => ({ id: x.id, patch: { overviewOrder: i } })).filter((c, i) => rest[i].overviewOrder !== i),
-      ];
-      return update(changes, "Removed from the home page");
-    }
-    if (featured.length >= MAX_HOME) return toast(`The home page shows ${MAX_HOME} projects. Remove one first.`, "danger");
-    return update([{ id: p.id, patch: { showInOverview: true, overviewOrder: featured.length } }], "Added to the home page");
+  /* ---- Home page slots ------------------------------------------------ */
+
+  const slots = useMemo(() => deriveSlots(projects), [projects]);
+  const slotIndex = useMemo(() => new Map(slots.map((p, i) => [p?.id, i])), [slots]);
+
+  /** Writes only the documents whose home state changes. `next` is an array of 3 project ids or null. */
+  const applySlots = (next, okMessage) => {
+    const current = projectsRef.current;
+    const wasOnHome = new Set(deriveSlots(current).filter(Boolean).map((p) => p.id));
+    const changes = [];
+    current.forEach((p) => {
+      const idx = next.indexOf(p.id);
+      const wanted = idx >= 0;
+      if (!wanted && !wasOnHome.has(p.id)) return;
+      const patch = {};
+      if ((p.showInOverview === true) !== wanted) patch.showInOverview = wanted;
+      if (wanted && p.overviewOrder !== idx) patch.overviewOrder = idx;
+      if (!wanted && p.overviewOrder != null) patch.overviewOrder = null;
+      if (Object.keys(patch).length) changes.push({ id: p.id, patch });
+    });
+    if (changes.length) update(changes, okMessage);
   };
+
+  const currentIds = () => deriveSlots(projectsRef.current).map((p) => p?.id ?? null);
+  const find = (id) => projectsRef.current.find((p) => p.id === id);
+
+  const dropToSlot = (index, id) => {
+    const p = find(id);
+    if (!p) return;
+    if (p.hidden === true) return toast("Hidden projects cannot be on the home page. Show it first.", "danger");
+    const next = currentIds();
+    const from = next.indexOf(id);
+    if (from === index) return;
+    const occupant = next[index];
+    if (from >= 0) {
+      next[from] = occupant;
+      next[index] = id;
+      return applySlots(next, "Home order updated");
+    }
+    next[index] = id;
+    const out = occupant ? find(occupant) : null;
+    applySlots(next, out ? `Slot ${index + 1} is now "${p.title}". "${out.title}" is back in the gallery.` : `Added to slot ${index + 1}`);
+  };
+
+  const putOnHome = (id) => {
+    const next = currentIds();
+    if (next.includes(id)) return;
+    const free = next.indexOf(null);
+    if (free < 0) return toast(`The home page shows ${HOME_SLOTS} projects. Remove one first, or drop onto a slot to replace it.`, "danger");
+    next[free] = id;
+    applySlots(next, `Added to slot ${free + 1}`);
+  };
+
+  const removeFromHome = (id) => {
+    const next = currentIds().map((x) => (x === id ? null : x));
+    applySlots(next, "Removed from the home page");
+  };
+
+  const moveInHome = (id, dir) => {
+    const next = currentIds();
+    const from = next.indexOf(id);
+    const to = from + dir;
+    if (from < 0 || to < 0 || to >= HOME_SLOTS) return;
+    [next[from], next[to]] = [next[to], next[from]];
+    applySlots(next, "Home order updated");
+  };
+
+  /* ---- Drag and drop -------------------------------------------------- */
+
+  const onDragStart = (e, id) => {
+    e.dataTransfer.setData("text/plain", id);
+    e.dataTransfer.effectAllowed = "move";
+    setDragId(id);
+  };
+  const onDragEnd = () => {
+    setDragId(null);
+    setOverGallery(false);
+  };
+  const dragOnHome = dragId != null && slotIndex.has(dragId);
+
+  /* ---- Delete --------------------------------------------------------- */
 
   /** Removes the project's stored images, then the document. */
   const deleteProject = async () => {
@@ -112,7 +213,33 @@ export default function ManageProjects({ onEditProject }) {
     }
   };
 
+  const discardDraft = async () => {
+    const draft = discarding;
+    if (!draft) return;
+    setDiscarding(null);
+    setDraftBusy(draft.id);
+    try {
+      await deleteDraft(draft.id);
+      setDrafts((list) => list.filter((d) => d.id !== draft.id));
+      toast("Draft discarded");
+    } catch (error) {
+      toast(`Could not discard the draft: ${error.message}`, "danger");
+    } finally {
+      setDraftBusy(null);
+    }
+  };
+
+  const setViewMode = (mode) => {
+    setView(mode);
+    try {
+      localStorage.setItem(VIEW_KEY, mode);
+    } catch {
+      /* ignore */
+    }
+  };
+
   const counts = useMemo(() => Object.fromEntries(FILTERS.map((f) => [f.id, projects.filter(f.test).length])), [projects]);
+  const projectTitles = useMemo(() => Object.fromEntries(projects.map((p) => [p.id, p.title])), [projects]);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -123,12 +250,48 @@ export default function ManageProjects({ onEditProject }) {
       .sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
   }, [projects, query, filter]);
 
+  const handlers = {
+    onEdit: (p) => onEditProject?.(p),
+    onToggleHidden: toggleHidden,
+    onToggleHighlight: toggleHighlight,
+    onDelete: setConfirming,
+    onPutHome: putOnHome,
+    onRemoveHome: removeFromHome,
+    onDragStart,
+    onDragEnd,
+  };
+
+  const Tile = view === "list" ? ListRow : GalleryCard;
+
   return (
     <Page
       title="Projects"
       subtitle={loading ? "Loading..." : `${projects.length} total, newest first`}
-      actions={<Button size="sm" onClick={load} disabled={loading}>Refresh</Button>}
+      actions={<Button size="sm" onClick={() => { load(); loadDrafts(); }} disabled={loading}>Refresh</Button>}
+      className="max-w-none!"
     >
+      {!loading && !loadError && (
+        <div className="sticky -top-4 z-20 -mx-1 -mt-4 mb-4 bg-page px-1 pt-4 pb-2 md:-top-6 md:-mt-5 md:pt-6">
+          <HomeBoard
+            slots={slots}
+            dragId={dragId}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDropToSlot={(i, id) => { onDragEnd(); dropToSlot(i, id); }}
+            onRemove={removeFromHome}
+            onMove={moveInHome}
+          />
+        </div>
+      )}
+
+      <DraftsSection
+        drafts={drafts}
+        projectTitles={projectTitles}
+        busyId={draftBusy}
+        onContinue={(id) => onResumeDraft?.(id)}
+        onDiscard={setDiscarding}
+      />
+
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <div className="w-full sm:w-64">
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search title or tag" aria-label="Search projects" className="py-1.5!" />
@@ -140,7 +303,7 @@ export default function ManageProjects({ onEditProject }) {
               type="button"
               onClick={() => setFilter(f.id)}
               aria-pressed={filter === f.id}
-              className={`cursor-pointer rounded-full border px-3 py-1 text-xs tracking-normal! transition-colors ${
+              className={`cursor-pointer rounded-full border px-3 py-1 text-xs tracking-normal! transition-colors focus-visible:ring-2 focus-visible:ring-success/60 focus-visible:outline-none ${
                 filter === f.id ? "border-success/50 bg-success/10 text-success" : "border-line text-ink hover:border-success/40"
               }`}
             >
@@ -148,12 +311,31 @@ export default function ManageProjects({ onEditProject }) {
             </button>
           ))}
         </div>
+        <div className="ml-auto flex overflow-hidden rounded-md border border-line" role="group" aria-label="View">
+          {[
+            { id: "grid", label: "Gallery", Icon: GridIcon },
+            { id: "list", label: "List", Icon: ListIcon },
+          ].map(({ id, label, Icon }) => (
+            <button
+              key={id}
+              type="button"
+              aria-pressed={view === id}
+              onClick={() => setViewMode(id)}
+              className={`flex cursor-pointer items-center gap-1.5 px-2.5 py-1.5 text-xs tracking-normal! transition-colors focus-visible:ring-2 focus-visible:ring-success/60 focus-visible:outline-none ${
+                view === id ? "bg-success/10 text-success" : "text-ink hover:bg-surface-raised"
+              }`}
+            >
+              <Icon />
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading ? (
-        <div className="flex flex-col gap-1.5">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-12 animate-pulse rounded-md border border-line bg-surface" />
+        <div className="grid grid-cols-2 gap-3 min-[1200px]:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-72 animate-pulse rounded-md border border-line bg-surface" />
           ))}
         </div>
       ) : loadError ? (
@@ -165,49 +347,36 @@ export default function ManageProjects({ onEditProject }) {
           action={projects.length > 0 && (query || filter !== "all") ? <Button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</Button> : undefined}
         />
       ) : (
-        <ul className="flex max-h-[calc(100vh-14rem)] flex-col gap-1.5 overflow-y-auto pr-1">
-          {visible.map((p) => {
-            const cs = p.caseStudy || {};
-            const slug = slugifyProjectTitle(p.title);
-            const busy = busyId === p.id;
-            return (
-              <li key={p.id} className={`flex flex-wrap items-center gap-3 rounded-md border border-line bg-surface px-3 py-1.5 ${p.hidden ? "opacity-70" : ""}`}>
-                <div className="h-9 w-14 shrink-0 overflow-hidden rounded-sm bg-page">
-                  {p.image && <img src={p.image} alt="" loading="lazy" className="h-full w-full object-cover" />}
-                </div>
-                <div className="min-w-0 flex-1 basis-48">
-                  <p className="truncate text-sm font-medium text-ink-strong">{p.title || "Untitled"}</p>
-                  <p className="truncate text-xs text-ink-muted">
-                    {formatDate(p.startDate || p.createdAt)}
-                    {cs.status ? ` - ${cs.status}` : p.durration ? ` - ${p.durration}` : ""}
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-1 sm:w-56">
-                  <Badge>{cs.kind === "personal" ? "Personal" : "Client"}</Badge>
-                  {(cs.services || []).map((s) => <Badge key={s}>{s === "data" ? "Data" : "Web"}</Badge>)}
-                  {p.hidden === true && <Badge tone="warning">Hidden</Badge>}
-                  {p.highlighted === "star" && <Badge tone="success">Highlighted</Badge>}
-                  {p.showInOverview === true && <Badge tone="success">Home</Badge>}
-                </div>
-                <div className="flex flex-wrap items-center gap-1">
-                  <Button size="sm" variant="primary" disabled={busy} onClick={() => onEditProject?.(p)}>Edit</Button>
-                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHidden(p)}>{p.hidden ? "Show" : "Hide"}</Button>
-                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHighlight(p)}>{p.highlighted === "star" ? "Unhighlight" : "Highlight"}</Button>
-                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHome(p)}>{p.showInOverview === true ? "Off home" : "On home"}</Button>
-                  <a
-                    href={`/projects/${slug}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-md px-2.5 py-1.5 text-xs font-medium tracking-normal! text-ink hover:bg-surface-raised hover:text-ink-strong"
-                  >
-                    View
-                  </a>
-                  <Button size="sm" variant="danger" loading={busy} disabled={busy} onClick={() => setConfirming(p)}>Delete</Button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+        <div
+          onDragOver={(e) => {
+            if (!dragOnHome) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+            if (!overGallery) setOverGallery(true);
+          }}
+          onDragLeave={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) setOverGallery(false);
+          }}
+          onDrop={(e) => {
+            if (!dragOnHome) return;
+            e.preventDefault();
+            const id = e.dataTransfer.getData("text/plain") || dragId;
+            onDragEnd();
+            if (id) removeFromHome(id);
+          }}
+          className={`relative rounded-md pb-4 transition ${overGallery ? "ring-2 ring-success/60 ring-offset-4 ring-offset-page" : ""}`}
+        >
+          {dragOnHome && (
+            <p className="pointer-events-none mb-3 rounded-md border border-dashed border-success/50 bg-success/5 px-3 py-2 text-center text-xs text-success">
+              Drop here to take it off the home page
+            </p>
+          )}
+          <ul className={view === "list" ? "flex flex-col gap-2" : "grid grid-cols-2 gap-3 min-[1200px]:grid-cols-3"}>
+            {visible.map((p) => (
+              <Tile key={p.id} p={p} homeSlot={(slotIndex.get(p.id) ?? -1) + 1} busy={busyId === p.id} dragging={dragId === p.id} h={handlers} />
+            ))}
+          </ul>
+        </div>
       )}
 
       <ConfirmDialog
@@ -218,6 +387,15 @@ export default function ManageProjects({ onEditProject }) {
         confirmLabel="Delete"
         onConfirm={deleteProject}
         onCancel={() => setConfirming(null)}
+      />
+      <ConfirmDialog
+        open={!!discarding}
+        danger
+        title="Discard draft"
+        message={discarding ? `Discard the draft "${discarding.title || "Untitled project"}"? Your unsaved changes are lost. Images already uploaded for it stay in storage.` : ""}
+        confirmLabel="Discard"
+        onConfirm={discardDraft}
+        onCancel={() => setDiscarding(null)}
       />
     </Page>
   );

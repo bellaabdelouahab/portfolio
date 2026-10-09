@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import compression from "compression";
 import { assetRoutes, uploadsStatic } from "./assets.mjs";
+import { draftRoutes } from "./drafts.mjs";
 import { seoRoutes } from "./seo.mjs";
 import { contentRoutes } from "./content.mjs";
 import { statsRoutes } from "./stats.mjs";
@@ -28,6 +29,8 @@ statsRoutes(app);
 
 // Back-office asset API and uploaded files (see server/assets.mjs).
 app.use("/api/assets", assetRoutes());
+// Back-office drafts: unfinished project edits kept on the server (server/drafts.mjs).
+app.use("/api/drafts", draftRoutes());
 // The directory only ever contains images/ and reports/ (dotfiles are not served).
 app.use(uploadsStatic());
 

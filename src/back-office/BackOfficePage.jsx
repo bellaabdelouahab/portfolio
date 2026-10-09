@@ -51,6 +51,13 @@ export default function FillDB() {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
   const [editingProject, setEditingProject] = useState(null);
+  const [resumeDraftId, setResumeDraftId] = useState(null);
+
+  // The back office needs the full width: hide the public navbar rail while it is open.
+  useEffect(() => {
+    document.body.classList.add("admin-mode");
+    return () => document.body.classList.remove("admin-mode");
+  }, []);
 
   // The active tab lives in the URL hash so a reload (or a link) lands on the same screen.
   useEffect(() => {
@@ -74,7 +81,17 @@ export default function FillDB() {
 
   const handleEditProject = useCallback(
     (project) => {
+      setResumeDraftId(null);
       setEditingProject(project);
+      goTo("project");
+    },
+    [goTo]
+  );
+
+  const handleResumeDraft = useCallback(
+    (draftId) => {
+      setEditingProject(null);
+      setResumeDraftId(draftId);
       goTo("project");
     },
     [goTo]
@@ -146,16 +163,18 @@ export default function FillDB() {
       case "project":
         return (
           <ProjectForm
-            key={editingProject?._id || "new"}
+            key={resumeDraftId || editingProject?._id || "new"}
             initialProject={editingProject}
+            resumeDraftId={resumeDraftId}
             onDoneEditing={() => {
               setEditingProject(null);
+              setResumeDraftId(null);
               goTo("projects");
             }}
           />
         );
       case "projects":
-        return <ManageProjects onEditProject={handleEditProject} />;
+        return <ManageProjects onEditProject={handleEditProject} onResumeDraft={handleResumeDraft} />;
       case "certificates":
         return <CertificatesForm />;
       case "testimonials":
@@ -165,9 +184,9 @@ export default function FillDB() {
       case "analytics":
         return <AnalyticsPanel />;
       default:
-        return <OverviewPanel onNavigate={(id) => { if (id === "project") setEditingProject(null); goTo(id); }} />;
+        return <OverviewPanel onNavigate={(id) => { if (id === "project") { setEditingProject(null); setResumeDraftId(null); } goTo(id); }} />;
     }
-  }, [activeTab, editingProject, goTo, handleEditProject]);
+  }, [activeTab, editingProject, resumeDraftId, goTo, handleEditProject, handleResumeDraft]);
 
   if (!authChecked) {
     return <div className="grid min-h-[50vh] place-items-center text-sm text-ink-muted">Checking authentication...</div>;
@@ -206,6 +225,10 @@ export default function FillDB() {
                   </div>
                 )}
 
+                <a href="/" className="rounded-md border border-line px-3 py-2 text-center text-xs text-ink! hover:border-success/50 hover:text-ink-strong!">
+                  View site
+                </a>
+
                 <nav className="flex flex-1 flex-col gap-4" aria-label="Back office sections">
                   {NAV.map((group) => (
                     <div key={group.group}>
@@ -218,7 +241,10 @@ export default function FillDB() {
                               key={item.id}
                               type="button"
                               onClick={() => {
-                                if (item.id === "project") setEditingProject(null);
+                                if (item.id === "project") {
+                                  setEditingProject(null);
+                                  setResumeDraftId(null);
+                                }
                                 goTo(item.id);
                               }}
                               aria-current={isActive ? "page" : undefined}

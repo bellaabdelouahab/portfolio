@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-
-/** Image preview for either a freshly picked File or a stored site path. */
-export default function Thumb({ file, src, alt = "", className = "" }) {
-  const [url, setUrl] = useState(src || null);
-  useEffect(() => {
-    if (file) {
-      const u = URL.createObjectURL(file);
-      setUrl(u);
-      return () => URL.revokeObjectURL(u);
-    }
-    setUrl(src || null);
-    return undefined;
-  }, [file, src]);
-  if (!url) {
-    return <div className={`flex items-center justify-center bg-page text-[0.65rem] text-ink-muted ${className}`}>No image</div>;
-  }
-  return <img src={url} alt={alt} className={`bg-page object-cover ${className}`} />;
+/** Image preview for a stored site path or a local blob URL (while uploading). */
+export default function Thumb({ src, alt = "", className = "", busy = false }) {
+  return (
+    <div className={`relative overflow-hidden bg-page ${className}`}>
+      {src ? (
+        <img src={src} alt={alt} className={`size-full object-cover ${busy ? "opacity-50" : ""}`} />
+      ) : (
+        <div className="flex size-full items-center justify-center text-xs text-ink-muted">No image</div>
+      )}
+      {busy && (
+        <div className="absolute inset-0 flex items-center justify-center gap-2 text-xs text-ink-strong">
+          <span aria-hidden="true" className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          Uploading...
+        </div>
+      )}
+    </div>
+  );
 }

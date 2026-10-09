@@ -12,9 +12,11 @@ border-radius: 5px; */
 content: "";
 position: absolute;
 left: 0;
-top: 0;
-width: 5px;
-height: 100%;
+top: 50%;
+width: 4px;
+height: 72%;
+transform: translateY(-50%);
+border-radius: 2px;
 background: #d91706a3;
 
 

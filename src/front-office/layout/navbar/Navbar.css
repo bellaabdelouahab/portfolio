@@ -80,6 +80,14 @@ white-space: nowrap;
 .navbar__menu__list > li > a:hover {
 border-radius: 5px;
 }
+/* The active marker is positioned against the link itself, so it and the
+   label share one vertical centre in every row. */
+.navbar__menu__list > li > a {
+position: relative;
+display: flex;
+align-items: center;
+min-height: 36px;
+}
 .navbar__menu__list > hr {
 width: 100%;
 }
