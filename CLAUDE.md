@@ -22,7 +22,7 @@ src/
   entry-client.jsx      hydration
   entry-server.jsx      SSR render
   front-office/         public pages (home, projects, services, certificates, team, articles, reports)
-  back-office/          /fill-db admin (forms, storage status, visitor stats)
+  back-office/          /fill-db admin (forms, storage status, analytics link)
   shared/               lib/, ui/, styles/, i18n/
 server/                 index.mjs (SSR), assets.mjs, content.mjs, seo.mjs, stats.mjs
 ops/assets-sync/        VPS backup scripts

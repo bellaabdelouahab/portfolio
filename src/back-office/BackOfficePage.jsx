@@ -5,7 +5,7 @@ import LoginPage from "./login-page/LoginPage";
 import ManageProjects from "./forms/manage-projects-form/ManageProjects";
 import CertificatesForm from "./forms/certificates-form/CertificatesForm";
 import Clients from "./forms/clients-form/Clients";
-import VisitorStats from "./visitor-stats/VisitorStats";
+import AnalyticsPanel from "./analytics/AnalyticsPanel";
 import StoragePanel from "./storage/StoragePanel";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import SEO from "../shared/ui/SEO";
@@ -29,7 +29,7 @@ export default function FillDB() {
     { id: 2, label: "Certificate", component: <CertificatesForm /> },
     { id: 3, label: "Report", component: <ReportForm /> },
     { id: 4, label: "Clients", component: <Clients /> },
-    { id: 5, label: "Visitor Stats", component: <VisitorStats /> },
+    { id: 5, label: "Analytics", component: <AnalyticsPanel /> },
     { id: 6, label: "Storage", component: <StoragePanel /> },
   ]
 
