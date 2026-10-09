@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import IntroductionSection from "./sections/introduction/IntroductionSection";
 import ProjectsSection from "./sections/featured-projects/ProjectsSection";
-import GithubProgressSection from "./sections/github-progress/GithubProgressSection";
 import InternshipProjectsSection from "./sections/internship-projects/InternshipProjectsSection";
 import AboutMeSection from "./sections/about-me/AboutMeSection";
 import GetInTouchSection from "./sections/get-in-touch/GetInTouchSection";
@@ -104,7 +103,6 @@ export default function Home() {
       <Collaborations />
       <HappyClientsSection clients={clients} />
       <ServicesSection />
-      <GithubProgressSection />
       <FAQSection />
       <GetInTouchSection />
     </>

@@ -44,7 +44,17 @@ const TRACKS = [
 const ISSUER = { "OPEN CLASS ROOM": "OpenClassrooms", "IBM & Coursera": "IBM and Coursera", "DIGITAL INITIATIVE": "Digital Initiative", "OPEN SOURCE": "Open Source Days" };
 const issuerOf = (c) => ISSUER[c.issuer] || c.issuer;
 const validLink = (l) => /^https?:\/\//.test(l || "") && !/certificate_example|\btest\b/.test(l);
-const year = (c) => { const d = toDate(c.createdAt); return d.getTime() ? d.getFullYear() : ""; };
+// UTC keeps the server and browser renders identical for date-only strings.
+const when = (c) => toDate(c.issuedAt || c.createdAt);
+const year = (c) => { const d = when(c); return d.getTime() ? d.getUTCFullYear() : ""; };
+const hasOrder = (c) => typeof c.order === "number" && Number.isFinite(c.order);
+// Featured first, then the owner's explicit order, then the RANK list, then newest.
+const compare = (a, b) => {
+  if (!!a.featured !== !!b.featured) return a.featured ? -1 : 1;
+  if (hasOrder(a) !== hasOrder(b)) return hasOrder(a) ? -1 : 1;
+  if (hasOrder(a) && a.order !== b.order) return a.order - b.order;
+  return rankOf(a) - rankOf(b) || when(b) - when(a);
+};
 // OpenClassrooms files include specimen copies, so those show an issuer mark instead.
 const showArt = (c) => c.issuer !== "OPEN CLASS ROOM" || /65d749b4/.test(c.image || "");
 const art = (c) => (c.image || "").replace(".webp", "_result.webp");
@@ -73,6 +83,7 @@ function Badge({ c, size = "size-24", onOpen }) {
 
 function Viewer({ c, onClose }) {
   const t = useT();
+  const lang = useLang();
   useEffect(() => {
     const k = (e) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", k);
@@ -84,6 +95,7 @@ function Viewer({ c, onClose }) {
         {showArt(c) && <img loading="lazy" decoding="async" src={art(c)} alt={c.title} className="mx-auto mb-5 max-h-72 w-auto rounded-sm bg-white object-contain" />}
         <h2 className="text-xl font-bold text-ink-strong">{c.title}</h2>
         <p className="mt-1 text-sm text-ink-muted">{issuerOf(c)} · {year(c)}</p>
+        {c.credentialId && <p className="mt-1 text-xs text-ink-muted">{lang === "fr" ? "ID de la certification :" : "Credential ID:"} {c.credentialId}</p>}
         <div className="mt-5 flex justify-center gap-3">
           {validLink(c.link) && (
             <a href={c.link} target="_blank" rel="noopener noreferrer" className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-black!">{t("cert.verify")}</a>
@@ -96,21 +108,27 @@ function Viewer({ c, onClose }) {
 }
 
 export default function Certificates() {
-  const { allCertificates, count } = useLoaderData();
+  const { allCertificates: loaded, count: loadedCount } = useLoaderData();
   const t = useT();
   const lang = useLang();
   const [open, setOpen] = useState(null);
 
-  const featured = FEATURED.map((t) => allCertificates.find((c) => c.title === t)).filter(Boolean);
+  const allCertificates = useMemo(() => (loaded || []).filter((c) => !c.hidden), [loaded]);
+  const count = allCertificates.length === (loaded || []).length ? loadedCount : allCertificates.length;
+  const featured = useMemo(() => {
+    const flagged = allCertificates.filter((c) => c.featured);
+    if (flagged.length) return [...flagged].sort(compare);
+    return FEATURED.map((name) => allCertificates.find((c) => c.title === name)).filter(Boolean);
+  }, [allCertificates]);
   const groups = useMemo(() => {
-    const left = allCertificates.filter((c) => !FEATURED.includes(c.title));
+    const left = allCertificates.filter((c) => !featured.includes(c));
     const used = new Set();
     return TRACKS.map(([en, fr, test]) => {
-      const items = left.filter((c) => !used.has(c) && test(c)).sort((a, b) => rankOf(a) - rankOf(b));
+      const items = left.filter((c) => !used.has(c) && test(c)).sort(compare);
       items.forEach((c) => used.add(c));
       return [lang === "fr" ? fr : en, items];
     }).filter(([, items]) => items.length);
-  }, [allCertificates, lang]);
+  }, [allCertificates, featured, lang]);
 
   return (
     <>
@@ -130,8 +148,8 @@ export default function Certificates() {
         {featured.length > 0 && (
           <div className="mb-10 grid gap-5 md:grid-cols-2">
             {featured.map((c) => (
-              <button key={c.title} type="button" onClick={() => setOpen(c)} className="group flex cursor-pointer items-center gap-5 rounded-md border border-success/40 bg-surface p-5 text-left transition-colors hover:border-success">
-                <img loading="lazy" decoding="async" src={art(c)} alt="" className="size-28 shrink-0 rounded-md bg-white object-contain p-1" />
+              <button key={c._id || c.title} type="button" onClick={() => setOpen(c)} className="group flex cursor-pointer items-center gap-5 rounded-md border border-success/40 bg-surface p-5 text-left transition-colors hover:border-success">
+                {showArt(c) ? <img loading="lazy" decoding="async" src={art(c)} alt="" className="size-28 shrink-0 rounded-md bg-white object-contain p-1" /> : <Mark c={c} className="size-28" />}
                 <span>
                   <span className="text-xs font-bold tracking-[2px]! text-success uppercase">{t("cert.featured")}</span>
                   <span className="mt-1 block text-lg leading-snug font-bold text-ink-strong">{c.title}</span>
@@ -146,7 +164,7 @@ export default function Certificates() {
           <section key={name} className="mb-10">
             <h2 className="mb-5 border-b border-line pb-2 text-lg font-bold text-ink-strong">{name} <span className="font-normal text-ink-muted">({items.length})</span></h2>
             <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4">
-              {items.map((c) => <Badge key={c.title} c={c} onOpen={setOpen} />)}
+              {items.map((c) => <Badge key={c._id || c.title} c={c} onOpen={setOpen} />)}
             </div>
           </section>
         ))}

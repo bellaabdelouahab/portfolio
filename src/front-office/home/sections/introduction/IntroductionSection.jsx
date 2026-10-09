@@ -63,6 +63,9 @@ export default function IntroductionSection() {
           <span className="mt-1 block text-sm text-ink">{t("hero.role")}</span>
         </figcaption>
       </figure>
+      {/* Fades the photographic background into the flat colour the projects
+          section starts with (#181818), so the two never meet at a hard edge. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-[#181818]" />
     </section>
   );
 }

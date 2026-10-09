@@ -13,7 +13,6 @@
     "firebase": "^11.3.0",
     "firebase-admin": "^13.1.0",
     "hast-util-to-html": "^8.0.4",
-    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",

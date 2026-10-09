@@ -11,6 +11,8 @@ const SITE_URL = (process.env.SITE_URL || process.env.VITE_SITE_URL || "https://
 export const REDIRECTS = {
   "/services/ai": "/services/data",
   "/services/learning": "/services/web",
+  "/site-map": "/",
+  "/reports": "/",
 };
 
 const STATIC_PAGES = [

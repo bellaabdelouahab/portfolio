@@ -7,7 +7,6 @@ import {
   faListCheck,
   faCertificate,
   faUsers,
-  faSitemap,
   faChartLine,
   faCode
 } from "@fortawesome/free-solid-svg-icons";
@@ -152,11 +151,6 @@ export default function Navbar() {
               GitHub
             </a>
           </li>
-          {isAuthenticated && userEmail === "abdobella977@gmail.com" && (
-            <li>
-              {getNavLink("/site-map", t("nav.sitemap"), faSitemap)}
-            </li>
-          )}
           <br />
           <hr />
         </ul>

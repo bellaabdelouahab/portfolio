@@ -21,8 +21,8 @@ src/
   routes.jsx            route table, used by server and client; mounted at / and /fr
   entry-client.jsx      hydration
   entry-server.jsx      SSR render
-  front-office/         public pages (home, projects, services, certificates, team, articles, reports)
-  back-office/          /fill-db admin (forms, storage status, analytics link)
+  front-office/         public pages (home, projects, services, certificates, team, articles)
+  back-office/          /fill-db admin: overview, project wizard, project list, certificates, testimonials, storage, analytics link. Screens are built from the kit in back-office/ui
   shared/               lib/, ui/, styles/, i18n/
 server/                 index.mjs (SSR), assets.mjs, content.mjs, seo.mjs, stats.mjs
 ops/assets-sync/        VPS backup scripts

@@ -46,9 +46,9 @@ export default function FAQSection() {
           {t("home.faq")}
         </div>
 
-        <div className="mx-auto grid w-full max-w-8xl gap-4 px-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,.7fr)] lg:items-start mb-5">
+        <div className="mx-auto grid w-full max-w-8xl gap-4 px-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-stretch mb-5">
           {/* Question list */}
-          <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-2">
+          <ul className="flex flex-col gap-2">
             {faqData.map((item) => {
               const isSelected = item.id === selected?.id;
               return (
@@ -58,7 +58,7 @@ export default function FAQSection() {
                     onClick={() => setSelectedId(item.id)}
                     aria-pressed={isSelected}
                     className={[
-                      "flex w-full items-center justify-between gap-3 rounded-lg border p-4 text-left",
+                      "flex min-h-14 w-full items-center justify-between gap-3 rounded-lg border px-4 py-3 text-left",
                       "transition-colors duration-200 cursor-pointer",
                       isSelected
                         ? "border-success/60 bg-surface text-ink-strong"
@@ -85,7 +85,7 @@ export default function FAQSection() {
               activating a button elsewhere is what updates this region. */}
           <div
             aria-live="polite"
-            className="rounded-lg border border-line bg-surface p-6 lg:sticky lg:top-24 lg:min-h-64"
+            className="rounded-lg border border-line bg-surface p-6 lg:p-8"
           >
             {selected && (
               <>

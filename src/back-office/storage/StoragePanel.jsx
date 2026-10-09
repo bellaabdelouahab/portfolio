@@ -1,24 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 import { getAssetStatus, requestBackup } from "../lib/assetStore";
+import { Badge, Button, Card, Page, useToast } from "../ui";
+import { describeBackup, formatSize, timeAgo } from "./backupStatus";
 
 const REPO_BRANCH_URL = "https://github.com/bellaabdelouahab/portfolio/tree/uploads";
-const STALE_MINUTES = 20;
+const REPO_COMMIT_URL = "https://github.com/bellaabdelouahab/portfolio/commit/";
 
-const size = (b) => (b > 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
-const ago = (iso) => {
-  if (!iso) return "never";
-  const m = Math.round((Date.now() - Date.parse(iso)) / 60000);
-  if (m < 1) return "just now";
-  if (m < 60) return `${m} min ago`;
-  if (m < 1440) return `${Math.round(m / 60)} h ago`;
-  return `${Math.round(m / 1440)} days ago`;
+const BANNER = {
+  success: "border-success/40 bg-success/10",
+  warning: "border-amber-500/40 bg-amber-500/10",
+  danger: "border-danger/40 bg-danger/10",
 };
 
-function Row({ label, children }) {
+function Stat({ label, value, hint }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-line py-3 text-sm last:border-0">
-      <dt className="text-ink-muted">{label}</dt>
-      <dd className="text-right text-ink-strong">{children}</dd>
+    <div className="rounded-md border border-line bg-page/40 px-4 py-3">
+      <p className="text-xs text-ink-muted">{label}</p>
+      <p className="mt-1 text-lg font-semibold text-ink-strong">{value}</p>
+      {hint && <p className="mt-0.5 text-xs text-ink-muted">{hint}</p>}
     </div>
   );
 }
@@ -29,6 +28,7 @@ function Row({ label, children }) {
  * branch of the repository and records the result that is shown here.
  */
 export default function StoragePanel() {
+  const { toast } = useToast();
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -52,73 +52,97 @@ export default function StoragePanel() {
     setBusy(true);
     try {
       await requestBackup();
+      toast("Backup requested. It runs within a few minutes.");
       await load();
     } catch (e) {
-      setError(e.message);
+      toast(`Could not request a backup: ${e.message}`, "danger");
     } finally {
       setBusy(false);
     }
   };
 
-  if (error && !data) return <p className="p-6 text-sm text-danger">Could not read storage status: {error}</p>;
-  if (!data) return <p className="p-6 text-sm text-ink">Loading storage status…</p>;
+  const refresh = async () => {
+    await load();
+    toast("Status refreshed");
+  };
+
+  const actions = (
+    <>
+      <Button size="sm" onClick={refresh}>Refresh</Button>
+      <Button variant="primary" size="sm" loading={busy} disabled={!data || data.requested} onClick={backupNow}>
+        {data?.requested ? "Backup requested" : "Back up now"}
+      </Button>
+    </>
+  );
+
+  if (!data) {
+    return (
+      <Page title="Storage" subtitle="Uploaded images and files, and their GitHub backup.">
+        {error ? (
+          <div role="alert" className="rounded-md border border-danger/40 bg-danger/10 p-4 text-sm text-danger">
+            Could not read storage status: {error}
+            <div className="mt-3"><Button size="sm" onClick={load}>Try again</Button></div>
+          </div>
+        ) : (
+          <div className="animate-pulse space-y-3" aria-busy="true">
+            <div className="h-16 rounded-md bg-surface-raised" />
+            <div className="grid grid-cols-3 gap-3">
+              {[0, 1, 2].map((i) => <div key={i} className="h-20 rounded-md bg-surface-raised" />)}
+            </div>
+          </div>
+        )}
+      </Page>
+    );
+  }
 
   const { storage, sync, unsynced, requested } = data;
-  const lastRunMin = sync?.lastRunAt ? (Date.now() - Date.parse(sync.lastRunAt)) / 60000 : Infinity;
-  const stale = lastRunMin > STALE_MINUTES;
-  const healthy = sync && sync.ok && !stale;
-  const state = !sync ? "Backup job has not run yet" : !sync.ok ? "Last backup failed" : stale ? "Backup job is not running" : unsynced > 0 ? "Waiting for next backup" : "Backed up";
+  const status = describeBackup(data);
 
   return (
-    <section className="mx-auto max-w-2xl p-5">
-      <h2 className="text-xl font-bold text-ink-strong">Asset storage</h2>
-      <p className="mt-1 text-sm text-ink">
-        Images and files you upload are stored on the VPS and copied to GitHub as a backup.
-      </p>
+    <Page title="Storage" subtitle="Uploaded images and files, and their GitHub backup." actions={actions}>
+      <div className="space-y-4">
+        {error && <p role="alert" className="text-xs text-danger">Could not refresh: {error}</p>}
 
-      <div className={`mt-5 rounded-md border p-4 ${healthy && unsynced === 0 ? "border-success/40 bg-success/10" : "border-danger/40 bg-danger/10"}`}>
-        <p className="font-bold text-ink-strong">{state}</p>
-        {sync?.error && <p className="mt-1 text-xs text-danger">{sync.error}</p>}
-      </div>
+        <div className={`flex flex-wrap items-center justify-between gap-2 rounded-md border px-4 py-3 ${BANNER[status.tone]}`}>
+          <div>
+            <p className="text-sm font-semibold text-ink-strong">{status.label}</p>
+            <p className="text-xs text-ink">{status.detail}</p>
+          </div>
+          {requested && <Badge tone="warning">Backup requested</Badge>}
+        </div>
 
-      <dl className="mt-4 rounded-md border border-line bg-surface px-4">
-        <Row label="Stored on the VPS">{storage.files} files, {size(storage.bytes)}</Row>
-        <Row label="Not yet backed up">{unsynced} files</Row>
-        <Row label="Last backup check">{ago(sync?.lastRunAt)}</Row>
-        <Row label="Last push to GitHub">
-          {sync?.lastPushAt ? (
-            <>
-              {ago(sync.lastPushAt)}
-              {sync.lastCommit && (
-                <a className="ml-2 text-success!" target="_blank" rel="noopener noreferrer" href={`https://github.com/bellaabdelouahab/portfolio/commit/${sync.lastCommit}`}>
-                  {sync.lastCommit.slice(0, 7)}
-                </a>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <Stat label="Last backup" value={timeAgo(sync?.lastPushAt)} hint={sync?.lastCommit ? `Commit ${sync.lastCommit.slice(0, 7)}` : "No push yet"} />
+          <Stat label="Files on the server" value={storage?.files ?? 0} hint={formatSize(storage?.bytes)} />
+          <Stat label="Waiting to be backed up" value={unsynced ?? 0} hint={`${sync?.backedUpFiles ?? 0} already on GitHub`} />
+        </div>
+
+        <Card title="What is backed up and where">
+          <ul className="space-y-2 text-sm text-ink">
+            <li>Images and files you upload here are stored on the site server (the VPS).</li>
+            <li>
+              A job on the server checks every 5 minutes and copies new files to the{" "}
+              <a className="text-success!" target="_blank" rel="noopener noreferrer" href={REPO_BRANCH_URL}>uploads branch on GitHub</a>.
+              Nothing is ever deleted from the backup.
+            </li>
+            <li>
+              Last check {timeAgo(sync?.lastRunAt)}.
+              {sync?.lastCommit && (
+                <>
+                  {" "}Latest commit{" "}
+                  <a className="text-success!" target="_blank" rel="noopener noreferrer" href={`${REPO_COMMIT_URL}${sync.lastCommit}`}>
+                    {sync.lastCommit.slice(0, 7)}
+                  </a>.
+                </>
               )}
-            </>
-          ) : "never"}
-        </Row>
-        <Row label="Backed up on GitHub">{sync?.backedUpFiles ?? 0} files</Row>
-        <Row label="Backup location">
-          <a className="text-success!" target="_blank" rel="noopener noreferrer" href={REPO_BRANCH_URL}>branch “uploads”</a>
-        </Row>
-      </dl>
-
-      <div className="mt-5 flex items-center gap-3">
-        <button
-          type="button"
-          onClick={backupNow}
-          disabled={busy || requested}
-          className="cursor-pointer rounded-md bg-success px-4 py-2 text-sm font-semibold text-page transition-colors hover:bg-success/85 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {requested ? "Backup requested, runs within a few minutes" : "Back up now"}
-        </button>
-        <button type="button" onClick={load} className="cursor-pointer text-sm text-ink hover:text-ink-strong">Refresh</button>
+            </li>
+            <li className="text-xs text-ink-muted">
+              To restore after a rebuild, run <code className="rounded bg-surface-raised px-1.5 py-0.5">~/portfolio-sync/restore.sh</code> on
+              the server. It also runs by itself when the storage volume is empty.
+            </li>
+          </ul>
+        </Card>
       </div>
-      <p className="mt-4 text-xs text-ink-muted">
-        The VPS checks every 5 minutes and pushes new files by itself. To restore after a rebuild, run
-        <code className="mx-1 rounded bg-surface-raised px-1.5 py-0.5">~/portfolio-sync/restore.sh</code> on the VPS; it also runs
-        automatically when the storage volume is empty.
-      </p>
-    </section>
+    </Page>
   );
 }

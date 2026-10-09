@@ -1,296 +1,224 @@
-import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { useEffect, useMemo, useState } from "react";
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../shared/lib/firebase";
+import { slugifyProjectTitle } from "../../../shared/lib/projectSlug";
+import { deleteAsset, listAssets } from "../../lib/assetStore";
+import { Page, Button, Badge, Input, EmptyState, ConfirmDialog, useToast } from "../../ui";
 
-import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
-/* Shared between the loading skeleton and the real grid so the two can never
-   drift out of alignment — a skeleton at a different column width is worse than
-   no skeleton at all. */
-const PANEL = "w-full rounded-md border border-line bg-surface-raised p-2.5";
-const FEATURED_ROW = "grid w-full grid-cols-3 gap-2.5";
-const PROJECT_GRID = "grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-2.5";
+const BASE_IMAGE_PATH = "public/images/projects/";
+const MAX_HOME = 3;
 
-/* Cards: the featured slots and the pickable grid differ only in alignment and
-   the minimum height a drop target needs. */
-const CARD =
-  "flex flex-col rounded-md border border-line bg-surface p-2 text-center transition duration-200 ease-standard hover:border-success/60 hover:shadow-md";
+const FILTERS = [
+  { id: "all", label: "All", test: () => true },
+  { id: "client", label: "Client", test: (p) => p.caseStudy?.kind !== "personal" },
+  { id: "personal", label: "Personal", test: (p) => p.caseStudy?.kind === "personal" },
+  { id: "hidden", label: "Hidden", test: (p) => p.hidden === true },
+  { id: "highlighted", label: "Highlighted", test: (p) => p.highlighted === "star" },
+  { id: "home", label: "On home", test: (p) => p.showInOverview === true },
+];
 
-const githubDetails = {
-  owner: "bellaabdelouahab",
-  repo: "portfolio",
-  branch: "master",
-  baseImagePath: "public/images/projects/",
-  get token() {
-    return "vps";
-  },
+const sortKey = (p) => String(p.startDate || p.createdAt || "");
+const formatDate = (iso) => {
+  const d = iso ? new Date(iso) : null;
+  return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString("en-GB", { month: "short", year: "numeric" }) : "-";
 };
 
 export default function ManageProjects({ onEditProject }) {
+  const { toast } = useToast();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedProjects, setSelectedProjects] = useState([]);
-  const [deletingId, setDeletingId] = useState(null);
-  const [dragIndex, setDragIndex] = useState(null);
+  const [loadError, setLoadError] = useState("");
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("all");
+  const [busyId, setBusyId] = useState(null);
+  const [confirming, setConfirming] = useState(null);
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
+  const load = async () => {
     setLoading(true);
+    setLoadError("");
     try {
-      const projectsCollection = collection(db, "projects");
-      const projectsSnapshot = await getDocs(projectsCollection);
-      const projectsList = projectsSnapshot.docs.map((d) => ({
-        id: d.id,
-        ...d.data(),
-      }));
-      setProjects(projectsList);
-
-      // Restore previously featured order, if any
-      const featured = projectsList
-        .filter((p) => p.showInOverview)
-        .sort((a, b) => (a.overviewOrder ?? 0) - (b.overviewOrder ?? 0));
-      setSelectedProjects(featured.slice(0, 3));
+      const snapshot = await getDocs(collection(db, "projects"));
+      setProjects(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
     } catch (error) {
       console.error("Error fetching projects:", error);
+      setLoadError(error.message || "Could not load projects.");
     } finally {
       setLoading(false);
     }
   };
 
-  const numColumns = Math.max(1, Math.ceil(projects.length / 3));
+  useEffect(() => {
+    load();
+  }, []);
 
-  /* ---------- Featured selection ---------- */
-  const toggleSelect = (project) => {
-    if (selectedProjects.some((p) => p.id === project.id)) {
-      setSelectedProjects(selectedProjects.filter((p) => p.id !== project.id));
-    } else {
-      if (selectedProjects.length === 3) return;
-      setSelectedProjects([...selectedProjects, project]);
-    }
-  };
+  const patchLocal = (id, patch) => setProjects((list) => list.map((p) => (p.id === id ? { ...p, ...patch } : p)));
 
-  /* ---------- Drag & drop reorder of the 3 featured slots ---------- */
-  const handleDragStart = (index) => setDragIndex(index);
-  const handleDragOver = (e) => e.preventDefault();
-  const handleDrop = (index) => {
-    if (dragIndex === null || dragIndex === index) return;
-    const next = [...selectedProjects];
-    const [moved] = next.splice(dragIndex, 1);
-    next.splice(index, 0, moved);
-    setSelectedProjects(next);
-    setDragIndex(null);
-  };
-
-  /* ---------- Validate / save order ---------- */
-  const handleValidate = async () => {
+  /** Optimistic update of one or more documents; reverts the local copy on failure. */
+  const update = async (changes, okMessage) => {
+    const before = changes.map((c) => projects.find((p) => p.id === c.id));
+    changes.forEach((c) => patchLocal(c.id, c.patch));
     try {
-      const projectsCollection = collection(db, "projects");
-      const projectsSnapshot = await getDocs(projectsCollection);
-
-      await Promise.all(
-        projectsSnapshot.docs.map((docSnapshot) =>
-          updateDoc(doc(db, "projects", docSnapshot.id), {
-            showInOverview: false,
-            overviewOrder: null,
-          }),
-        ),
-      );
-
-      await Promise.all(
-        selectedProjects.map((project, index) =>
-          updateDoc(doc(db, "projects", project.id), {
-            showInOverview: true,
-            overviewOrder: index,
-          }),
-        ),
-      );
-
-      alert("Featured projects updated successfully!");
+      await Promise.all(changes.map((c) => updateDoc(doc(db, "projects", c.id), c.patch)));
+      toast(okMessage);
     } catch (error) {
-      console.error("Error updating featured projects:", error);
-      alert("Failed to update featured projects. See console for details.");
+      console.error("Update failed:", error);
+      before.forEach((p) => p && patchLocal(p.id, Object.fromEntries(Object.keys(changes.find((c) => c.id === p.id).patch).map((k) => [k, p[k]]))));
+      toast(`Update failed: ${error.message}`, "danger");
     }
   };
 
-  /* ---------- Edit ---------- */
-  const handleEdit = (e, project) => {
-    e.stopPropagation();
-    onEditProject?.(project);
+  const toggleHidden = (p) => update([{ id: p.id, patch: { hidden: !(p.hidden === true) } }], p.hidden ? "Project is visible again" : "Project hidden");
+  const toggleHighlight = (p) =>
+    update([{ id: p.id, patch: { highlighted: p.highlighted === "star" ? "basic" : "star" } }], p.highlighted === "star" ? "Highlight removed" : "Project highlighted");
+
+  const toggleHome = (p) => {
+    const featured = projects
+      .filter((x) => x.showInOverview === true)
+      .sort((a, b) => (a.overviewOrder ?? 0) - (b.overviewOrder ?? 0));
+    if (p.showInOverview === true) {
+      const rest = featured.filter((x) => x.id !== p.id);
+      const changes = [
+        { id: p.id, patch: { showInOverview: false, overviewOrder: null } },
+        ...rest.map((x, i) => ({ id: x.id, patch: { overviewOrder: i } })).filter((c, i) => rest[i].overviewOrder !== i),
+      ];
+      return update(changes, "Removed from the home page");
+    }
+    if (featured.length >= MAX_HOME) return toast(`The home page shows ${MAX_HOME} projects. Remove one first.`, "danger");
+    return update([{ id: p.id, patch: { showInOverview: true, overviewOrder: featured.length } }], "Added to the home page");
   };
 
-  /* ---------- Delete (Firestore + GitHub assets) ---------- */
-  const listRepoFolder = (path) => listAssets(path);
-
-  const deleteRepoFile = (path) => deleteAsset(path);
-
-  const deleteProjectAssets = async (projectId) => {
-    const basePath = `${githubDetails.baseImagePath}${projectId}`;
-
-    // Carousel subfolder first
-    const carouselFiles = await listRepoFolder(`${basePath}/carousel`);
-    for (const file of carouselFiles) {
-      if (file.type === "file") await deleteRepoFile(file.path, file.sha);
-    }
-
-    // Then root-level files in the project's folder
-    const rootFiles = await listRepoFolder(basePath);
-    for (const file of rootFiles) {
-      if (file.type === "file") await deleteRepoFile(file.path, file.sha);
-    }
-  };
-
-  const handleDelete = async (e, project) => {
-    e.stopPropagation();
-    if (
-      !window.confirm(
-        `Delete "${project.title}"? This removes it from Firestore and GitHub, and cannot be undone.`,
-      )
-    ) {
-      return;
-    }
-
-    setDeletingId(project.id);
+  /** Removes the project's stored images, then the document. */
+  const deleteProject = async () => {
+    const project = confirming;
+    if (!project) return;
+    setConfirming(null);
+    setBusyId(project.id);
     try {
-      await deleteProjectAssets(project.id);
+      const basePath = `${BASE_IMAGE_PATH}${project.id}`;
+      for (const dir of [`${basePath}/carousel`, basePath]) {
+        const files = await listAssets(dir);
+        for (const file of files) {
+          if (file.type === "file") await deleteAsset(file.path);
+        }
+      }
       await deleteDoc(doc(db, "projects", project.id));
-
-      setProjects((prev) => prev.filter((p) => p.id !== project.id));
-      setSelectedProjects((prev) => prev.filter((p) => p.id !== project.id));
+      setProjects((list) => list.filter((p) => p.id !== project.id));
+      toast("Project deleted");
     } catch (error) {
       console.error("Error deleting project:", error);
-      alert(`Failed to delete project: ${error.message}`);
+      toast(`Failed to delete project: ${error.message}`, "danger");
     } finally {
-      setDeletingId(null);
+      setBusyId(null);
     }
   };
 
-  /* ---------- Loading skeleton ---------- */
-if (loading) {
+  const counts = useMemo(() => Object.fromEntries(FILTERS.map((f) => [f.id, projects.filter(f.test).length])), [projects]);
+
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const test = FILTERS.find((f) => f.id === filter).test;
+    return projects
+      .filter(test)
+      .filter((p) => !q || String(p.title || "").toLowerCase().includes(q) || (p.tags || []).some((t) => String(t).toLowerCase().includes(q)))
+      .sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
+  }, [projects, query, filter]);
+
   return (
-    <div className="mx-auto mt-6 flex w-full max-w-4xl flex-col items-center gap-5 rounded-md border border-line bg-surface p-4 text-ink shadow-md">
-      {/* These four classes had no rules at all before — the skeleton rendered as
-          invisible zero-height divs. They now mirror the real layout. */}
-      <div className={`${FEATURED_ROW} ${PANEL}`}>
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="h-40 animate-pulse rounded-md bg-surface" />
-        ))}
-      </div>
-      <div className={PANEL}>
-        <div className={PROJECT_GRID}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-40 animate-pulse rounded-md bg-surface" />
+    <Page
+      title="Projects"
+      subtitle={loading ? "Loading..." : `${projects.length} total, newest first`}
+      actions={<Button size="sm" onClick={load} disabled={loading}>Refresh</Button>}
+    >
+      <div className="mb-3 flex flex-wrap items-center gap-3">
+        <div className="w-full sm:w-64">
+          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search title or tag" aria-label="Search projects" className="py-1.5!" />
+        </div>
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter">
+          {FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFilter(f.id)}
+              aria-pressed={filter === f.id}
+              className={`cursor-pointer rounded-full border px-3 py-1 text-xs tracking-normal! transition-colors ${
+                filter === f.id ? "border-success/50 bg-success/10 text-success" : "border-line text-ink hover:border-success/40"
+              }`}
+            >
+              {f.label} <span className="text-ink-muted">{counts[f.id]}</span>
+            </button>
           ))}
         </div>
       </div>
-    </div>
-  );
-}
 
-  return (
-    <div className="mx-auto mt-6 flex w-full max-w-4xl flex-col items-center gap-5 rounded-md border border-line bg-surface p-4 text-ink shadow-md">
-      <div className={`${FEATURED_ROW} ${PANEL}`}>
-        {selectedProjects.map((project, index) => (
-          <div
-            key={project.id}
-            className={`${CARD} min-h-40 cursor-grab items-center hover:-translate-y-1`}
-            draggable
-            onDragStart={() => handleDragStart(index)}
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(index)}
-            onClick={() => toggleSelect(project)}
-          >
-            {project.image && (
-              <img
-                src={project.image}
-                alt={project.title}
-                className="block h-25 w-full rounded-sm object-cover"
-              />
-            )}
-            <h3 className="mt-1 line-clamp-2 text-xs leading-snug text-ink-strong">
-              {project.title}
-            </h3>
-          </div>
-        ))}
-        {Array.from({ length: 3 - selectedProjects.length }).map((_, i) => (
-          <div
-            key={`empty-${i}`}
-            className={`${CARD} min-h-40 cursor-default items-center justify-center border-dashed text-xs leading-normal text-ink-muted hover:border-line hover:shadow-none`}
-          >
-            <span>Select a project below</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Arbitrary variants rather than a leftover stylesheet: ::-webkit-scrollbar
-          has no utility of its own, but it can still be reached from the class. */}
-      <div
-        className={`${PANEL} max-h-120 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-sm [&::-webkit-scrollbar-track]:bg-page [&::-webkit-scrollbar]:w-2`}
-      >
-        <div className={PROJECT_GRID}>
-          {projects.map((project) => {
-            const isSelected = selectedProjects.some((p) => p.id === project.id);
+      {loading ? (
+        <div className="flex flex-col gap-1.5">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="h-12 animate-pulse rounded-md border border-line bg-surface" />
+          ))}
+        </div>
+      ) : loadError ? (
+        <EmptyState title="Could not load projects" message={loadError} action={<Button onClick={load}>Try again</Button>} />
+      ) : visible.length === 0 ? (
+        <EmptyState
+          title={projects.length === 0 ? "No projects yet" : "No projects match"}
+          message={projects.length === 0 ? "Create one from the Project tab." : "Try another search or filter."}
+          action={projects.length > 0 && (query || filter !== "all") ? <Button onClick={() => { setQuery(""); setFilter("all"); }}>Clear filters</Button> : undefined}
+        />
+      ) : (
+        <ul className="flex max-h-[calc(100vh-14rem)] flex-col gap-1.5 overflow-y-auto pr-1">
+          {visible.map((p) => {
+            const cs = p.caseStudy || {};
+            const slug = slugifyProjectTitle(p.title);
+            const busy = busyId === p.id;
             return (
-              <div
-                key={project.id}
-                className={[
-                  CARD,
-                  "cursor-pointer hover:-translate-y-0.75",
-                  isSelected ? "border-success ring-2 ring-success/40" : "",
-                ].join(" ")}
-                onClick={() => toggleSelect(project)}
-              >
-                {project.image && (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="block h-25 w-full rounded-sm object-cover"
-                  />
-                )}
-                <h3 className="mt-1 line-clamp-2 text-xs leading-snug text-ink-strong">
-                  {project.title}
-                </h3>
-                <div className="mt-1.5 flex gap-1.5">
-                  {/* Edit is the quiet one and delete carries the only colour —
-                      two equally loud buttons 6px apart is how you delete the
-                      wrong project. */}
-                  <button
-                    type="button"
-                    className="flex-1 cursor-pointer rounded-sm border border-line p-1 text-xs font-medium text-ink transition-colors duration-200 hover:bg-surface-raised hover:text-ink-strong"
-                    onClick={(e) => handleEdit(e, project)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    type="button"
-                    className="flex-1 cursor-pointer rounded-sm border border-danger/40 p-1 text-xs font-medium text-danger transition-colors duration-200 hover:bg-danger/15 disabled:cursor-not-allowed disabled:opacity-60"
-                    onClick={(e) => handleDelete(e, project)}
-                    disabled={deletingId === project.id}
-                  >
-                    {deletingId === project.id ? "Deleting..." : "Delete"}
-                  </button>
+              <li key={p.id} className={`flex flex-wrap items-center gap-3 rounded-md border border-line bg-surface px-3 py-1.5 ${p.hidden ? "opacity-70" : ""}`}>
+                <div className="h-9 w-14 shrink-0 overflow-hidden rounded-sm bg-page">
+                  {p.image && <img src={p.image} alt="" loading="lazy" className="h-full w-full object-cover" />}
                 </div>
-              </div>
+                <div className="min-w-0 flex-1 basis-48">
+                  <p className="truncate text-sm font-medium text-ink-strong">{p.title || "Untitled"}</p>
+                  <p className="truncate text-xs text-ink-muted">
+                    {formatDate(p.startDate || p.createdAt)}
+                    {cs.status ? ` - ${cs.status}` : p.durration ? ` - ${p.durration}` : ""}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-1 sm:w-56">
+                  <Badge>{cs.kind === "personal" ? "Personal" : "Client"}</Badge>
+                  {(cs.services || []).map((s) => <Badge key={s}>{s === "data" ? "Data" : "Web"}</Badge>)}
+                  {p.hidden === true && <Badge tone="warning">Hidden</Badge>}
+                  {p.highlighted === "star" && <Badge tone="success">Highlighted</Badge>}
+                  {p.showInOverview === true && <Badge tone="success">Home</Badge>}
+                </div>
+                <div className="flex flex-wrap items-center gap-1">
+                  <Button size="sm" variant="primary" disabled={busy} onClick={() => onEditProject?.(p)}>Edit</Button>
+                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHidden(p)}>{p.hidden ? "Show" : "Hide"}</Button>
+                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHighlight(p)}>{p.highlighted === "star" ? "Unhighlight" : "Highlight"}</Button>
+                  <Button size="sm" variant="ghost" disabled={busy} onClick={() => toggleHome(p)}>{p.showInOverview === true ? "Off home" : "On home"}</Button>
+                  <a
+                    href={`/projects/${slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-md px-2.5 py-1.5 text-xs font-medium tracking-normal! text-ink hover:bg-surface-raised hover:text-ink-strong"
+                  >
+                    View
+                  </a>
+                  <Button size="sm" variant="danger" loading={busy} disabled={busy} onClick={() => setConfirming(p)}>Delete</Button>
+                </div>
+              </li>
             );
           })}
-        </div>
-      </div>
+        </ul>
+      )}
 
-      {/* tracking needs the bang: global.css sets button{letter-spacing:1px}
-          unlayered, which outranks any layered utility. */}
-      <button
-        className="w-full max-w-75 cursor-pointer rounded-md bg-success px-5 py-2.5 font-semibold tracking-[0.5px]! text-page transition-colors duration-200 ease-standard hover:bg-success/90"
-        onClick={handleValidate}
-      >
-        Validate
-      </button>
-    </div>
+      <ConfirmDialog
+        open={!!confirming}
+        danger
+        title="Delete project"
+        message={confirming ? `Delete "${confirming.title}"? This removes it from Firestore and deletes its stored images. It cannot be undone.` : ""}
+        confirmLabel="Delete"
+        onConfirm={deleteProject}
+        onCancel={() => setConfirming(null)}
+      />
+    </Page>
   );
 }

@@ -1,650 +1,337 @@
-import { useState, useEffect } from "react";
-import CarouselForm from "./components/carousel-form/CarouselForm";
-import CodeSampleForm from "./components/code-sample-form/CodeSampleForm";
-import TechsForm from "./components/techs-form/TechsForm";
-import ResourcesForm from "./components/resources_form/ResourceForm";
-import DataSourcesForm from "./components/data-sources-form/DataSourcesForm";
-import TagInput from "./components/tag-input/TagInput";
-
+import { useEffect, useMemo, useRef, useState } from "react";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import CaseStudyFields, { parseCaseStudy } from "./components/CaseStudyFields";
-import { db } from "../../../shared/lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-
+import { db } from "../../../shared/lib/firebase";
+import { putAsset, deleteAsset } from "../../lib/assetStore";
+import { Page, Card, Button, Stepper, useToast, useUnsavedGuard } from "../../ui";
 import {
-  InputComponent,
-  FileInputComponent,
-  ToggleComponent,
-  ProjectDataComponent,
-  TextareaComponent,
-} from "./components/IndexForm";
-import { putAsset, deleteAsset, listAssets } from "../../lib/assetStore";
-import * as s from "./components/formStyles";
+  STEPS, valuesFromProject, parseCaseStudy, validate, countProblems,
+  readDraft, writeDraft, clearDraft,
+} from "./formModel";
+import BasicsStep from "./steps/BasicsStep";
+import CaseStudyStep from "./steps/CaseStudyStep";
+import FrenchStep from "./steps/FrenchStep";
+import MediaStep from "./steps/MediaStep";
+import StackStep from "./steps/StackStep";
+import ReviewStep from "./steps/ReviewStep";
 
-export default function ProjectForm({ initialProject = null, onDoneEditing }) {
-  const isEditMode = Boolean(initialProject);
+const BASE_IMAGE_PATH = "public/images/projects/";
+const newId = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
 
-  const [popupWindow, setPopupWindow] = useState(null);
-  const [codeSamples, setCodeSamples] = useState([]);
-  const [carouselItems, setCarouselItems] = useState([]); // unified: {id, title, file, existingPath}
-  const [removedCarouselPaths, setRemovedCarouselPaths] = useState([]); // site-relative paths deleted by user
-  const [techs, setTechs] = useState([]);
-  const [resources, setResources] = useState([]);
-  const [dataSources, setDataSources] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [submitButtonText, setSubmitButtonText] = useState("Submit Project");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const githubTokenReady = true; // uploads go to the VPS now, no GitHub token needed
+const carouselFromProject = (p) =>
+  (p?.carouselImages || []).map((img) => ({ id: img._id || newId(), title: img.title || "", file: null, existingPath: img.img }));
 
-  const [commitStatus, setCommitStatus] = useState("");
-  const [isCommitting, setIsCommitting] = useState(false);
+/** Everything that can be saved in a draft (no File objects). */
+const serialize = (s) => ({
+  v: s.v, tags: s.tags, techs: s.techs, resources: s.resources, codeSamples: s.codeSamples, dataSources: s.dataSources,
+  carousel: s.carousel.filter((i) => !i.file).map(({ id, title, existingPath }) => ({ id, title, existingPath })),
+  removed: s.removed,
+});
 
-  const [existingImage, setExistingImage] = useState(null);
+function ProjectWizard({ initialProject, onDoneEditing, onSaved }) {
+  const isEdit = Boolean(initialProject);
+  const draftId = initialProject?.id || null;
+  const { toast } = useToast();
 
-  const githubDetails = { baseImagePath: "public/images/projects/" };
+  const initial = useMemo(
+    () => ({
+      v: valuesFromProject(initialProject),
+      tags: initialProject?.tags || [],
+      techs: initialProject?.tools?.techs || [],
+      resources: initialProject?.tools?.resources || [],
+      codeSamples: initialProject?.codeSamples || [],
+      dataSources: initialProject?.dataSources || [],
+      carousel: carouselFromProject(initialProject),
+      removed: [],
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  // ---------- Pre-fill on edit ----------
+  const [v, setV] = useState(initial.v);
+  const [tags, setTags] = useState(initial.tags);
+  const [techs, setTechs] = useState(initial.techs);
+  const [resources, setResources] = useState(initial.resources);
+  const [codeSamples, setCodeSamples] = useState(initial.codeSamples);
+  const [dataSources, setDataSources] = useState(initial.dataSources);
+  const [carousel, setCarousel] = useState(initial.carousel);
+  const [removed, setRemoved] = useState(initial.removed);
+  const [coverFile, setCoverFile] = useState(null);
+  const existingImage = initialProject?.image || null;
+
+  const [step, setStep] = useState("basics");
+  const [visited, setVisited] = useState(() => new Set(["basics"]));
+  const [saving, setSaving] = useState(false);
+  const [status, setStatus] = useState("");
+  const [pendingDraft, setPendingDraft] = useState(null);
+  const bodyRef = useRef(null);
+
+  const set = (key, val) => setV((prev) => ({ ...prev, [key]: val }));
+
+  const snapshot = useMemo(
+    () => JSON.stringify(serialize({ v, tags, techs, resources, codeSamples, dataSources, carousel, removed })),
+    [v, tags, techs, resources, codeSamples, dataSources, carousel, removed],
+  );
+  const initialSnapshot = useMemo(() => JSON.stringify(serialize(initial)), [initial]);
+  const dirty = snapshot !== initialSnapshot || !!coverFile || carousel.some((i) => i.file);
+  useUnsavedGuard(dirty && !saving);
+
+  // Offer a stored draft once.
   useEffect(() => {
-    if (!initialProject) return;
-    setTags(initialProject.tags || []);
-    setCodeSamples(initialProject.codeSamples || []);
-    setDataSources(initialProject.dataSources || []);
-    setTechs(initialProject.tools?.techs || []);
-    setResources(initialProject.tools?.resources || []);
-    setExistingImage(initialProject.image || null);
-    setCarouselItems(
-      (initialProject.carouselImages || []).map((img) => ({
-        id:
-          img._id ||
-          (crypto.randomUUID
-            ? crypto.randomUUID()
-            : `${Date.now()}-${Math.random()}`),
-        title: img.title,
-        file: null,
-        existingPath: img.img,
-      })),
-    );
-    setRemovedCarouselPaths([]);
-    setSubmitButtonText("Save Changes");
-  }, [initialProject]);
+    const d = readDraft(draftId);
+    if (d && d.state && JSON.stringify(d.state) !== initialSnapshot) setPendingDraft(d);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const getBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result.split(",")[1]);
-      reader.onerror = reject;
+  // Autosave (debounced) while there are changes and no prompt is pending.
+  useEffect(() => {
+    if (!dirty || pendingDraft || saving) return undefined;
+    const t = setTimeout(() => writeDraft(draftId, { state: JSON.parse(snapshot), step }), 600);
+    return () => clearTimeout(t);
+  }, [snapshot, dirty, pendingDraft, saving, draftId, step]);
+
+  const restoreDraft = () => {
+    const s = pendingDraft.state;
+    setV({ ...initial.v, ...s.v });
+    setTags(s.tags || []);
+    setTechs(s.techs || []);
+    setResources(s.resources || []);
+    setCodeSamples(s.codeSamples || []);
+    setDataSources(s.dataSources || []);
+    setCarousel((s.carousel || []).map((i) => ({ ...i, file: null })));
+    setRemoved(s.removed || []);
+    if (pendingDraft.step) setStep(pendingDraft.step);
+    setPendingDraft(null);
+    toast("Draft restored");
+  };
+  const discardDraft = () => {
+    clearDraft(draftId);
+    setPendingDraft(null);
+  };
+
+  const saveDraftNow = () => {
+    const ok = writeDraft(draftId, { state: JSON.parse(snapshot), step });
+    toast(ok ? "Draft saved on this device" : "Could not save the draft in this browser", ok ? "success" : "danger");
+  };
+
+  const errors = useMemo(
+    () => validate(v, { coverFile, existingImage, carouselItems: carousel, isEdit }),
+    [v, coverFile, existingImage, carousel, isEdit],
+  );
+  const problemCount = countProblems(errors);
+
+  const goto = (id) => {
+    setStep(id);
+    setVisited((s) => new Set(s).add(id));
+    bodyRef.current?.scrollTo?.(0, 0);
+  };
+  const index = STEPS.findIndex((s) => s.id === step);
+  const showErrors = (id) => visited.has(id) && id !== "review";
+
+  const steps = STEPS.map((s) => ({
+    ...s,
+    done: s.id === "review" ? false : visited.has(s.id) && errors[s.id]?.length === 0 && s.id !== step,
+  }));
+
+  /* ---- Save (same writes as the original form) ---- */
+  const save = async () => {
+    if (saving) return;
+    if (problemCount > 0) {
+      goto("review");
+      toast("Fix the problems listed on the Review step first", "danger");
+      return;
+    }
+    setSaving(true);
+    setStatus("Uploading images...");
+
+    const projectId = isEdit ? initialProject.id : uuidv4().replace(/-/g, "").substring(0, 24);
+    const timestamp = Date.now();
+    const basePath = `${BASE_IMAGE_PATH}${projectId}`;
+    const uploadPlan = carousel.filter((i) => i.file).map((item, idx) => ({ ...item, newName: `${timestamp}-${idx}.webp` }));
+    const mainImageName = coverFile ? `${timestamp}.webp` : null;
+    const committed = [];
+    const rollback = async () => {
+      for (const c of committed) {
+        try {
+          await deleteAsset(c.path);
+        } catch (err) {
+          console.error("Rollback failed for", c.path, err);
+        }
+      }
+    };
+
+    // Step 1: upload new images first; nothing else is touched yet.
+    try {
+      if (coverFile) {
+        setStatus(`Uploading cover: ${mainImageName}`);
+        committed.push({ ...(await putAsset(coverFile, `${basePath}/${mainImageName}`)), forMain: true });
+      }
+      for (let i = 0; i < uploadPlan.length; i++) {
+        const item = uploadPlan[i];
+        setStatus(`Uploading screenshot ${i + 1} of ${uploadPlan.length}`);
+        committed.push({ ...(await putAsset(item.file, `${basePath}/carousel/${item.newName}`)), itemId: item.id });
+      }
+    } catch (err) {
+      console.error("Image upload failed, rolling back:", err);
+      setStatus("Upload failed, rolling back...");
+      await rollback();
+      setStatus("");
+      setSaving(false);
+      toast("Image upload failed. Nothing was saved.", "danger");
+      return;
+    }
+
+    const finalCarousel = carousel.map((item) => {
+      if (item.file) {
+        const entry = committed.find((c) => c.itemId === item.id);
+        return { _id: item.id, img: entry.path.replace(/^public/, ""), title: item.title.trim() };
+      }
+      return { _id: item.id, img: item.existingPath, title: item.title.trim() };
     });
 
-  const commitFileToGithub = (file, filePath) => putAsset(file, filePath);
-
-  // shaHint optional — if omitted, the sha is fetched from GitHub before deleting.
-  const deleteFileFromGithub = async (filePath) => {
-    await deleteAsset(filePath);
-  };
-
-  const commitProjectImages = async (
-    mainImage,
-    mainImageName,
-    carouselUploadPlan,
-    projectId,
-  ) => {
-    setIsCommitting(true);
-    setCommitStatus("Uploading images...");
-    const basePath = githubDetails.baseImagePath + projectId;
-    const carouselPath = `${basePath}/carousel`;
-    const committed = []; // {path, sha, forMain?, itemId?}
-
-    try {
-      if (mainImage) {
-        const mainImagePath = `${basePath}/${mainImageName}`;
-        setCommitStatus(`Committing main image: ${mainImageName}`);
-        const result = await commitFileToGithub(
-          mainImage,
-          mainImagePath,
-          `Add project main image: ${mainImageName}`,
-        );
-        committed.push({ ...result, forMain: true });
-      }
-
-      for (let i = 0; i < carouselUploadPlan.length; i++) {
-        const item = carouselUploadPlan[i];
-        const path = `${carouselPath}/${item.newName}`;
-        setCommitStatus(
-          `Committing carousel image ${i + 1}/${carouselUploadPlan.length}`,
-        );
-        const result = await commitFileToGithub(
-          item.file,
-          path,
-          `Add project carousel image: ${item.newName}`,
-        );
-        committed.push({ ...result, itemId: item.id });
-      }
-
-      setCommitStatus("All images uploaded!");
-      setTimeout(() => {
-        setCommitStatus("");
-        setIsCommitting(false);
-      }, 2000);
-      return { success: true, committed };
-    } catch (error) {
-      setCommitStatus("Error committing images — rolling back...");
-      for (const file of committed) {
-        await deleteFileFromGithub(
-          file.path,
-          `Rollback: ${file.path}`,
-          file.sha,
-        );
-      }
-      setIsCommitting(false);
-      return { success: false, committed: [], error };
-    }
-  };
-
-  const resetFormState = (e) => {
-    e.target.reset();
-    setCodeSamples([]);
-    setCarouselItems([]);
-    setRemovedCarouselPaths([]);
-    setTechs([]);
-    setResources([]);
-    setDataSources([]);
-    setTags([]);
-    setExistingImage(null);
-    setSubmitButtonText("Submit Project");
-    setIsSubmitting(false);
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setSubmitButtonText(isEditMode ? "Saving..." : "Submitting...");
-
-    try {
-      const formData = new FormData(e.target);
-      const mainImage = formData.get("image");
-
-      if (mainImage && mainImage.size > 0 && mainImage.type !== "image/webp") {
-        alert("Only .webp images are accepted for the main image.");
-        setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
-        setIsSubmitting(false);
-        return;
-      }
-      // Validate all carousel items needing upload are webp
-      const uploadCandidates = carouselItems.filter((item) => item.file);
-      for (const item of uploadCandidates) {
-        if (item.file.type !== "image/webp") {
-          alert(
-            `Only .webp images are accepted for carousel image "${item.title}".`,
-          );
-          setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
-          setIsSubmitting(false);
-          return;
-        }
-      }
-
-      const projectId = isEditMode
-        ? initialProject.id
-        : uuidv4().replace(/-/g, "").substring(0, 24);
-      const timestamp = Date.now();
-
-      const uploadPlan = uploadCandidates.map((item, idx) => ({
-        ...item,
-        newName: `${timestamp}-${idx}.webp`,
-      }));
-
-      const hasNewMainImage = mainImage && mainImage.size > 0;
-      const mainImageName = hasNewMainImage ? `${timestamp}.webp` : null;
-
-      // STEP 1 — Commit NEW/changed images to GitHub first. Nothing else touched yet.
-      setSubmitButtonText("Committing images...");
-      const imageResult = await commitProjectImages(
-        hasNewMainImage ? mainImage : null,
-        mainImageName,
-        uploadPlan,
-        projectId,
-      );
-      if (!imageResult.success) {
-        setSubmitButtonText("Error: GitHub commit failed — please try again");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Build final carouselImages array using committed paths for uploaded items,
-      // and existing paths for untouched items.
-      const finalCarouselImages = carouselItems.map((item) => {
-        if (item.file) {
-          const committedEntry = imageResult.committed.find(
-            (c) => c.itemId === item.id,
-          );
-          const sitePath = committedEntry.path.replace(/^public/, "");
-          return { _id: item.id, img: sitePath, title: item.title };
-        }
-        return { _id: item.id, img: item.existingPath, title: item.title };
-      });
-
-      const projectData = {
-        _id: projectId,
-        title: formData.get("title"),
-        description: formData.get("description"),
-        githubLink: formData.get("githubLink"),
-        startDate: formData.get("startDate")
-          ? new Date(formData.get("startDate")).toISOString()
-          : null,
-        endDate: formData.get("endDate")
-          ? new Date(formData.get("endDate")).toISOString()
-          : null,
-        durration: formData.get("endDate") ? "completed" : "ongoing",
-        highlighted: formData.get("highlighted") === "on" ? "star" : "basic",
-        tags,
-        ...parseCaseStudy(formData, initialProject),
-        showInOverview: isEditMode
-          ? (initialProject.showInOverview ?? false)
-          : false,
-        codeSamples,
-        dataSources,
-        tools: {
-          techs: techs.map((t, i) => ({
-            _id: `${projectId}${i}t`,
-            title: t.title,
-            description: t.description,
-          })),
-          resources: resources.map((r, i) => ({
-            _id: `${projectId}${i}r`,
-            title: r.title,
-            description: r.description,
-          })),
-        },
-        carouselImages: finalCarouselImages,
-        createdAt: isEditMode
-          ? initialProject.createdAt
-          : new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        __v: isEditMode ? initialProject.__v : 0,
-      };
-
-      if (hasNewMainImage) {
-        projectData.image = `/images/projects/${projectId}/${mainImageName}`;
-      } else if (isEditMode) {
-        projectData.image = existingImage;
-      }
-
-      // STEP 2 — Firestore write (create or update)
-      setSubmitButtonText("Saving to Firebase...");
-      try {
-        const projectRef = doc(db, "projects", projectId);
-        if (isEditMode) {
-          await updateDoc(projectRef, projectData);
-        } else {
-          await setDoc(projectRef, projectData);
-        }
-      } catch (firestoreError) {
-        console.error(
-          "Firestore write failed, rolling back new GitHub images:",
-          firestoreError,
-        );
-        setSubmitButtonText("Error: Save failed — rolling back images...");
-        for (const file of imageResult.committed) {
-          await deleteFileFromGithub(
-            file.path,
-            `Rollback: ${file.path}`,
-            file.sha,
-          );
-        }
-        setSubmitButtonText("Error: Save failed — please try again");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // STEP 3 — Firestore succeeded. NOW clean up removed/replaced GitHub assets.
-      // Best-effort: failures here don't affect the saved project, just leave orphaned files.
-      try {
-        for (const path of removedCarouselPaths) {
-          await deleteFileFromGithub(
-            `public${path}`,
-            `Remove carousel image: ${path}`,
-          );
-        }
-        for (const item of carouselItems) {
-          if (item.file && item.existingPath) {
-            await deleteFileFromGithub(
-              `public${item.existingPath}`,
-              `Replace carousel image: ${item.existingPath}`,
-            );
-          }
-        }
-      } catch (cleanupErr) {
-        console.error("Non-blocking cleanup error:", cleanupErr);
-      }
-
-      setSubmitButtonText(isEditMode ? "Saved!" : "Successfully Submitted!");
-      setTimeout(() => {
-        resetFormState(e);
-        if (isEditMode) onDoneEditing?.();
-      }, 2000);
-    } catch (error) {
-      console.error("Error submitting project:", error);
-      setSubmitButtonText("Error: Please try again");
-      setIsSubmitting(false);
-    }
-  };
-
-  useEffect(() => {
-    const handleInputChange = () => {
-      if (!isSubmitting)
-        setSubmitButtonText(isEditMode ? "Save Changes" : "Submit Project");
+    const { id: _ignoredId, ...prev } = initialProject || {};
+    const projectData = {
+      ...prev,
+      _id: projectId,
+      title: v.title.trim(),
+      description: v.description.trim(),
+      githubLink: v.githubLink.trim(),
+      startDate: v.startDate ? new Date(v.startDate).toISOString() : null,
+      endDate: v.endDate ? new Date(v.endDate).toISOString() : null,
+      durration: v.endDate ? "completed" : "ongoing",
+      highlighted: v.highlighted ? "star" : "basic",
+      tags,
+      ...parseCaseStudy(v, initialProject),
+      showInOverview: isEdit ? (initialProject.showInOverview ?? false) : false,
+      codeSamples,
+      dataSources,
+      tools: {
+        ...(prev.tools || {}),
+        techs: techs.map((t, i) => ({ ...t, _id: `${projectId}${i}t`, title: t.title, description: t.description })),
+        resources: resources.map((r, i) => ({ ...r, _id: `${projectId}${i}r`, title: r.title, description: r.description })),
+      },
+      carouselImages: finalCarousel,
+      createdAt: isEdit ? initialProject.createdAt : new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      __v: isEdit ? initialProject.__v : 0,
     };
-    const inputs = document.querySelectorAll("input, textarea");
-    inputs.forEach((input) =>
-      input.addEventListener("input", handleInputChange),
-    );
-    return () =>
-      inputs.forEach((input) =>
-        input.removeEventListener("input", handleInputChange),
-      );
-  }, [isEditMode, isSubmitting]);
+    if (coverFile) projectData.image = `/images/projects/${projectId}/${mainImageName}`;
+    else if (isEdit) projectData.image = existingImage;
 
-  const handleCarouselItemRemoved = (item) => {
-    if (item.existingPath) {
-      setRemovedCarouselPaths((prev) => [...prev, item.existingPath]);
+    // Step 2: Firestore write. Roll back the new uploads if it fails.
+    setStatus("Saving...");
+    try {
+      const ref = doc(db, "projects", projectId);
+      if (isEdit) await updateDoc(ref, projectData);
+      else await setDoc(ref, projectData);
+    } catch (err) {
+      console.error("Firestore write failed, rolling back new images:", err);
+      setStatus("Save failed, rolling back images...");
+      await rollback();
+      setStatus("");
+      setSaving(false);
+      toast("Save failed. New images were rolled back.", "danger");
+      return;
     }
+
+    // Step 3: best-effort cleanup of removed or replaced images.
+    try {
+      for (const path of removed) await deleteAsset(`public${path}`);
+      for (const item of carousel) {
+        if (item.file && item.existingPath) await deleteAsset(`public${item.existingPath}`);
+      }
+    } catch (err) {
+      console.error("Non-blocking cleanup error:", err);
+    }
+
+    clearDraft(draftId);
+    setStatus("");
+    setSaving(false);
+    toast(isEdit ? "Project saved" : "Project created");
+    if (isEdit) onDoneEditing?.();
+    else onSaved();
   };
 
-  const forms = [
-    <CodeSampleForm
-      codeSamples={codeSamples}
-      setCodeSamples={setCodeSamples}
-      setPopupWindow={setPopupWindow}
-    />,
-    <CarouselForm
-      carouselItems={carouselItems}
-      setCarouselItems={setCarouselItems}
-      onItemRemoved={handleCarouselItemRemoved}
-      setPopupWindow={setPopupWindow}
-    />,
-    <TechsForm
-      techs={techs}
-      setTechs={setTechs}
-      setPopupWindow={setPopupWindow}
-    />,
-    <ResourcesForm
-      resources={resources}
-      setResources={setResources}
-      setPopupWindow={setPopupWindow}
-    />,
-    <DataSourcesForm
-      dataSources={dataSources}
-      setDataSources={setDataSources}
-      setPopupWindow={setPopupWindow}
-    />,
-  ];
+  const counts = {
+    screenshots: carousel.length, techs: techs.length, resources: resources.length,
+    code: codeSamples.length, data: dataSources.length,
+  };
+
+  const body = {
+    basics: <BasicsStep v={v} set={set} errors={showErrors("basics") ? errors.basics : []} />,
+    case: <CaseStudyStep v={v} set={set} errors={showErrors("case") ? errors.case : []} />,
+    french: <FrenchStep v={v} set={set} />,
+    media: (
+      <MediaStep
+        coverFile={coverFile}
+        setCoverFile={setCoverFile}
+        existingImage={existingImage}
+        items={carousel}
+        setItems={setCarousel}
+        onRemoved={(item) => item.existingPath && setRemoved((r) => [...r, item.existingPath])}
+        errors={showErrors("media") ? errors.media : []}
+      />
+    ),
+    stack: (
+      <StackStep
+        tags={tags} setTags={setTags} techs={techs} setTechs={setTechs} resources={resources} setResources={setResources}
+        codeSamples={codeSamples} setCodeSamples={setCodeSamples} dataSources={dataSources} setDataSources={setDataSources}
+      />
+    ),
+    review: (
+      <ReviewStep v={v} errors={errors} onJump={goto} coverFile={coverFile} existingImage={existingImage} tags={tags} counts={counts} isEdit={isEdit} />
+    ),
+  };
 
   return (
-    // The panel was a three-stop translucent gradient over the admin
-    // background; flat bg-surface is what the rest of the admin area uses and
-    // reads the same at this size.
-    <form
-      onSubmit={handleFormSubmit}
-      className="mx-auto my-5 max-w-4xl rounded-lg border border-success/30 bg-surface px-6 py-6 text-ink shadow-md md:px-8"
+    <Page
+      title={isEdit ? "Edit project" : "New project"}
+      subtitle={isEdit ? initialProject.title : "Fill in the steps, then save on the last one."}
+      actions={isEdit && <Button variant="ghost" onClick={() => onDoneEditing?.()}>Cancel edit</Button>}
     >
-      <div className="mb-6 text-center">
-        <h1 className="mb-1 text-3xl leading-snug font-bold text-ink-strong">
-          {isEditMode ? "Edit Project" : "Create New Project"}
-        </h1>
-        <p className="text-sm leading-relaxed text-success">
-          {isEditMode
-            ? "Update the details below, then save."
-            : "Add the details, then fill in the sections below."}
-        </p>
-        {isEditMode && (
-          <button
-            type="button"
-            className={`${s.btnGhost} mt-1`}
-            onClick={() => onDoneEditing?.()}
-          >
-            Cancel Edit
-          </button>
-        )}
-      </div>
-
-      <div className={s.fieldRow}>
-        <InputComponent
-          name="title"
-          label="Title"
-          placeholder="My awesome project"
-          defaultValue={initialProject?.title}
-        />
-        <InputComponent
-          name="githubLink"
-          label="GitHub Link"
-          placeholder="github.com/you/repo"
-          defaultValue={initialProject?.githubLink}
-        />
-      </div>
-
-      <div className={s.fieldRow}>
-        <InputComponent
-          type="date"
-          name="startDate"
-          label="Start Date"
-          defaultValue={
-            initialProject?.startDate
-              ? initialProject.startDate.substring(0, 10)
-              : undefined
-          }
-        />
-        <InputComponent
-          type="date"
-          name="endDate"
-          required={false}
-          label="End Date"
-          defaultValue={
-            initialProject?.endDate
-              ? initialProject.endDate.substring(0, 10)
-              : undefined
-          }
-        />
-      </div>
-
-      <TextareaComponent
-        name="description"
-        label="Description"
-        required
-        placeholder="Write a brief description of the project"
-        defaultValue={initialProject?.description}
-      />
-
-      <div className="mt-2.5 mb-5">
-        <FileInputComponent
-          name="image"
-          label={existingImage ? "Replace cover image" : "Upload cover image"}
-          hint="PNG or JPG, 16:9 aspect ratio recommended"
-          required={!isEditMode}
-          existingImageUrl={existingImage}
-        />
-      </div>
-
-      {/* Both of these were 7.5–8px on #6b7280 against the panel — under 3:1 and
-          effectively invisible. */}
-      <div className="mb-2.5 flex justify-between">
-        <span className="text-xs font-bold tracking-[0.05em] text-ink-muted">
-          PROJECT CONTENT
-        </span>
-        <span className="text-xs text-ink-muted">Select what to include</span>
-      </div>
-
-      <div className={`${s.fieldRow} grid-cols-3`}>
-        <ProjectDataComponent
-          items={codeSamples}
-          setItems={setCodeSamples}
-          title="Code Samples"
-          description="Snippets that show how it works"
-          icon={
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <polyline points="16 18 22 12 16 6"></polyline>
-              <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-          }
-          formComponent={forms[0]}
-          setPopupWindow={setPopupWindow}
-        />
-        <ProjectDataComponent
-          items={carouselItems}
-          setItems={setCarouselItems}
-          title="Carousels"
-          description="Image sets for screenshots or demos"
-          icon={
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="9" y1="3" x2="9" y2="21"></line>
-            </svg>
-          }
-          formComponent={forms[1]}
-          setPopupWindow={setPopupWindow}
-        />
-        <ProjectDataComponent
-          items={techs}
-          setItems={setTechs}
-          title="Technologies"
-          description="Languages, frameworks, tools used"
-          icon={
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-          }
-          formComponent={forms[2]}
-          setPopupWindow={setPopupWindow}
-        />
-      </div>
-
-      <div className={`${s.fieldRow} grid-cols-3`}>
-        <ProjectDataComponent
-          items={resources}
-          setItems={setResources}
-          title="Resources"
-          description="Docs, articles, or reference links"
-          icon={
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          }
-          formComponent={forms[3]}
-          setPopupWindow={setPopupWindow}
-        />
-        <ProjectDataComponent
-          items={dataSources}
-          setItems={setDataSources}
-          title="Data Sources"
-          description="Datasets or APIs the project relies on"
-          icon={
-            <svg
-              width="18"
-              height="18"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-            </svg>
-          }
-          formComponent={forms[4]}
-          setPopupWindow={setPopupWindow}
-        />
-        {/* Third grid cell intentionally empty — grid-cols-3 with two items
-            leaves it blank, same as the old unstyled .spacer div did. */}
-      </div>
-
-      {popupWindow}
-
-      <ToggleComponent
-        name="highlighted"
-        label="Highlight this project"
-        description="Featured projects appear first on your profile"
-        defaultChecked={initialProject?.highlighted === "star"}
-      />
-      <TagInput tags={tags} setTags={setTags} />
-      <CaseStudyFields initial={initialProject} />
-
-      {/* disabled already covers isSubmitting/isCommitting, so the old
-          `.submitting` variant (darker bg, forced opacity) was redundant —
-          disabled:opacity-70 alone reproduces it. */}
-      <button
-        type="submit"
-        disabled={isSubmitting || isCommitting || !githubTokenReady}
-        className="mt-5 flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-md bg-success px-2.5 py-2.5 text-xs font-semibold text-page transition-colors duration-200 ease-standard hover:bg-success/85 disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        {submitButtonText}
-      </button>
-
-      {(isCommitting || commitStatus) && (
-        // Was a blue "info" state — the same blue this batch removed from the
-        // upload icon and submit button elsewhere, so it's neutral here
-        // instead of reintroducing a fourth accent for a transient message.
-        <div
-          className={[
-            "mt-4 rounded-md border p-2.5 text-center text-xs leading-relaxed",
-            commitStatus.includes("Error")
-              ? "border-danger/20 bg-danger/10 text-danger"
-              : commitStatus.includes("success")
-                ? "border-success/20 bg-success/10 text-success"
-                : "border-line bg-surface-raised text-ink",
-          ].join(" ")}
-        >
-          {commitStatus}
-          {isCommitting && (
-            <span className="ml-2.5 inline-block size-4 animate-spin rounded-full border-2 border-white/30 border-t-white align-middle" />
-          )}
+      {pendingDraft && (
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-success/40 bg-success/10 px-4 py-2 text-sm text-ink-strong">
+          <span>
+            Restore draft? Saved {new Date(pendingDraft.savedAt).toLocaleString()}. Images are not kept in drafts.
+          </span>
+          <span className="flex gap-2">
+            <Button size="sm" variant="primary" onClick={restoreDraft}>Restore</Button>
+            <Button size="sm" variant="ghost" onClick={discardDraft}>Discard</Button>
+          </span>
         </div>
       )}
-    </form>
+      <div className="mb-3">
+        <Stepper steps={steps} current={step} onStep={goto} />
+      </div>
+      <Card className="mb-0" bodyClassName="max-h-[calc(100vh-17rem)] min-h-64 overflow-y-auto" title={STEPS[index].label}>
+        <div ref={bodyRef}>{body[step]}</div>
+      </Card>
+
+      <div className="sticky bottom-0 z-10 mt-3 flex flex-wrap items-center justify-between gap-2 rounded-md border border-line bg-surface px-4 py-2.5">
+        <div className="min-w-0 text-xs text-ink-muted">
+          {status || (dirty ? "Unsaved changes" : "No changes yet")}
+          {problemCount > 0 && !status && <span className="ml-2 text-danger">{problemCount} problem(s)</span>}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="ghost" disabled={index === 0 || saving} onClick={() => goto(STEPS[index - 1].id)}>Back</Button>
+          <Button disabled={index === STEPS.length - 1 || saving} onClick={() => goto(STEPS[index + 1].id)}>Next</Button>
+          <Button variant="ghost" disabled={!dirty || saving} onClick={saveDraftNow}>Save draft</Button>
+          <Button variant="primary" loading={saving} onClick={save}>{isEdit ? "Save changes" : "Publish project"}</Button>
+        </div>
+      </div>
+    </Page>
+  );
+}
+
+export default function ProjectForm({ initialProject = null, onDoneEditing }) {
+  // Remount on a different project, and after a successful create to start clean.
+  const [generation, setGeneration] = useState(0);
+  return (
+    <ProjectWizard
+      key={`${initialProject?.id || "new"}-${generation}`}
+      initialProject={initialProject}
+      onDoneEditing={onDoneEditing}
+      onSaved={() => setGeneration((g) => g + 1)}
+    />
   );
 }

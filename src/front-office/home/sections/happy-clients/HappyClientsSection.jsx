@@ -1,84 +1,110 @@
-import { useState } from "react";
-import Modal from "../../../../shared/ui/Modal";
-
 import { useT } from "../../../../shared/i18n/strings";
-export default function HappyClientsSection({ clients = [] }) {
-    const t = useT();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+import { useLang } from "../../../../shared/i18n/i18n";
+import { BOOKING_URL } from "../../../../shared/lib/contactConfig";
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-    };
+/** createdAt can arrive as a Firestore timestamp, `{ seconds }`, `{ _seconds }`, a string or a number. */
+function toMillis(value) {
+  if (!value) return 0;
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const ms = Date.parse(value);
+    return Number.isNaN(ms) ? 0 : ms;
+  }
+  if (typeof value.toMillis === "function") return value.toMillis();
+  const seconds = value.seconds ?? value._seconds;
+  return typeof seconds === "number" ? seconds * 1000 : 0;
+}
 
-    return (
-      <div className="happy-clients-section hidden-area bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5 pb-1.25 text-ink">
-        <div className="home-sections-title">
-          <span>06. </span>
-          {t("home.clients")}
-        </div>
-        {/* `clients` is [] until the Firestore read lands, so on first paint this
-            is just the centred CTA — the flex/gap/justify below is what keeps
-            that empty state looking deliberate rather than broken. */}
-        <div className="flex flex-wrap justify-center gap-5">
-          {clients?.map((client, index) => (
-            <div
-              className="relative flex w-75 flex-col rounded-md bg-page p-5 shadow-md transition-transform duration-300 ease-standard hover:scale-110"
-              key={index}
-            >
-              <img loading="lazy" decoding="async"
-                className="size-12.5 rounded-full"
-                src={`${client.image}`}
-                alt="client"
-              />
-              <img loading="lazy" decoding="async"
-                className="absolute top-2.5 right-2.5 size-5 border-none opacity-80"
-                src="./icons/quotes.png"
-                alt="quotes"
-              />
-              <h3 className="mt-2.5 text-base leading-snug text-ink">
-                {client.name}
-              </h3>
-              {/* flex-1 so the quote absorbs the slack and the profession row
-                  sits flush at the bottom of every card, whatever its length. */}
-              <p className="flex-1 text-xs leading-snug text-ink">
-                {client.description}
-              </p>
-              <div className="mt-2.5 flex w-full items-center justify-between">
-                <p className="rounded-sm bg-surface px-1.5 py-0.75 text-xs leading-snug font-bold text-ink">
-                  {client.profession}
-                </p>
-                <p className="rounded-sm bg-[#191919] px-1.5 py-0.75 text-xs leading-snug text-ink">
-                  {client.company}
-                </p>
-              </div>
-            </div>
-          ))}
-          <div className="my-2.5 flex w-full justify-center">
-            <button
-              className="cursor-pointer rounded-sm border-none bg-accent px-6 py-3 font-sans text-base font-bold tracking-[2px]! text-ink-strong shadow-[0_4px_10px_rgba(217,27,66,0.3)] transition-all duration-300 ease-standard hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-[0_6px_12px_rgba(217,27,66,0.4)] active:translate-y-px"
-              onClick={toggleModal}
-            >
-              {t("home.shareExperience")}
-            </button>
-          </div>
-        </div>
+const orderOf = (c) => (typeof c.order === "number" ? c.order : Number.MAX_SAFE_INTEGER);
 
-        <Modal
-          isOpen={isModalOpen}
-          onClose={toggleModal}
-          title={t("home.shareExperience")}
-        >
-          {/* Replace this URL with your actual Google Form URL */}
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLSff6tzcnt1lN26FklbTZtNm2DvUFy5iAS9Pggxz0U8dN83VsA/viewform?embedded=true"
-            title="Client Testimonial Form"
-            frameBorder="0"
-            marginHeight="0"
-            marginWidth="0"
-          >
-            {t("home.loadingForm")}
-          </iframe>
-        </Modal>
-      </div>
+function sortClients(list) {
+  return list
+    .filter((c) => c && !c.hidden && c.name && c.description)
+    .sort(
+      (a, b) =>
+        orderOf(a) - orderOf(b) ||
+        Number(!!b.featured) - Number(!!a.featured) ||
+        toMillis(b.createdAt) - toMillis(a.createdAt)
     );
+}
+
+function initials(name = "") {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return ((parts[0]?.[0] || "") + (parts.length > 1 ? parts[parts.length - 1][0] : "")).toUpperCase();
+}
+
+function Stars({ rating }) {
+  const value = Math.max(1, Math.min(5, Math.round(rating)));
+  return (
+    <div className="mb-3 flex gap-0.5 text-success" role="img" aria-label={`${value} out of 5`}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <svg key={n} viewBox="0 0 20 20" className="size-4" fill={n <= value ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+          <path d="M10 1.8l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L1.4 8.1l6-.8z" strokeLinejoin="round" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function Avatar({ client }) {
+  if (client.image) {
+    return <img loading="lazy" decoding="async" className="size-11 shrink-0 rounded-full border border-line object-cover" src={client.image} alt="" />;
+  }
+  return (
+    <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-full border border-line bg-surface-raised text-sm font-medium text-ink-strong">
+      {initials(client.name)}
+    </span>
+  );
+}
+
+export default function HappyClientsSection({ clients = [] }) {
+  const t = useT();
+  const lang = useLang();
+  const list = sortClients(Array.isArray(clients) ? [...clients] : []);
+
+  if (list.length === 0) return null;
+
+  const cta = lang === "fr" ? "Travaillons ensemble" : "Work with me";
+
+  return (
+    <div className="happy-clients-section hidden-area bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] px-5 pt-7.5 pb-8 text-ink">
+      <div className="home-sections-title">
+        <span>06. </span>
+        {t("home.clients")}
+      </div>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {list.map((client, index) => {
+          const fr = lang === "fr" ? client.fr || {} : {};
+          const quote = fr.description || client.description;
+          const role = fr.profession || client.profession;
+          const roleLine = [role, client.company].filter(Boolean).join(client.company && role ? " · " : "");
+          return (
+            <figure key={client.id || `${client.name}-${index}`} className="m-0 flex h-full flex-col rounded-md border border-line bg-surface p-5">
+              {typeof client.rating === "number" && client.rating >= 1 && <Stars rating={client.rating} />}
+              <blockquote className="m-0 flex-1 text-base leading-relaxed text-ink-strong">
+                <p className="m-0">&ldquo;{quote}&rdquo;</p>
+              </blockquote>
+              <figcaption className="mt-5 flex items-center gap-3 border-t border-line pt-4">
+                <Avatar client={client} />
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium text-ink-strong">{client.name}</div>
+                  {roleLine && <div className="truncate text-xs text-ink-muted">{roleLine}</div>}
+                </div>
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+      <div className="mt-8 flex justify-center">
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-md border border-line bg-surface px-5 py-2.5 text-sm font-medium tracking-normal! text-ink-strong no-underline transition-colors duration-150 hover:border-success/50 hover:bg-surface-raised"
+        >
+          {cta}
+        </a>
+      </div>
+    </div>
+  );
 }

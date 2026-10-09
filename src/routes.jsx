@@ -63,26 +63,10 @@ const pages = () => [
         },
       },
       {
-        path: "reports",
-        lazy: async () => {
-          const { default: Component, getReports: loader } =
-            await import("./front-office/reports/ReportsPage");
-          return { Component, loader };
-        },
-      },
-      {
         path: "articles",
         lazy: async () => {
           const { default: Component } =
             await import("./front-office/articles/ArticlesPage");
-          return { Component };
-        },
-      },
-      {
-        path: "site-map",
-        lazy: async () => {
-          const { default: Component } =
-            await import("./front-office/sitemap/SiteMapPage");
           return { Component };
         },
       },
@@ -93,7 +77,7 @@ const pages = () => [
         path: "fill-db",
         lazy: async () => {
           // Admin area is client-only in practice (Firebase Auth gate,
-          // pdfjs-dist, direct DOM work throughout its forms) and noIndex —
+          // direct DOM work throughout its forms) and noIndex —
           // no SEO reason to SSR it, and real reasons not to. The server
           // gets a tiny shell; the browser always loads the real page, so
           // this only ever swaps on the client's first render, before any
