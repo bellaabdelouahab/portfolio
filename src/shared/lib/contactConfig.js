@@ -28,5 +28,5 @@ export function getMailtoLink(subject = "") {
  */
 export const BUSINESS = {
   status: "Registered auto-entrepreneur",
-  ice: "",
+  ice: "003832227000062",
 };

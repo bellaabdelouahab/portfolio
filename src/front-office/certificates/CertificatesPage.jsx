@@ -19,11 +19,15 @@ const RANK = [
   "Data Analytics Essentials", "Python for Data Science and AI", "Databases and SQL for Data Science",
   "Data Analysis with Python", "Data Visualization with Python", "Python Project for Data Science",
   "Data Visualization & Dashboard Essentials", "Excel Essentials for Data Analytics",
+  "SQL", "Introduction to Python", "Statistics",
+  "The Complete Data Visualization Course with Python, R, Tableau, and Excel",
+  "Data Cleaning and Preprocessing with pandas", "Data Preprocessing with NumPy",
+  "Introduction to Excel", "Mastering Key Performance Indicators (KPIs)",
+  "Introduction to Data and Data Science", "Intro to LLMs",
   "Introduction to Deep Learning Models", "Introduction to Natural Language Processing",
   "Secure Your Web Application With Spring Security", "Design Your Software Architecture Using Industry-Standard Patterns",
   "No-Code Machine Learning Using Amazon AWS SageMaker Canvas", "DataOps Methodology", "Python Intermediate",
-  "SQL", "Train a Supervised Machine Learning Model", "Create a Web Application With React.js",
-  "Problem Solving Competition", "Active Member",
+  "Train a Supervised Machine Learning Model", "Create a Web Application With React.js",
 ];
 const rankOf = (c) => {
   const i = RANK.indexOf((c.title || "").trim());
