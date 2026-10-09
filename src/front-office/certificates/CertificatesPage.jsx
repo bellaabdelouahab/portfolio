@@ -14,6 +14,22 @@ import { useLang } from "../../shared/i18n/i18n";
  */
 const FEATURED = ["IBM Data Analyst Professional Certificate", "Data Analyst Capstone Project"];
 
+// Display order inside each group: strongest credentials first, unverified ones last.
+const RANK = [
+  "Data Analytics Essentials", "Python for Data Science and AI", "Databases and SQL for Data Science",
+  "Data Analysis with Python", "Data Visualization with Python", "Python Project for Data Science",
+  "Data Visualization & Dashboard Essentials", "Excel Essentials for Data Analytics",
+  "Introduction to Deep Learning Models", "Introduction to Natural Language Processing",
+  "Secure Your Web Application With Spring Security", "Design Your Software Architecture Using Industry-Standard Patterns",
+  "No-Code Machine Learning Using Amazon AWS SageMaker Canvas", "DataOps Methodology", "Python Intermediate",
+  "SQL", "Train a Supervised Machine Learning Model", "Create a Web Application With React.js",
+  "Problem Solving Competition", "Active Member",
+];
+const rankOf = (c) => {
+  const i = RANK.indexOf((c.title || "").trim());
+  return (i < 0 ? RANK.length : i) + (c.issuer === "Cognitive Class" ? 0.5 : 0);
+};
+
 const TRACKS = [
   ["Data analytics", "Analyse de données", (c) => ["IBM", "Cognitive Class", "365 DataScience"].includes(c.issuer)],
   ["Machine learning and AI", "Machine learning et IA", (c) => /machine learning|deep learning|natural language|sagemaker/i.test(c.title)],
@@ -86,7 +102,7 @@ export default function Certificates() {
     const left = allCertificates.filter((c) => !FEATURED.includes(c.title));
     const used = new Set();
     return TRACKS.map(([en, fr, test]) => {
-      const items = left.filter((c) => !used.has(c) && test(c));
+      const items = left.filter((c) => !used.has(c) && test(c)).sort((a, b) => rankOf(a) - rankOf(b));
       items.forEach((c) => used.add(c));
       return [lang === "fr" ? fr : en, items];
     }).filter(([, items]) => items.length);

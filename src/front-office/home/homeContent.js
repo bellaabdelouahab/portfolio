@@ -41,7 +41,7 @@ export const servicesContent = [
       ["Discovery call", "30 minutes to define goals, users and scope. Free."],
       ["Proposal", "Fixed scope, timeline and price in MAD within two working days."],
       ["Build", "Weekly demos on a private preview link so nothing is a surprise."],
-      ["Launch and support", "Deployment, handover and 30 days of fixes included."],
+      ["Launch and support", "Deployment, handover and a minimum of 7 days of post-launch support included."],
     ],
     startingPrice: "Starting from 6,000 MAD",
     priceFrom: 6000,
@@ -77,7 +77,7 @@ export const servicesContent = [
       ["Discovery call", "30 minutes on the questions you need answered. Free."],
       ["Data review", "Audit of your sources, quality problems and a feasibility note."],
       ["Build", "Model, dashboard and automation, reviewed with you at each step."],
-      ["Handover", "Documentation, training and 30 days of adjustments included."],
+      ["Handover", "Documentation, training and a minimum of 7 days of post-launch support included."],
     ],
     startingPrice: "Starting from 3,000 MAD",
     priceFrom: 3000,
@@ -303,7 +303,7 @@ export const faqData = [
   {
     id: "q7",
     question: "Do you provide support after launch?",
-    answer: "Every project includes 30 days of fixes after launch. Ongoing maintenance, monitoring and reporting are available on a monthly plan."
+    answer: "Every project includes a minimum of 7 days of post-launch support (hypercare) within the budget."
   }
 ];
 

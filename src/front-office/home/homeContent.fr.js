@@ -33,7 +33,7 @@ export const servicesFr = {
       ["Appel de découverte", "30 minutes pour définir objectifs, utilisateurs et périmètre. Gratuit."],
       ["Devis", "Périmètre, délai et prix en MAD sous deux jours ouvrés."],
       ["Réalisation", "Démonstrations chaque semaine sur un lien privé, sans mauvaise surprise."],
-      ["Mise en ligne et suivi", "Déploiement, passation et 30 jours de corrections inclus."],
+      ["Mise en ligne et suivi", "Déploiement, passation et un minimum de 7 jours de suivi après la mise en ligne inclus."],
     ],
     startingPrice: "À partir de 6 000 MAD",
     relatedSkills: [
@@ -64,7 +64,7 @@ export const servicesFr = {
       ["Appel de découverte", "30 minutes sur les questions auxquelles vous voulez des réponses. Gratuit."],
       ["Revue des données", "Audit de vos sources, des problèmes de qualité et note de faisabilité."],
       ["Réalisation", "Modèle, tableau de bord et automatisation, validés avec vous à chaque étape."],
-      ["Passation", "Documentation, formation et 30 jours d'ajustements inclus."],
+      ["Passation", "Documentation, formation et un minimum de 7 jours de suivi après la mise en ligne inclus."],
     ],
     startingPrice: "À partir de 3 000 MAD",
     relatedSkills: [
@@ -89,7 +89,7 @@ export const faqFr = {
   q4b: ["Êtes-vous une entreprise déclarée ? Émettez-vous des factures ?", "Oui. Je travaille en tant qu'auto-entrepreneur déclaré au Maroc. Vous recevez un devis écrit avant le début du travail et une facture officielle à la fin, et mes impôts sont déclarés : vous pouvez donc m'enregistrer comme fournisseur dans votre société."],
   q5: ["À qui appartiennent le code et les données ?", "À vous. Le code, la base de données et les tableaux de bord vous sont remis à la livraison, hébergés sur des comptes à votre nom, avec la documentation."],
   q6: ["Pouvez-vous améliorer un site existant ?", "Oui. Je propose des audits SEO et des revues techniques, avec une liste priorisée de corrections pour la vitesse, la visibilité sur les moteurs de recherche et la conversion."],
-  q7: ["Proposez-vous du support après la mise en ligne ?", "Chaque projet inclut 30 jours de corrections après la mise en ligne. La maintenance, la supervision et le reporting continus sont disponibles via un forfait mensuel."],
+  q7: ["Proposez-vous du support après la mise en ligne ?", "Chaque projet inclut un minimum de 7 jours de suivi (hypercare) après la mise en ligne, dans le budget."],
 };
 
 const FR_MONTHS = { Jan: "janv.", Feb: "févr.", Mar: "mars", Apr: "avr.", May: "mai", Jun: "juin", Jul: "juil.", Aug: "août", Sep: "sept.", Oct: "oct.", Nov: "nov.", Dec: "déc." };
