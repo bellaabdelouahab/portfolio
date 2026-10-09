@@ -18,12 +18,39 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { routes } from "./routes";
 
+// A deploy replaces the hashed JS chunks. A tab left open still points at the old
+// ones, so the next navigation fails to import them. Reload once to pick up the
+// new build (at most once every 10 seconds, to avoid a loop if the server is down).
+const CHUNK_ERROR = /dynamically imported module|Importing a module script failed|error loading dynamically/i;
+function reloadForNewBuild() {
+  try {
+    const last = Number(sessionStorage.getItem("chunk-reload") || 0);
+    if (Date.now() - last < 10000) return;
+    sessionStorage.setItem("chunk-reload", String(Date.now()));
+  } catch {
+    // storage unavailable: reload anyway, the router will not loop on its own
+  }
+  window.location.reload();
+}
+window.addEventListener("vite:preloadError", (event) => {
+  event.preventDefault();
+  reloadForNewBuild();
+});
+window.addEventListener("unhandledrejection", (event) => {
+  if (CHUNK_ERROR.test(String(event.reason?.message || event.reason))) reloadForNewBuild();
+});
+
 async function hydrate() {
   // Hydrates against data already resolved server-side (see
   // entry-server.jsx), so the initial route doesn't re-fetch on mount —
   // only client-side navigations after this call their loaders.
   const router = createBrowserRouter(routes, {
     hydrationData: window.__staticRouterHydrationData,
+  });
+
+  router.subscribe((state) => {
+    const errors = Object.values(state.errors || {});
+    if (errors.some((e) => CHUNK_ERROR.test(String(e?.message || e)))) reloadForNewBuild();
   });
 
   // Every route here uses `lazy` for code-splitting, so on first load the

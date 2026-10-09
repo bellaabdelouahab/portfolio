@@ -104,7 +104,7 @@ app.use(/.*/, async (req, res) => {
       .replace("<!--app-html-->", appHtml)
       .replace("<!--hydration-data-->", hydrationScript);
 
-    res.status(statusCode).set({ "Content-Type": "text/html" }).send(html);
+    res.status(statusCode).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).send(html);
   } catch (e) {
     vite?.ssrFixStacktrace(e);
     console.error(e);
