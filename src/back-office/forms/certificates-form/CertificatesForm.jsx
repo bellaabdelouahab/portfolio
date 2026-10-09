@@ -36,6 +36,7 @@ const isoDay = (c) => {
 
 function sortCertificates(list) {
   return [...list].sort((a, b) => {
+    if (!!a.hidden !== !!b.hidden) return a.hidden ? 1 : -1;
     const oa = hasOrder(a);
     const ob = hasOrder(b);
     if (oa && ob && a.order !== b.order) return a.order - b.order;
@@ -330,10 +331,10 @@ export default function CertificatesForm() {
   return (
     <Page
       title="Certificates"
-      subtitle={`${items.length} in total. Order here is the order on the public page, after featured items.`}
+      subtitle={`${items.length} in total. Top to bottom is the public order, featured first.`}
       actions={
         <>
-          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search title or issuer" aria-label="Search certificates" className="w-56" />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search title or issuer" aria-label="Search certificates" className="w-48" />
           <Button variant="primary" onClick={() => setPanel("new")}>Add certificate</Button>
         </>
       }
@@ -353,8 +354,8 @@ export default function CertificatesForm() {
               const index = sorted.findIndex((x) => x.id === c.id);
               return (
                 <li key={c.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
-                  <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-line bg-white">
-                    {c.image ? <img src={storedPath(c.image)} alt="" loading="lazy" className="size-full object-contain" /> : null}
+                  <div className={`flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border border-line ${c.image ? "bg-white" : "bg-surface-raised"}`}>
+                    {c.image ? <img src={storedPath(c.image)} alt="" loading="lazy" className="size-full object-contain" /> : <span className="text-sm font-bold text-ink-muted">{String(c.issuer || "?").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase()}</span>}
                   </div>
                   <div className="min-w-0 flex-1 basis-56">
                     <p className={`truncate text-sm font-medium ${c.hidden ? "text-ink-muted" : "text-ink-strong"}`}>{titleOf(c) || "Untitled"}</p>
