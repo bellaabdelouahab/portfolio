@@ -50,13 +50,14 @@ const CERT_DESC = {
 };
 const CERT_KEYWORDS = "IBM Data Analyst Professional Certificate, data analyst certifications, Abdelouahab Bella";
 const TEAM_DESC = {
-  en: "Who delivers your project: Abdelouahab Bella leads, with front-end and security specialists on larger engagements.",
-  fr: "Qui réalise votre projet : Abdelouahab Bella pilote, avec des spécialistes front-end et sécurité sur les missions plus importantes.",
+  en: "Web development and data analytics team in Agadir: Abdelouahab Bella leads each project, with front-end and security specialists on larger engagements.",
+  fr: "Équipe de développement web et d'analyse de données à Agadir : Abdelouahab Bella pilote chaque projet, avec des spécialistes front-end et sécurité sur les missions plus importantes.",
 };
-const TEAM_KEYWORDS = "web development team Morocco, data analytics freelancer, Abdelouahab Bella team";
+const TEAM_KEYWORDS = "web development team Agadir, équipe développement web Agadir, data analytics team Morocco, Abdelouahab Bella";
 const PROJECTS_DESC =
-  "Web development and data analytics projects by Abdelouahab Bella, each with the problem, the solution and the result.";
-const PROJECTS_KEYWORDS = "web development projects, Power BI dashboards, case studies, Abdelouahab Bella";
+  "Case studies of websites, web platforms and Power BI dashboards built for clients in Morocco: the problem, what was built and the result.";
+const PROJECTS_KEYWORDS =
+  "website examples, Power BI dashboard examples, web development case studies, web developer Morocco, Abdelouahab Bella";
 
 export const SEO_PAGES = [
   {
@@ -65,17 +66,21 @@ export const SEO_PAGES = [
     path: "/",
     brand: false,
     defaults: {
+      // Written around what people type: "web developer Agadir", "création site
+      // web Agadir", "Power BI Maroc" (see docs/SEO.md for the research).
       en: {
-        title: SITE_FALLBACK.en.title,
+        title: `Freelance Web Developer in Agadir, Morocco | ${BRAND}`,
         description:
-          "Freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD.",
-        keywords: SITE_FALLBACK.en.keywords,
+          "Websites, online stores and Power BI dashboards for businesses in Agadir and across Morocco. Free 30-minute call, written quote in MAD.",
+        keywords:
+          "freelance web developer Agadir, web developer Morocco, website development Morocco, Power BI dashboard freelancer, data analyst Morocco",
       },
       fr: {
-        title: SITE_FALLBACK.fr.title,
+        title: `Développeur web freelance à Agadir | ${BRAND}`,
         description:
-          "Développeur web et analyste de données freelance à Agadir, Maroc. Sites web, boutiques en ligne et tableaux de bord Power BI, avec un devis écrit en MAD.",
-        keywords: SITE_FALLBACK.fr.keywords,
+          "Création de site web, boutique en ligne et tableaux de bord Power BI à Agadir et partout au Maroc. Appel gratuit de 30 minutes, devis écrit en MAD.",
+        keywords:
+          "création site web Agadir, développeur web freelance Agadir, développeur web Maroc, tableau de bord Power BI Maroc, analyste de données freelance, boutique en ligne Maroc",
       },
     },
   },
@@ -86,12 +91,12 @@ export const SEO_PAGES = [
     label: "Projects",
     path: "/projects",
     defaults: {
-      en: { title: "Projects", description: PROJECTS_DESC, keywords: PROJECTS_KEYWORDS },
+      en: { title: "Web Development and Power BI Projects: Case Studies", description: PROJECTS_DESC, keywords: PROJECTS_KEYWORDS },
       fr: {
-        title: "Mes projets",
+        title: "Réalisations web et Power BI : études de cas",
         description:
-          "Projets de développement web et d'analyse de données d'Abdelouahab Bella, chacun avec le problème, la solution et le résultat.",
-        keywords: "projets de développement web, tableaux de bord Power BI, études de cas, Abdelouahab Bella",
+          "Études de cas de sites web, plateformes et tableaux de bord Power BI réalisés pour des clients au Maroc : le problème, la solution et le résultat.",
+        keywords: "exemples de sites web, exemples de tableaux de bord Power BI, études de cas, développeur web Maroc, Abdelouahab Bella",
       },
     },
   },
@@ -99,20 +104,22 @@ export const SEO_PAGES = [
     key: "certificates",
     label: "Certificates",
     path: "/certificates",
-    titleKey: "cert.title",
+    // Visitors reach this page by searching the name (and a credential they
+    // were told about), so the title leads with both.
+    brand: false,
     defaults: {
-      en: { title: STRINGS.en["cert.title"], description: CERT_DESC.en, keywords: CERT_KEYWORDS },
-      fr: { title: STRINGS.fr["cert.title"], description: CERT_DESC.fr, keywords: CERT_KEYWORDS },
+      en: { title: `${BRAND}'s Certifications: IBM Data Analyst, SQL`, description: CERT_DESC.en, keywords: CERT_KEYWORDS },
+      fr: { title: `Certifications d'${BRAND} : IBM Data Analyst, SQL`, description: CERT_DESC.fr, keywords: CERT_KEYWORDS },
     },
   },
   {
     key: "my-team",
     label: "Team",
     path: "/my-team",
-    titleKey: "team.title",
+    brand: false,
     defaults: {
-      en: { title: STRINGS.en["team.title"], description: TEAM_DESC.en, keywords: TEAM_KEYWORDS },
-      fr: { title: STRINGS.fr["team.title"], description: TEAM_DESC.fr, keywords: TEAM_KEYWORDS },
+      en: { title: `Web Development and Data Team in Agadir | ${BRAND}`, description: TEAM_DESC.en, keywords: TEAM_KEYWORDS },
+      fr: { title: `Équipe web et data à Agadir | ${BRAND}`, description: TEAM_DESC.fr, keywords: TEAM_KEYWORDS },
     },
   },
 ];

@@ -45,8 +45,8 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 6,000 MAD",
     priceFrom: 6000,
-    seoTitle: "Web Development in Agadir, Morocco",
-    seoDescription: "Freelance web developer in Agadir: business websites, online stores and web apps with WordPress, Shopify, Django or Next.js. Written quote in MAD.",
+    seoTitle: "Website Development in Agadir and Morocco",
+    seoDescription: "Freelance web developer in Agadir: business websites, online stores and custom web apps (WordPress, Shopify, Django, Next.js). Written quote in MAD.",
     relatedSkills: [
       "WordPress and Shopify",
       "React, Next.js, Tailwind CSS",
@@ -81,8 +81,8 @@ export const servicesContent = [
     ],
     startingPrice: "Starting from 3,000 MAD",
     priceFrom: 3000,
-    seoTitle: "Power BI Dashboards in Morocco",
-    seoDescription: "Freelance data analyst in Morocco: Power BI dashboards, automated Excel and SQL reporting and Python pipelines, starting from 3,000 MAD.",
+    seoTitle: "Power BI Dashboards and Data Analyst for Hire, Morocco",
+    seoDescription: "Freelance data analyst and Power BI developer in Morocco: custom dashboards, automated Excel and SQL reporting, Python pipelines. Written quote in MAD.",
     relatedSkills: [
       "Power BI, DAX, Excel automation",
       "SQL (Advanced), SQL Server, PostgreSQL",
@@ -267,12 +267,12 @@ export const professionalExperience = [
 export const faqData = [
   {
     id: "q1",
-    question: "How much does a website cost?",
+    question: "How much does a website cost in Morocco?",
     answer: "Business websites start at 6,000 MAD and web applications at 15,000 MAD, depending on pages, features and integrations. You receive a fixed price in MAD after a free 30-minute discovery call."
   },
   {
     id: "q2",
-    question: "How much does a dashboard or data project cost?",
+    question: "How much does a Power BI dashboard or data project cost?",
     answer: "Dashboards and reporting projects start at 3,000 MAD. Larger projects with several data sources and automated refresh are quoted after a short data review."
   },
   {

@@ -46,8 +46,8 @@ export const servicesFr = {
     ],
     buttonText: "Démarrer un projet",
     serviceType: "Développement web",
-    seoTitle: "Développeur web à Agadir, Maroc",
-    seoDescription: "Développeur web freelance à Agadir : sites vitrines, boutiques en ligne et applications avec WordPress, Shopify, Django ou Next.js. Devis écrit en MAD.",
+    seoTitle: "Création de site web à Agadir et au Maroc",
+    seoDescription: "Développeur web freelance à Agadir : site vitrine, boutique en ligne WordPress ou Shopify, application sur mesure Django ou Next.js. Devis écrit en MAD.",
   },
   data: {
     title: "Analyse de données",
@@ -76,14 +76,14 @@ export const servicesFr = {
     ],
     buttonText: "Parler de vos données",
     serviceType: "Analyse de données et business intelligence",
-    seoTitle: "Tableaux de bord Power BI au Maroc",
-    seoDescription: "Analyste de données freelance au Maroc : tableaux de bord Power BI, rapports Excel et SQL automatisés, pipelines Python, à partir de 3 000 MAD.",
+    seoTitle: "Power BI et analyse de données au Maroc",
+    seoDescription: "Analyste de données freelance au Maroc : tableaux de bord Power BI sur mesure, rapports Excel et SQL automatisés, pipelines Python. Devis écrit en MAD.",
   },
 };
 
 export const faqFr = {
-  q1: ["Combien coûte un site web ?", "Les sites vitrines démarrent à 6 000 MAD et les applications web à 15 000 MAD, selon le nombre de pages, les fonctionnalités et les intégrations. Vous recevez un devis écrit en MAD après un appel gratuit de 30 minutes."],
-  q2: ["Combien coûte un tableau de bord ou un projet de données ?", "Les tableaux de bord et projets de reporting démarrent à 3 000 MAD. Les projets plus importants, avec plusieurs sources de données et actualisation automatique, sont chiffrés après une courte revue des données."],
+  q1: ["Combien coûte la création d'un site web au Maroc ?", "Les sites vitrines démarrent à 6 000 MAD et les applications web à 15 000 MAD, selon le nombre de pages, les fonctionnalités et les intégrations. Vous recevez un devis écrit en MAD après un appel gratuit de 30 minutes."],
+  q2: ["Combien coûte un tableau de bord Power BI ou un projet de données ?", "Les tableaux de bord et projets de reporting démarrent à 3 000 MAD. Les projets plus importants, avec plusieurs sources de données et actualisation automatique, sont chiffrés après une courte revue des données."],
   q3: ["Combien de temps prend un projet ?", "Un site vitrine prend en général deux à quatre semaines, un tableau de bord une à trois semaines. Les applications plus importantes sont planifiées par phases, avec une démonstration chaque semaine."],
   q4: ["Travaillez-vous avec des clients hors d'Agadir ?", "Oui. La plupart des projets se font à distance, avec des appels et un lien de prévisualisation partagé. Je travaille avec des clients partout au Maroc et à l'étranger, en français, en anglais et en arabe."],
   q4b: ["Êtes-vous une entreprise déclarée ? Émettez-vous des factures ?", "Oui. Je travaille en tant qu'auto-entrepreneur déclaré au Maroc. Vous recevez un devis écrit avant le début du travail et une facture officielle à la fin, et mes impôts sont déclarés : vous pouvez donc m'enregistrer comme fournisseur dans votre société."],
