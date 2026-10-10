@@ -89,15 +89,15 @@ margin-top: 5vh;
 }
 .get-in-touch-btn > a > button{
 text-decoration: none;
-color: rgb(46, 45, 45);
-background: #2ac17f;
+color: var(--color-on-success);
+background: var(--color-success);
 padding: 10px 20px;
 border-radius: 5px;
 font-size: 0.75rem;
 font-weight: 700;
 letter-spacing: 2px;
 transition: all 0.5s ease;
-border: 1px solid #2ac17f;
+border: 1px solid var(--color-success);
 outline: none;
 cursor: pointer;
 }
@@ -105,7 +105,7 @@ cursor: pointer;
 background: transparent;
 } */
 .get-in-touch-btn > a > button:hover{
-background: #202020;
-color: #2ac17f;
+background: var(--color-page);
+color: var(--color-success);
 
 }

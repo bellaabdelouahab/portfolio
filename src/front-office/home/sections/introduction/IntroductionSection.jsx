@@ -17,10 +17,17 @@ export default function IntroductionSection() {
   const lp = useLocalePath();
   return (
     <section
-      data-theme="dark"
-      className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
-      style={{ backgroundImage: `url(${heroBackground})` }}
+      className="introduction-section relative isolate w-full py-10 md:py-16 flex flex-col md:flex-row"
+      
     >
+      {/* Background: the photograph, inverted in the light theme so its lines
+          stay visible as darker strokes on a pale ground, then a tint on top. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-20 bg-cover bg-center bg-no-repeat in-data-[theme=light]:invert"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+      />
+      <div aria-hidden="true" className="absolute inset-0 -z-10" style={{ background: "var(--hero-overlay)" }} />
       <div className="flex w-full flex-col items-start gap-8 px-[5vw] md:w-[70%] md:px-[3vw]">
         <p className="font-mono text-sm tracking-[3px] text-success uppercase">
           {t("hero.kicker")}
@@ -66,7 +73,7 @@ export default function IntroductionSection() {
       </figure>
       {/* Fades the photographic background into the flat colour the projects
           section starts with (the rail colour; white in light theme), so the two never meet at a hard edge. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-rail in-data-[theme=light]:to-[#ffffff]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-rail" />
     </section>
   );
 }

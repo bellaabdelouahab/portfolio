@@ -98,7 +98,7 @@ function Viewer({ c, onClose }) {
         {c.credentialId && <p className="mt-1 text-xs text-ink-muted">{lang === "fr" ? "ID de la certification :" : "Credential ID:"} {c.credentialId}</p>}
         <div className="mt-5 flex justify-center gap-3">
           {validLink(c.link) && (
-            <a href={c.link} target="_blank" rel="noopener noreferrer" className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-black!">{t("cert.verify")}</a>
+            <a href={c.link} target="_blank" rel="noopener noreferrer" className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-on-success!">{t("cert.verify")}</a>
           )}
           <button type="button" onClick={onClose} className="cursor-pointer rounded-sm border border-line px-4 py-2 text-sm font-bold tracking-[1px]! text-ink-strong">{t("car.close")}</button>
         </div>

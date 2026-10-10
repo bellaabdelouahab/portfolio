@@ -47,7 +47,7 @@ export default function ServicesSection() {
                 onClick={() => window.plausible?.("Contact: Book a meeting")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-black! transition-transform hover:scale-105"
+                className="rounded-sm bg-success px-4 py-2 text-sm font-bold tracking-[1px]! text-on-success! transition-transform hover:scale-105"
               >
                 {t("cta.bookCall")}
               </a>

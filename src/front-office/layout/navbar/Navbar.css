@@ -114,6 +114,26 @@ text-align: center;
 }
 
 
+@media screen and (min-width: 991px) {
+  /* Rail layout: logo, scrolling menu, footer pinned to the bottom. The footer
+     is part of the flow, so a long menu or a short screen can never put the
+     language and theme switches on top of the links. */
+  .navbar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .navbar__menu {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .navbar__footer {
+    position: static;
+    flex: 0 0 auto;
+  }
+}
+
 @media screen and (max-width: 990px) {
   .main {
     overflow-y: visible;

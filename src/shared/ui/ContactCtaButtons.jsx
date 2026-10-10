@@ -39,7 +39,7 @@ export default function ContactCtaButtons({ className = "", whatsappMessage = ""
         onClick={track("Contact: Book a meeting")}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-black transition-transform duration-200 ease-standard hover:scale-105"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-on-success transition-transform duration-200 ease-standard hover:scale-105"
       >
         <FontAwesomeIcon icon={faCalendarCheck} className="text-lg" />
         {t("cta.book")}

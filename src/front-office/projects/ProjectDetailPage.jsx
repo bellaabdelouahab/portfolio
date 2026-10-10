@@ -135,7 +135,7 @@ export default function ProjectDetailPage() {
           <p className="mb-6 text-lg leading-relaxed text-ink">{summary}</p>
           <div className="flex flex-wrap gap-3">
             {cs.liveUrl && (
-              <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+              <a href={cs.liveUrl} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-on-success`}>
                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> {t("proj.liveDemo")}
               </a>
             )}
@@ -145,7 +145,7 @@ export default function ProjectDetailPage() {
               </a>
             )}
             {project.githubLink && !/github\.com/.test(project.githubLink) && !cs.liveUrl && (
-              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-on-success`}>
                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} /> {t("proj.visit")}
               </a>
             )}
@@ -225,7 +225,7 @@ export default function ProjectDetailPage() {
           {t("proj.similarText")}
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href={BOOKING_URL} onClick={() => window.plausible?.("Contact: Book a meeting")} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-black`}>
+          <a href={BOOKING_URL} onClick={() => window.plausible?.("Contact: Book a meeting")} target="_blank" rel="noopener noreferrer" className={`${BTN} bg-success text-on-success`}>
             <FontAwesomeIcon icon={faCalendarCheck} /> {t("cta.book")}
           </a>
           <a href={getWhatsAppLink(t("msg.whatsappProject", { title: project.title }))} target="_blank" rel="noopener noreferrer" className={`${BTN} border border-success text-success!`}>
