@@ -132,6 +132,9 @@ p {
 
 /* Back office: the whole width belongs to the editor, so the public rail and the
    floating contact button are hidden while it is open (BackOfficePage sets the class). */
+body.admin-mode .main {
+  margin-top: 0 !important;
+}
 body.admin-mode #header,
 body.admin-mode a[href^="https://wa.me"] {
   display: none !important;

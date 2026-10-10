@@ -76,6 +76,13 @@ export default function FAQSection() {
                       {isSelected ? "−" : "+"}
                     </span>
                   </button>
+                  {/* Below lg the answer opens right under its question, so there is
+                      no scrolling down to read it and back up to pick another. */}
+                  {isSelected && (
+                    <p className="mt-2 rounded-lg border border-line bg-surface p-4 text-sm leading-relaxed text-ink lg:hidden">
+                      {item.answer}
+                    </p>
+                  )}
                 </li>
               );
             })}
@@ -85,7 +92,7 @@ export default function FAQSection() {
               activating a button elsewhere is what updates this region. */}
           <div
             aria-live="polite"
-            className="rounded-lg border border-line bg-surface p-6 lg:p-8"
+            className="hidden rounded-lg border border-line bg-surface p-6 lg:block lg:p-8"
           >
             {selected && (
               <>
