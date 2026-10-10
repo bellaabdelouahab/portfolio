@@ -270,7 +270,7 @@ export default function InternshipProjectsSection() {
           <button
             onClick={handleShowMore}
             aria-label={t("home.moreExperienceAria")}
-            className="cursor-pointer rounded-full border-none bg-[#268b60] px-4 py-1.75 font-medium text-ink-strong transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:bg-success hover:shadow-[0_8px_20px_rgba(42,193,127,0.25)]"
+            className="cursor-pointer rounded-full border-none bg-[#268b60] px-4 py-1.75 font-medium text-white transition-all duration-200 ease-standard hover:-translate-y-0.5 hover:bg-success hover:shadow-[0_8px_20px_rgba(42,193,127,0.25)]"
           >
             {t("home.moreExperience", { n: PROFESSIONAL_EXP.length - displayCount })}
           </button>
