@@ -158,7 +158,7 @@ export default function ProjectDetailPage() {
           width="1440"
           height="900"
           alt={t("proj.imageAlt", { title: project.title })}
-          className="aspect-[16/10] w-full rounded-md border border-line bg-[#111] object-contain shadow-lg"
+          className="aspect-[16/10] w-full rounded-md border border-line bg-main object-contain shadow-lg"
         />
       </header>
 
@@ -172,7 +172,7 @@ export default function ProjectDetailPage() {
       {cs.results?.length > 0 && (
         <ul className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
           {cs.results.map((r) => (
-            <li key={r.label} className="rounded-md border border-success/30 bg-[#202020] p-4 text-center">
+            <li key={r.label} className="rounded-md border border-success/30 bg-page p-4 text-center">
               <p className="text-2xl font-bold text-success md:text-3xl">{r.value}</p>
               <p className="mt-1 text-xs leading-snug text-ink">{r.label}</p>
             </li>
@@ -219,7 +219,7 @@ export default function ProjectDetailPage() {
       <CodeSamples codeSamples={project.codeSamples} />
       <Collaborators collaborators={project.collaborators} />
 
-      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
+      <section className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-page p-7 text-center">
         <h2 className="text-2xl font-bold text-ink-strong">{t(personal ? "proj.builtLike" : "proj.similar")}</h2>
         <p className="max-w-xl text-ink">
           {t("proj.similarText")}
@@ -244,7 +244,7 @@ export default function ProjectDetailPage() {
                 to={lp(`/projects/${slugifyProjectTitle(p.title)}`)}
                 className="group overflow-hidden rounded-md border border-line bg-surface transition-colors hover:border-success/50"
               >
-                <img src={p.image} alt="" loading="lazy" className="aspect-[16/10] w-full bg-[#111] object-contain" />
+                <img src={p.image} alt="" loading="lazy" className="aspect-[16/10] w-full bg-main object-contain" />
                 <p className="p-3 text-sm font-bold text-ink-strong group-hover:text-success">{localizeProject(p, lang).title}</p>
               </Link>
             ))}

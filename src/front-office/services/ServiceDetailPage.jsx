@@ -286,7 +286,7 @@ export default function ServiceDetailPage() {
 
       <BusinessStatus className="mb-12" />
 
-      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7.5 text-center">
+      <section className="flex flex-col items-center gap-4 rounded-md border border-success/30 bg-page p-7.5 text-center">
         <h2 className="text-2xl leading-snug font-bold text-ink-strong">
           {t("svc.interested", { service: service.title })}
         </h2>

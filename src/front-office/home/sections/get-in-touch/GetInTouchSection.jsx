@@ -9,7 +9,7 @@ export default function GetInTouchSection() {
         className="get-in-touch hidden-area"
         style={{
           background:
-            "linear-gradient(to bottom, #1c1c1c, transparent 30px),#171717",
+            "linear-gradient(to bottom, var(--color-main), transparent 30px), var(--color-rail)",
           paddingTop: "30px",
         }}
       >

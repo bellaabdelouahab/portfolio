@@ -95,14 +95,15 @@ margin: 0 10px;
 position: absolute;
 bottom: 0;
 width: 100%;
-height: 6.25rem;
-/* background: #c61818; */
+min-height: 6.25rem;
+/* Language and theme switches sit above the status line. */
 display: flex;
 flex-direction: column;
 align-items: center;
-justify-content: space-between;
+justify-content: flex-end;
+gap: 0.25rem;
 padding: 0.9375rem;
-padding-top: 2.5rem;
+padding-top: 1rem;
 color: var(--color-ink);
 }
 .navbar__footer > p {

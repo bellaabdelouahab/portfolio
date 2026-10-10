@@ -102,7 +102,7 @@ async function hydrate() {
   // SSR.
   ReactDOM.hydrateRoot(
     root,
-    <SkeletonTheme baseColor="#202020" highlightColor="#444">
+    <SkeletonTheme baseColor="var(--skeleton-base)" highlightColor="var(--skeleton-highlight)">
       <App router={router} />
     </SkeletonTheme>
   );

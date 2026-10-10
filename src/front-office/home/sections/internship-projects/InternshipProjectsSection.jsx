@@ -7,7 +7,7 @@ const MOBILE_BREAKPOINT = 900;
 // The two date pills in the marker column are identical, so the class list lives
 // here rather than twice per row.
 const DATE_PILL =
-  "rounded-full border border-success/20 bg-success/10 px-1.5 py-0.625 text-center font-mono text-xs whitespace-nowrap text-[#7fd9ac]";
+  "rounded-full border border-success/20 bg-success/10 px-1.5 py-0.625 text-center font-mono text-xs whitespace-nowrap text-success";
 
 export default function InternshipProjectsSection() {
   const t = useT();
@@ -205,7 +205,7 @@ export default function InternshipProjectsSection() {
   }, [displayCount, isMobile]);
 
   return (
-    <section className="internship-projects-section relative w-full bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] pt-7.5 pb-13.25">
+    <section className="internship-projects-section relative w-full bg-main bg-[linear-gradient(to_bottom,var(--color-rail),transparent_30px)] pt-7.5 pb-13.25">
       {/* `home-sections-title` is styled in shared/styles/minw-1000.css, which is
           unlayered and therefore outranks the whole `utilities` layer — so this
           section's long-standing font-size override needs `!` to land. It is
@@ -295,7 +295,7 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
           the marker is a straight strip so there is nothing to nudge. */}
       <span
         className={[
-          "timeline-marker-dot size-3.5 shrink-0 rounded-full border-[3px] border-success bg-[#1c1c1c]",
+          "timeline-marker-dot size-3.5 shrink-0 rounded-full border-[3px] border-success bg-main",
           "shadow-[0_0_0_4px_rgba(42,193,127,0.15),0_0_12px_rgba(42,193,127,0.4)]",
           isMobile ? "" : align === "left" ? "-translate-x-16" : "translate-x-16",
         ].join(" ")}
@@ -316,8 +316,8 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
       data-index={index}
     >
       {/* `group` so the panel hover can also scale the thumbnail. */}
-      <div className="group flex flex-col overflow-hidden rounded-lg border border-success/15 bg-[#202020] transition-[transform,border-color,box-shadow] duration-300 ease-standard hover:-translate-y-1 hover:border-success/40 hover:shadow-lg">
-        <div className="aspect-20/8 w-full overflow-hidden bg-[#111]">
+      <div className="group flex flex-col overflow-hidden rounded-lg border border-success/15 bg-surface transition-[transform,border-color,box-shadow] duration-300 ease-standard hover:-translate-y-1 hover:border-success/40 hover:shadow-lg">
+        <div className="aspect-20/8 w-full overflow-hidden bg-surface-raised">
           <img
             src={project.image}
             alt={project.title}
@@ -336,7 +336,7 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
             {project.technologies.map((tech) => (
               <li
                 key={tech}
-                className="rounded-full border border-success/25 bg-success/10 px-1.875 py-0.875 text-xs font-medium text-[#4fd99a]"
+                className="rounded-full border border-success/25 bg-success/10 px-1.875 py-0.875 text-xs font-medium text-success"
               >
                 {tech}
               </li>
@@ -347,7 +347,7 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.25 rounded-md border border-success bg-transparent px-2.5 py-1.375 text-xs font-medium text-ink-strong no-underline transition-all duration-200 ease-standard hover:gap-1.625 hover:bg-success hover:text-[#1c1c1c]"
+              className="inline-flex items-center gap-1.25 rounded-md border border-success bg-transparent px-2.5 py-1.375 text-xs font-medium text-ink-strong no-underline transition-all duration-200 ease-standard hover:gap-1.625 hover:bg-success hover:text-page"
               aria-label={t("home.visitSiteAria", { title: project.title })}
             >
               {t("home.visitSite")}

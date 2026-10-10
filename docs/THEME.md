@@ -31,3 +31,9 @@ Brand colours that never change: WhatsApp green (#25d366), the Calendly button.
 - Photographic and dark screenshots stay as they are; any overlay or text on a photo keeps its own dark scrim.
 - The hero keeps its dark photographic look in both themes (it sets `data-theme="dark"` on itself).
 - The back office may stay dark; it is not part of this work.
+
+## Status (branch light-mode)
+- Done: tokens and light palette, no-flash script, toggle, shell (rail, mobile bar, skeletons), home, projects (incl. light code highlighting), services, certificates, team, contact.
+- Choices: the hero stays dark in both themes and fades into the next section; the back office stays dark; brand colours unchanged.
+- Known soft spots: the dark-to-light fade under the hero is a grey band (acceptable, could be a clean edge); the FAQ column has empty space on wide screens (pre-existing).
+- Not merged: production runs `master` (dark only) until this branch is approved.

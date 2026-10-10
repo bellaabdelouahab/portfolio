@@ -67,7 +67,7 @@ export default function HappyClientsSection({ clients = [] }) {
   const cta = lang === "fr" ? "Travaillons ensemble" : "Work with me";
 
   return (
-    <div className="happy-clients-section hidden-area bg-[#1c1c1c] bg-[linear-gradient(to_bottom,#171717,transparent_30px)] px-5 pt-7.5 pb-8 text-ink">
+    <div className="happy-clients-section hidden-area bg-main bg-[linear-gradient(to_bottom,var(--color-rail),transparent_30px)] px-5 pt-7.5 pb-8 text-ink">
       <div className="home-sections-title">
         <span>06. </span>
         {t("home.clients")}

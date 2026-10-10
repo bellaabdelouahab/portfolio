@@ -17,6 +17,7 @@ export default function IntroductionSection() {
   const lp = useLocalePath();
   return (
     <section
+      data-theme="dark"
       className="introduction-section relative w-full bg-[#17171788] bg-cover bg-center bg-no-repeat bg-blend-multiply py-10 md:py-16 flex flex-col md:flex-row"
       style={{ backgroundImage: `url(${heroBackground})` }}
     >
@@ -35,7 +36,7 @@ export default function IntroductionSection() {
         <ul className="mt-2 grid w-full max-w-4xl gap-3 sm:grid-cols-3">
           {OFFERS.map((o) => (
             <li key={o.key}>
-              <Link to={lp(o.to)} className="group flex h-full flex-col rounded-md border border-line bg-[#171717cc] p-4 transition-colors hover:border-success/60">
+              <Link to={lp(o.to)} className="group flex h-full flex-col rounded-md border border-line bg-rail/80 p-4 transition-colors hover:border-success/60">
                 <span className="text-base font-bold text-ink-strong group-hover:text-success">{t(`offer.${o.key}.title`)}</span>
                 <span className="mt-1.5 text-sm leading-snug text-ink">{t(`offer.${o.key}.text`)}</span>
                 <span className="mt-auto flex flex-wrap gap-1.5 pt-3">
@@ -64,8 +65,8 @@ export default function IntroductionSection() {
         </figcaption>
       </figure>
       {/* Fades the photographic background into the flat colour the projects
-          section starts with (#181818), so the two never meet at a hard edge. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-[#181818]" />
+          section starts with (the rail colour; white in light theme), so the two never meet at a hard edge. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-rail in-data-[theme=light]:to-[#ffffff]" />
     </section>
   );
 }

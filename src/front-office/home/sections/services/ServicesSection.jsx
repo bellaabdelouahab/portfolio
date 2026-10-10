@@ -16,14 +16,14 @@ export default function ServicesSection() {
   const lp = useLocalePath();
   const { services } = useContent();
   return (
-    <div className="relative h-auto w-full bg-[#171717] bg-[linear-gradient(to_bottom,#1c1c1c,transparent_30px)] pt-7.5 pb-10">
+    <div className="relative h-auto w-full bg-rail bg-[linear-gradient(to_bottom,var(--color-main),transparent_30px)] pt-7.5 pb-10">
       <div className="home-sections-title">
         <span>07. </span>
         {t("home.services")}
       </div>
       <div className="mx-auto grid w-[92%] max-w-5xl gap-5 py-4 md:grid-cols-2">
         {services.map((s) => (
-          <article key={s.id} className="flex flex-col rounded-md border border-line bg-[#202020] p-6">
+          <article key={s.id} className="flex flex-col rounded-md border border-line bg-surface p-6">
             <h3 className="text-2xl leading-snug font-bold text-ink-strong">{s.title}</h3>
             <p className="mt-1 text-sm font-bold text-success">{s.startingPrice}</p>
             <p className="mt-3 text-base leading-relaxed text-ink">{s.description}</p>

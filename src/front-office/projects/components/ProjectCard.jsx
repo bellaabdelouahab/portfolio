@@ -36,7 +36,7 @@ export function ProjectCard({ project: raw }) {
         highlighted === "star" ? "border-[#c39a3b]" : "border-line hover:border-success/50",
       ].join(" ")}
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#111]">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-main">
         <img
           src={image}
           alt={t("proj.imageAlt", { title })}

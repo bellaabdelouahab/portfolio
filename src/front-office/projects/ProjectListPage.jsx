@@ -145,7 +145,7 @@ export default function Projects() {
           <p className="py-16 text-center text-ink">{t("proj.none")}</p>
         )}
 
-        <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-[#202020] p-7 text-center">
+        <div className="mt-12 flex flex-col items-center gap-4 rounded-md border border-success/30 bg-page p-7 text-center">
           <h2 className="text-xl font-bold text-ink-strong">{t("proj.haveOne")}</h2>
           <ContactCtaButtons className="justify-center" whatsappMessage={t("msg.whatsappProjects")} />
         </div>

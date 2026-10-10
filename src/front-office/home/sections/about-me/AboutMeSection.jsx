@@ -26,9 +26,9 @@ export default function AboutMeSection() {
   const skills = about.skills;
   return (
     // The gradient is the 30px fade from the previous section's black into this
-    // section's own #171717 — background-image over background-colour, so both
+    // section's own rail colour — background-image over background-colour, so both
     // halves of the original shorthand survive as separate utilities.
-    <section className="relative w-full bg-[#171717] bg-[linear-gradient(to_bottom,#1c1c1c,transparent_30px)] py-[30px]">
+    <section className="relative w-full bg-rail bg-[linear-gradient(to_bottom,var(--color-main),transparent_30px)] py-[30px]">
       <div className="kra"></div>
       <div className="hidden-area">
         <div className="home-sections-title">
@@ -59,7 +59,7 @@ export default function AboutMeSection() {
               </ul>
             </div>
           </div>
-          <div className="z-[1] flex h-[84vw] w-[70vw] items-center justify-center rounded-sm bg-[#202020] md:h-[300px] md:w-[300px]">
+          <div className="z-[1] flex h-[84vw] w-[70vw] items-center justify-center rounded-sm bg-surface md:h-[300px] md:w-[300px]">
             {/* ::before is a scrim that lifts on hover; ::after is the offset teal
                 frame that slides in to meet the photo. after sits at -z-[1] so it
                 reads as behind the image inside the parent's stacking context. */}

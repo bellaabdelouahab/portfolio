@@ -81,7 +81,7 @@ export default function Carousel({ carouselImages = [] }) {
       }}
     >
       <div
-        className="group relative aspect-[16/10] w-full overflow-hidden rounded-md border border-line bg-black"
+        className="group relative aspect-[16/10] w-full overflow-hidden rounded-md border border-line bg-main"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -127,7 +127,7 @@ export default function Carousel({ carouselImages = [] }) {
               aria-label={`Show image ${i + 1}${img.title ? `: ${img.title}` : ""}`}
               aria-current={i === index}
               className={[
-                "h-16 w-28 shrink-0 cursor-pointer overflow-hidden rounded-sm border-2 bg-black transition-opacity",
+                "h-16 w-28 shrink-0 cursor-pointer overflow-hidden rounded-sm border-2 bg-main transition-opacity",
                 i === index ? "border-success opacity-100" : "border-transparent opacity-60 hover:opacity-100",
               ].join(" ")}
             >

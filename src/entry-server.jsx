@@ -44,7 +44,7 @@ export async function render(url, requestHeaders = {}, siteSettings = {}) {
   // functionally (last one wins) but pure waste on every response.
   setSiteSettings(siteSettings);
   const appHtml = renderToString(
-    <SkeletonTheme baseColor="#202020" highlightColor="#444">
+    <SkeletonTheme baseColor="var(--skeleton-base)" highlightColor="var(--skeleton-highlight)">
       <StaticRouterProvider router={router} context={context} hydrate={false} />
     </SkeletonTheme>
   );

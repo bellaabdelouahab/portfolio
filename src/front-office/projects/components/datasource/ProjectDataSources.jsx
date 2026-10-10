@@ -13,18 +13,18 @@ export default function ProjectDataSources({ dataSources }) {
   };
 
   return (
-    <div className="relative z-[1] w-full bg-[#1a1c1f] py-[3vh]">
+    <div className="relative z-[1] w-full bg-main py-[3vh]">
       {/* tracking needs ! — global.css sets an unlayered h1..h5 letter-spacing:1px
           that outranks the utilities layer. */}
       <h2 className="ml-[6vw] text-base font-bold tracking-[-0.01em]! text-ink-strong md:text-lg">
         Data Sources
       </h2>
-      <hr className="mx-auto mt-4 mb-5 w-[88%] max-w-[1400px] border-0 border-t border-[#2db811]/20" />
+      <hr className="mx-auto mt-4 mb-5 w-[88%] max-w-[1400px] border-0 border-t border-success/20" />
       <div className="mx-auto mb-10 flex w-full max-w-[1500px] flex-wrap justify-center gap-4 px-[6vw] md:justify-start">
         {dataSources.map((dataSource, index) => (
           <div
             key={index}
-            className="flex h-[170px] w-full max-w-[320px] flex-col items-center justify-between rounded-lg border border-[#2db811]/20 bg-[#212121] p-3 transition-[transform,border-color,box-shadow] duration-200 ease-standard hover:-translate-y-1.5 hover:border-[#2db811] hover:shadow-[0_12px_30px_rgba(45,184,17,0.15)] md:w-[170px]"
+            className="flex h-[170px] w-full max-w-[320px] flex-col items-center justify-between rounded-lg border border-success/20 bg-surface p-3 transition-[transform,border-color,box-shadow] duration-200 ease-standard hover:-translate-y-1.5 hover:border-success hover:shadow-[0_12px_30px_color-mix(in_srgb,var(--color-success)_15%,transparent)] md:w-[170px]"
           >
             <div className="flex w-3/4 flex-1 items-center justify-center p-1">
               <img loading="lazy" decoding="async"
@@ -33,7 +33,7 @@ export default function ProjectDataSources({ dataSources }) {
                 className="w-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
               />
             </div>
-            <div className="mt-2.5 flex w-full flex-row items-center justify-between border-t border-[#2db811]/20 pt-2">
+            <div className="mt-2.5 flex w-full flex-row items-center justify-between border-t border-success/20 pt-2">
               {/* min-w-0 so `truncate` can actually shrink this flex item; the
                   old rule set the ellipsis properties but the item never
                   shrank below its content. */}
