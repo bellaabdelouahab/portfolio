@@ -24,6 +24,36 @@ export const FR_FIELDS = [
   "fr_summary", "fr_challenge", "fr_solution", "fr_outcome", "fr_results", "fr_features",
 ];
 
+/** Search-engine overrides, flat form keys `seo_<lang>_<field>`. Empty means "automatic". */
+export const SEO_LANGS = ["en", "fr"];
+export const SEO_FIELDS = ["title", "description", "keywords"];
+export const seoKey = (lang, field) => `seo_${lang}_${field}`;
+export const SEO_KEYS = SEO_LANGS.flatMap((l) => SEO_FIELDS.map((k) => seoKey(l, k)));
+
+/**
+ * The text the public project page uses when nothing is overridden, computed
+ * from the form (mirrors ProjectDetailPage.jsx). `word` is the translated
+ * "case study" / "project" noun for the title, `caseStudyWord` the one used in
+ * the keywords.
+ */
+export function autoSeo(f, lang, { word, caseStudyWord }) {
+  const fr = lang === "fr";
+  const pick = (...vals) => vals.map((v) => String(v || "").trim()).find(Boolean) || "";
+  const title = pick(fr && f.fr_title, f.title);
+  const summary = pick(fr && f.fr_summary, f.summary, fr && f.fr_description, f.description);
+  const techs = [
+    ...new Set([
+      ...(f.tags || []),
+      ...(f.techs || []).map((t) => String(t?.title || "").trim()).filter(Boolean),
+    ]),
+  ];
+  return {
+    title: `${title}${fr ? " : " : ": "}${word}`,
+    description: summary.substring(0, 160),
+    keywords: [title, caseStudyWord, ...techs].join(", "),
+  };
+}
+
 export const newId = () =>
   typeof crypto !== "undefined" && crypto.randomUUID
     ? crypto.randomUUID()
@@ -79,6 +109,11 @@ export function formFromProject(p) {
     fr_outcome: frCs.outcome || "",
     fr_results: resultRows(frCs.results),
     fr_features: strList(frCs.features),
+    ...Object.fromEntries(
+      SEO_LANGS.flatMap((l) =>
+        SEO_FIELDS.map((k) => [seoKey(l, k), typeof p?.seo?.[l]?.[k] === "string" ? p.seo[l][k] : ""]),
+      ),
+    ),
     tags: [...(p?.tags || [])],
     techs: rowsFrom("techs", p?.tools?.techs),
     resources: rowsFrom("resources", p?.tools?.resources),
@@ -220,6 +255,20 @@ export function buildPayload(prev, f, { projectId, now = new Date().toISOString(
   }
   if (pfr || Object.keys(fr).some((k) => k !== "caseStudy") || Object.keys(frCs).length) out.fr = fr;
 
+  /* search engines: only what was typed is stored; stored extras are kept */
+  const pseo = base.seo && typeof base.seo === "object" && !Array.isArray(base.seo) ? base.seo : null;
+  const seo = { ...(pseo || {}) };
+  for (const l of SEO_LANGS) {
+    const prevL = pseo?.[l] && typeof pseo[l] === "object" ? pseo[l] : {};
+    const cur = { ...prevL };
+    for (const k of SEO_FIELDS) {
+      const v = keep(lookup(prevL[k]), f[seoKey(l, k)]);
+      if (v) cur[k] = v; else delete cur[k];
+    }
+    if (Object.keys(cur).length) seo[l] = cur; else delete seo[l];
+  }
+  if (Object.keys(seo).length) out.seo = seo; else delete out.seo;
+
   /* tools and extras */
   const tools = { ...(base.tools || {}) };
   const idMaker = (suffix) => (k) => `${projectId}${String(k).replace(/\W/g, "")}${suffix}`;
@@ -251,6 +300,9 @@ export const imagePaths = (doc) =>
   [doc?.image, ...(doc?.carouselImages || []).map((c) => c?.img)].filter((p) => typeof p === "string" && p.startsWith("/"));
 
 /* ---- Validation and progress ----------------------------------------- */
+
+/** How many search-engine fields the owner filled in (0 to 6). */
+export const seoFilled = (f) => SEO_KEYS.filter((k) => String(f[k] || "").trim()).length;
 
 export const frenchFilled = (f) =>
   FR_FIELDS.filter((k) => (Array.isArray(f[k]) ? f[k].some((x) => String(x?.value ?? x ?? "").trim()) : String(f[k] || "").trim())).length;
@@ -301,5 +353,6 @@ export function progress(f) {
     f.title, f.description, f.startDate, f.summary, f.challenge, f.solution, f.outcome,
     f.client, f.role, f.status, f.cover, f.carousel.length, f.tags.length, f.results.length, f.features.length,
   ];
+  // search-engine fields are optional and deliberately not counted
   return { filled: checks.filter((x) => (typeof x === "string" ? x.trim() : x)).length, total: checks.length };
 }

@@ -1,4 +1,5 @@
 import ContactCtaButtons from "../../../../shared/ui/ContactCtaButtons";
+import { PHONE_DISPLAY, getWhatsAppLink } from "../../../../shared/lib/contactConfig";
 
 import { useT } from "../../../../shared/i18n/strings";
 export default function GetInTouchSection() {
@@ -25,6 +26,12 @@ export default function GetInTouchSection() {
             whatsappMessage={t("msg.whatsapp")}
           />
         </div>
+        <p className="mb-10 text-center text-sm text-ink">
+          {t("contact.phoneLine")}{" "}
+          <a href={getWhatsAppLink(t("msg.whatsapp"))} target="_blank" rel="noopener noreferrer" className="font-bold text-success!">
+            {PHONE_DISPLAY}
+          </a>
+        </p>
       </div>
     );
 }

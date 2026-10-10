@@ -85,11 +85,22 @@ export default function ProjectDetailPage() {
   const service = services.find((s) => s.id === serviceId);
   const summary = cs.summary || project.description;
 
+  // Per-project search-engine text from the back office (`seo.<lang>`); an empty
+  // field means "use the automatic value". Strings only, anything else is ignored.
+  const seoOverride = (k) => {
+    const v = rawProject.seo?.[lang]?.[k];
+    return typeof v === "string" ? v.trim() : "";
+  };
+  const seoTitle =
+    seoOverride("title") || `${project.title}${lang === "fr" ? " : " : ": "}${t(personal ? "proj.project" : "proj.caseStudy")}`;
+  const seoDescription = seoOverride("description") || String(summary).substring(0, 160);
+  const seoKeywords = seoOverride("keywords") || [project.title, t("proj.caseStudy"), ...techs].join(", ");
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
-    description: summary,
+    description: seoOverride("description") || summary,
     datePublished: project.startDate || undefined,
     keywords: techs.join(", "),
     url: getAbsoluteUrl(withLang(lang, `/projects/${slug}`)),
@@ -100,9 +111,9 @@ export default function ProjectDetailPage() {
   return (
     <article className="mx-auto w-full max-w-6xl px-5 py-8 md:py-12">
       <SEO
-        title={`${project.title}${lang === "fr" ? " : " : ": "}${t(personal ? "proj.project" : "proj.caseStudy")}`}
-        description={String(summary).substring(0, 160)}
-        keywords={[project.title, t("proj.caseStudy"), ...techs].join(", ")}
+        title={seoTitle}
+        description={seoDescription}
+        keywords={seoKeywords}
         image={project.image || getAbsoluteUrl("/logo.jpg")}
         type="article"
         structuredData={structuredData}

@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Field, Input, Select, Textarea } from "../../../ui";
-import { fieldError, newRowKey } from "../formModel";
+import { MAX_DESCRIPTION, MAX_TITLE, composeSeo } from "../../../../shared/lib/seoPages";
+import { slugifyProjectTitle } from "../../../../shared/lib/projectSlug";
+import { translate } from "../../../../shared/i18n/strings";
+import { SEO_FIELDS, SEO_LANGS, autoSeo, fieldError, newRowKey, seoFilled, seoKey } from "../formModel";
 import TagInput from "../components/tag-input/TagInput";
 import { Group, RemoveButton } from "./parts";
 
@@ -65,7 +68,63 @@ function RowsEditor({ name, rows, setRows, cols, rowLabel, errors }) {
   ));
 }
 
+const SEO_LANG_LABEL = { en: "English", fr: "French" };
+
+/** Counter with guidance: muted when empty, amber when short, green in range, red past the limit. */
+function SeoCounter({ len, min, max }) {
+  let tone = "text-ink-muted";
+  if (len > max) tone = "text-danger";
+  else if (len >= min) tone = "text-success";
+  else if (len > 0) tone = "text-amber-400";
+  return <span className={`font-normal tabular-nums ${tone}`}>{len ? len : "auto"} / {min} to {max}</span>;
+}
+
+const clipText = (s, n) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
+
+/** One language column: three optional fields and a search-result preview. */
+function SeoColumn({ lang, f, set, slug }) {
+  const auto = autoSeo(f, lang, {
+    word: translate(lang, f.kind === "personal" ? "proj.project" : "proj.caseStudy"),
+    caseStudyWord: translate(lang, "proj.caseStudy"),
+  });
+  const val = (k) => f[seoKey(lang, k)];
+  const typed = (k) => val(k).trim();
+  const shown = composeSeo(null, lang, {
+    title: typed("title") || auto.title,
+    description: typed("description") || auto.description,
+    keywords: typed("keywords") || auto.keywords,
+  });
+  const host = typeof window !== "undefined" && window.location.host ? window.location.host : "abdelouahab.xyz";
+  const path = `${lang === "fr" ? "fr › " : ""}projects${slug ? ` › ${slug}` : ""}`;
+  const head = (label, counter) => (
+    <span className="flex w-full items-baseline justify-between gap-2">
+      <span>{label}</span>
+      {counter}
+    </span>
+  );
+  return (
+    <div className="flex min-w-0 flex-col gap-2" lang={lang}>
+      <p className="text-xs font-semibold text-ink-strong">{SEO_LANG_LABEL[lang]}</p>
+      <Field label={head("Title", <SeoCounter len={typed("title").length} min={50} max={60} />)}>
+        <Input value={val("title")} placeholder={auto.title} onChange={(e) => set(seoKey(lang, "title"), e.target.value)} />
+      </Field>
+      <Field label={head("Description", <SeoCounter len={typed("description").length} min={120} max={158} />)}>
+        <Textarea rows={2} value={val("description")} placeholder={auto.description} onChange={(e) => set(seoKey(lang, "description"), e.target.value)} className="resize-none!" />
+      </Field>
+      <Field label="Keywords (comma separated)">
+        <Input value={val("keywords")} placeholder={auto.keywords} onChange={(e) => set(seoKey(lang, "keywords"), e.target.value)} />
+      </Field>
+      <div className="rounded-md border border-line bg-page p-2" aria-label={`Search result preview (${SEO_LANG_LABEL[lang]})`}>
+        <p className="truncate text-[0.7rem] text-[#81c995]">{host} › {path}</p>
+        <p className="truncate text-sm leading-snug text-[#8ab4f8]">{clipText(shown.title, MAX_TITLE) || <span className="italic text-ink-muted">No title</span>}</p>
+        <p className="line-clamp-2 text-xs leading-snug text-ink-muted">{clipText(shown.description, MAX_DESCRIPTION)}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function TechStep({ f, set, errors }) {
+  const seoCount = seoFilled(f);
   const [openCode, setOpenCode] = useState({});
   const [scopes, setScopes] = useState(FALLBACK_SCOPES);
   const hasCode = f.codeSamples.length > 0;
@@ -215,6 +274,18 @@ export default function TechStep({ f, set, errors }) {
           ]}
         />
       </Extra>
+
+      <Group
+        title="Search engines (optional)"
+        hint="What Google shows for this project. Leave a field empty to use the automatic text shown in grey."
+        actions={<Badge tone={seoCount ? "success" : "neutral"}>{seoCount ? `${seoCount} of ${SEO_LANGS.length * SEO_FIELDS.length} set` : "automatic"}</Badge>}
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          {SEO_LANGS.map((lang) => (
+            <SeoColumn key={lang} lang={lang} f={f} set={set} slug={slugifyProjectTitle(f.title)} />
+          ))}
+        </div>
+      </Group>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { db } from "../../../shared/lib/firebase";
 import { putAsset, deleteAsset } from "../../lib/assetStore";
 import { Button, ConfirmDialog, Stepper, useToast, useUnsavedGuard } from "../../ui";
 import {
-  STEPS, FR_FIELDS, buildPayload, countProblems, formFromProject, imagePaths, mergeForm, newId,
+  STEPS, FR_FIELDS, SEO_KEYS, buildPayload, countProblems, formFromProject, imagePaths, mergeForm, newId,
   newProjectId, progress, serializeForm, validate,
 } from "./formModel";
 import { assetFromSite, captionFromName, coverAssetPath, prepareImage, shotAssetPath, sitePath } from "./images";
@@ -28,7 +28,7 @@ const hasContent = (id, f) => {
     case "facts": return any(f.client, f.role, f.status, f.liveUrl, f.results, f.features);
     case "french": return any(f.fr_title, f.fr_description, f.fr_summary, f.fr_challenge, f.fr_client, f.fr_results, f.fr_features);
     case "media": return any(f.cover, f.carousel);
-    case "tech": return any(f.tags, f.techs, f.resources, f.codeSamples, f.dataSources, f.githubLink);
+    case "tech": return any(f.tags, f.techs, f.resources, f.codeSamples, f.dataSources, f.githubLink, ...SEO_KEYS.map((k) => f[k]));
     default: return false;
   }
 };

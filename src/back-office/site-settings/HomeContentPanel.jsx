@@ -102,19 +102,26 @@ function Item({ section, id, working, update }) {
                 <Field label="Description">
                   <Textarea lang={lang} rows={3} value={get(lang, "description")} onChange={(e) => set(lang, "description", e.target.value)} />
                 </Field>
-                <Field
-                  label="Starting price (MAD)"
-                  error={!isBlank(get(lang, "priceFrom")) && !validPrice(get(lang, "priceFrom")) ? "Use a whole number above 0." : ""}
-                  hint={`Built-in: ${defs[lang].priceFrom} MAD`}
-                >
-                  <Input
-                    inputMode="numeric"
-                    value={get(lang, "priceFrom")}
-                    error={!isBlank(get(lang, "priceFrom")) && !validPrice(get(lang, "priceFrom"))}
-                    onChange={(e) => set(lang, "priceFrom", e.target.value)}
-                    className="max-w-40"
-                  />
-                </Field>
+                {lang === "en" ? (
+                  <Field
+                    label="Starting price (MAD, same on the English and French site)"
+                    error={!isBlank(get("en", "priceFrom")) && !validPrice(get("en", "priceFrom")) ? "Use a whole number above 0." : ""}
+                    hint={`Built-in: ${defs.en.priceFrom} MAD`}
+                  >
+                    <Input
+                      inputMode="numeric"
+                      value={get("en", "priceFrom")}
+                      error={!isBlank(get("en", "priceFrom")) && !validPrice(get("en", "priceFrom"))}
+                      onChange={(e) => {
+                        set("en", "priceFrom", e.target.value);
+                        set("fr", "priceFrom", e.target.value);
+                      }}
+                      className="max-w-40"
+                    />
+                  </Field>
+                ) : (
+                  <p className="text-xs text-ink-muted">The starting price is shared with the English version.</p>
+                )}
               </>
             )}
           </div>

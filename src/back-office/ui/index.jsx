@@ -236,8 +236,18 @@ export function Stepper({ steps, current, onStep }) {
 
 /* ---- Helpers --------------------------------------------------------- */
 
-/** Warns before closing the tab while there is unsaved work. */
+const unsavedOwners = new Set();
+/** True while any mounted screen reports unsaved work (see useUnsavedGuard). */
+export const hasUnsavedChanges = () => unsavedOwners.size > 0;
+
+/** Warns before closing the tab, and lets the shell ask before switching screens. */
 export function useUnsavedGuard(dirty) {
+  useEffect(() => {
+    if (!dirty) return undefined;
+    const owner = {};
+    unsavedOwners.add(owner);
+    return () => unsavedOwners.delete(owner);
+  }, [dirty]);
   useEffect(() => {
     if (!dirty) return undefined;
     const handler = (e) => {

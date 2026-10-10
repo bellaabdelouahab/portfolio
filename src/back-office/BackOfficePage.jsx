@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import SEO from "../shared/ui/SEO";
 import { avatarPlaceholder } from "../shared/lib/placeholders";
-import { ToastProvider } from "./ui";
+import { ConfirmDialog, ToastProvider, hasUnsavedChanges } from "./ui";
 import LoginPage from "./login-page/LoginPage";
 import OverviewPanel from "./overview/OverviewPanel";
 import ProjectForm from "./forms/project-form/ProjectForm";
@@ -62,6 +62,7 @@ export default function FillDB() {
   const [activeTab, setActiveTab] = useState("overview");
   const [editingProject, setEditingProject] = useState(null);
   const [resumeDraftId, setResumeDraftId] = useState(null);
+  const [pendingNav, setPendingNav] = useState(null);
 
   // The back office needs the full width: hide the public navbar rail while it is open.
   useEffect(() => {
@@ -88,6 +89,19 @@ export default function FillDB() {
       /* hash is a convenience only */
     }
   }, []);
+
+  /** Navigation started by the owner: ask first when the current screen has unsaved work. */
+  const requestGoTo = useCallback(
+    (id, before) => {
+      const go = () => {
+        before?.();
+        goTo(id);
+      };
+      if (hasUnsavedChanges()) setPendingNav({ go });
+      else go();
+    },
+    [goTo]
+  );
 
   const handleEditProject = useCallback(
     (project) => {
@@ -201,7 +215,7 @@ export default function FillDB() {
         return tab ? <tab.Component /> : null;
       }
       default:
-        return <OverviewPanel onNavigate={(id) => { if (id === "project") { setEditingProject(null); setResumeDraftId(null); } goTo(id); }} />;
+        return <OverviewPanel onNavigate={(id) => requestGoTo(id, () => { if (id === "project") { setEditingProject(null); setResumeDraftId(null); } })} />;
     }
   }, [activeTab, editingProject, resumeDraftId, goTo, handleEditProject, handleResumeDraft]);
 
@@ -257,13 +271,14 @@ export default function FillDB() {
                             <button
                               key={item.id}
                               type="button"
-                              onClick={() => {
-                                if (item.id === "project") {
-                                  setEditingProject(null);
-                                  setResumeDraftId(null);
-                                }
-                                goTo(item.id);
-                              }}
+                              onClick={() =>
+                                requestGoTo(item.id, () => {
+                                  if (item.id === "project") {
+                                    setEditingProject(null);
+                                    setResumeDraftId(null);
+                                  }
+                                })
+                              }
                               aria-current={isActive ? "page" : undefined}
                               className={[
                                 "cursor-pointer rounded-md px-3 py-2 text-left text-sm tracking-normal! transition-colors duration-150",
@@ -292,6 +307,20 @@ export default function FillDB() {
             </aside>
 
             <div className="min-w-0 flex-1 overflow-y-auto p-4 md:p-6">{screen}</div>
+            <ConfirmDialog
+              open={!!pendingNav}
+              title="Leave this screen?"
+              message="You have unsaved changes here. If you leave now they will be lost (a project in the wizard keeps its saved draft)."
+              confirmLabel="Leave"
+              cancelLabel="Stay"
+              danger
+              onCancel={() => setPendingNav(null)}
+              onConfirm={() => {
+                const nav = pendingNav;
+                setPendingNav(null);
+                nav?.go();
+              }}
+            />
           </div>
         </ToastProvider>
       )}
