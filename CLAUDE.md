@@ -24,7 +24,7 @@ src/
   front-office/         public pages (home, projects, services, certificates, team, articles)
   back-office/          /fill-db admin: overview, project wizard, project list, certificates, testimonials, storage, analytics link. Screens are built from the kit in back-office/ui
   shared/               lib/, ui/, styles/, i18n/
-server/                 index.mjs (SSR), assets.mjs, drafts.mjs, content.mjs, seo.mjs, stats.mjs
+server/                 index.mjs (SSR), assets.mjs, drafts.mjs, siteSettings.mjs, content.mjs, seo.mjs, stats.mjs
 ops/assets-sync/        VPS backup scripts
 docs/                   ADDING_PROJECTS.md
 ```
@@ -36,6 +36,7 @@ Rules: a page is the one component a route renders, named `<Feature>Page.jsx`; e
 Coolify builds the `Dockerfile` on the owner's VPS from `master`; a push redeploys. Build variables: `VITE_*` (Firebase client config, `VITE_SITE_URL`). Runtime: `FIREBASE_SERVICE_ACCOUNT_B64`, `SITE_URL`.
 
 - `server/assets.mjs`: back-office uploads go to the persistent volume `/data/uploads` and are served before the built-in files. `ops/assets-sync/sync.sh` (cron, every 5 minutes) backs them up to the `uploads` branch, commits at most once an hour with a dedicated identity, and writes `.sync-status.json` for the back office Storage tab. It never deletes from the backup; `restore.sh` restores.
+- `server/siteSettings.mjs` + Firestore `siteSettings` (docs `strings`, `contact`, `seo`, `home`): overrides on top of the built-in defaults, edited in the back office (Website group) and injected into every page (`window.__SITE_SETTINGS__`). Defaults stay in code: `shared/i18n/strings.js`, `front-office/home/homeContent*.js`, `shared/lib/contactConfig.js`, `shared/lib/seoPages.js`. Never hardcode a phone number, email or booking URL; import them from `contactConfig.js`.
 - `server/drafts.mjs`: back-office drafts (unfinished projects and edits), JSON files in `/data/uploads/.drafts` on the volume, owner-only, not part of the GitHub backup. Client in `back-office/lib/draftStore.js`; the project wizard autosaves into it and falls back to localStorage offline.
 - `server/seo.mjs`: `/sitemap.xml` (from Firestore, English and French with hreflang), `/robots.txt`, 301 redirects for removed pages. Add new static pages to `STATIC_PAGES`.
 - `server/stats.mjs`: first-party proxy for the self-hosted Plausible (`/_s/a.js`, `/_s/e`) so ad blockers do not drop it.
