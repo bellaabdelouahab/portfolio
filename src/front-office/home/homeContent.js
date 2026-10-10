@@ -23,10 +23,12 @@ export const aboutContent = {
 // documents. ServiceDetailPage falls back to the most recent projects if a
 // service's tags match fewer than a handful.
 // Prices are in MAD. `tiers` are the packages shown on the service page (one
-// Offer each in the structured data); `priceFrom` is the service-level minimum
-// (the cheapest tier). The back office can override `priceFrom`: that changes the
-// first number in the `startingPrice` headline and the service minimum in the
-// home OfferCatalog. It never changes the tier prices, which are edited here.
+// Offer each in the structured data). Each tier's `priceFrom` is its built-in
+// "from" price; the back office can override it per tier (and the `priceNote`
+// range text per language) without a deploy, see shared/i18n/useContent.js.
+// `startingPrice` (card headline) and the service-level `priceFrom` (home
+// OfferCatalog) are DERIVED from the tier prices: {from} is the first tier's
+// price, {to} the last tier's. `priceLabel` is a template, {price} is the tier price.
 export const servicesContent = [
   {
     id: "web",
@@ -43,14 +45,12 @@ export const servicesContent = [
     ],
     process: [
       ["Discovery call", "30 minutes to define goals, users and scope. Free."],
-      ["Proposal", "Fixed scope, timeline and price in MAD within two working days."],
+      ["Proposal", "A fixed quote in MAD after the discovery call (the first consulting call), once the scope is clear."],
       ["Build", "Weekly demos on a private preview link so nothing is a surprise."],
       ["Launch and support", "Deployment, handover and a minimum of 7 days of post-launch support included."],
     ],
-    // Headline shown on the home card and the service page. `priceFrom` is the
-    // lowest tier price (used for the home OfferCatalog); each tier carries its own.
-    startingPrice: "Landing pages from 3,000 MAD, applications from 15,000 MAD",
-    priceFrom: 3000,
+    // Headline template shown on the home card and the service page.
+    startingPrice: "Landing pages from {from} MAD, applications from {to} MAD",
     tiers: [
       {
         id: "landing",
@@ -58,9 +58,9 @@ export const servicesContent = [
         audience: "A single page to present an offer, an event or a business and collect enquiries.",
         includes: ["WordPress or a ready theme, adapted to your brand", "Contact form that reaches your inbox", "Basic SEO and fast loading", "Works on phone and laptop"],
         duration: "2 to 5 days",
-        priceLabel: "From 3,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "",
-        priceFrom: 3000,
+        priceFrom: 2500,
         custom: false,
       },
       {
@@ -69,7 +69,7 @@ export const servicesContent = [
         audience: "A company that needs a proper site it can edit and grow.",
         includes: ["5 to 10 pages", "A CMS you can edit yourself", "French and English", "SEO foundations", "Analytics set up"],
         duration: "2 to 4 weeks",
-        priceLabel: "From 6,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "Typically 6,000 to 10,000 MAD",
         priceFrom: 6000,
         custom: false,
@@ -80,7 +80,7 @@ export const servicesContent = [
         audience: "A shop that wants to sell online and take payments.",
         includes: ["WooCommerce or Shopify", "Catalogue and product import", "Payment such as CMI", "Delivery rules"],
         duration: "3 to 6 weeks",
-        priceLabel: "From 8,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "Typically 8,000 to 15,000 MAD",
         priceFrom: 8000,
         custom: false,
@@ -91,7 +91,7 @@ export const servicesContent = [
         audience: "A process, platform or internal tool that no template covers.",
         includes: ["Accounts and roles", "Database and admin area", "Integrations and dashboards", "Built with Django, Next.js or similar", "A working demo every week"],
         duration: "4 weeks and more",
-        priceLabel: "From 15,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "Custom quote, typically 15,000 to 40,000 MAD and more",
         priceFrom: 15000,
         custom: true,
@@ -131,8 +131,7 @@ export const servicesContent = [
       ["Build", "Model, dashboard and automation, reviewed with you at each step."],
       ["Handover", "Documentation, training and a minimum of 7 days of post-launch support included."],
     ],
-    startingPrice: "Express analysis from 3,000 MAD, full projects from 15,000 MAD",
-    priceFrom: 3000,
+    startingPrice: "Express analysis from {from} MAD, full projects from {to} MAD",
     tiers: [
       {
         id: "express",
@@ -148,7 +147,7 @@ export const servicesContent = [
         note: "Verified results from an accountable person, not a one-off chatbot answer.",
         excludes: "ongoing support",
         duration: "1 to 3 days",
-        priceLabel: "From 3,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "",
         priceFrom: 3000,
         custom: false,
@@ -165,7 +164,7 @@ export const servicesContent = [
           "7 days of support after launch",
         ],
         duration: "2 to 6 weeks",
-        priceLabel: "From 8,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "Typically 8,000 to 15,000 MAD",
         priceFrom: 8000,
         custom: false,
@@ -182,7 +181,7 @@ export const servicesContent = [
           "A value review with you 30, 60 and 90 days after launch to check the results",
         ],
         duration: "1 to 5 months",
-        priceLabel: "From 15,000 MAD",
+        priceLabel: "From {price} MAD",
         priceNote: "Custom quote, typically 15,000 to 40,000 MAD and more",
         priceFrom: 15000,
         custom: true,
@@ -375,7 +374,7 @@ export const faqData = [
   {
     id: "q1",
     question: "How much does a website cost in Morocco?",
-    answer: "A landing page starts at 3,000 MAD, a business website at 6,000 MAD (typically 6,000 to 10,000), an online store at 8,000 MAD and a custom web application at 15,000 MAD, depending on pages, features and integrations. These are guides: you receive a written quote in MAD after a free 30-minute discovery call."
+    answer: "A landing page starts at 2,500 MAD, a business website at 6,000 MAD (typically 6,000 to 10,000), an online store at 8,000 MAD and a custom web application at 15,000 MAD, depending on pages, features and integrations. These are guides: you receive a written quote in MAD after a free 30-minute discovery call."
   },
   {
     id: "q2",

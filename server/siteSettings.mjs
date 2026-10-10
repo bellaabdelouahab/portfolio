@@ -138,7 +138,6 @@ function cleanTree(value, where, depth = 0) {
   if (typeof value === "string") return str(value, where) || undefined;
   if (typeof value === "number") {
     if (!Number.isFinite(value)) fail(`${where} must be a finite number`);
-    if (where.endsWith(".priceFrom") && value < 0) fail(`${where} must not be negative`);
     return value;
   }
   if (isObject(value)) {
@@ -153,16 +152,110 @@ function cleanTree(value, where, depth = 0) {
   return fail(`${where} must be a string, a number or an object`);
 }
 
+const MAX_NOTE = 300;
+const MAX_PRICE = 10_000_000;
+
+/** A price in MAD: a finite number, 0 or more. Empty means "not set". */
+function price(v, where) {
+  if (v === "" || v === null || v === undefined) return undefined;
+  if (typeof v !== "number" || !Number.isFinite(v)) fail(`${where} must be a number`);
+  if (v < 0) fail(`${where} must not be negative`);
+  if (v > MAX_PRICE) fail(`${where} is too large`);
+  return v;
+}
+
+function shortText(v, where, max) {
+  const t = str(v, where);
+  if (t.length > max) fail(`${where} is longer than ${max} characters`);
+  return t || undefined;
+}
+
+/** { en: {...}, fr: {...} } keeping only the listed text fields. */
+function perLang(value, where, fields) {
+  if (!isObject(value)) fail(`${where} must be an object`);
+  const out = {};
+  for (const [lang, o] of Object.entries(value)) {
+    if (lang !== "en" && lang !== "fr") continue;
+    if (!isObject(o)) fail(`${where}.${lang} must be an object`);
+    const kept = {};
+    for (const [field, limit] of Object.entries(fields)) {
+      if (!(field in o)) continue;
+      const v = limit === "price" ? price(o[field], `${where}.${lang}.${field}`) : shortText(o[field], `${where}.${lang}.${field}`, limit);
+      if (v !== undefined) kept[field] = v;
+    }
+    if (Object.keys(kept).length) out[lang] = kept;
+  }
+  return out;
+}
+
+const checkId = (id, where) => {
+  if (id.startsWith("__") || id.includes(".")) fail(`${where} has an invalid key "${id}"`);
+};
+
+/** home.faq[id][lang].{question,answer} */
+function cleanFaq(data) {
+  const out = {};
+  for (const [id, item] of Object.entries(data)) {
+    checkId(id, "home.faq");
+    const kept = perLang(item, `home.faq.${id}`, { question: MAX_TEXT, answer: MAX_TEXT });
+    if (Object.keys(kept).length) out[id] = kept;
+  }
+  return out;
+}
+
+/**
+ * home.services[id]:
+ *   [lang].{title, description}            text overrides
+ *   [lang].priceFrom                       legacy, still accepted, ignored by the site
+ *   tiers[tierId].priceFrom                price in MAD, shared by both languages
+ *   tiers[tierId][lang].priceNote          typical range text per language
+ */
+function cleanServices(data) {
+  const out = {};
+  for (const [id, item] of Object.entries(data)) {
+    checkId(id, "home.services");
+    if (!isObject(item)) fail(`home.services.${id} must be an object`);
+    const kept = perLang(
+      Object.fromEntries(Object.entries(item).filter(([k]) => k !== "tiers")),
+      `home.services.${id}`,
+      { title: 300, description: MAX_TEXT, priceFrom: "price" }
+    );
+    if (item.tiers !== undefined) {
+      if (!isObject(item.tiers)) fail(`home.services.${id}.tiers must be an object`);
+      const tiers = {};
+      for (const [tid, tier] of Object.entries(item.tiers)) {
+        checkId(tid, `home.services.${id}.tiers`);
+        const where = `home.services.${id}.tiers.${tid}`;
+        if (!isObject(tier)) fail(`${where} must be an object`);
+        const t = perLang(tier, where, { priceNote: MAX_NOTE });
+        const p = price(tier.priceFrom, `${where}.priceFrom`);
+        if (p !== undefined) t.priceFrom = p;
+        if (Object.keys(t).length) tiers[tid] = t;
+      }
+      if (Object.keys(tiers).length) kept.tiers = tiers;
+    }
+    if (Object.keys(kept).length) out[id] = kept;
+  }
+  return out;
+}
+
+function cleanHome(data) {
+  const out = {};
+  for (const [group, items] of Object.entries(data)) {
+    if (!isObject(items)) fail(`home.${group} must be an object`);
+    if (group === "faq") out.faq = cleanFaq(items);
+    else if (group === "services") out.services = cleanServices(items);
+    else out[group] = cleanTree(items, `home.${group}`);
+    if (out[group] && !Object.keys(out[group]).length) delete out[group];
+  }
+  return out;
+}
+
 function cleanSection(section, data) {
   if (section === "strings") return cleanStrings(data);
   if (section === "contact") return cleanContact(data);
-  const out = cleanTree(data, section);
-  if (section === "home") {
-    for (const [group, items] of Object.entries(out)) {
-      if (!isObject(items)) fail(`home.${group} must be an object`);
-    }
-  }
-  return out;
+  if (section === "home") return cleanHome(data);
+  return cleanTree(data, section);
 }
 
 // ---- routes ---------------------------------------------------------------

@@ -1,6 +1,6 @@
 # Pricing: packages for data analytics and web development
 
-Status: agreed structure, implemented on the site (home cards, service pages, FAQ, structured data), English and French. Date: 2026-10-10.
+Status: agreed structure, implemented on the site (home cards, service pages, FAQ, structured data), English and French. Date: 2026-10-10. Update: Landing page is 2,500 MAD, package prices are editable from the back office, and the quote is given after the discovery call (no fixed delay).
 
 ## 1. Why the single "from X MAD" price was replaced
 - "From 3,000 MAD" on the data service made a visitor with a large data problem expect 3,000 and then hear 30,000. That feels like a bait and switch.
@@ -9,11 +9,11 @@ Status: agreed structure, implemented on the site (home cards, service pages, FA
 
 ## 2. The rule: effort-based
 No day rate is published. Prices follow effort:
-- 3,000 MAD is two or three evenings of work (a landing page, a quick analysis).
+- 2,500 to 3,000 MAD is two or three evenings of work (a landing page at 2,500, a quick analysis at 3,000).
 - 8,000 MAD is two to three weeks.
 - 15,000 MAD is about a month of work.
 - 40,000 MAD is three to five months of regular work.
-Prices are a guide. Every project gets a written quote after a free 30-minute call.
+Prices are a guide. Every project gets a fixed written quote after the discovery call (the first, free, 30-minute consulting call), once the scope is clear. No delay is promised: scope depends on the project, the research needed and the complexity.
 
 ## 3. Data analytics (service id `data`)
 | Package | For | Includes | Time | Price |
@@ -27,7 +27,7 @@ Express carries a note: verified results and an accountable person, not a one-of
 ## 4. Web development (service id `web`)
 | Package | Includes | Time | Price |
 | --- | --- | --- | --- |
-| **Landing page** | WordPress or a theme, contact form, basic SEO, mobile ready. | 2 to 5 days | from 3,000 MAD |
+| **Landing page** | WordPress or a theme, contact form, basic SEO, mobile ready. | 2 to 5 days | from 2,500 MAD |
 | **Business website** | 5 to 10 pages, a CMS you can edit, French and English, SEO foundations, analytics. | 2 to 4 weeks | from 6,000 MAD, typically 6,000 to 10,000 MAD |
 | **Online store** | WooCommerce or Shopify, catalogue, payment such as CMI, delivery rules, product import. | 3 to 6 weeks | from 8,000 MAD, typically 8,000 to 15,000 MAD |
 | **Custom web application** | Accounts and roles, database, admin area, integrations, dashboards; Django, Next.js or similar; a working demo every week. | 4 weeks and more | from 15,000 MAD, custom quote, typically 15,000 to 40,000 MAD and more |
@@ -47,11 +47,13 @@ Reference points:
 
 ## 6. How it appears on the site
 - Service pages: a Packages section after "What you get": cards with name, who it is for, included items, time and price, a "Book a call" button per card, and a line "Not sure which one fits? Book a free 30-minute call." with the Book a meeting button.
-- Home cards headline: web "Landing pages from 3,000 MAD, applications from 15,000 MAD"; data "Express analysis from 3,000 MAD, full projects from 15,000 MAD".
+- Home cards headline (derived from the package prices, first and last package): web "Landing pages from 2,500 MAD, applications from 15,000 MAD"; data "Express analysis from 3,000 MAD, full projects from 15,000 MAD".
 - FAQ answers (price and duration questions) use the same numbers in English and French.
 - Search descriptions say "written quote in MAD" and name no single low number.
 - Structured data: the Service JSON-LD has one `Offer` per package with `priceSpecification.minPrice` in MAD; the home OfferCatalog uses the service minimum (`priceFrom`).
-- Back office (FAQ and services): `priceFrom` override changes the first number of the headline and the service minimum in the home OfferCatalog. Package prices are edited in `homeContent.js` and `homeContent.fr.js`.
+- Back office (FAQ and services, Services tab): for each package the owner edits the "from" price (a number in MAD, shared by English and French) and the "typical range" text (per language; empty means the built-in text). Saved without a deploy. The card headline ("{from}" is the first package, "{to}" the last), each package's "From X MAD" label and the service minimum (`priceFrom`, used by the home OfferCatalog and the Service JSON-LD) are derived from the package prices, so one edit updates every place. Changing only the price keeps the built-in range text; edit the range text too when the range changes. The built-in prices stay in `homeContent.js` and `homeContent.fr.js`.
+- FAQ answers are plain text with the built-in prices: after a price change, edit the matching answer in the FAQ tab.
+- Stored data: `home.services[serviceId].tiers[tierId] = { priceFrom, en: { priceNote }, fr: { priceNote } }`. An older stored `home.services[id][lang].priceFrom` is ignored.
 
 ## 7. Open points
 1. Monthly support as a public add-on, or kept as a conversation on the call (earlier idea: 2,500 to 6,000 MAD a month).

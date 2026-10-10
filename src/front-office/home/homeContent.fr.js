@@ -31,18 +31,18 @@ export const servicesFr = {
     ],
     process: [
       ["Appel de découverte", "30 minutes pour définir objectifs, utilisateurs et périmètre. Gratuit."],
-      ["Devis", "Périmètre, délai et prix en MAD sous deux jours ouvrés."],
+      ["Devis", "Un devis ferme en MAD après l'appel de découverte (le premier appel de conseil), une fois le périmètre clair."],
       ["Réalisation", "Démonstrations chaque semaine sur un lien privé, sans mauvaise surprise."],
       ["Mise en ligne et suivi", "Déploiement, passation et un minimum de 7 jours de suivi après la mise en ligne inclus."],
     ],
-    startingPrice: "Pages de présentation dès 3 000 MAD, applications dès 15 000 MAD",
+    startingPrice: "Landing pages dès {from} MAD, applications dès {to} MAD",
     tiers: {
       landing: {
-        name: "Page de présentation",
+        name: "Landing page",
         audience: "Une page unique pour présenter une offre, un événement ou une activité et recevoir des demandes.",
         includes: ["WordPress ou un thème prêt à l'emploi, adapté à votre marque", "Formulaire de contact qui arrive dans votre boîte mail", "SEO de base et chargement rapide", "Adapté au mobile et à l'ordinateur"],
         duration: "2 à 5 jours",
-        priceLabel: "À partir de 3 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "",
       },
       site: {
@@ -50,7 +50,7 @@ export const servicesFr = {
         audience: "Une entreprise qui veut un vrai site qu'elle peut modifier et faire évoluer.",
         includes: ["5 à 10 pages", "Un CMS que vous modifiez vous-même", "Français et anglais", "Bases du SEO", "Outils d'analyse installés"],
         duration: "2 à 4 semaines",
-        priceLabel: "À partir de 6 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "En général de 6 000 à 10 000 MAD",
       },
       store: {
@@ -58,7 +58,7 @@ export const servicesFr = {
         audience: "Un commerce qui veut vendre en ligne et encaisser des paiements.",
         includes: ["WooCommerce ou Shopify", "Catalogue et import des produits", "Paiement, par exemple CMI", "Règles de livraison"],
         duration: "3 à 6 semaines",
-        priceLabel: "À partir de 8 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "En général de 8 000 à 15 000 MAD",
       },
       app: {
@@ -66,7 +66,7 @@ export const servicesFr = {
         audience: "Un processus, une plateforme ou un outil interne qu'aucun modèle ne couvre.",
         includes: ["Comptes et rôles", "Base de données et espace d'administration", "Intégrations et tableaux de bord", "Développé avec Django, Next.js ou équivalent", "Une démonstration fonctionnelle chaque semaine"],
         duration: "4 semaines et plus",
-        priceLabel: "À partir de 15 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "Devis sur mesure, en général de 15 000 à 40 000 MAD et plus",
       },
     },
@@ -100,7 +100,7 @@ export const servicesFr = {
       ["Réalisation", "Modèle, tableau de bord et automatisation, validés avec vous à chaque étape."],
       ["Passation", "Documentation, formation et un minimum de 7 jours de suivi après la mise en ligne inclus."],
     ],
-    startingPrice: "Analyse express dès 3 000 MAD, projets complets dès 15 000 MAD",
+    startingPrice: "Analyse express dès {from} MAD, projets complets dès {to} MAD",
     tiers: {
       express: {
         name: "Analyse express",
@@ -115,7 +115,7 @@ export const servicesFr = {
         note: "Des résultats vérifiés, portés par une personne responsable, et non une réponse ponctuelle de chatbot.",
         excludes: "le suivi continu",
         duration: "1 à 3 jours",
-        priceLabel: "À partir de 3 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "",
       },
       dashboard: {
@@ -129,7 +129,7 @@ export const servicesFr = {
           "7 jours de suivi après la mise en service",
         ],
         duration: "2 à 6 semaines",
-        priceLabel: "À partir de 8 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "En général de 8 000 à 15 000 MAD",
       },
       platform: {
@@ -143,7 +143,7 @@ export const servicesFr = {
           "Un bilan de la valeur créée avec vous à 30, 60 et 90 jours après la mise en service",
         ],
         duration: "1 à 5 mois",
-        priceLabel: "À partir de 15 000 MAD",
+        priceLabel: "À partir de {price} MAD",
         priceNote: "Devis sur mesure, en général de 15 000 à 40 000 MAD et plus",
       },
     },
@@ -162,9 +162,9 @@ export const servicesFr = {
 };
 
 export const faqFr = {
-  q1: ["Combien coûte la création d'un site web au Maroc ?", "Une page de présentation démarre à 3 000 MAD, un site vitrine à 6 000 MAD (en général de 6 000 à 10 000), une boutique en ligne à 8 000 MAD et une application web sur mesure à 15 000 MAD, selon le nombre de pages, les fonctionnalités et les intégrations. Ces montants sont indicatifs : vous recevez un devis écrit en MAD après un appel gratuit de 30 minutes."],
+  q1: ["Combien coûte la création d'un site web au Maroc ?", "Une landing page démarre à 2 500 MAD, un site vitrine à 6 000 MAD (en général de 6 000 à 10 000), une boutique en ligne à 8 000 MAD et une application web sur mesure à 15 000 MAD, selon le nombre de pages, les fonctionnalités et les intégrations. Ces montants sont indicatifs : vous recevez un devis écrit en MAD après un appel gratuit de 30 minutes."],
   q2: ["Combien coûte un tableau de bord Power BI ou un projet de données ?", "Une analyse express d'un fichier ou d'un tableur démarre à 3 000 MAD (1 à 3 jours). Un projet de tableau de bord et de reporting démarre à 8 000 MAD, en général de 8 000 à 15 000 MAD. Une plateforme de données pour des volumes importants ou complexes démarre à 15 000 MAD et se chiffre après une courte phase de cadrage payante, en général de 15 000 à 40 000 MAD et plus."],
-  q3: ["Combien de temps prend un projet ?", "Une page de présentation prend quelques jours, un site vitrine deux à quatre semaines et un tableau de bord deux à six semaines. Les applications et plateformes de données plus importantes prennent un à cinq mois, planifiées par phases avec une démonstration chaque semaine ou chaque phase."],
+  q3: ["Combien de temps prend un projet ?", "Une landing page prend quelques jours, un site vitrine deux à quatre semaines et un tableau de bord deux à six semaines. Les applications et plateformes de données plus importantes prennent un à cinq mois, planifiées par phases avec une démonstration chaque semaine ou chaque phase."],
   q4: ["Travaillez-vous avec des clients hors d'Agadir ?", "Oui. La plupart des projets se font à distance, avec des appels et un lien de prévisualisation partagé. Je travaille avec des clients partout au Maroc et à l'étranger, en français, en anglais et en arabe."],
   q4b: ["Êtes-vous une entreprise déclarée ? Émettez-vous des factures ?", "Oui. Je travaille en tant qu'auto-entrepreneur déclaré au Maroc. Vous recevez un devis écrit avant le début du travail et une facture officielle à la fin, et mes impôts sont déclarés : vous pouvez donc m'enregistrer comme fournisseur dans votre société."],
   q5: ["À qui appartiennent le code et les données ?", "À vous. Le code, la base de données et les tableaux de bord vous sont remis à la livraison, hébergés sur des comptes à votre nom, avec la documentation."],
