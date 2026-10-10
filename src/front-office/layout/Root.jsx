@@ -1,14 +1,11 @@
-import { Outlet, useNavigation } from "react-router-dom";
+import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import Navbar from "./navbar/Navbar";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import PageSkeleton, { variantForPath } from "../../shared/ui/PageSkeleton";
 import WhatsAppFloatingButton from "../../shared/ui/WhatsAppFloatingButton";
 
 export default function Root() {
-  // State for theme color
-  const [themeColor, setThemeColor] = useState("#171717");
-
   // createBrowserRouter keeps rendering the CURRENT route until the next route's
   // loader resolves. Without reading that state the UI simply freezes on the old
   // page and then jumps. navigation.location is the route being navigated TO.
@@ -17,32 +14,25 @@ export default function Root() {
   const target = navigation.location?.pathname ?? "";
   const skeletonVariant = variantForPath(target);
 
-  const resetScroll = () => {
-    document.getElementsByClassName("main")[0].scrollTop = 0;
-  };
-
-  useEffect(() => {
-    // Add click listener to nav links for scrolling to top
-    const navLinks = document.querySelectorAll(".navbar__menu__list a");
-    navLinks.forEach((link) => {
-      link.addEventListener("click", resetScroll);
-    });
-
-    // Set the lang attribute on the HTML tag
-
-    return () => {
-      navLinks.forEach((link) => {
-        link.removeEventListener("click", resetScroll);
-      });
-    };
-  }, []);
+  // Every page change starts at the top. On desktop the scrolling element is
+  // `.main`; on phones it is the document itself, so both are reset (the old
+  // code only reset `.main` and only on menu clicks, which left phone visitors in
+  // the middle or at the end of the next page).
+  const { pathname } = useLocation();
+  const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+  useIsoLayoutEffect(() => {
+    const main = document.querySelector(".main");
+    if (main) main.scrollTop = 0;
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
 
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content={themeColor} />
               </Helmet>
         
       <header id="header" className="header header-sticky">

@@ -332,11 +332,11 @@ function ProjectRow({ project, align, isMobile, index, isVisible }) {
           <p className="mb-3.125 text-xs leading-[1.65] text-ink">
             {project.description}
           </p>
-          <ul className="mb-3.125 flex flex-wrap gap-1.25 p-1.25">
+          <ul className="mb-3.125 flex flex-wrap gap-2 p-1.25">
             {project.technologies.map((tech) => (
               <li
                 key={tech}
-                className="rounded-full border border-success/25 bg-success/10 px-1.875 py-0.875 text-xs font-medium text-success"
+                className="rounded-full border border-success/25 bg-success/10 px-3 py-1 text-xs font-medium text-success"
               >
                 {tech}
               </li>

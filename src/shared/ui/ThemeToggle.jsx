@@ -24,14 +24,8 @@ function stored() {
   }
 }
 
-/**
- * Sun / moon switch. With no saved choice the site follows the visitor's device
- * (and keeps following it when the device switches); picking a theme saves it
- * and it wins from then on. The first paint is set by the inline script in
- * index.html; the active state is read after mount so markup matches.
- */
-export default function ThemeToggle({ className = "" }) {
-  const t = useT();
+/** Current theme and a setter; follows the device until the visitor picks one. */
+export function useTheme() {
   const [theme, setTheme] = useState(null);
   const [saved, setSaved] = useState(false);
 
@@ -65,6 +59,36 @@ export default function ThemeToggle({ className = "" }) {
     setTheme(next);
     setSaved(true);
   };
+  return { theme, choose };
+}
+
+/** One tap switches the theme (used in the phone top bar). */
+export function ThemeSwitchButton({ className = "" }) {
+  const t = useT();
+  const { theme, choose } = useTheme();
+  const next = theme === "light" ? "dark" : "light";
+  return (
+    <button
+      type="button"
+      onClick={() => choose(next)}
+      aria-label={next === "light" ? t("nav.themeLight") : t("nav.themeDark")}
+      title={next === "light" ? t("nav.themeLight") : t("nav.themeDark")}
+      className={`grid size-9 cursor-pointer place-items-center rounded-md border border-line text-base text-ink ${className}`}
+    >
+      <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
+    </button>
+  );
+}
+
+/**
+ * Sun / moon switch. With no saved choice the site follows the visitor's device
+ * (and keeps following it when the device switches); picking a theme saves it
+ * and it wins from then on. The first paint is set by the inline script in
+ * index.html; the active state is read after mount so markup matches.
+ */
+export default function ThemeToggle({ className = "" }) {
+  const t = useT();
+  const { theme, choose } = useTheme();
 
   return (
     <div role="group" aria-label={t("nav.theme")} className={`flex items-center gap-1 ${className}`}>

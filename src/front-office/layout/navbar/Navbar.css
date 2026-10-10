@@ -113,6 +113,10 @@ text-align: center;
 }
 
 
+.navbar__quick {
+  display: none;
+}
+
 @media screen and (min-width: 991px) {
   /* Rail layout: logo, scrolling menu, footer pinned to the bottom. The footer
      is part of the flow, so a long menu or a short screen can never put the
@@ -206,6 +210,32 @@ text-align: center;
   .navbar__menu__list hr,
   .navbar__menu__list svg {
     display: none;
+  }
+  /* The social icons are the one place in the phone menu where icons stay. */
+  .navbar__menu__list .navbar__social svg {
+    display: inline-block;
+  }
+  .navbar__menu__list .navbar__social {
+    justify-content: center;
+    gap: 14px;
+  }
+  .navbar__menu__list .navbar__social a {
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0 !important;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+  }
+  /* Language and theme buttons sit in the top bar, left of the menu button. */
+  .navbar__quick {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    margin-right: 12px;
   }
 
   .navbar__menu__list > li > a.active::after {

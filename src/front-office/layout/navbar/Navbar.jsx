@@ -15,7 +15,7 @@ import { faGithub, faLinkedinIn, faWhatsapp } from "@fortawesome/free-brands-svg
 import { useLang, useLocalePath, stripLang, withLang } from "../../../shared/i18n/i18n";
 import { useT } from "../../../shared/i18n/strings";
 import { useContent } from "../../../shared/i18n/useContent";
-import ThemeToggle from "../../../shared/ui/ThemeToggle";
+import ThemeToggle, { ThemeSwitchButton } from "../../../shared/ui/ThemeToggle";
 import { GITHUB_URL, LINKEDIN_URL, getWhatsAppLink } from "../../../shared/lib/contactConfig";
 
 // Keyed by the service's own id, so a new service just needs an entry
@@ -96,6 +96,20 @@ export default function Navbar() {
   return (
     <nav className="navbar at-top" id="navbar" role="navigation">
       <NavLink className="navbar__logolink" to={lp("/")} aria-label={t("nav.home")} />
+      {/* Phones only (hidden on desktop by Navbar.css): one tap switches the
+          language or the theme, so neither is buried in the menu. */}
+      <div className="navbar__quick">
+        <Link
+          to={`${withLang(lang === "fr" ? "en" : "fr", stripLang(pathname))}${search}`}
+          hrefLang={lang === "fr" ? "en" : "fr"}
+          lang={lang === "fr" ? "en" : "fr"}
+          aria-label={lang === "fr" ? "English" : "Français"}
+          className="grid h-9 place-items-center rounded-md border border-line px-2.5 text-sm font-bold tracking-[1px]! text-ink!"
+        >
+          {lang.toUpperCase()}
+        </Link>
+        <ThemeSwitchButton />
+      </div>
       <div className="navbar__menu">
         <button
           htmlFor="f-toggle"
@@ -153,7 +167,7 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <div className="flex w-full items-center justify-center gap-5 py-1">
+            <div className="navbar__social flex w-full items-center justify-center gap-5 py-1">
               {[
                 [GITHUB_URL, faGithub, "GitHub"],
                 [LINKEDIN_URL, faLinkedinIn, "LinkedIn"],

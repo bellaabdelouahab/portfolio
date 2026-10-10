@@ -4,7 +4,7 @@ import "./Collaborations.css";
 import { useT } from "../../../../shared/i18n/strings";
 // Every logo is styled the same, and addAnimation() clones these nodes to build
 // the second half of the marquee — cloneNode carries the class list with it.
-const LOGO = "h-18.75 rounded-full bg-ink-muted/40 md:h-48.75";
+const LOGO = "aspect-square size-18.75 shrink-0 rounded-full bg-ink-muted/40 object-contain p-2 md:size-48.75 md:p-5";
 
 export default function Collaborations() {
   const t = useT();
