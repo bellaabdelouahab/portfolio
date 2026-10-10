@@ -92,7 +92,7 @@ export default function FAQSection() {
               activating a button elsewhere is what updates this region. */}
           <div
             aria-live="polite"
-            className="hidden rounded-lg border border-line bg-surface p-6 lg:block lg:p-8"
+            className="rounded-lg border border-line bg-surface p-6 max-lg:hidden lg:p-8"
           >
             {selected && (
               <>

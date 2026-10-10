@@ -139,3 +139,14 @@ body.admin-mode #header,
 body.admin-mode a[href^="https://wa.me"] {
   display: none !important;
 }
+
+/* Light theme: the first section under the hero is white (the hero fades into
+   white) and the following ones alternate, so the two section colours swap
+   places inside .home-sections only. */
+html[data-theme="light"] .home-sections {
+  --color-main: #ffffff;
+  --color-rail: #f1f3f5;
+}
+html[data-theme="light"] .home-projects-section {
+  background-image: none;
+}

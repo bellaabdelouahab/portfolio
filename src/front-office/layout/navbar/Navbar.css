@@ -24,10 +24,10 @@ display: block;
 
 .navbar__logolink {
 display: block;
-margin: 20px auto;
+margin: 14px auto;
 background: url("assets/images/logo.webp");
-width: 140px;
-height: 140px;
+width: 104px;
+height: 104px;
 background-repeat: no-repeat;
 background-size: 100%;
 border-radius: 50%;
@@ -102,8 +102,7 @@ flex-direction: column;
 align-items: center;
 justify-content: flex-end;
 gap: 0.25rem;
-padding: 0.9375rem;
-padding-top: 1rem;
+padding: 0.625rem 0.9375rem 0.75rem;
 color: var(--color-ink);
 }
 .navbar__footer > p {
@@ -127,6 +126,21 @@ text-align: center;
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
+    align-items: flex-start; /* links start at the top; they are not centred in the free space */
+    scrollbar-width: none; /* scrolls when the screen is short, without a visible bar */
+  }
+  /* Home gets the same space above it as every other group has between its lines. */
+  .navbar__menu__list {
+    padding-top: 8px;
+  }
+  .navbar__menu::-webkit-scrollbar {
+    display: none;
+  }
+  /* Tighter rhythm between the groups of links. */
+  .navbar__menu__list > br {
+    display: block;
+    line-height: 0;
+    height: 8px;
   }
   .navbar__footer {
     position: static;

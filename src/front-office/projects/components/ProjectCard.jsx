@@ -60,7 +60,7 @@ export function ProjectCard({ project: raw }) {
           </span>
         </p>
         <h3 className="text-base leading-snug font-bold text-ink-strong">{title}</h3>
-        <p className="line-clamp-3 text-sm leading-snug text-ink">{summary}</p>
+        <p className="line-clamp-2 text-sm leading-snug text-ink">{summary}</p>
         {tags.length > 0 && (
           <ul className="mt-auto flex flex-wrap gap-1.5 pt-2">
             {tags.slice(0, 3).map((tag) => (

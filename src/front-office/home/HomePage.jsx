@@ -96,14 +96,19 @@ export default function Home() {
         structuredData={homeStructuredData}
       />
       <IntroductionSection />
-      <ProjectsSection projectHighlight={projectHighlight} />
-      <AboutMeSection />
-      <InternshipProjectsSection />
-      <Collaborations />
-      <HappyClientsSection clients={clients} />
-      <ServicesSection />
-      <FAQSection />
-      <GetInTouchSection />
+      {/* Everything under the hero. In the light theme the alternating section
+          colours are swapped here so the first section is white, matching the
+          hero fade (see global.css, .home-sections). */}
+      <div className="home-sections w-full">
+        <ProjectsSection projectHighlight={projectHighlight} />
+        <AboutMeSection />
+        <InternshipProjectsSection />
+        <Collaborations />
+        <HappyClientsSection clients={clients} />
+        <ServicesSection />
+        <FAQSection />
+        <GetInTouchSection />
+      </div>
     </>
   );
 }

@@ -163,25 +163,27 @@ export default function Navbar() {
         </ul>
       </div>
       <span className="navbar__footer">
-        {/* Language toggle: the same page in the other language. */}
-        <div role="group" aria-label={t("nav.language")} className="mb-2 flex items-center justify-center gap-1 text-sm font-bold">
-          {["en", "fr"].map((code) => (
-            <Link
-              key={code}
-              to={`${withLang(code, stripLang(pathname))}${search}`}
-              hrefLang={code}
-              lang={code}
-              aria-current={lang === code ? "true" : undefined}
-              className={[
-                "rounded-sm border px-2.5 py-1 tracking-[1px]!",
-                lang === code ? "border-success bg-success/15 text-success!" : "border-line text-ink! hover:border-success/50",
-              ].join(" ")}
-            >
-              {code.toUpperCase()}
-            </Link>
-          ))}
+        {/* Language and theme switches share one row. */}
+        <div className="mb-1 flex items-center justify-center gap-3">
+          <div role="group" aria-label={t("nav.language")} className="flex items-center gap-1 text-sm font-bold">
+            {["en", "fr"].map((code) => (
+              <Link
+                key={code}
+                to={`${withLang(code, stripLang(pathname))}${search}`}
+                hrefLang={code}
+                lang={code}
+                aria-current={lang === code ? "true" : undefined}
+                className={[
+                  "grid h-8 place-items-center rounded-sm border px-2 tracking-[1px]!",
+                  lang === code ? "border-success bg-success/15 text-success!" : "border-line text-ink! hover:border-success/50",
+                ].join(" ")}
+              >
+                {code.toUpperCase()}
+              </Link>
+            ))}
+          </div>
+          <ThemeToggle />
         </div>
-        <ThemeToggle className="mb-2" />
         <p>{t("nav.status")}</p>
       </span>
     </nav>
