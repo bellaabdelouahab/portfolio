@@ -66,15 +66,23 @@ export default function FAQSection() {
                     ].join(" ")}
                   >
                     <span className="text-sm font-medium leading-snug">{item.question}</span>
-                    <span
+                    <svg
                       aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      width="18"
+                      height="18"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className={[
-                        "grid size-6 shrink-0 place-items-center rounded-full text-base leading-none",
-                        isSelected ? "bg-success text-page" : "bg-success/15 text-success",
+                        "shrink-0 transition-transform duration-200",
+                        isSelected ? "text-success max-lg:rotate-90" : "text-ink-muted",
                       ].join(" ")}
                     >
-                      {isSelected ? "−" : "+"}
-                    </span>
+                      <path d="M9 5l7 7-7 7" />
+                    </svg>
                   </button>
                   {/* Below lg the answer opens right under its question, so there is
                       no scrolling down to read it and back up to pick another. */}

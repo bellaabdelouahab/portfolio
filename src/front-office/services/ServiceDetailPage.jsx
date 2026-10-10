@@ -167,7 +167,7 @@ export default function ServiceDetailPage() {
       )}
 
       {tiers.length > 0 && (
-        <section className="mb-12" aria-labelledby="packages-title">
+        <section className="mb-12 lg:relative lg:left-1/2 lg:w-[min(80rem,calc(100vw-17.5rem))] lg:-translate-x-1/2" aria-labelledby="packages-title">
           <h2 id="packages-title" className="mb-2 text-2xl leading-snug font-bold text-ink-strong">{t("svc.packages")}</h2>
           <p className="mb-5 text-base text-ink">{t("svc.packagesLead")}</p>
           <ul className={`grid gap-4 sm:grid-cols-2 ${gridCols}`}>

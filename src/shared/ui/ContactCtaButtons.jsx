@@ -21,7 +21,7 @@ export default function ContactCtaButtons({ className = "", whatsappMessage = ""
         onClick={track("Contact: WhatsApp")}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-[#25D366] px-5 py-2.5 text-sm font-bold tracking-[1px]! text-white transition-transform duration-200 ease-standard hover:scale-105"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-[#25D366] px-5 py-2.5 text-sm font-bold tracking-[1px]! text-black! in-data-[theme=light]:bg-success in-data-[theme=light]:text-white! transition-transform duration-200 ease-standard hover:scale-105"
       >
         <FontAwesomeIcon icon={faWhatsapp} className="text-lg" />
         {t("cta.whatsapp")}
@@ -39,7 +39,7 @@ export default function ContactCtaButtons({ className = "", whatsappMessage = ""
         onClick={track("Contact: Book a meeting")}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-on-success transition-transform duration-200 ease-standard hover:scale-105"
+        className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-on-success! in-data-[theme=light]:bg-ink-strong in-data-[theme=light]:text-page! transition-transform duration-200 ease-standard hover:scale-105"
       >
         <FontAwesomeIcon icon={faCalendarCheck} className="text-lg" />
         {t("cta.book")}

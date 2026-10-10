@@ -11,12 +11,12 @@ import {
   faChartLine,
   faCode
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faLinkedinIn, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { useLang, useLocalePath, stripLang, withLang } from "../../../shared/i18n/i18n";
 import { useT } from "../../../shared/i18n/strings";
 import { useContent } from "../../../shared/i18n/useContent";
 import ThemeToggle from "../../../shared/ui/ThemeToggle";
-import { GITHUB_URL } from "../../../shared/lib/contactConfig";
+import { GITHUB_URL, LINKEDIN_URL, getWhatsAppLink } from "../../../shared/lib/contactConfig";
 
 // Keyed by the service's own id, so a new service just needs an entry
 // here rather than a matching if/else chain in the render below.
@@ -153,10 +153,25 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-              <FontAwesomeIcon icon={faGithub} />
-              GitHub
-            </a>
+            <div className="flex w-full items-center justify-center gap-5 py-1">
+              {[
+                [GITHUB_URL, faGithub, "GitHub"],
+                [LINKEDIN_URL, faLinkedinIn, "LinkedIn"],
+                [getWhatsAppLink(), faWhatsapp, "WhatsApp"],
+              ].map(([href, icon, label]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="grid size-9 place-items-center rounded-md text-lg text-ink! hover:text-success!"
+                >
+                  <FontAwesomeIcon icon={icon} />
+                </a>
+              ))}
+            </div>
           </li>
           <br />
           <hr />

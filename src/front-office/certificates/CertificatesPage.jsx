@@ -67,7 +67,7 @@ function Mark({ c, className = "" }) {
   );
 }
 
-function Badge({ c, size = "size-24", onOpen }) {
+function Badge({ c, size = "size-36", onOpen }) {
   return (
     <button type="button" onClick={() => onOpen(c)} className="group flex cursor-pointer flex-col items-center gap-3 text-center" aria-label={c.title}>
       {showArt(c) ? (
@@ -91,8 +91,8 @@ function Viewer({ c, onClose }) {
   }, [onClose]);
   return (
     <div role="dialog" aria-modal="true" aria-label={c.title} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/85 p-5" onClick={onClose}>
-      <div className="w-full max-w-lg rounded-md border border-line bg-surface p-6 text-center" onClick={(e) => e.stopPropagation()}>
-        {showArt(c) && <img loading="lazy" decoding="async" src={art(c)} alt={c.title} className="mx-auto mb-5 max-h-72 w-auto rounded-sm bg-white object-contain" />}
+      <div className="w-full max-w-2xl rounded-md border border-line bg-surface p-6 text-center" onClick={(e) => e.stopPropagation()}>
+        {showArt(c) && <img loading="lazy" decoding="async" src={art(c)} alt={c.title} className="mx-auto mb-5 max-h-[60vh] w-auto max-w-full rounded-sm bg-white object-contain" />}
         <h2 className="text-xl font-bold text-ink-strong">{c.title}</h2>
         <p className="mt-1 text-sm text-ink-muted">{issuerOf(c)} · {year(c)}</p>
         {c.credentialId && <p className="mt-1 text-xs text-ink-muted">{lang === "fr" ? "ID de la certification :" : "Credential ID:"} {c.credentialId}</p>}
