@@ -48,14 +48,14 @@ ol,ul{list-style:none}
 
 /* ---- Navbar (belongs with the Navbar component eventually) ---- */
 .hamburger{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:0;background-color:transparent;padding:2px}
-.hamburger span,.hamburger:after,.hamburger:before{width:20px;height:2px;border-radius:2px;background-color:#fff;-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease;display:block}
+.hamburger span,.hamburger:after,.hamburger:before{width:20px;height:2px;border-radius:2px;background-color:var(--color-ink-strong);-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease;display:block}
 .hamburger:after,.hamburger:before{content:''}
 .hamburger span,.hamburger:after{margin-top:3px}
 .header{top:0;z-index:5}
 .header-sticky{position:-webkit-sticky;position:sticky}
 .navbar{background-color:var(--brand_primary);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;padding:0 20px;-webkit-transition:background-color 0.2s ease;transition:background-color 0.2s ease}
 .menu-trigger,.navbar__menu__list{font-size:0.875rem;line-height:1.25rem;font-weight:400}
-.navbar__menu__list{border-radius:4px;background-color:#fff;border:1px solid #dbdbdb;box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);margin-top:4px}
+.navbar__menu__list{border-radius:4px;background-color:var(--color-surface);border:1px solid var(--color-line);box-shadow:0 2px 4px 0 rgba(0,0,0,0.05);margin-top:4px}
 .navbar__menu__list li{min-width:200px}
 .navbar__menu__list a{padding:8px;display:block}
 .navbar__menu__list a:hover{text-decoration:underline}

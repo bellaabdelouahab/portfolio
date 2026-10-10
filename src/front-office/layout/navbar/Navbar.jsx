@@ -15,6 +15,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useLang, useLocalePath, stripLang, withLang } from "../../../shared/i18n/i18n";
 import { useT } from "../../../shared/i18n/strings";
 import { useContent } from "../../../shared/i18n/useContent";
+import ThemeToggle from "../../../shared/ui/ThemeToggle";
 import { GITHUB_URL } from "../../../shared/lib/contactConfig";
 
 // Keyed by the service's own id, so a new service just needs an entry
@@ -180,6 +181,7 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+        <ThemeToggle className="mb-2" />
         <p>{t("nav.status")}</p>
       </span>
     </nav>

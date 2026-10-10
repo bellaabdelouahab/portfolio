@@ -5,7 +5,7 @@
 .root > header {
 height: 100%;
 width: 240px;
-background: #171717;
+background: var(--color-rail);
 position: relative;
 }
 .navbar {
@@ -33,7 +33,7 @@ background-size: 100%;
 border-radius: 50%;
 }
 .navbar__menu {
-border-top: 1px solid #232323;
+border-top: 1px solid var(--color-rail-line);
 }
 
 .navbar__menu__list > li {
@@ -43,7 +43,7 @@ justify-content: center;
 }
 .navbar__menu__list > li > a,
 .navbar__menu__list button {
-color: #bbb;
+color: var(--color-ink);
 margin-left: 0;
 padding: 2px 14px !important;
 line-height: 20px;
@@ -56,13 +56,13 @@ width: 90%;
 .navbar__menu__list button:hover {
 text-decoration: none;
 border-radius: 4px;
-color: #fff;
+color: var(--color-ink-strong);
 }
 
 .navbar__menu__list > hr {
 margin: 0;
 border: none;
-border-bottom: 0.2px solid #3333337e;
+border-bottom: 0.2px solid var(--color-rail-line);
 }
 
 .navbar__menu__list {
@@ -103,7 +103,7 @@ align-items: center;
 justify-content: space-between;
 padding: 0.9375rem;
 padding-top: 2.5rem;
-color: #bbb;
+color: var(--color-ink);
 }
 .navbar__footer > p {
 font-size: 0.625rem;
@@ -128,8 +128,8 @@ text-align: center;
     width: 100%;
     height: 4.375rem;
     z-index: 900;
-    background: #191919;
-    border-bottom: 1px solid #2a2a2a;
+    background: var(--color-rail);
+    border-bottom: 1px solid var(--color-rail-line);
   }
 
   .navbar {
@@ -177,7 +177,7 @@ text-align: center;
     display: none;
   }
   .navbar__menu ul li a.active {
-    background: #333333;
+    background: var(--color-surface-raised);
     border-radius: 5px;
     border: none !important;
   }
@@ -201,9 +201,9 @@ text-align: center;
     width: 100vw;
     margin-top: 40px;
     border-radius: 0;
-    background: #343333 !important;
+    background: var(--color-surface) !important;
     border: 0;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid var(--color-line);
     padding: 0;
     flex-direction: column;
   }
@@ -212,7 +212,7 @@ text-align: center;
   }
   .navbar__menu__list a {
     padding: 14px 20px;
-    border: 1px solid #444 !important;
+    border: 1px solid var(--color-line) !important;
   }
 
   .navbar__menu__list li:last-child {

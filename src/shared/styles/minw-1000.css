@@ -40,17 +40,17 @@ justify-content: center;
 width: fit-content;
 height: min-content;
 margin-left: 2vw;
-color: white;
+color: var(--color-ink-strong);
 padding: 4vh 0;
 }
 .home-sections-title > span{
-color: #2ac17f;
+color: var(--color-success);
 margin-right: 5px;
 padding-right: 10px;
 }
 .home-sections-title > hr{
 width: 20vw;
-background: #233554;
+background: var(--color-line);
 opacity: 0.5;
 padding-left: 10px;
 }
@@ -75,7 +75,7 @@ width: 90%;
 margin: auto;
 font-size: 0.9375rem;
 font-weight: 700;
-color: #aeaeae;
+color: var(--color-ink);
 line-height: 1.25rem;
 text-align:center;
 letter-spacing: 2px;

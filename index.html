@@ -10,6 +10,20 @@
     <!-- Base/shell CSS now lives in src/shared/styles/legacy-base.css so it is
          bundled and hashed. It replaced a 120 KB render-blocking public/fedora.css. -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Sets data-theme before the first paint (stored choice, else the system
+         preference), so the page never flashes the wrong theme. -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        try {
+          var t = localStorage.getItem("theme");
+          var light = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+          d.setAttribute("data-theme", t === "light" || t === "dark" ? t : light ? "light" : "dark");
+        } catch (e) {
+          d.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
     <meta name="theme-color" content="#1c1c1c" />
     <meta name="author" content="Abdelouahab Bella" />
     <link rel="sitemap" type="application/xml" href="https://abdelouahab.xyz/sitemaps/sitemap.xml" />
