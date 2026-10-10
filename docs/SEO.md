@@ -38,3 +38,7 @@ Google decides them automatically; there is no setting to request them and no ma
 - Those pages linked from the navigation in the server-rendered HTML, with plain words as link text.
 - Breadcrumbs and `Service` / `ProfessionalService` / `Person` structured data, and the sitemap.
 - Being searched by name: sitelinks appear for navigational queries (the name, or the domain) once the site has a history of clicks. Expect weeks to months after indexing.
+
+## Soft 404 in Search Console (fixed 2026-10-10)
+
+URL Inspection reported "Soft 404" for `/fr` although the server returned full HTML. Cause: on first load React Router re-ran every route loader in the browser (lazy routes), which fetched `/api/content/*`; `robots.txt` disallowed `/api/`, so Googlebot's renderer could not, and the page replaced its content with an error screen. Fixed twice: the lazy route modules are resolved before the router is created so hydration uses the data the server already sent (no API request on first load, also faster for visitors), and `/api/content/` is allowed in robots.txt while all of `/api` answers with `X-Robots-Tag: noindex`. To re-check: block `/api/` in a headless browser and load a page; there must be no "Unexpected Application Error".

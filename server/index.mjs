@@ -29,6 +29,11 @@ contentRoutes(app);
 statsRoutes(app);
 
 // Back-office asset API and uploaded files (see server/assets.mjs).
+// Nothing under /api should ever show up as a search result.
+app.use("/api", (_req, res, next) => {
+  res.set("X-Robots-Tag", "noindex");
+  next();
+});
 app.use("/api/assets", assetRoutes());
 // Site-wide editable settings: text, contact, SEO, home content (server/siteSettings.mjs).
 app.use("/api/site-settings", siteSettingsRoutes());

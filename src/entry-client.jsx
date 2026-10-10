@@ -14,7 +14,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import { SkeletonTheme } from "react-loading-skeleton";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, matchRoutes } from "react-router-dom";
 import App from "./App";
 import { routes } from "./routes";
 import { setSiteSettings } from "./shared/lib/siteSettings";
@@ -48,9 +48,23 @@ async function hydrate() {
   // Hydrates against data already resolved server-side (see
   // entry-server.jsx), so the initial route doesn't re-fetch on mount —
   // only client-side navigations after this call their loaders.
+  // Resolve the lazy modules of the matched routes BEFORE creating the router.
+  // Otherwise React Router sees `lazy` routes, assumes they may have loaders,
+  // and re-runs them on first load even though the server already sent their
+  // data. That second read was harmless in a browser but fatal for Googlebot,
+  // which does not fetch /api/*: the page swapped its server-rendered content
+  // for an error screen and Search Console reported a soft 404.
+  const lazyMatches = (matchRoutes(routes, window.location) || []).filter((m) => m.route.lazy);
+  await Promise.all(
+    lazyMatches.map(async (m) => {
+      const mod = await m.route.lazy();
+      Object.assign(m.route, { ...mod, lazy: undefined });
+    })
+  );
   const router = createBrowserRouter(routes, {
     hydrationData: window.__staticRouterHydrationData,
   });
+
 
   router.subscribe((state) => {
     const errors = Object.values(state.errors || {});

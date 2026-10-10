@@ -93,6 +93,10 @@ export function seoRoutes(app) {
         "Allow: /",
         "Disallow: /fill-db",
         "Disallow: /fr/fill-db",
+        // The JSON the pages read when navigating; crawlers that render the page may
+        // fetch it. Everything else under /api stays closed.
+        "Allow: /api/content/",
+        "Allow: /api/site-settings",
         "Disallow: /api/",
         "Disallow: /site-map",
         "",
