@@ -25,7 +25,7 @@ export const SITE_FALLBACK = {
       "web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web developer Morocco, Abdelouahab Bella",
   },
   fr: {
-    title: `Développeur web et analyste de données, Agadir | ${BRAND}`,
+    title: `Développeur web et data analyst, Agadir | ${BRAND}`,
     description:
       "Abdelouahab Bella, développeur web et analyste de données freelance à Agadir, Maroc. Sites web, applications et tableaux de bord Power BI pour des entreprises au Maroc et à l'étranger.",
     keywords:
