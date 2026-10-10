@@ -88,9 +88,6 @@ export default function Projects() {
   return (
     <>
       <SEO
-        title="Projects"
-        description="Web development and data analytics projects by Abdelouahab Bella, each with the problem, the solution and the result."
-        keywords="web development projects, Power BI dashboards, case studies, Abdelouahab Bella"
         structuredData={structuredData}
         breadcrumbs={[[t("nav.home"), "/"], [t("proj.title"), "/projects"]]}
       />

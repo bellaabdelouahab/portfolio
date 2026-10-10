@@ -1,4 +1,5 @@
 import { useLang } from "./i18n";
+import { getSiteSettings } from "../lib/siteSettings";
 
 /**
  * Interface strings for both languages. Content that lives in Firestore or in
@@ -262,9 +263,17 @@ export const STRINGS = {
   },
 };
 
+/** Every key that can be overridden from the back office. */
+export const STRING_KEYS = Object.keys(STRINGS.en);
+
 export function translate(lang, key, vars) {
-  let s = STRINGS[lang]?.[key] ?? STRINGS.en[key] ?? key;
-  if (vars) for (const [k, v] of Object.entries(vars)) s = s.replace(`{${k}}`, v);
+  // A non-empty back-office override wins over the built-in text.
+  const override = getSiteSettings().strings?.[lang]?.[key];
+  let s =
+    typeof override === "string" && override.trim()
+      ? override
+      : STRINGS[lang]?.[key] ?? STRINGS.en[key] ?? key;
+  if (vars) for (const [k, v] of Object.entries(vars)) s = s.replace(`{${k}}`, () => String(v));
   return s;
 }
 

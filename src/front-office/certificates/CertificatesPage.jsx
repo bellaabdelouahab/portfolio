@@ -133,11 +133,6 @@ export default function Certificates() {
   return (
     <>
       <SEO
-        title={t("cert.title")}
-        description={lang === "fr"
-          ? "Certifications d'Abdelouahab Bella en analyse de données, machine learning et génie logiciel, dont le certificat professionnel IBM Data Analyst."
-          : "Verified certifications by Abdelouahab Bella in data analytics, machine learning and software engineering, including the IBM Data Analyst Professional Certificate."}
-        keywords="IBM Data Analyst Professional Certificate, data analyst certifications, Abdelouahab Bella"
       />
       <section className="mx-auto w-full max-w-5xl px-5 py-8 md:py-10">
         <header className="mb-8 max-w-3xl">

@@ -1,6 +1,7 @@
 import SEO from "../../shared/ui/SEO";
 import ContactCtaButtons from "../../shared/ui/ContactCtaButtons";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
+import { GITHUB_URL, LINKEDIN_URL } from "../../shared/lib/contactConfig";
 
 import { useT } from "../../shared/i18n/strings";
 import { useLang } from "../../shared/i18n/i18n";
@@ -17,8 +18,8 @@ const MEMBERS = [
     skills: ["React", "Django and FastAPI", "Power BI and SQL", "DevOps"],
     skillsFr: ["React", "Django et FastAPI", "Power BI et SQL", "DevOps"],
     links: [
-      ["GitHub", "https://github.com/bellaabdelouahab"],
-      ["LinkedIn", "https://linkedin.com/in/abdelouahab-bella"],
+      ["GitHub", "@github"], // resolved at render from the contact settings
+      ["LinkedIn", "@linkedin"],
     ],
   },
   {
@@ -79,9 +80,6 @@ export default function Team() {
   return (
     <section className="mx-auto w-full max-w-6xl px-5 py-8 md:py-12">
       <SEO
-        title={t("team.title")}
-        description={fr ? "Qui réalise votre projet : Abdelouahab Bella pilote, avec des spécialistes front-end et sécurité sur les missions plus importantes." : "Who delivers your project: Abdelouahab Bella leads, with front-end and security specialists on larger engagements."}
-        keywords="web development team Morocco, data analytics freelancer, Abdelouahab Bella team"
         structuredData={structuredData}
       />
       <header className="mb-8 max-w-3xl">
@@ -113,7 +111,7 @@ export default function Team() {
             {m.links.length > 0 && (
               <p className="flex gap-4 text-sm">
                 {m.links.map(([label, href]) => (
-                  <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="text-success! hover:underline">
+                  <a key={label} href={href === "@github" ? GITHUB_URL : href === "@linkedin" ? LINKEDIN_URL : href} target="_blank" rel="noopener noreferrer" className="text-success! hover:underline">
                     {label}
                   </a>
                 ))}

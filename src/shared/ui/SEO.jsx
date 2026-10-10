@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import { useLocation } from "react-router-dom";
 import { langOf, stripLang, withLang } from "../i18n/i18n";
 import { getAbsoluteUrl } from "../lib/siteConfig";
+import { composeSeo, pageKeyOf } from "../lib/seoPages";
 
 export default function SEO({
   title,
@@ -21,33 +22,16 @@ export default function SEO({
     ? /^https?:\/\//.test(image) ? image : getAbsoluteUrl(image)
     : getAbsoluteUrl("/og-default.jpg");
 
-  // Search results show about 60 characters of title and 155 of description, so
-  // the brand suffix is dropped when it would push a title past that, and long
-  // descriptions are cut at a word boundary.
-  const withBrand = title ? `${title} | Abdelouahab Bella` : "";
-  const pageTitle = title
-    ? withBrand.length <= 62 ? withBrand : title
-    : lang === "fr"
-      ? "Développeur web et analyste de données, Agadir | Abdelouahab Bella"
-      : "Web Developer & Data Analyst, Agadir | Abdelouahab Bella";
-
-  const clip = (text, max = 158) => {
-    if (text.length <= max) return text;
-    const cut = text.slice(0, max - 1);
-    return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
-  };
-  const pageDescription = clip(
-    description ||
-      (lang === "fr"
-        ? "Abdelouahab Bella, développeur web et analyste de données freelance à Agadir, Maroc. Sites web, applications et tableaux de bord Power BI pour des entreprises au Maroc et à l'étranger."
-        : "Abdelouahab Bella, freelance web developer and data analyst in Agadir, Morocco. Websites, web applications and Power BI dashboards for businesses in Morocco and abroad."),
-  );
-
-  const pageKeywords =
-    keywords ||
-    (lang === "fr"
-      ? "développeur web Agadir, analyste de données Maroc, tableaux de bord Power BI, développeur web freelance Maroc, Abdelouahab Bella"
-      : "web developer Agadir, data analyst Morocco, Power BI dashboards, freelance web developer Morocco, Abdelouahab Bella");
+  // Title, description and keywords come from the back-office override for
+  // this page, else the page's own props, else shared/lib/seoPages.js. The
+  // brand suffix is dropped past 62 characters and descriptions are clipped at
+  // 158 there (search results show about 60 and 155).
+  const barePath = stripLang(useLocation().pathname);
+  const {
+    title: pageTitle,
+    description: pageDescription,
+    keywords: pageKeywords,
+  } = composeSeo(pageKeyOf(barePath), lang, { title, description, keywords });
 
   const shouldNoIndex = Boolean(noIndex || noindex);
 
@@ -59,7 +43,6 @@ export default function SEO({
   // way, and never drags query strings into the canonical.
   const location = useLocation();
   const pageUrl = url || getAbsoluteUrl(location.pathname);
-  const barePath = stripLang(location.pathname);
   const alternates = {
     en: getAbsoluteUrl(withLang("en", barePath)),
     fr: getAbsoluteUrl(withLang("fr", barePath)),

@@ -14,6 +14,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useLang, useLocalePath, stripLang, withLang } from "../../../shared/i18n/i18n";
 import { useT } from "../../../shared/i18n/strings";
 import { useContent } from "../../../shared/i18n/useContent";
+import { GITHUB_URL } from "../../../shared/lib/contactConfig";
 
 // Keyed by the service's own id, so a new service just needs an entry
 // here rather than a matching if/else chain in the render below.
@@ -147,7 +148,7 @@ export default function Navbar() {
           <hr />
           <br />
           <li>
-            <a href="https://github.com/bellaabdelouahab" target="_blank" rel="noopener noreferrer">
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faGithub} />
               GitHub
             </a>

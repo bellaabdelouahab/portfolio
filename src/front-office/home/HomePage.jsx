@@ -12,7 +12,7 @@ import FAQSection from "./sections/faq/FAQSection";
 import { getCollectionDocs } from "../../shared/lib/firestoreAccess";
 import SEO from "../../shared/ui/SEO";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
-import { CONTACT_EMAIL } from "../../shared/lib/contactConfig";
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, getTelephone } from "../../shared/lib/contactConfig";
 import { useLang, withLang } from "../../shared/i18n/i18n";
 import { useContent } from "../../shared/i18n/useContent";
 
@@ -57,7 +57,7 @@ export default function Home() {
         image: getAbsoluteUrl("/profile.webp"),
         email: CONTACT_EMAIL,
         address: { "@type": "PostalAddress", addressLocality: "Agadir", addressCountry: "MA" },
-        sameAs: ["https://github.com/bellaabdelouahab", "https://linkedin.com/in/abdelouahab-bella"],
+        sameAs: [GITHUB_URL, LINKEDIN_URL],
         knowsAbout: ["Web development", "WordPress", "Shopify", "Django", "Next.js", "Power BI", "SQL", "Python", "Data analytics", "SEO"],
       },
       {
@@ -70,7 +70,7 @@ export default function Home() {
         description: lang === "fr" ? "Développeur web et analyste de données freelance à Agadir, Maroc : sites web, applications et tableaux de bord Power BI." : "Freelance web developer and data analyst in Agadir, Morocco: websites, web applications and Power BI dashboards.",
         founder: { "@id": getAbsoluteUrl("/#person") },
         email: CONTACT_EMAIL,
-        telephone: "+212762549778",
+        telephone: getTelephone(),
         priceRange: "MAD",
         currenciesAccepted: "MAD",
         address: { "@type": "PostalAddress", addressLocality: "Agadir", addressRegion: "Souss-Massa", addressCountry: "MA" },
@@ -93,7 +93,6 @@ export default function Home() {
   return (
     <>
       <SEO
-        description={lang === "fr" ? "Développeur web et analyste de données freelance à Agadir, Maroc. Sites web, boutiques en ligne et tableaux de bord Power BI, avec un devis écrit en MAD." : "Freelance web developer and data analyst in Agadir, Morocco. Websites, online stores and Power BI dashboards, with a written quote in MAD."}
         structuredData={homeStructuredData}
       />
       <IntroductionSection />

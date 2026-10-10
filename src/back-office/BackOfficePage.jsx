@@ -11,6 +11,7 @@ import CertificatesForm from "./forms/certificates-form/CertificatesForm";
 import Clients from "./forms/clients-form/Clients";
 import StoragePanel from "./storage/StoragePanel";
 import AnalyticsPanel from "./analytics/AnalyticsPanel";
+import { SITE_SETTINGS_TABS } from "./site-settings";
 
 const OWNER_EMAIL = "abdobella977@gmail.com";
 const STORED_USER_KEY = "firebaseAuthUser";
@@ -33,6 +34,15 @@ const NAV = [
       { id: "projects", label: "Projects" },
       { id: "certificates", label: "Certificates" },
       { id: "testimonials", label: "Testimonials" },
+    ],
+  },
+  {
+    group: "Website",
+    items: [
+      { id: "site-text", label: "Site text" },
+      { id: "contact", label: "Contact and business" },
+      { id: "seo", label: "SEO" },
+      { id: "home-content", label: "FAQ and services" },
     ],
   },
   {
@@ -183,6 +193,13 @@ export default function FillDB() {
         return <StoragePanel />;
       case "analytics":
         return <AnalyticsPanel />;
+      case "site-text":
+      case "contact":
+      case "seo":
+      case "home-content": {
+        const tab = SITE_SETTINGS_TABS.find((t) => t.id === activeTab);
+        return tab ? <tab.Component /> : null;
+      }
       default:
         return <OverviewPanel onNavigate={(id) => { if (id === "project") { setEditingProject(null); setResumeDraftId(null); } goTo(id); }} />;
     }

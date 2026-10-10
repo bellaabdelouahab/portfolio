@@ -7,6 +7,7 @@ import {
 import { Helmet } from "react-helmet";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { routes } from "./routes";
+import { setSiteSettings } from "./shared/lib/siteSettings";
 
 const handler = createStaticHandler(routes);
 
@@ -17,8 +18,13 @@ const handler = createStaticHandler(routes);
  * markup, the collected <head> tags SEO.jsx produced via react-helmet, the
  * HTTP status to respond with, and the loader data to hand back to the
  * client so hydration doesn't re-fetch it.
+ *
+ * `siteSettings` are the back-office overrides server/index.mjs also injects
+ * into the page for the client. The process serves many requests, so they are
+ * set right before the synchronous render (never across an await) and the
+ * client sets the same object before hydrating.
  */
-export async function render(url, requestHeaders = {}) {
+export async function render(url, requestHeaders = {}, siteSettings = {}) {
   const request = new Request(url, { headers: requestHeaders });
   const context = await handler.query(request);
 
@@ -36,6 +42,7 @@ export async function render(url, requestHeaders = {}) {
   // placed through the <!--hydration-data--> marker), so leaving the default
   // on doubled the payload — two scripts setting the same global, harmless
   // functionally (last one wins) but pure waste on every response.
+  setSiteSettings(siteSettings);
   const appHtml = renderToString(
     <SkeletonTheme baseColor="#202020" highlightColor="#444">
       <StaticRouterProvider router={router} context={context} hydrate={false} />

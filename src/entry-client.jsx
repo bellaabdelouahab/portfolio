@@ -17,6 +17,10 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { routes } from "./routes";
+import { setSiteSettings } from "./shared/lib/siteSettings";
+
+// Same overrides the server rendered with, set before hydrating so both match.
+setSiteSettings(window.__SITE_SETTINGS__ || {});
 
 // A deploy replaces the hashed JS chunks. A tab left open still points at the old
 // ones, so the next navigation fails to import them. Reload once to pick up the

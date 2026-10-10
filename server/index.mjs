@@ -12,6 +12,7 @@ import { draftRoutes } from "./drafts.mjs";
 import { seoRoutes } from "./seo.mjs";
 import { contentRoutes } from "./content.mjs";
 import { statsRoutes } from "./stats.mjs";
+import { siteSettingsRoutes, getSiteSettings } from "./siteSettings.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const isProduction = process.env.NODE_ENV === "production";
@@ -29,6 +30,8 @@ statsRoutes(app);
 
 // Back-office asset API and uploaded files (see server/assets.mjs).
 app.use("/api/assets", assetRoutes());
+// Site-wide editable settings: text, contact, SEO, home content (server/siteSettings.mjs).
+app.use("/api/site-settings", siteSettingsRoutes());
 // Back-office drafts: unfinished project edits kept on the server (server/drafts.mjs).
 app.use("/api/drafts", draftRoutes());
 // The directory only ever contains images/ and reports/ (dotfiles are not served).
@@ -81,7 +84,16 @@ app.use(/.*/, async (req, res) => {
       render = (await import("../build/server/entry-server.mjs")).render;
     }
 
-    const result = await render(fullUrl, req.headers);
+    // Overrides from the back office, layered over the defaults in the code.
+    // getSiteSettings never throws; an unreachable Firestore gives empty settings.
+    let siteSettings = {};
+    try {
+      siteSettings = await getSiteSettings();
+    } catch {
+      siteSettings = {};
+    }
+
+    const result = await render(fullUrl, req.headers, siteSettings);
 
     if (result.redirect) {
       res.redirect(result.redirect.status, result.redirect.headers.get("Location"));
@@ -97,6 +109,12 @@ app.use(/.*/, async (req, res) => {
       hydrationData
     ).replace(/</g, "\\u003c")};</script>`;
 
+    // The client sets the same settings before hydrating (entry-client.jsx).
+    const settingsScript = `<script>window.__SITE_SETTINGS__ = ${JSON.stringify(siteSettings)
+      .replace(/</g, "\\u003c")
+      .replace(/\u2028/g, "\\u2028")
+      .replace(/\u2029/g, "\\u2029")};</script>`;
+
     const lang = /^\/fr(\/|\?|$)/.test(req.originalUrl) ? "fr" : "en";
     const html = template
       .replace('<html lang="en">', `<html lang="${lang}">`)
@@ -104,8 +122,8 @@ app.use(/.*/, async (req, res) => {
         "<!--app-head-->",
         `${helmet.title.toString()}${helmet.meta.toString()}${helmet.link.toString()}${helmet.script.toString()}`
       )
-      .replace("<!--app-html-->", appHtml)
-      .replace("<!--hydration-data-->", hydrationScript);
+      .replace("<!--app-html-->", () => appHtml)
+      .replace("<!--hydration-data-->", () => `${hydrationScript}${settingsScript}`);
 
     res.status(statusCode).set({ "Content-Type": "text/html", "Cache-Control": "no-cache" }).send(html);
   } catch (e) {
