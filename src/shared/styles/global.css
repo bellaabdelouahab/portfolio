@@ -10,14 +10,21 @@ body {
   background: #232323 !important;
   font-family: "Poppins", sans-serif !important;
 }
-main::-webkit-scrollbar {
-  width: .5em;
-  position: absolute;
+/* One scrollbar everywhere (public pages, back office, panels): thin, dark,
+   same look as the home page's. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #505156 transparent;
 }
-main::-webkit-scrollbar-track {
+*::-webkit-scrollbar {
+  width: .5em;
+  height: .5em;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-main::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #505156;
   outline: 1px solid #343a57;
   border-radius: 10px;

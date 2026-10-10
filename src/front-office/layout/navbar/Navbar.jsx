@@ -112,6 +112,7 @@ export default function Navbar() {
           tabIndex="0"
           aria-hidden="true"
         >
+          <br />
           <li>
             {getNavLink("/", t("nav.home"), faHome)}
           </li>
