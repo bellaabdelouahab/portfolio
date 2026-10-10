@@ -14,7 +14,10 @@ function relabelPrice(label, amount) {
   });
 }
 
-/** Applies `home.services` / `home.faq` back-office overrides (only provided fields). */
+/** Applies `home.services` / `home.faq` back-office overrides (only provided fields).
+ * `priceFrom` is the service-level minimum: it re-labels the first number of the
+ * `startingPrice` headline and feeds the home OfferCatalog. Tier prices are not
+ * overridable from the back office. */
 function applyOverrides(base, lang, home) {
   const svc = home?.services;
   const faq = home?.faq;
@@ -52,7 +55,11 @@ export function localizeContent(lang) {
     ? { about: aboutContent, services: servicesContent, faq: faqData, experience: professionalExperience }
     : {
         about: { ...aboutContent, ...aboutFr },
-        services: servicesContent.map((s) => ({ ...s, ...servicesFr[s.id] })),
+        services: servicesContent.map((s) => {
+          const { tiers: frTiers, ...frRest } = servicesFr[s.id] || {};
+          // Tier numbers and flags stay English-side; only the text is replaced.
+          return { ...s, ...frRest, tiers: (s.tiers || []).map((t) => ({ ...t, ...frTiers?.[t.id] })) };
+        }),
         faq: faqData.map((f) => ({ ...f, question: faqFr[f.id]?.[0] ?? f.question, answer: faqFr[f.id]?.[1] ?? f.answer })),
         experience: professionalExperience.map((e, i) => ({
           ...e,

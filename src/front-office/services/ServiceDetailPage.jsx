@@ -10,6 +10,7 @@ import ContactCtaButtons from "../../shared/ui/ContactCtaButtons";
 import SEO from "../../shared/ui/SEO";
 import BusinessStatus from "../../shared/ui/BusinessStatus";
 import { getAbsoluteUrl } from "../../shared/lib/siteConfig";
+import { BOOKING_URL } from "../../shared/lib/contactConfig";
 
 const RELATED_PROJECTS_LIMIT = 3;
 
@@ -93,6 +94,9 @@ export default function ServiceDetailPage() {
     (exp.services || []).includes(service.id),
   );
 
+  const tiers = service.tiers || [];
+  const gridCols = tiers.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -103,11 +107,20 @@ export default function ServiceDetailPage() {
     areaServed: [{ "@type": "Country", name: "Morocco" }, { "@type": "City", name: "Agadir" }],
     url: getAbsoluteUrl(withLang(lang, `/services/${service.id}`)),
     inLanguage: lang,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "MAD",
-      priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: service.priceFrom },
-    },
+    // One Offer per package; falls back to a single service-level offer.
+    offers: tiers.length
+      ? tiers.map((tier) => ({
+          "@type": "Offer",
+          name: tier.name,
+          description: tier.audience,
+          priceCurrency: "MAD",
+          priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: tier.priceFrom },
+        }))
+      : {
+          "@type": "Offer",
+          priceCurrency: "MAD",
+          priceSpecification: { "@type": "PriceSpecification", priceCurrency: "MAD", minPrice: service.priceFrom },
+        },
   };
 
   return (
@@ -150,6 +163,62 @@ export default function ServiceDetailPage() {
               </li>
             ))}
           </ul>
+        </section>
+      )}
+
+      {tiers.length > 0 && (
+        <section className="mb-12" aria-labelledby="packages-title">
+          <h2 id="packages-title" className="mb-2 text-2xl leading-snug font-bold text-ink-strong">{t("svc.packages")}</h2>
+          <p className="mb-5 text-base text-ink">{t("svc.packagesLead")}</p>
+          <ul className={`grid gap-4 sm:grid-cols-2 ${gridCols}`}>
+            {tiers.map((tier) => (
+              <li key={tier.id} className={`flex flex-col rounded-md border bg-surface p-5 ${tier.custom ? "border-success/60" : "border-line"}`}>
+                <h3 className="text-lg leading-snug font-bold text-ink-strong">{tier.name}</h3>
+                <p className="mt-2 text-xs font-bold tracking-[1px]! text-success uppercase">{t("svc.pkgFor")}</p>
+                <p className="mt-1 text-sm leading-snug text-ink">{tier.audience}</p>
+                <ul className="mt-4 space-y-2 text-sm leading-snug text-ink">
+                  {tier.includes.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-success" aria-hidden="true">
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                      </svg>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                {tier.note && <p className="mt-3 text-sm leading-snug text-ink-muted italic">{tier.note}</p>}
+                {tier.excludes && (
+                  <p className="mt-2 text-sm leading-snug text-ink-muted">{t("svc.pkgNotIncluded")} {tier.excludes}.</p>
+                )}
+                <div className="mt-auto pt-5">
+                  <p className="text-xs text-ink-muted">{t("svc.pkgTime")}: <span className="font-bold text-ink">{tier.duration}</span></p>
+                  <p className="mt-2 text-xl leading-snug font-bold text-ink-strong">{tier.priceLabel}</p>
+                  {tier.priceNote && <p className="text-sm leading-snug text-ink">{tier.priceNote}</p>}
+                  <a
+                    href={BOOKING_URL}
+                    onClick={() => window.plausible?.("Contact: Book a meeting")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-block rounded-sm border border-success px-4 py-2 text-sm font-bold tracking-[1px]! text-success! transition-colors hover:bg-success/10"
+                  >
+                    {t("cta.bookCall")}
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center sm:gap-5">
+            <p className="text-base text-ink">{t("svc.pkgNotSure")}</p>
+            <a
+              href={BOOKING_URL}
+              onClick={() => window.plausible?.("Contact: Book a meeting")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 whitespace-nowrap rounded-sm bg-success px-5 py-2.5 text-sm font-bold tracking-[1px]! text-black! transition-transform duration-200 hover:scale-105"
+            >
+              {t("cta.book")}
+            </a>
+          </div>
         </section>
       )}
 

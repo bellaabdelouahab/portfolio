@@ -22,7 +22,11 @@ export const aboutContent = {
 // relatedProjectTags match against the `tags` array on Firestore `projects`
 // documents. ServiceDetailPage falls back to the most recent projects if a
 // service's tags match fewer than a handful.
-// startingPrice is shown in MAD; budgets in the inquiry forms use the same unit.
+// Prices are in MAD. `tiers` are the packages shown on the service page (one
+// Offer each in the structured data); `priceFrom` is the service-level minimum
+// (the cheapest tier). The back office can override `priceFrom`: that changes the
+// first number in the `startingPrice` headline and the service minimum in the
+// home OfferCatalog. It never changes the tier prices, which are edited here.
 export const servicesContent = [
   {
     id: "web",
@@ -43,8 +47,56 @@ export const servicesContent = [
       ["Build", "Weekly demos on a private preview link so nothing is a surprise."],
       ["Launch and support", "Deployment, handover and a minimum of 7 days of post-launch support included."],
     ],
-    startingPrice: "Starting from 6,000 MAD",
-    priceFrom: 6000,
+    // Headline shown on the home card and the service page. `priceFrom` is the
+    // lowest tier price (used for the home OfferCatalog); each tier carries its own.
+    startingPrice: "Landing pages from 3,000 MAD, applications from 15,000 MAD",
+    priceFrom: 3000,
+    tiers: [
+      {
+        id: "landing",
+        name: "Landing page",
+        audience: "A single page to present an offer, an event or a business and collect enquiries.",
+        includes: ["WordPress or a ready theme, adapted to your brand", "Contact form that reaches your inbox", "Basic SEO and fast loading", "Works on phone and laptop"],
+        duration: "2 to 5 days",
+        priceLabel: "From 3,000 MAD",
+        priceNote: "",
+        priceFrom: 3000,
+        custom: false,
+      },
+      {
+        id: "site",
+        name: "Business website",
+        audience: "A company that needs a proper site it can edit and grow.",
+        includes: ["5 to 10 pages", "A CMS you can edit yourself", "French and English", "SEO foundations", "Analytics set up"],
+        duration: "2 to 4 weeks",
+        priceLabel: "From 6,000 MAD",
+        priceNote: "Typically 6,000 to 10,000 MAD",
+        priceFrom: 6000,
+        custom: false,
+      },
+      {
+        id: "store",
+        name: "Online store",
+        audience: "A shop that wants to sell online and take payments.",
+        includes: ["WooCommerce or Shopify", "Catalogue and product import", "Payment such as CMI", "Delivery rules"],
+        duration: "3 to 6 weeks",
+        priceLabel: "From 8,000 MAD",
+        priceNote: "Typically 8,000 to 15,000 MAD",
+        priceFrom: 8000,
+        custom: false,
+      },
+      {
+        id: "app",
+        name: "Custom web application",
+        audience: "A process, platform or internal tool that no template covers.",
+        includes: ["Accounts and roles", "Database and admin area", "Integrations and dashboards", "Built with Django, Next.js or similar", "A working demo every week"],
+        duration: "4 weeks and more",
+        priceLabel: "From 15,000 MAD",
+        priceNote: "Custom quote, typically 15,000 to 40,000 MAD and more",
+        priceFrom: 15000,
+        custom: true,
+      },
+    ],
     seoTitle: "Website Development in Agadir and Morocco",
     seoDescription: "Freelance web developer in Agadir: business websites, online stores and custom web apps (WordPress, Shopify, Django, Next.js). Written quote in MAD.",
     relatedSkills: [
@@ -79,8 +131,63 @@ export const servicesContent = [
       ["Build", "Model, dashboard and automation, reviewed with you at each step."],
       ["Handover", "Documentation, training and a minimum of 7 days of post-launch support included."],
     ],
-    startingPrice: "Starting from 3,000 MAD",
+    startingPrice: "Express analysis from 3,000 MAD, full projects from 15,000 MAD",
     priceFrom: 3000,
+    tiers: [
+      {
+        id: "express",
+        name: "Express analysis",
+        audience: "You have a file, an export or a spreadsheet and need answers or an automated workbook.",
+        includes: [
+          "Data cleaning and checks",
+          "The analysis, or an automated Excel or Power BI file",
+          "Formulas and steps documented so you can reuse them",
+          "A short written summary of the findings and what they mean for your decisions",
+          "One review call",
+        ],
+        note: "Verified results from an accountable person, not a one-off chatbot answer.",
+        excludes: "ongoing support",
+        duration: "1 to 3 days",
+        priceLabel: "From 3,000 MAD",
+        priceNote: "",
+        priceFrom: 3000,
+        custom: false,
+      },
+      {
+        id: "dashboard",
+        name: "Dashboard and reporting",
+        audience: "Teams that report from spreadsheets and exports.",
+        includes: [
+          "Up to 3 data sources and a data model",
+          "3 to 5 report pages with scheduled refresh",
+          "KPI definitions agreed with you",
+          "A training session for your team",
+          "7 days of support after launch",
+        ],
+        duration: "2 to 6 weeks",
+        priceLabel: "From 8,000 MAD",
+        priceNote: "Typically 8,000 to 15,000 MAD",
+        priceFrom: 8000,
+        custom: false,
+      },
+      {
+        id: "platform",
+        name: "Data platform",
+        audience: "Large or complex data (millions of rows up to terabytes), several systems, pipelines or real time.",
+        includes: [
+          "A short paid discovery to map the data and agree a plan",
+          "Phased delivery with a demo each phase",
+          "Pipelines and storage with tools such as Spark, Kafka and RabbitMQ or MQTT where needed",
+          "Warehouse or lake, dashboards, monitoring and documentation",
+          "A value review with you 30, 60 and 90 days after launch to check the results",
+        ],
+        duration: "1 to 5 months",
+        priceLabel: "From 15,000 MAD",
+        priceNote: "Custom quote, typically 15,000 to 40,000 MAD and more",
+        priceFrom: 15000,
+        custom: true,
+      },
+    ],
     seoTitle: "Power BI Dashboards and Data Analyst for Hire, Morocco",
     seoDescription: "Freelance data analyst and Power BI developer in Morocco: custom dashboards, automated Excel and SQL reporting, Python pipelines. Written quote in MAD.",
     relatedSkills: [
@@ -268,17 +375,17 @@ export const faqData = [
   {
     id: "q1",
     question: "How much does a website cost in Morocco?",
-    answer: "Business websites start at 6,000 MAD and web applications at 15,000 MAD, depending on pages, features and integrations. You receive a fixed price in MAD after a free 30-minute discovery call."
+    answer: "A landing page starts at 3,000 MAD, a business website at 6,000 MAD (typically 6,000 to 10,000), an online store at 8,000 MAD and a custom web application at 15,000 MAD, depending on pages, features and integrations. These are guides: you receive a written quote in MAD after a free 30-minute discovery call."
   },
   {
     id: "q2",
     question: "How much does a Power BI dashboard or data project cost?",
-    answer: "Dashboards and reporting projects start at 3,000 MAD. Larger projects with several data sources and automated refresh are quoted after a short data review."
+    answer: "An express analysis of a file or spreadsheet starts at 3,000 MAD (1 to 3 days). A dashboard and reporting project starts at 8,000 MAD, typically 8,000 to 15,000 MAD. A data platform for large or complex data starts at 15,000 MAD and is quoted after a short paid discovery, typically 15,000 to 40,000 MAD and more."
   },
   {
     id: "q3",
     question: "How long does a project take?",
-    answer: "A business website usually takes two to four weeks and a dashboard one to three weeks. Larger applications are planned in phases, with a working demo every week."
+    answer: "A landing page takes a few days, a business website two to four weeks and a dashboard two to six weeks. Larger applications and data platforms take one to five months, planned in phases with a working demo each week or phase."
   },
   {
     id: "q4",
