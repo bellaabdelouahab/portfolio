@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import "./Collaborations.css";
 
 import { useT } from "../../../../shared/i18n/strings";
 // Every logo is styled the same, and addAnimation() clones these nodes to build

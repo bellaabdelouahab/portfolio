@@ -3,6 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./shared/styles/legacy-base.css";
 import "./shared/styles/minw-1000.css";
 import "./shared/styles/global.css";
+// Component stylesheets that the server-rendered page needs before any script
+// runs. Imported here (not from the lazy route chunks) so they are part of the
+// entry CSS that index.html links: otherwise the page painted unstyled (the
+// sidebar footer inside the phone top bar) until the route chunk arrived.
+import "./front-office/layout/navbar/Navbar.css";
+import "./front-office/home/sections/collaborations/Collaborations.css";
+import "./shared/ui/Modal.css";
 // Last, so utilities sit after the hand-written CSS in source order. Note that
 // source order is not the whole story — see the layer comment in tailwind.css.
 import "./shared/styles/tailwind.css";

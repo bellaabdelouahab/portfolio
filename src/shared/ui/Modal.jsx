@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import './Modal.css';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   // Close modal when clicking escape key
