@@ -55,6 +55,14 @@ const pages = () => [
         },
       },
       {
+        path: "contact",
+        lazy: async () => {
+          const { default: Component } =
+            await import("./front-office/contact/ContactPage");
+          return { Component };
+        },
+      },
+      {
         path: "my-team",
         lazy: async () => {
           const { default: Component } =

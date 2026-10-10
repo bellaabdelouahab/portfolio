@@ -30,3 +30,11 @@ Autosuggest shows real queries but not volume. Volumes need Search Console (a fe
 - A new domain has little authority. "agence ... Agadir" queries are dominated by agencies; the realistic wins are long, specific queries ("développeur web freelance Agadir", "créer un site web à Agadir", "tableau de bord Power BI Maroc") and your own name.
 - What moves rankings next is outside the code: a Google Business Profile (service area Agadir), profiles on Malt, GoAfrica and LesMRE linking to the site, links from client sites you built, and consistent name and phone everywhere.
 - Review Search Console "Performance > Queries" every month and rewrite titles for the queries that already show impressions.
+
+## Sitelinks (the sub-links under the main result)
+
+Google decides them automatically; there is no setting to request them and no markup that forces them. What helps, all in place:
+- Real pages with distinct, descriptive titles for each thing a visitor may want: Web development, Data analytics, Projects, Certificates, Team, Contact (`/contact`).
+- Those pages linked from the navigation in the server-rendered HTML, with plain words as link text.
+- Breadcrumbs and `Service` / `ProfessionalService` / `Person` structured data, and the sitemap.
+- Being searched by name: sitelinks appear for navigational queries (the name, or the domain) once the site has a history of clicks. Expect weeks to months after indexing.

@@ -21,6 +21,7 @@ const STATIC_PAGES = [
   { path: "/services/data", priority: "0.9", changefreq: "monthly" },
   { path: "/projects", priority: "0.9", changefreq: "weekly" },
   { path: "/certificates", priority: "0.5", changefreq: "monthly" },
+  { path: "/contact", priority: "0.6", changefreq: "monthly" },
   { path: "/my-team", priority: "0.4", changefreq: "monthly" },
 ];
 

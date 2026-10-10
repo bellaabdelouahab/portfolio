@@ -7,6 +7,7 @@ import {
   faListCheck,
   faCertificate,
   faUsers,
+  faEnvelope,
   faChartLine,
   faCode
 } from "@fortawesome/free-solid-svg-icons";
@@ -143,6 +144,9 @@ export default function Navbar() {
           <br />
           <li>
             {getNavLink("/my-team", t("nav.team"), faUsers)}
+          </li>
+          <li>
+            {getNavLink("/contact", t("nav.contact"), faEnvelope)}
           </li>
           <br />
           <hr />

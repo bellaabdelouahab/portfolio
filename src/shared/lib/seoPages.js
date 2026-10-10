@@ -113,6 +113,26 @@ export const SEO_PAGES = [
     },
   },
   {
+    key: "contact",
+    label: "Contact",
+    path: "/contact",
+    brand: false,
+    defaults: {
+      en: {
+        title: `Contact a Web Developer in Agadir | ${BRAND}`,
+        description:
+          "Contact Abdelouahab Bella, freelance web developer and data analyst in Agadir: WhatsApp, email or a free 30-minute call. Written quote in MAD.",
+        keywords: "contact web developer Agadir, hire web developer Morocco, freelance developer contact, Abdelouahab Bella",
+      },
+      fr: {
+        title: `Contacter un développeur web à Agadir | ${BRAND}`,
+        description:
+          "Contactez Abdelouahab Bella, développeur web et analyste de données freelance à Agadir : WhatsApp, email ou appel gratuit de 30 minutes. Devis écrit en MAD.",
+        keywords: "contacter développeur web Agadir, développeur web freelance Maroc, devis site web Agadir, Abdelouahab Bella",
+      },
+    },
+  },
+  {
     key: "my-team",
     label: "Team",
     path: "/my-team",
