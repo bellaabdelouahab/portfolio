@@ -26,7 +26,7 @@ function Backdrop({ images }) {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] overflow-hidden opacity-[0.10] in-data-[theme=light]:opacity-[0.32] [mask-image:linear-gradient(to_bottom,black_30%,transparent)]"
+      className="pointer-events-none absolute inset-x-0 top-0 h-[34rem] overflow-hidden opacity-[0.10] in-data-[theme=light]:opacity-[0.24] [mask-image:linear-gradient(to_bottom,black_30%,transparent)]"
     >
       {[0, 1].map((r) => (
         <div

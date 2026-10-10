@@ -47,6 +47,10 @@ Coolify builds the `Dockerfile` on the owner's VPS from `master`; a push redeplo
 - English and French: `/fr/...` is French. The language comes from the URL (`shared/i18n/i18n.js`). Interface strings are in `shared/i18n/strings.js`; services, FAQ and experience in `front-office/home/homeContent.js` (English) and `homeContent.fr.js`; each project has its French text in the `fr` field. Always build links with `useLocalePath()`.
 - Slugs come from `slugifyProjectTitle()` (`shared/lib/projectSlug.js`) using the English title; `server/seo.mjs` has the same function and the two must stay identical.
 
+## Theme
+
+Dark is the default look and light is a second set of the same colour tokens (`shared/styles/tailwind.css`, `html[data-theme="light"]`). The attribute is set before first paint by the inline script in `index.html` (saved choice, else the device preference) and changed by `shared/ui/ThemeToggle.jsx`. Use tokens (`bg-page`, `bg-surface`, `text-ink`, `border-line`, `bg-success`, `text-on-success` ...), never hex values or `text-white`/`bg-black`. Component CSS that the server-rendered page needs before scripts run is imported in `entry-client.jsx`, not from lazy route chunks. Details: `docs/THEME.md`.
+
 ## SEO
 
 `shared/ui/SEO.jsx` is rendered by every page: title (brand suffix dropped past 62 characters), description (clipped at 158), canonical, hreflang, Open Graph, JSON-LD, breadcrumbs. Absolute URLs go through `shared/lib/siteConfig.js` (`getAbsoluteUrl`), never hardcoded. Business facts (name, phone, prices) live in `shared/lib/contactConfig.js` and `homeContent.js`.
