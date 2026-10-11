@@ -40,6 +40,9 @@ Coolify builds the `Dockerfile` on the owner's VPS from `master`; a push redeplo
 - `server/drafts.mjs`: back-office drafts (unfinished projects and edits), JSON files in `/data/uploads/.drafts` on the volume, owner-only, not part of the GitHub backup. Client in `back-office/lib/draftStore.js`; the project wizard autosaves into it and falls back to localStorage offline.
 - `server/seo.mjs`: `/sitemap.xml` (from Firestore, English and French with hreflang), `/robots.txt`, 301 redirects for removed pages. Add new static pages to `STATIC_PAGES`.
 - `server/stats.mjs`: first-party proxy for the self-hosted Plausible (`/_s/a.js`, `/_s/e`) so ad blockers do not drop it.
+  - Script variant: outbound links, file downloads, tagged events. The 404 page sends event `404` with `path`. The visitor address goes to Plausible in `CF-Connecting-IP` (X-Forwarded-For alone resolves to the server and breaks countries).
+  - Plausible config (goals, funnels, shield rules, allowed props) lives in its Postgres, not in this repo. Back office browsers set `plausible_ignore`. Never add the VPS IP to the IP shield: all proxied events can look like they come from it.
+  - Plausible runs as a Coolify service (v3.2.1 since 2026-10-11, Google Search Console linked via `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`). Dumps from before the upgrade: `~/backups/plausible/`.
 
 ## Content and languages
 
