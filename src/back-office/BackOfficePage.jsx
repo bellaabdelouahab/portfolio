@@ -64,6 +64,15 @@ export default function FillDB() {
   const [resumeDraftId, setResumeDraftId] = useState(null);
   const [pendingNav, setPendingNav] = useState(null);
 
+  // Never count the owner's own browser in the analytics (Plausible honours this flag).
+  useEffect(() => {
+    try {
+      localStorage.setItem("plausible_ignore", "true");
+    } catch {
+      /* optional */
+    }
+  }, []);
+
   // The back office needs the full width: hide the public navbar rail while it is open.
   useEffect(() => {
     document.body.classList.add("admin-mode");

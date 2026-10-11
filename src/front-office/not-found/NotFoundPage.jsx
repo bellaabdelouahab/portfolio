@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import SEO from "../../shared/ui/SEO";
 import { useT } from "../../shared/i18n/strings";
 import { useLocalePath } from "../../shared/i18n/i18n";
@@ -6,6 +7,10 @@ import { useLocalePath } from "../../shared/i18n/i18n";
 export default function NotFound() {
   const t = useT();
   const lp = useLocalePath();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.plausible?.("404", { props: { path: pathname } });
+  }, [pathname]);
   return (
     <div className="mx-auto max-w-xl px-5 py-24 text-center">
       <SEO title={t("nf.title")} noIndex />

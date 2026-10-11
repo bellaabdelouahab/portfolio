@@ -7,6 +7,8 @@
 // count unique visitors; Plausible itself never stores the IP.
 import express from "express";
 
+// Variant with outbound link, file download and tagged-event tracking built in.
+const SCRIPT = "script.outbound-links.file-downloads.tagged-events.js";
 const UPSTREAM = (process.env.PLAUSIBLE_URL || "https://plausible.abdelouahab.xyz").replace(/\/+$/, "");
 let script = { at: 0, body: "" };
 
@@ -14,7 +16,7 @@ export function statsRoutes(app) {
   app.get("/_s/a.js", async (_req, res) => {
     try {
       if (!script.body || Date.now() - script.at > 60 * 60 * 1000) {
-        const r = await fetch(`${UPSTREAM}/js/script.js`);
+        const r = await fetch(`${UPSTREAM}/js/${SCRIPT}`);
         if (!r.ok) throw new Error(`upstream ${r.status}`);
         script = { at: Date.now(), body: await r.text() };
       }
