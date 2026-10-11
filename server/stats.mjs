@@ -33,6 +33,9 @@ export function statsRoutes(app) {
         headers: {
           "Content-Type": "application/json",
           "User-Agent": req.get("user-agent") || "",
+          // Plausible trusts CF-Connecting-IP first. X-Forwarded-For alone resolves to this
+          // server's own address once the proxy in front of Plausible appends to it.
+          "CF-Connecting-IP": req.ip || "",
           "X-Forwarded-For": req.ip || "",
         },
         body: req.body,
