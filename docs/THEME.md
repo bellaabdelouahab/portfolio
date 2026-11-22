@@ -24,7 +24,7 @@ Branch `light-mode` (exploration). Dark stays the default look; light is added.
 | accent | #d91b42 | #d91b42 | brand red |
 | danger | #ff4d4d | #d62f2f | errors |
 
-Brand colours that never change: WhatsApp green (#25d366), the Calendly button.
+Brand colours that never change: WhatsApp green (#25d366), the booking (Cal.com) button.
 
 ## Rules for light mode
 - Text contrast at least 4.5:1 (body) and 3:1 (large text and icons).

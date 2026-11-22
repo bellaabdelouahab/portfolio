@@ -14,7 +14,7 @@ export const CONTACT_DEFAULTS = {
   whatsappNumber: "212762549778",
   phoneDisplay: "+212 762 549 778",
   email: "abdobella977@gmail.com",
-  bookingUrl: "https://calendly.com/abdobella977/30min",
+  bookingUrl: "https://cal.com/abdelouahab-bella/30min",
   // The 15-digit business identifier on invoices; hidden while empty.
   ice: "003832227000062",
   githubUrl: "https://github.com/bellaabdelouahab",

@@ -7,7 +7,7 @@ import { useT } from "../i18n/strings";
 /**
  * Shared by the hero and Get in Touch: two contact channels side by side
  * rather than one — WhatsApp for the one-click/informal majority, email for
- * visitors who'd rather write first and stay asynchronous, and a Calendly
+ * visitors who'd rather write first and stay asynchronous, and a Cal.com
  * link for visitors who want a 30-minute call straight away.
  */
 const track = (name) => () => window.plausible?.(name);
